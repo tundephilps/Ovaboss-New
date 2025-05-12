@@ -6,6 +6,8 @@ import Transfer from "../../assets/Transfer.svg";
 import { HiMinus, HiPlus, HiOutlineTrash } from "react-icons/hi";
 import { BiChevronRight } from "react-icons/bi";
 import PaymentOptionSelector from "../../components/Ecommerce/PaymentPage/PaymentOptionSelector";
+import PayWithCardSelector from "../../components/Ecommerce/PaymentPage/PayWithCardSelector";
+import BankTransferSelector from "../../components/Ecommerce/PaymentPage/BankTransferSelector";
 
 const PaymentPage = () => {
   const [selectedType, setSelectedType] = useState("personal");
@@ -101,7 +103,7 @@ const PaymentPage = () => {
           <div className="p-4 shadow-md bg-white rounded">
             <PaymentOptionSelector />
           </div>
-          <div className="p-4 shadow-md bg-white rounded">
+          {/* <div className="p-4 shadow-md bg-white rounded">
             <div className="flex items-center space-x-2  font-semibold">
               <input
                 type="radio"
@@ -112,19 +114,9 @@ const PaymentPage = () => {
               <img src={Mastercard} className="" />
               <span className="text-xl">Pay with Card</span>
             </div>
-          </div>
-          <div className="p-4 shadow-md bg-white rounded">
-            <div className="flex items-center space-x-2  font-semibold">
-              <input
-                type="radio"
-                checked
-                readOnly
-                className="accent-yellow-500"
-              />
-              <img src={Transfer} className="" />
-              <span className="text-xl">Pay with Bank Transfer</span>
-            </div>
-          </div>
+          </div> */}
+          <PayWithCardSelector />
+          <BankTransferSelector />
         </div>
         {/* Right side - Order summary */}
         <div className="lg:col-span-2 col-span-5 self-start p-4 shadow-md bg-white rounded">

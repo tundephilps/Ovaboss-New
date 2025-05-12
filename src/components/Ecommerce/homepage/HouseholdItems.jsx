@@ -2,7 +2,11 @@ import React from "react";
 import { FaStar, FaShoppingCart } from "react-icons/fa";
 import Product2 from "../../../assets/Product2.png";
 
+import { useNavigate } from "react-router-dom";
+
 export default function HouseholdItems() {
+  const navigate = useNavigate();
+
   const products = [
     {
       id: 1,
@@ -39,7 +43,8 @@ export default function HouseholdItems() {
         {products.map((product) => (
           <div
             key={product.id}
-            className="flex-1 bg-white rounded-lg p-3 border shadow-lg"
+            onClick={() => navigate("/ProductDetails")}
+            className="flex-1 bg-white rounded-lg p-3 border shadow-lg cursor-pointer"
           >
             <div className="relative">
               <span className="absolute top-0 left-0 bg-[#FFF0E6] text-[#FF0000] text-xs font-semibold py-1 px-2 rounded-full">

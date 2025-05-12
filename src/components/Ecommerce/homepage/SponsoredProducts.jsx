@@ -2,7 +2,11 @@ import React from "react";
 import { FaStar, FaShoppingCart } from "react-icons/fa";
 import Product2 from "../../../assets/Product2.png";
 
+import { useNavigate } from "react-router-dom";
+
 export default function SponsoredProducts() {
+  const navigate = useNavigate();
+
   const products = [
     {
       id: 1,
@@ -33,7 +37,7 @@ export default function SponsoredProducts() {
 
   return (
     <div className="rounded-lg w-full pb-12">
-      <h2 className="text-lg font-bold mb-4 text-gray-800 bg-[#FFF9E6] w-full px-12 py-2">
+      <h2 className="text-lg font-bold mb-4 text-gray-800 bg-[#FFF9E6] w-full cursor-pointer px-12 py-2">
         Sponsored Products
       </h2>
 
@@ -41,6 +45,7 @@ export default function SponsoredProducts() {
         {products.map((product) => (
           <div
             key={product.id}
+            onClick={() => navigate("/ProductDetails")}
             className="flex-1 bg-white rounded-lg p-3 border shadow-lg"
           >
             <div className="relative">

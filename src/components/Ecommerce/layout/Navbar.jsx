@@ -19,6 +19,7 @@ import { IoLocationOutline } from "react-icons/io5";
 import { MdOutlineInbox } from "react-icons/md";
 
 import Logo from "../../../assets/Logo.png";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -67,12 +68,14 @@ const Navbar = () => {
               </div>
 
               {/* Mobile cart icon */}
-              <div className="relative mx-2">
-                <LuShoppingCart size={20} className="text-gray-700" />
-                <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
-                  3
-                </span>
-              </div>
+              <Link to="/ShoppingCart">
+                <div className="relative mx-2">
+                  <LuShoppingCart size={20} className="text-gray-700" />
+                  <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
+                    3
+                  </span>
+                </div>
+              </Link>
             </div>
 
             {/* Desktop Search Bar - Hidden on mobile */}
@@ -169,16 +172,17 @@ const Navbar = () => {
                 </span>
               </div>
 
-              <div className="relative">
-                <LuShoppingCart
-                  size={20}
-                  className="text-gray-700 hover:text-gray-900 cursor-pointer"
-                />
-                <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
-                  3
-                </span>
-              </div>
-
+              <Link to="/ShoppingCart">
+                <div className="relative">
+                  <LuShoppingCart
+                    size={20}
+                    className="text-gray-700 hover:text-gray-900 cursor-pointer"
+                  />
+                  <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
+                    3
+                  </span>
+                </div>
+              </Link>
               <div
                 className="flex items-center text-gray-700 hover:text-gray-900 cursor-pointer"
                 onClick={() => {

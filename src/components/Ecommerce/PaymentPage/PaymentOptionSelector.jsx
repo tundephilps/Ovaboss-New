@@ -1,6 +1,20 @@
 import { FaRegCreditCard } from "react-icons/fa";
 
+import React, { useState } from "react";
+import OvabossPaymentModal from "./OvabossPaymentModal";
+
 const PaymentOptionSelector = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  const handleConfirmPayment = () => {
+    // Add your payment logic here
+    console.log("Payment Confirmed");
+    closeModal();
+  };
+
   return (
     <div className="">
       {/* Group Header */}
@@ -14,7 +28,7 @@ const PaymentOptionSelector = () => {
       <div className="space-y-4">
         {/* Option 1 */}
         <label className="flex items-center justify-between cursor-pointer">
-          <div className="flex items-center space-x-2">
+          <div onClick={openModal} className="flex items-center space-x-2">
             <input type="radio" name="wallet" className="accent-yellow-500" />
             <span>Sign On Wallet</span>
           </div>
@@ -39,6 +53,11 @@ const PaymentOptionSelector = () => {
           <span className="font-semibold">£25,800</span>
         </label>
       </div>
+      <OvabossPaymentModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onConfirm={handleConfirmPayment}
+      />
     </div>
   );
 };

@@ -8,6 +8,7 @@ import {
   FaHeart,
   FaRegHeart,
 } from "react-icons/fa";
+import { IoMdCloseCircleOutline } from "react-icons/io";
 import Details from "../../components/Ecommerce/ProductDetails/Details";
 import SponsoredProducts from "../../components/Ecommerce/ProductDetails/SponsoredProducts";
 import AlsoLike from "../../components/Ecommerce/ProductDetails/AlsoLike";
@@ -16,9 +17,19 @@ import Product1 from "../../assets/Product1.png";
 import { BsTwitterX } from "react-icons/bs";
 import DeliveryReturns from "../../components/Ecommerce/ProductDetails/Delivery";
 import BusinessInfoCard from "../../components/Ecommerce/ProductDetails/BusinessInfo";
+import LoginModal from "../../components/Ecommerce/ProductDetails/LoginModal";
+import OrderOptionsModal from "../../components/Ecommerce/ProductDetails/OrderOptionsModal";
 
 const ProductDetails = () => {
+  const [isModalOpen, setModalOpen] = useState(true);
   const [quantity, setQuantity] = useState(1);
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleConfirm = (option) => {
+    console.log("Selected:", option);
+    setIsOpen(false);
+  };
 
   const decreaseQuantity = () => {
     if (quantity > 1) {
@@ -188,9 +199,23 @@ const ProductDetails = () => {
               </div>
 
               {/* Add to Cart */}
-              <button className="w-full mt-4 bg-[#e6ae06] hover:bg-yellow-500 text-black py-2 rounded-md font-semibold flex items-center justify-center gap-2">
+              <button
+                // onClick={() => setModalOpen(true)}
+                onClick={() => setIsOpen(true)}
+                className="w-full mt-4 bg-[#e6ae06] hover:bg-yellow-500 text-black py-2 rounded-md font-semibold flex items-center justify-center gap-2"
+              >
                 🛒 Add to cart
               </button>
+
+              {/* <LoginModal
+                isOpen={isModalOpen}
+                onClose={() => setModalOpen(false)}
+              /> */}
+              <OrderOptionsModal
+                isOpen={isOpen}
+                onClose={() => setIsOpen(false)}
+                onConfirm={handleConfirm}
+              />
             </div>
           </div>
 

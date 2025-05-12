@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Profile from "../../../assets/Profile.jpg";
 
 export default function BusinessInfoCard() {
@@ -11,9 +12,11 @@ export default function BusinessInfoCard() {
       <div className="inline-flex items-center justify-between w-full mb-2 border-b pb-2">
         <h3 className="font-semibold ">Business Info</h3>
 
-        <div className="text-xs p-2 bg-[#ffd1b0] rounded-sm cursor-pointer">
-          View Business Store
-        </div>
+        <Link to="/BusinessPage">
+          <div className="text-xs p-2 bg-[#ffd1b0] rounded-sm cursor-pointer">
+            View Business Store
+          </div>
+        </Link>
       </div>
 
       {/* Business Profile */}
@@ -32,9 +35,12 @@ export default function BusinessInfoCard() {
       </div>
 
       {/* Contact Button */}
-      <button className="w-full mt-4 bg-[#e6ae06] hover:bg-yellow-600 text-black font-semibold py-2 rounded">
-        Contact Business
-      </button>
+      <Link to="/BusinessPage">
+        {" "}
+        <button className="w-full mt-4 bg-[#e6ae06] hover:bg-yellow-600 text-black font-semibold py-2 rounded">
+          Contact Business
+        </button>
+      </Link>
     </div>
   );
 }

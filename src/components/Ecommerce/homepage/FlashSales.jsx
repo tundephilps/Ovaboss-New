@@ -2,9 +2,16 @@ import React from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import Product1 from "../../../assets/Product1.png";
 
+import { useNavigate } from "react-router-dom";
+
 const ProductCard = ({ product }) => {
+  const navigate = useNavigate();
+
   return (
-    <div className="border border-yellow-200 rounded-lg p-3 relative flex flex-col">
+    <div
+      className="border border-yellow-200 rounded-lg p-3 relative flex flex-col cursor-pointer "
+      onClick={() => navigate("/ProductDetails")}
+    >
       {/* Discount badge */}
       {product.discount && (
         <div className="absolute top-2 left-2 bg-[#FFF0E6] text-[#FF0000] text-xs font-semibold py-1 px-2 rounded-full">

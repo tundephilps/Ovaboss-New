@@ -6,6 +6,7 @@ import { BiChevronRight } from "react-icons/bi";
 import { BsExclamationCircle } from "react-icons/bs";
 import Product1 from "../../assets/Product1.png";
 import EmptyCart from "../../components/Ecommerce/CartPage/EmptyCart";
+import { Link } from "react-router-dom";
 
 // Placeholder for product image;
 
@@ -377,17 +378,20 @@ export default function ShoppingCart() {
               <button className="border w-full whitespace-nowrap border-yellow-500 text-yellow-500 py-2 px-4 rounded hover:bg-yellow-50 font-medium">
                 Continue Shopping
               </button>
-              <button
-                className={`${
-                  getSelectedCount() > 0 || items.length > 0
-                    ? "bg-yellow-500"
-                    : "bg-gray-300"
-                } w-full text-white py-2 px-4 whitespace-nowrap rounded hover:bg-yellow-600 font-medium flex items-center justify-center`}
-                disabled={getSelectedCount() === 0 && items.length === 0}
-              >
-                Proceed to Checkout
-                <BiChevronRight className="ml-1" />
-              </button>
+
+              <Link to="/Checkout">
+                <button
+                  className={`${
+                    getSelectedCount() > 0 || items.length > 0
+                      ? "bg-yellow-500"
+                      : "bg-gray-300"
+                  } w-full text-white py-2 px-4 whitespace-nowrap rounded hover:bg-yellow-600 font-medium flex items-center justify-center`}
+                  disabled={getSelectedCount() === 0 && items.length === 0}
+                >
+                  Proceed to Checkout
+                  <BiChevronRight className="ml-1" />
+                </button>
+              </Link>
             </div>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const OrderSummary = () => {
   // Order summary data
@@ -50,9 +51,11 @@ const OrderSummary = () => {
       </div>
 
       {/* Proceed button */}
-      <button className="w-full bg-yellow-500 text-white hover:text-black py-3 font-medium rounded hover:bg-yellow-600 transition-colors">
-        Proceed to Payment
-      </button>
+      <Link to="/Payment">
+        <button className="w-full bg-yellow-500 text-white hover:text-black py-3 font-medium rounded hover:bg-yellow-600 transition-colors">
+          Proceed to Payment
+        </button>
+      </Link>
     </div>
   );
 };
