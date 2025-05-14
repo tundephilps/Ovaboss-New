@@ -8,7 +8,11 @@ import {
   FaBars,
   FaTimes,
   FaRegHeart,
+  FaChevronRight,
 } from "react-icons/fa";
+
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+
 import Banner from "../../../assets/Banner.png";
 import { LuShoppingCart } from "react-icons/lu";
 import { LiaUserCheckSolid } from "react-icons/lia";
@@ -20,6 +24,9 @@ import { MdOutlineInbox } from "react-icons/md";
 
 import Logo from "../../../assets/Logo.png";
 import { Link } from "react-router-dom";
+import UserDashboardQuickLinks from "./UserDashboardQuickLinks";
+import { HiOutlineDotsCircleHorizontal } from "react-icons/hi";
+import MoreOptionsDropdown from "./MoreOptionsDropdown";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -27,6 +34,50 @@ const Navbar = () => {
 
   const [showHelpMenu, setShowHelpMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+
+  const [expandedCategory, setExpandedCategory] = useState(null);
+
+  const categories = [
+    "Fashion and Accessories",
+    "Home and Office",
+    "Computers and Gadgets",
+    "Agriculture and Food",
+    "Electronics",
+    "Beauty Products",
+    "Gifts and Toys",
+    "Health and Fitness",
+  ];
+
+  const submenus = {
+    "Fashion and Accessories": [
+      "Men's Clothing",
+      "Women's Clothing",
+      "Watches",
+      "Bags",
+      "Jewelry",
+    ],
+    "Home and Office": ["Furniture", "Decor", "Kitchen Appliances", "Lighting"],
+    "Computers and Gadgets": [
+      "Laptops",
+      "Smartphones",
+      "Accessories",
+      "Gaming Gear",
+    ],
+    "Agriculture and Food": ["Fertilizers", "Seeds", "Food Items"],
+    Electronics: ["TVs", "Audio Systems", "Cameras", "Smart Devices"],
+    "Beauty Products": ["Makeup", "Skincare", "Hair Products", "Fragrances"],
+    "Gifts and Toys": ["Toys for Kids", "Gift Sets", "Party Supplies"],
+    "Health and Fitness": [
+      "Supplements",
+      "Fitness Equipment",
+      "Personal Care",
+      "Medical Devices",
+    ],
+  };
+
+  const toggleCategory = (cat) => {
+    setExpandedCategory((prev) => (prev === cat ? null : cat));
+  };
 
   return (
     <div className="w-full">
@@ -56,6 +107,61 @@ const Navbar = () => {
                 </div>
               </div>
             </div>
+
+            {/* Side Drawer */}
+            <div
+              className={`fixed top-0 left-0 h-full w-4/5 bg-white shadow-lg z-40 overflow-y-auto transform transition-transform duration-300 ${
+                isMenuOpen ? "translate-x-0" : "-translate-x-full"
+              }`}
+            >
+              <UserDashboardQuickLinks />
+              <div className="p-4 border-b font-semibold text-black">
+                All Categories
+              </div>
+              <div className="overflow-y-auto h-full p-4 space-y-2">
+                {categories.map((cat) => (
+                  <div key={cat}>
+                    <button
+                      onClick={() => toggleCategory(cat)}
+                      className="w-full flex justify-between items-center text-left px-2 py-2 rounded hover:bg-yellow-100"
+                    >
+                      <span>{cat}</span>
+                      {expandedCategory === cat ? (
+                        <FaChevronUp />
+                      ) : (
+                        <FaChevronDown />
+                      )}
+                    </button>
+                    {expandedCategory === cat && (
+                      <div className="pl-4 mt-1 text-sm text-gray-600 space-y-1">
+                        {submenus[cat].map((item, idx) => (
+                          <Link
+                            key={idx}
+                            to={`/category/${encodeURIComponent(
+                              item.toLowerCase().replace(/\s+/g, "-")
+                            )}`}
+                            className="block hover:text-yellow-500"
+                            onClick={() => setIsMenuOpen(false)} // close menu on click
+                          >
+                            {item}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+
+                <MoreOptionsDropdown />
+              </div>
+            </div>
+
+            {/* Backdrop */}
+            {isMenuOpen && (
+              <div
+                className="fixed inset-0 bg-black opacity-30 z-30"
+                onClick={() => setIsMenuOpen(false)}
+              />
+            )}
 
             {/* Mobile Search + Icons - Visible only on mobile */}
             <div className="flex md:hidden items-center">
@@ -255,45 +361,6 @@ const Navbar = () => {
               )}
             </div>
           </div>
-
-          {/* Mobile Menu - Shown when menu is open */}
-          {isMenuOpen && (
-            <div className="md:hidden mt-4">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between py-2 border-b border-gray-200">
-                  <div className="flex items-center text-gray-700">
-                    <FaUser size={20} />
-                    <span className="ml-2 text-sm">Alexander</span>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between py-2 border-b border-gray-200">
-                  <div className="flex items-center text-gray-700">
-                    <FaHeart size={20} />
-                    <span className="ml-2">Wishlist</span>
-                  </div>
-                  <span className="bg-yellow-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                    2
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between py-2 border-b border-gray-200">
-                  <div className="flex items-center text-gray-700">
-                    <FaShoppingCart size={20} />
-                    <span className="ml-2">Cart</span>
-                  </div>
-                  <span className="bg-yellow-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                    3
-                  </span>
-                </div>
-
-                <div className="flex items-center py-2 border-b border-gray-200">
-                  <FaQuestionCircle size={20} className="text-gray-700" />
-                  <span className="ml-2">Help</span>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </nav>
 
