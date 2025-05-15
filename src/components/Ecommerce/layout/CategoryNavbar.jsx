@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { FaBars, FaChevronRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const CategoryNavbar = () => {
   const [open, setOpen] = useState(false);
@@ -92,13 +93,13 @@ const CategoryNavbar = () => {
       {/* Individual category links - visible on desktop, hidden on smaller screens */}
       <div className="hidden md:flex overflow-x-auto">
         {categories.map((category, index) => (
-          <a
+          <Link
             key={index}
-            href={`/category/${category.toLowerCase().replace(/ and /g, "-")}`}
+            to={`/Categories`}
             className="px-5 py-4 whitespace-nowrap text-[#202020] font-semibold hover:bg-white hover:text-yellow-500 "
           >
             {category}
-          </a>
+          </Link>
         ))}
       </div>
     </div>

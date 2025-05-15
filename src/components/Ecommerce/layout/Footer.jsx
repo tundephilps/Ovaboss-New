@@ -1,6 +1,7 @@
 import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
 import Logo from "../../../assets/Logo2.png";
 import { BsTwitterX } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
@@ -24,13 +25,18 @@ export default function Footer() {
 
         {/* Customer Care */}
         <div className="space-y-3 text-sm">
-          <h3 className="font-bold mb-2">Customer Care</h3>
-          <p className="hover:text-yellow-400 text-[#808080] cursor-pointer">
+          <h3 className="font-bold mb-3">Customer Care</h3>
+          <Link
+            to="/ContactUs"
+            className="hover:text-yellow-400  text-[#808080] cursor-pointer"
+          >
             Contact Us
-          </p>
-          <p className="hover:text-yellow-400 text-[#808080] cursor-pointer">
-            FAQs
-          </p>
+          </Link>
+          <Link to="/FAQ" className="">
+            <p className="hover:text-yellow-400 mt-3 text-[#808080] cursor-pointer">
+              FAQs
+            </p>
+          </Link>
           <p className="hover:text-yellow-400 text-[#808080] cursor-pointer">
             Latest News & Learning Center
           </p>

@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Intro() {
   return (
-    <div className="px-12 mx-auto py-6 bg-white rounded-lg shadow-md">
+    <div className="lg:px-12 px-4 mx-auto py-6 bg-white rounded-lg shadow-md">
       <div className="mb-4">
         <h1 className="text-2xl font-bold text-gray-800">
           Ovaboss Online Global Shopping Site - Best Shopping Site

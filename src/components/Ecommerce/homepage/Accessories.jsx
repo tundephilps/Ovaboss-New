@@ -18,7 +18,7 @@ export default function AccessoriesCategories() {
   ];
 
   return (
-    <div className="px-12 mx-auto">
+    <div className="lg:px-12 px-4 mx-auto">
       <div className="flex flex-col md:flex-row gap-4">
         {categories.map((category) => (
           <div

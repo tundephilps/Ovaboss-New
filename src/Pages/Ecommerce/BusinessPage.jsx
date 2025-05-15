@@ -7,9 +7,21 @@ import { FaRegHeart, FaShoppingCart, FaStar } from "react-icons/fa";
 
 import Product3 from "../../assets/Product3.png";
 import RecentlyViewed from "../../components/Ecommerce/Categories/RecentlyViewed";
+import { FaFilter, FaSort } from "react-icons/fa";
 
 const BusinessPage = () => {
   const [sortOption, setSortOption] = useState("Popularity");
+
+  const [showSidebar, setShowSidebar] = useState(false);
+  const [isSortOpen, setIsSortOpen] = useState(false);
+  const [selectedSort, setSelectedSort] = useState("");
+
+  const sortOptions = [
+    "Newest Arrivals",
+    "Price: Low to High",
+    "Price: High to Low",
+    "Product Rating",
+  ];
   const totalResults = 4506;
 
   const handleSortChange = (e) => {
@@ -69,15 +81,15 @@ const BusinessPage = () => {
       <BreadCrumb />
 
       {/* Header */}
-      <div className="flex items-center bg-white justify-between py-4 lg:px-12 px-2 border-b">
-        <div className="flex items-center">
-          <h1 className="text-xl font-semibold mr-3">Fatima Technologies</h1>
+      <div className="flex items-center bg-white justify-between py-4 lg:px-12 px-2 border-b w-full">
+        <div className="flex lg:flex-row flex-col items-center gap-4 mx-auto w-full">
+          <h1 className="text-xl font-semibold mr-3">Fatima Technology</h1>
           <span className="text-xs text-gray-500">
             1-48 of {totalResults} results
           </span>
         </div>
 
-        <div className="flex items-center bg-[#e5e5e5] px-2 rounded-md">
+        <div className="lg:flex hidden items-center bg-[#e5e5e5] px-2 rounded-md">
           <label
             htmlFor="sort-by"
             className="text-xs text-gray-600 mr-2 whitespace-nowrap"
@@ -116,6 +128,77 @@ const BusinessPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Mobile Filter */}
+      <div className="w-full lg:hidden flex border-b border-gray-200 bg-[#ffffff] mb-8">
+        <button
+          className="flex-1 flex items-center justify-center py-3 border-r border-gray-200 text-yellow-500 font-medium"
+          onClick={() => setShowSidebar(true)}
+        >
+          <FaFilter className="mr-2 text-yellow-500" />
+          <span>FILTER</span>
+        </button>
+
+        <button
+          className="flex-1 flex items-center justify-center py-3 text-yellow-500 font-medium"
+          onClick={() => setIsSortOpen(!isSortOpen)}
+        >
+          <FaSort className="mr-2 text-yellow-500" />
+          <span>SORT</span>
+        </button>
+
+        {/* Sort Options Dropdown */}
+        {isSortOpen && (
+          <div className="absolute z-50 mt-2 w-full bg-white rounded-md shadow-lg p-4 border border-gray-200">
+            {sortOptions.map((option, index) => (
+              <label
+                key={index}
+                className="flex items-center gap-2 py-1 cursor-pointer"
+              >
+                <input
+                  type="radio"
+                  name="sort"
+                  value={option}
+                  checked={selectedSort === option}
+                  onChange={(e) => {
+                    setSelectedSort(e.target.value);
+                    setIsSortOpen(false); // close on selection
+                  }}
+                  className="text-yellow-500 accent-yellow-500"
+                />
+                <span className="text-gray-700">{option}</span>
+              </label>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Slide-in Sidebar */}
+      <div
+        className={`fixed top-0 left-0 h-full w-72 bg-white shadow-lg z-50 transform transition-transform duration-300 overflow-y-auto ${
+          showSidebar ? "translate-y-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="flex justify-end p-4 border-b">
+          <button
+            onClick={() => setShowSidebar(false)}
+            className="text-gray-500 hover:text-gray-800"
+          >
+            ✕
+          </button>
+        </div>
+        <div className="p-4">
+          <SidebarFilter />
+        </div>
+      </div>
+
+      {/* Backdrop */}
+      {showSidebar && (
+        <div
+          className="fixed inset-0 bg-black opacity-40 z-40"
+          onClick={() => setShowSidebar(false)}
+        ></div>
+      )}
 
       <SellerStats />
       {/* Filter Section */}

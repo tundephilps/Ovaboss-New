@@ -102,9 +102,9 @@ const Navbar = () => {
 
               {/* Logo */}
               <div className="flex items-center">
-                <div className="md:mr-4">
+                <Link to="/" className="md:mr-4">
                   <img src={Logo} className="h-12" alt="Ovaboss" />
-                </div>
+                </Link>
               </div>
             </div>
 

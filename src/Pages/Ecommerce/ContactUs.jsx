@@ -22,6 +22,7 @@ const ContactUs = ({ onSubmit }) => {
       onSubmit(formData);
     }
   };
+  const countries = ["Nigeria", "Ghana", "Kenya", "South Africa", "Egypt"]; // Add more as needed
 
   return (
     <div
@@ -108,21 +109,38 @@ const ContactUs = ({ onSubmit }) => {
                         </div>
                         <div className="flex flex-row gap-[21px] items-center justify-start flex-wrap content-center self-stretch shrink-0 relative">
                           <div className="flex flex-col gap-2 items-start justify-start flex-1 min-w-[240px] relative">
-                            <div className="flex flex-row gap-0 items-center justify-start self-stretch shrink-0 relative">
-                              <div className="text-text-body text-left font-body-texts-b-1-semibold-font-family text-body-texts-b-1-semibold-font-size leading-body-texts-b-1-semibold-line-height font-body-texts-b-1-semibold-font-weight relative flex-1 flex items-center justify-start">
+                            {/* Label */}
+                            <div className="flex flex-row items-center justify-start self-stretch relative">
+                              <div className="text-text-body text-left font-semibold text-base leading-6">
                                 Country
                               </div>
                             </div>
-                            <div className="rounded-spacing-system-radius-sm border-solid border-[#e3e3e1] border-[1.5px] p-3 flex flex-row gap-3 items-center justify-start self-stretch shrink-0 relative">
-                              <div className="flex flex-row gap-3 items-center justify-start flex-1 relative">
-                                <div className="text-[#9ea2ae] text-left font-['OpenSans-Regular',_sans-serif] text-base leading-6 font-normal relative flex-1 flex items-center justify-start">
-                                  {formData.country}
-                                </div>
-                              </div>
+
+                            {/* Dropdown */}
+                            <div className="rounded-sm border border-[#e3e3e1] p-3 w-full relative">
+                              <select
+                                value={formData.country}
+                                onChange={(e) =>
+                                  setFormData({
+                                    ...formData,
+                                    country: e.target.value,
+                                  })
+                                }
+                                className="w-full text-[#9ea2ae] text-base font-normal bg-white outline-none appearance-none pr-6"
+                              >
+                                <option value="">Select a country</option>
+                                {countries.map((country, idx) => (
+                                  <option key={idx} value={country}>
+                                    {country}
+                                  </option>
+                                ))}
+                              </select>
+
+                              {/* Dropdown Arrow Icon */}
                               <img
-                                className="shrink-0 w-6 h-6 relative overflow-visible"
                                 src={navArrowDownIcon}
                                 alt="Dropdown"
+                                className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 pointer-events-none"
                               />
                             </div>
                           </div>

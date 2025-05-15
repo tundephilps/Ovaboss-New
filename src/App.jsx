@@ -35,18 +35,19 @@ function App() {
             <Route path="/" element={<Homepage />} />
             <Route path="/Signin" element={<SignIn />} />
             <Route path="/Signup" element={<SignUpPage />} />
-
             <Route path="/Signupform" element={<SignUpForm />} />
             <Route path="/Resetpasswprd" element={<PasswordReset />} />
-
             <Route path="/ProductDetails" element={<ProductDetails />} />
 
+            <Route path="/Categories" element={<Categories />} />
             <Route path="/Payment" element={<PaymentPage />} />
-
             <Route path="/ShoppingCart" element={<ShoppingCart />} />
-
             <Route path="/Checkout" element={<CheckoutPage />} />
             <Route path="/BusinessPage" element={<BusinessPage />} />
+
+            <Route path="/ContactUs" element={<ContactUs />} />
+
+            <Route path="/FAQ" element={<FrequentlyAskedQuestions />} />
           </Route>
 
           <Route element={<BusinessLayout />}>

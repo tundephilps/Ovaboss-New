@@ -35,11 +35,11 @@ export default function HouseholdItems() {
 
   return (
     <div className="rounded-lg w-full pb-12 ">
-      <h2 className="text-lg font-bold mb-4 text-gray-800 bg-[#FFF9E6] w-full px-12 py-2">
+      <h2 className="text-lg font-bold mb-4 text-gray-800 bg-[#FFF9E6] w-full lg:px-12 px-4 py-2">
         Household Items
       </h2>
 
-      <div className=" grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 px-12">
+      <div className=" grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 lg:px-12 px-4">
         {products.map((product) => (
           <div
             key={product.id}

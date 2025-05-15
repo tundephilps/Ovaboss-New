@@ -71,8 +71,8 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative w-full lg:h-[75vh]">
-      <div className="grid lg:grid-cols-4 grid-cols-1 h-[60vh] p-12 ">
+    <div className="relative w-full lg:h-[75vh] h-full">
+      <div className="grid lg:grid-cols-4 grid-cols-1 lg:h-[60vh] h-[80vh] lg:p-12 p-4 ">
         <div className="col-span-3 h-full">
           {/* Main large swiper */}
           <div className="relative overflow-hidden rounded-lg shadow-lg h-[60vh]">
