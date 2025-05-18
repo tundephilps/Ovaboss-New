@@ -229,12 +229,12 @@ const Navbar = () => {
               {/* Help Dropdown Menu */}
               {showHelpMenu && (
                 <div className="absolute top-full mt-2 right-52 bg-white  shadow-lg rounded-md w-48 py-2 z-50">
-                  <a
-                    href="/#"
+                  <Link
+                    to="/SellOnOvaboss"
                     className="block px-4 py-2  text-gray-700 hover:text-yellow-500 hover:bg-gray-100"
                   >
                     Sell on Ovaboss
-                  </a>
+                  </Link>
                   <a
                     href="/#"
                     className="block px-4 py-2 text-gray-700 hover:text-yellow-500 hover:bg-gray-100"
@@ -247,12 +247,12 @@ const Navbar = () => {
                   >
                     Blog
                   </a>
-                  <a
-                    href="/#"
+                  <Link
+                    to="/FindStore"
                     className="block px-4 py-2 text-gray-700 hover:text-yellow-500 hover:bg-gray-100"
                   >
                     Center Locator
-                  </a>
+                  </Link>
                   <a
                     href="/#"
                     className="block px-4 py-2 text-gray-700 hover:text-yellow-500 hover:bg-gray-100"
@@ -289,6 +289,12 @@ const Navbar = () => {
                   </span>
                 </div>
               </Link>
+
+              {/* If User is not logged In */}
+              {/* <button className="w-full text-xs py-3 px-12 border bg-[#E6AE06] border-yellow-400 text-black font-medium rounded hover:bg-yellow-50 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50">
+                Login/Signup
+              </button> */}
+
               <div
                 className="flex items-center text-gray-700 hover:text-gray-900 cursor-pointer"
                 onClick={() => {
@@ -351,12 +357,12 @@ const Navbar = () => {
                     <MdOutlineInbox className="mr-2" /> Inbox
                   </a>
                   <div className="border-t mt-2"></div>
-                  <a
-                    href="/#"
+                  <Link
+                    to="/Signin"
                     className="block px-4 py-2 text-center bg-[#E6AE06] text-black font-semibold hover:bg-yellow-600"
                   >
                     Logout
-                  </a>
+                  </Link>
                 </div>
               )}
             </div>

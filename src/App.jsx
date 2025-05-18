@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import BussinessService from "./Pages/BussinessService/BussinessService";
 import DashboardHome from "./Pages/Dashboard/DashboardHome";
 
 import EcommerceLayout from "./layouts/EcommerceLayout";
@@ -7,8 +6,9 @@ import BusinessLayout from "./layouts/BusinessLayout";
 import DashboardLayout from "./layouts/DashboardLayout";
 
 import SignIn from "./Pages/Auth/SignIn";
-import SignUp from "./Pages/Auth/SignUp";
+import SignUpPage from "./Pages/Auth/SignUp";
 import SignUpForm from "./Pages/Auth/SignUpForm";
+import PasswordReset from "./Pages/Auth/PasswordReset";
 
 import Homepage from "../src/Pages/Ecommerce/Homepage";
 import ProductDetails from "./Pages/Ecommerce/ProductDetails";
@@ -21,10 +21,10 @@ import ShoppingCart from "./Pages/Ecommerce/CartPage";
 import PaymentPage from "./Pages/Ecommerce/PaymentPage";
 import CheckoutPage from "./Pages/Ecommerce/CheckoutPage";
 import FrequentlyAskedQuestions from "./Pages/Ecommerce/FrequentlyAskedQuestions";
+
 import CategoryPage from "./Pages/BussinessService/CategoryPage";
 import BussinessDetails from "./Pages/BussinessService/BussinessDetails";
-import PasswordReset from "./Pages/Auth/PasswordReset";
-import SignUpPage from "./Pages/Auth/SignUp";
+import BussinessService from "./Pages/BussinessService/BussinessService";
 
 function App() {
   return (
@@ -36,7 +36,7 @@ function App() {
             <Route path="/Signin" element={<SignIn />} />
             <Route path="/Signup" element={<SignUpPage />} />
             <Route path="/Signupform" element={<SignUpForm />} />
-            <Route path="/Resetpasswprd" element={<PasswordReset />} />
+            <Route path="/Resetpassword" element={<PasswordReset />} />
             <Route path="/ProductDetails" element={<ProductDetails />} />
 
             <Route path="/Categories" element={<Categories />} />
@@ -46,6 +46,10 @@ function App() {
             <Route path="/BusinessPage" element={<BusinessPage />} />
 
             <Route path="/ContactUs" element={<ContactUs />} />
+
+            <Route path="/SellOnOvaboss" element={<SellOnOvaboss />} />
+
+            <Route path="/FindStore" element={<FindStore />} />
 
             <Route path="/FAQ" element={<FrequentlyAskedQuestions />} />
           </Route>

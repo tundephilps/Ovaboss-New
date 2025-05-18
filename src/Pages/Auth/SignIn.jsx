@@ -106,7 +106,7 @@ const SignIn = () => {
             </div>
             <div>
               <Link
-                to="/Resetpasswprd"
+                to="/Resetpassword"
                 className="text-sm font-medium text-yellow-500 hover:text-yellow-600"
               >
                 Forgot password?

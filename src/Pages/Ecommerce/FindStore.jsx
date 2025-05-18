@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef } from "react";
 import { CiLocationOn } from "react-icons/ci";
 import { FaSearch } from "react-icons/fa";
+import Map from "../../components/Ecommerce/FindStore/Map";
+import { Link } from "react-router-dom";
 
 export default function FindStore() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -124,7 +126,7 @@ export default function FindStore() {
         content: `
           <div class="p-2 min-w-[180px]">
             <p class="font-bold text-sm">${centre.name}</p>
-            <button class="bg-yellow-500 text-xs text-white px-2 py-1 mt-1 rounded">
+            <button class="bg-[#E6AE06] text-xs text-white px-2 py-1 mt-1 rounded">
               Directions
             </button>
           </div>
@@ -179,7 +181,7 @@ export default function FindStore() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <button className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-yellow-500 p-2 rounded">
+            <button className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-[#E6AE06] p-2 rounded">
               <FaSearch size={16} className="text-white" />
             </button>
           </div>
@@ -194,7 +196,7 @@ export default function FindStore() {
                 key={centre.id}
                 className={`bg-white border rounded-md p-4 transition-shadow hover:shadow-md ${
                   activeCenter === centre.id
-                    ? "border-yellow-500"
+                    ? "border-[#E6AE06]"
                     : "border-gray-200"
                 }`}
                 onClick={() => {
@@ -223,7 +225,7 @@ export default function FindStore() {
                 }}
               >
                 <div className="flex items-start">
-                  <div className="h-6 w-6 bg-yellow-500 rounded-sm flex items-center justify-center flex-shrink-0 mr-3">
+                  <div className="h-6 w-6 bg-[#E6AE06] rounded-sm flex items-center justify-center flex-shrink-0 mr-3">
                     <CiLocationOn size={16} className="text-white" />
                   </div>
                   <div className="flex-grow">
@@ -231,7 +233,7 @@ export default function FindStore() {
                     <p className="text-sm text-gray-600 mt-1">
                       {centre.address}
                     </p>
-                    <p className="text-xs text-gray-500 mt-2">Working hours:</p>
+                    <p className="text-xs tex[#E6AE06] mt-2">Working hours:</p>
                     <p className="text-sm text-gray-700">
                       {centre.workingHours}
                     </p>
@@ -239,7 +241,7 @@ export default function FindStore() {
 
                     <div className="flex space-x-2 mt-3">
                       <button
-                        className="bg-yellow-500 text-xs text-white px-3 py-1 rounded hover:bg-yellow-600 transition-colors"
+                        className="bg-[#E6AE06] text-xs text-white px-3 py-1 rounded hover:bg-yellow-600 transition-colors"
                         onClick={(e) => {
                           e.stopPropagation();
                           window.open(
@@ -250,34 +252,30 @@ export default function FindStore() {
                       >
                         Directions
                       </button>
-                      <button
-                        className="border border-yellow-500 text-xs text-yellow-500 px-3 py-1 rounded hover:bg-yellow-50 transition-colors"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        Contact us
-                      </button>
+                      <Link to="/ContactUs">
+                        <button className="border border-[#E6AE06] text-xs text-[#E6AE06] px-3 py-1 rounded hover:bg-yellow-50 transition-colors">
+                          Contact us
+                        </button>
+                      </Link>
                     </div>
                   </div>
                 </div>
               </div>
             ))}
-
-            <div className="text-xs text-right text-gray-500 mt-2">
-              Map data ©
-            </div>
           </div>
 
           {/* Map - Right Side */}
           <div className="w-full lg:col-span-3 col-span-5 flex   rounded-md h-full  relative">
             {/* Google Maps Container */}
-            <div
+            {/* <div
               ref={mapRef}
               className="h-full w-full"
               style={{ borderRadius: "0.375rem" }}
-            ></div>
+            ></div> */}
+            <Map />
 
             {/* Attribution overlay */}
-            <div className="absolute bottom-0 right-0 bg-white bg-opacity-80 px-1 text-xs text-gray-500">
+            <div className="absolute bottom-0 right-0 bg-white bg-opacity-80 px-1 text-xs tex[#E6AE06]">
               Map data © Google
             </div>
           </div>
