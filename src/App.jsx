@@ -25,6 +25,7 @@ import FrequentlyAskedQuestions from "./Pages/Ecommerce/FrequentlyAskedQuestions
 import CategoryPage from "./Pages/BussinessService/CategoryPage";
 import BussinessDetails from "./Pages/BussinessService/BussinessDetails";
 import BussinessService from "./Pages/BussinessService/BussinessService";
+import ServiceChat from "./Pages/BussinessService/ServiceChat";
 
 function App() {
   return (
@@ -55,7 +56,10 @@ function App() {
           </Route>
 
           <Route element={<BusinessLayout />}>
-            <Route path="/BussinessService" element={<BussinessDetails />} />
+            <Route path="/BussinessService" element={<BussinessService />} />
+            <Route path="/BussinessDetails" element={<BussinessDetails />} />
+            <Route path="/BussinessCategory" element={<CategoryPage />} />
+            <Route path="/ServiceChat" element={<ServiceChat />} />
           </Route>
 
           <Route element={<DashboardLayout />}>

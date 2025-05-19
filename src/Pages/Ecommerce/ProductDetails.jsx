@@ -19,6 +19,7 @@ import DeliveryReturns from "../../components/Ecommerce/ProductDetails/Delivery"
 import BusinessInfoCard from "../../components/Ecommerce/ProductDetails/BusinessInfo";
 import LoginModal from "../../components/Ecommerce/ProductDetails/LoginModal";
 import OrderOptionsModal from "../../components/Ecommerce/ProductDetails/OrderOptionsModal";
+import ImageSlider from "../../components/Ecommerce/ProductDetails/ImageSlider";
 
 const ProductDetails = () => {
   const [isModalOpen, setModalOpen] = useState(true);
@@ -86,21 +87,7 @@ const ProductDetails = () => {
           <div className="p-4  rounded-md shadow-md mx-auto flex flex-col md:flex-row gap-6 bg-white">
             {/* Images */}
             <div className="flex flex-col  md:w-1/2">
-              <img
-                src={Product1}
-                alt="Main iPad"
-                className="w-full h-[380px]"
-              />
-              <div className="flex gap-2 mt-4">
-                {["", "", "", "", ""].map((img, i) => (
-                  <img
-                    key={i}
-                    src={Product1}
-                    alt={`iPad variant ${i}`}
-                    className="w-20 h-20 border rounded cursor-pointer"
-                  />
-                ))}
-              </div>
+              <ImageSlider />
               {/* Share Icons */}
               <p className=" pt-12 text-xs">Share With Friends</p>
               <div className="flex items-start justify-start gap-4 py-4">
