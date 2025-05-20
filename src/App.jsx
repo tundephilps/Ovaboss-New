@@ -1,9 +1,10 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import DashboardHome from "./Pages/Dashboard/DashboardHome";
+import DashboardHome from "./Pages/DashboardPCC/DashboardHome";
 
 import EcommerceLayout from "./layouts/EcommerceLayout";
 import BusinessLayout from "./layouts/BusinessLayout";
-import DashboardLayout from "./layouts/DashboardLayout";
+import DashboardPCCLayout from "./layouts/DashboardPCCLayout";
+import DashboardBCCLayout from "./layouts/DashboardBCCLayout";
 
 import SignIn from "./Pages/Auth/SignIn";
 import SignUpPage from "./Pages/Auth/SignUp";
@@ -62,8 +63,12 @@ function App() {
             <Route path="/ServiceChat" element={<ServiceChat />} />
           </Route>
 
-          <Route element={<DashboardLayout />}>
-            <Route path="/Dashboard" element={<DashboardHome />} />
+          <Route element={<DashboardPCCLayout />}>
+            <Route path="/PCCDashboard" element={<DashboardHome />} />
+          </Route>
+
+          <Route element={<DashboardBCCLayout />}>
+            <Route path="/BCCDashboard" element={<DashboardHome />} />
           </Route>
         </Routes>
       </Router>
