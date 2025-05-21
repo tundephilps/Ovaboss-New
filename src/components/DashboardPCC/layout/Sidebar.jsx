@@ -20,14 +20,14 @@ const menuItems = [
     label: "PCC Dashboard",
     path: "/PCCDashboard",
   },
-  { icon: <FaUser className="text-xl" />, label: "Profile", path: "/profile" },
+  { icon: <FaUser className="text-xl" />, label: "Profile", path: "/Profile" },
   {
     icon: <img src={Contain2} />,
     label: "My Community",
     path: "/community",
     children: [
-      { label: "PCM", path: "/community/pcm" },
-      { label: "AQM", path: "/community/aqm" },
+      { label: "PCM", path: "/Community/PCM" },
+      { label: "AQM", path: "/Community/AQM" },
     ],
   },
   {

@@ -27,6 +27,11 @@ import CategoryPage from "./Pages/BussinessService/CategoryPage";
 import BussinessDetails from "./Pages/BussinessService/BussinessDetails";
 import BussinessService from "./Pages/BussinessService/BussinessService";
 import ServiceChat from "./Pages/BussinessService/ServiceChat";
+import Profile from "./Pages/DashboardPCC/Profile/Profile";
+import EditProfile from "./Pages/DashboardPCC/Profile/EditProfile";
+import EditBankInfo from "./Pages/DashboardPCC/Profile/EditBankInfo";
+import PCM from "./Pages/DashboardPCC/MyCommunity/PCM";
+import AQM from "./Pages/DashboardPCC/MyCommunity/AQM";
 
 function App() {
   return (
@@ -65,6 +70,16 @@ function App() {
 
           <Route element={<DashboardPCCLayout />}>
             <Route path="/PCCDashboard" element={<DashboardHome />} />
+
+            <Route path="/Profile" element={<Profile />} />
+
+            <Route path="/EditProfile" element={<EditProfile />} />
+
+            <Route path="/EditBankInfo" element={<EditBankInfo />} />
+
+            <Route path="/Community/AQM" element={<AQM />} />
+
+            <Route path="/Community/PCM" element={<PCM />} />
           </Route>
 
           <Route element={<DashboardBCCLayout />}>
