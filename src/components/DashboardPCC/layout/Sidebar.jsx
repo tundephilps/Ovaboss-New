@@ -35,9 +35,9 @@ const menuItems = [
     label: "Wallets/Accounts",
     path: "/wallets",
     children: [
-      { label: "LAA", path: "/wallets/laa" },
-      { label: "SIGN ON", path: "/wallets/sign-on" },
-      { label: "BUY ON", path: "/wallets/buy-on" },
+      { label: "LAA", path: "/Wallets/LAA" },
+      { label: "SIGN ON", path: "/Wallets/SignOn" },
+      { label: "BUY ON", path: "/Wallets/BuyOn" },
     ],
   },
   {
@@ -114,7 +114,7 @@ const SidebarItem = ({ item, isCollapsed }) => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full text-xs ">
       <Link to={item.path || "#"} className="block" onClick={handleItemClick}>
         <div className="flex items-center justify-between px-4 py-2 cursor-pointer  hover:bg-gray-700 text-white">
           <div className="flex items-center gap-2">
@@ -154,7 +154,7 @@ const Sidebar = () => {
     <div
       className={`${
         isCollapsed ? "w-16" : "w-1/5"
-      } transition-all duration-300 lg:min-h-screen  h-full lg:block hidden bg-gradient-to-b from-[#000000] to-[#121212] text-white shadow-lg`}
+      } transition-all duration-300 lg:min-h-screen overflow-y-auto h-full lg:block hidden bg-gradient-to-b from-[#000000] to-[#121212] text-white shadow-lg`}
     >
       <div className="flex items-center justify-between   gap-2 px-4 py-3 font-bold text-xl bg-gradient-to-b from-[#E8C000] to-[#FFD700] text-black">
         {!isCollapsed && (

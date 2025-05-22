@@ -40,7 +40,9 @@ import OnlineInvoiceReport from "./Pages/DashboardPCC/Reports/OnlineInvoiceRepor
 import OfflineInvoiceReport from "./Pages/DashboardPCC/Reports/OfflineInvoiceReport";
 import WalletTransactions from "./Pages/DashboardPCC/Reports/WalletTransactions";
 import EarningTransactions from "./Pages/DashboardPCC/Reports/EarningTransactions";
-
+import LAA from "./Pages/DashboardPCC/Wallets/LAA";
+import SignOn from "./Pages/DashboardPCC/Wallets/SignOn";
+import BuyOn from "./Pages/DashboardPCC/Wallets/BuyOn";
 function App() {
   return (
     <>
@@ -88,6 +90,10 @@ function App() {
             <Route path="/Community/AQM" element={<AQM />} />
 
             <Route path="/Community/PCM" element={<PCM />} />
+
+            <Route path="/Wallets/LAA" element={<LAA />} />
+            <Route path="/Wallets/SignOn" element={<SignOn />} />
+            <Route path="/Wallets/BuyOn" element={<BuyOn />} />
 
             <Route path="/Reports/GeneralReport" element={<GeneralReport />} />
 
