@@ -32,6 +32,14 @@ import EditProfile from "./Pages/DashboardPCC/Profile/EditProfile";
 import EditBankInfo from "./Pages/DashboardPCC/Profile/EditBankInfo";
 import PCM from "./Pages/DashboardPCC/MyCommunity/PCM";
 import AQM from "./Pages/DashboardPCC/MyCommunity/AQM";
+import GeneralReport from "./Pages/DashboardPCC/Reports/GeneralReport";
+import MTRReport from "./Pages/DashboardPCC/Reports/MTRReport";
+import GoodsOrderReport from "./Pages/DashboardPCC/Reports/GoodsOrderReport";
+import ServiceOrderReport from "./Pages/DashboardPCC/Reports/ServiceOrderReport";
+import OnlineInvoiceReport from "./Pages/DashboardPCC/Reports/OnlineInvoiceReport";
+import OfflineInvoiceReport from "./Pages/DashboardPCC/Reports/OfflineInvoiceReport";
+import WalletTransactions from "./Pages/DashboardPCC/Reports/WalletTransactions";
+import EarningTransactions from "./Pages/DashboardPCC/Reports/EarningTransactions";
 
 function App() {
   return (
@@ -80,6 +88,40 @@ function App() {
             <Route path="/Community/AQM" element={<AQM />} />
 
             <Route path="/Community/PCM" element={<PCM />} />
+
+            <Route path="/Reports/GeneralReport" element={<GeneralReport />} />
+
+            <Route path="/Reports/GeneralReport/MTR" element={<MTRReport />} />
+
+            <Route
+              path="/Reports/GeneralReport/ServiceOrderReport"
+              element={<ServiceOrderReport />}
+            />
+
+            <Route
+              path="/Reports/Invoice/Online"
+              element={<OnlineInvoiceReport />}
+            />
+
+            <Route
+              path="/Reports/Invoice/Offline"
+              element={<OfflineInvoiceReport />}
+            />
+
+            <Route
+              path="/Reports/GeneralReport/GoodsOrderReport"
+              element={<GoodsOrderReport />}
+            />
+
+            <Route
+              path="/Reports/Payout/WalletTransactions"
+              element={<WalletTransactions />}
+            />
+
+            <Route
+              path="/Reports/Payout/EarningTransactions"
+              element={<EarningTransactions />}
+            />
           </Route>
 
           <Route element={<DashboardBCCLayout />}>

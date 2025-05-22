@@ -43,20 +43,24 @@ const menuItems = [
   {
     icon: <FaFileInvoice className="text-xl" />,
     label: "Reports",
-    path: "/reports",
+    path: "/GeneralReports",
     children: [
       {
         label: "General Reports",
-        path: "/reports/general",
+        path: "/Reports",
         children: [
-          { label: "MTR Order Report", path: "/reports/general/mtr-order" },
+          { label: "General Report", path: "/Reports/GeneralReport" },
+          {
+            label: "MTR Order Report",
+            path: "/Reports/GeneralReport/MTR",
+          },
           {
             label: "Goods Order Reports",
-            path: "/reports/general/goods-order",
+            path: "/Reports/GeneralReport/GoodsOrderReport",
           },
           {
             label: "Service Order Reports",
-            path: "/reports/general/service-order",
+            path: "/Reports/GeneralReport/ServiceOrderReport",
           },
         ],
       },
@@ -66,30 +70,34 @@ const menuItems = [
         children: [
           {
             label: "Wallet Transactions",
-            path: "/reports/payout/wallet-transactions",
+            path: "/Reports/Payout/WalletTransactions",
           },
           {
             label: "Earning Transactions",
-            path: "/reports/payout/earning-transactions",
+            path: "/Reports/Payout/EarningTransactions",
           },
         ],
       },
       {
         label: "Invoice Report",
-        path: "/reports/invoice",
+        path: "/Reports/invoice",
         children: [
-          { label: "Online Invoice Report", path: "/reports/invoice/online" },
-          { label: "Offline Invoice Report", path: "/reports/invoice/offline" },
+          { label: "Online Invoice Report", path: "/Reports/Invoice/Online" },
+          { label: "Offline Invoice Report", path: "/Reports/Invoice/Offline" },
         ],
       },
     ],
   },
-  { icon: <FaMoneyBillWave className="text-xl" />, label: "MTR", path: "/mtr" },
-  { icon: <img src={Contain3} />, label: "Switch to BCC", path: "/switch-bcc" },
+  { icon: <FaMoneyBillWave className="text-xl" />, label: "MTR", path: "/MTR" },
+  {
+    icon: <img src={Contain3} />,
+    label: "Switch to BCC",
+    path: "/BCCDashboard",
+  },
   {
     icon: <FaCartShopping className="text-xl" />,
     label: "Back to Store",
-    path: "/store",
+    path: "/",
   },
 ];
 

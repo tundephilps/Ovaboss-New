@@ -1,28 +1,25 @@
 import React from "react";
 import ProfileProgressCard from "../../../components/DashboardPCC/Homepage/ProfileProgressCard";
-import PCMtable from "../../../components/DashboardPCC/MyCommunity/PCMtable";
-import Pagination from "../../../components/DashboardPCC/MyCommunity/Pagination";
+import WalletTable from "../../../components/DashboardPCC/Report/WalletTable";
 
-const PCM = () => {
+const WalletTransactions = () => {
   return (
     <div className=" bg-[#faf9f9] overflow-y-auto">
       <div className="py-6 px-4">
-        <h1 className="font-bold text-2xl pb-2"> My Community</h1>
+        <h1 className="font-bold text-2xl pb-2">Reports</h1>
         <p className="text-xs text-[#687280] ">
-          <span className="text-[#687280]">
-            Dashboard › {"  "} My Community Members{" "}
-          </span>{" "}
+          <span className="text-[#687280]">Dashboard › {"  "} Report </span>{" "}
+          <span className="text-[#687280]">› {"  "}Payout Report </span>{" "}
           <span className="text-yellow-500">
             {" "}
-            › {"  "} Personal Community Members{" "}
+            › {"  "} Wallet Transaction Report{" "}
           </span>{" "}
         </p>
         <ProfileProgressCard completedFields={4} totalFields={10} />
-
-        <PCMtable />
+        <WalletTable />
       </div>
     </div>
   );
 };
 
-export default PCM;
+export default WalletTransactions;
