@@ -9,6 +9,7 @@ import { MdOutlinePrint } from "react-icons/md";
 import ProfileProgressCard from "../../../components/DashboardPCC/Homepage/ProfileProgressCard";
 import BankAccountDetails from "../../../components/DashboardPCC/Profile/BankDetails";
 import { Link } from "react-router-dom";
+import Avatar from "../../../assets/Profile.jpg";
 
 const Detail = ({ label, value }) => (
   <div>
@@ -56,7 +57,7 @@ const Profile = () => {
             <div className="flex flex-col items-center lg:w-1/4">
               <div className="w-32 h-32 rounded-full overflow-hidden mb-4 border-2 border-gray-200">
                 <img
-                  src="https://via.placeholder.com/150" // Replace with your own image URL
+                  src={Avatar} // Replace with your own image URL
                   alt="User"
                   className="w-full h-full object-cover rounded-full"
                 />

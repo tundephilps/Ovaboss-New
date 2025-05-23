@@ -1,6 +1,7 @@
 import React from "react";
 import ProfileProgressCard from "../../../components/DashboardPCC/Homepage/ProfileProgressCard";
 import BuyOnCard from "../../../components/DashboardPCC/Wallet/BuyOnCard";
+import BuyOnTab from "../../../components/DashboardPCC/Wallet/BuyOnTab";
 
 const BuyOn = () => {
   return (
@@ -15,6 +16,7 @@ const BuyOn = () => {
         </p>
         <ProfileProgressCard completedFields={4} totalFields={10} />
         <BuyOnCard />
+        <BuyOnTab />
       </div>
     </div>
   );

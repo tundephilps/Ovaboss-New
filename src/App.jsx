@@ -43,6 +43,7 @@ import EarningTransactions from "./Pages/DashboardPCC/Reports/EarningTransaction
 import LAA from "./Pages/DashboardPCC/Wallets/LAA";
 import SignOn from "./Pages/DashboardPCC/Wallets/SignOn";
 import BuyOn from "./Pages/DashboardPCC/Wallets/BuyOn";
+import MTR from "./Pages/DashboardPCC/MTR";
 function App() {
   return (
     <>
@@ -128,6 +129,7 @@ function App() {
               path="/Reports/Payout/EarningTransactions"
               element={<EarningTransactions />}
             />
+            <Route path="/MTR" element={<MTR />} />
           </Route>
 
           <Route element={<DashboardBCCLayout />}>

@@ -3,6 +3,8 @@ import ProfileProgressCard from "../../../components/DashboardPCC/Homepage/Profi
 import PCMtable from "../../../components/DashboardPCC/MyCommunity/PCMtable";
 import Pagination from "../../../components/DashboardPCC/MyCommunity/Pagination";
 import SignOnCard from "../../../components/DashboardPCC/Wallet/SignOnCard";
+import SignOnForm from "../../../components/DashboardPCC/Wallet/SignOnForm";
+import SignOnTab from "../../../components/DashboardPCC/Wallet/SignOnTab";
 
 const SignOn = () => {
   return (
@@ -20,6 +22,8 @@ const SignOn = () => {
         </p>
         <ProfileProgressCard completedFields={4} totalFields={10} />
         <SignOnCard />
+        <SignOnForm />
+        <SignOnTab />
       </div>
     </div>
   );

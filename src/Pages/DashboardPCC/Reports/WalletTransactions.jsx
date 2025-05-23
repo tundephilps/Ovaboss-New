@@ -5,7 +5,7 @@ import WalletTable from "../../../components/DashboardPCC/Report/WalletTable";
 const WalletTransactions = () => {
   return (
     <div className=" bg-[#faf9f9] overflow-y-auto">
-      <div className="py-6 px-4">
+      <div className="py-6 px-4  overflow-x-auto">
         <h1 className="font-bold text-2xl pb-2">Reports</h1>
         <p className="text-xs text-[#687280] ">
           <span className="text-[#687280]">Dashboard › {"  "} Report </span>{" "}

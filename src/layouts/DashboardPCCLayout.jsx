@@ -4,9 +4,9 @@ import Sidebar from "../components/DashboardPCC/layout/Sidebar";
 import Header from "../components/DashboardPCC/layout/Header";
 
 const DashboardPCCLayout = ({ children }) => (
-  <div className="inline-flex w-full h-[100vh] overflow-hidden">
+  <div className="inline-flex w-full h-[100vh] overflow-y-hidden">
     <Sidebar />
-    <main className="flex-1  ">
+    <main className="w-full">
       <Header />
       <div className="overflow-y-auto h-screen">
         <Outlet />

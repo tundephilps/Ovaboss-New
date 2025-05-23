@@ -114,7 +114,7 @@ export default function WalletTable() {
   };
 
   return (
-    <div className="p-4 bg-white rounded-md mt-6 mb-20">
+    <div className="p-4 bg-white rounded-md mt-6 mb-20 ">
       <div className="flex gap-4 items-center mb-4">
         <p className="font-semibold text-sm">Sort By</p>
         {["Date", "Order Status", "Payment Status"].map((label) => (
