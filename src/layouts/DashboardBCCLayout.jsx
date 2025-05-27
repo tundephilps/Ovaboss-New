@@ -4,11 +4,13 @@ import Sidebar from "../components/DashboardBCC/layout/Sidebar";
 import Header from "../components/DashboardBCC/layout/Header";
 
 const DashboardBCCLayout = ({ children }) => (
-  <div className="flex min-h-screen">
+  <div className="inline-flex w-full h-[100vh] overflow-y-hidden">
     <Sidebar />
-    <main className="flex-1  bg-gray-50">
+    <main className="w-full">
       <Header />
-      <Outlet />
+      <div className="overflow-y-auto h-screen">
+        <Outlet />
+      </div>
     </main>
   </div>
 );
