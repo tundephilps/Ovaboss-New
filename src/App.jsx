@@ -46,6 +46,7 @@ import LAA from "./Pages/DashboardPCC/Wallets/LAA";
 import SignOn from "./Pages/DashboardPCC/Wallets/SignOn";
 import BuyOn from "./Pages/DashboardPCC/Wallets/BuyOn";
 import MTR from "./Pages/DashboardPCC/MTR";
+import CreateBusiness from "./Pages/DashboardBCC/CreateBusiness";
 function App() {
   return (
     <>
@@ -122,6 +123,8 @@ function App() {
 
           <Route element={<DashboardBCCLayout />}>
             <Route path="/BCCDashboard" element={<DashboardHomeBCC />} />
+
+            <Route path="/CreateBusiness" element={<CreateBusiness />} />
           </Route>
         </Routes>
       </Router>

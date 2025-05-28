@@ -9,9 +9,14 @@ import Logo from "../../../assets/Logo.png";
 import { MdMenu, MdOutlineArrowDownward } from "react-icons/md";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { CiMenuBurger } from "react-icons/ci";
+import { FaTimes } from "react-icons/fa";
+import Sidebar from "./Sidebar";
+import SidebarMobile from "./SidebarMobile";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   // Close dropdown when clicking outside
@@ -42,7 +47,7 @@ const Header = () => {
       {/* User info and toggle button */}
       <div className="inline-flex">
         <div
-          className="flex items-center gap-2 cursor-pointer py-2 px-3 rounded-md hover:bg-gray-100"
+          className="flex items-center gap-2 cursor-pointer py-2 px-8 rounded-md hover:bg-gray-100"
           onClick={toggleDropdown}
         >
           <div className="flex flex-col text-right">
@@ -61,9 +66,35 @@ const Header = () => {
             <img src={Profile} className="h-full w-full rounded-full" />
           </div>
         </div>
-        <button>
+        <button onClick={() => setSidebarOpen(true)}>
           <MdMenu className="text-2xl text-black lg:hidden block mr-2" />
         </button>
+      </div>
+      {/* Overlay */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-30 z-40"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <div
+        className={`fixed top-0 left-0 h-full z-50 transform transition-transform duration-300 ease-in-out ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="bg-white h-full w-64 shadow-md relative">
+          {/* Close button */}
+
+          <SidebarMobile />
+          <button
+            className="absolute top-4 right-4 text-white"
+            onClick={() => setSidebarOpen(false)}
+          >
+            <FaTimes className="text-lg" />
+          </button>
+        </div>
       </div>
 
       {/* Dropdown menu */}
