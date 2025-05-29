@@ -29,6 +29,7 @@ import CategoryPage from "./Pages/BussinessService/CategoryPage";
 import BussinessDetails from "./Pages/BussinessService/BussinessDetails";
 import BussinessService from "./Pages/BussinessService/BussinessService";
 import ServiceChat from "./Pages/BussinessService/ServiceChat";
+
 import Profile from "./Pages/DashboardPCC/Profile/Profile";
 import EditProfile from "./Pages/DashboardPCC/Profile/EditProfile";
 import EditBankInfo from "./Pages/DashboardPCC/Profile/EditBankInfo";
@@ -46,7 +47,16 @@ import LAA from "./Pages/DashboardPCC/Wallets/LAA";
 import SignOn from "./Pages/DashboardPCC/Wallets/SignOn";
 import BuyOn from "./Pages/DashboardPCC/Wallets/BuyOn";
 import MTR from "./Pages/DashboardPCC/MTR";
-import CreateBusiness from "./Pages/DashboardBCC/CreateBusiness";
+import CreateBusiness from "./Pages/DashboardBCC/Business/CreateBusiness";
+import AllOrders from "./Pages/DashboardBCC/Orders/AllOrders";
+import AllBusinesses from "./Pages/DashboardBCC/Business/AllBusinesses";
+import AddBusiness from "./Pages/DashboardBCC/Business/AddBusiness";
+import ProcessingOrders from "./Pages/DashboardBCC/Orders/ProcessingOrders";
+import AwaitingPayment from "./Pages/DashboardBCC/Orders/AwaitingPayment";
+import PendingOrders from "./Pages/DashboardBCC/Orders/PendingOrder";
+import DispatchedOrders from "./Pages/DashboardBCC/Orders/DispatchedOrders";
+import CompletedOrders from "./Pages/DashboardBCC/Orders/CompletedOrders";
+import UnfulfilledOrders from "./Pages/DashboardBCC/Orders/UnfulfilledOrders";
 function App() {
   return (
     <>
@@ -123,8 +133,33 @@ function App() {
 
           <Route element={<DashboardBCCLayout />}>
             <Route path="/BCCDashboard" element={<DashboardHomeBCC />} />
-
             <Route path="/CreateBusiness" element={<CreateBusiness />} />
+            <Route path="/Business/All" element={<AllBusinesses />} />
+            <Route path="/Business/AddNew" element={<AddBusiness />} />
+
+            <Route path="/Orders" element={<AllOrders />} />
+            <Route
+              path="/Orders/AwaitingPayment"
+              element={<AwaitingPayment />}
+            />
+            <Route path="/Orders/PendingOrders" element={<PendingOrders />} />
+            <Route
+              path="/Orders/ProcessingOrders"
+              element={<ProcessingOrders />}
+            />
+            <Route
+              path="/Orders/DispatchedOrders"
+              element={<DispatchedOrders />}
+            />
+            <Route
+              path="/Orders/CompleteOrders"
+              element={<CompletedOrders />}
+            />
+
+            <Route
+              path="/Orders/UnfulfilledOrders"
+              element={<UnfulfilledOrders />}
+            />
           </Route>
         </Routes>
       </Router>

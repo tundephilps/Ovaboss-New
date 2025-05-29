@@ -2,8 +2,10 @@ import React from "react";
 
 import Wallet1 from "../../../assets/Wallet11.png";
 
-import Wallet2 from "../../../assets/Wallet2.svg";
+import Wallet2 from "../../../assets/Wallet22.png";
 import Wallet3 from "../../../assets/Wallet33.png";
+
+import Wallet4 from "../../../assets/Wallet44.png";
 
 // WalletCard Component
 const WalletCard = ({ logo, title, label, balance, ge, ie }) => {
