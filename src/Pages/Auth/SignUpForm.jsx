@@ -39,19 +39,35 @@ const SignUpForm = () => {
         <form>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-4">
             <div className="col-span-1 space-y-4">
-              {/* Full Name */}
+              {/* First Name */}
               <div>
                 <label
-                  htmlFor="fullName"
+                  htmlFor="firstName"
                   className="block text-xs font-medium text-gray-700 mb-1"
                 >
-                  Full Name
+                  First Name
                 </label>
                 <input
                   type="text"
-                  id="fullName"
+                  id="firstName"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                  placeholder="Enter your name"
+                  placeholder="Enter your first name"
+                />
+              </div>
+
+              {/* Email */}
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-xs font-medium text-gray-700 mb-1"
+                >
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  placeholder="Enter your email"
                 />
               </div>
 
@@ -118,21 +134,22 @@ const SignUpForm = () => {
             </div>
 
             <div className="space-y-4">
-              {/* Email */}
+              {/* Last Name */}
               <div>
                 <label
-                  htmlFor="email"
+                  htmlFor="lastName"
                   className="block text-xs font-medium text-gray-700 mb-1"
                 >
-                  Email
+                  Last Name
                 </label>
                 <input
-                  type="email"
-                  id="email"
+                  type="text"
+                  id="lastName"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                  placeholder="Enter your email"
+                  placeholder="Enter your last name"
                 />
               </div>
+
               {/* Phone Number */}
               <div>
                 <label

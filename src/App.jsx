@@ -57,6 +57,7 @@ import PendingOrders from "./Pages/DashboardBCC/Orders/PendingOrder";
 import DispatchedOrders from "./Pages/DashboardBCC/Orders/DispatchedOrders";
 import CompletedOrders from "./Pages/DashboardBCC/Orders/CompletedOrders";
 import UnfulfilledOrders from "./Pages/DashboardBCC/Orders/UnfulfilledOrders";
+import OTPInput from "./Pages/Auth/OTP";
 function App() {
   return (
     <>
@@ -68,6 +69,8 @@ function App() {
             <Route path="/Signup" element={<SignUpPage />} />
             <Route path="/Signupform" element={<SignUpForm />} />
             <Route path="/Resetpassword" element={<PasswordReset />} />
+            <Route path="/OTP" element={<OTPInput />} />
+
             <Route path="/ProductDetails" element={<ProductDetails />} />
 
             <Route path="/Categories" element={<Categories />} />
