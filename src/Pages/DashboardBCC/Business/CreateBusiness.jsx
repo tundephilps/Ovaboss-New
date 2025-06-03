@@ -46,7 +46,7 @@ const CreateBusiness = () => {
         <h1 className="font-bold text-2xl">Profile</h1>
         <p className="text-xs text-[#687280] ">
           Dashboard ›<span> Business Profile › {"  "}</span>
-          <span className="text-yellow-500">Edit </span>{" "}
+          <span className="text-yellow-500">Add New Business</span>{" "}
         </p>
       </div>
 

@@ -50,7 +50,7 @@ import MTR from "./Pages/DashboardPCC/MTR";
 import CreateBusiness from "./Pages/DashboardBCC/Business/CreateBusiness";
 import AllOrders from "./Pages/DashboardBCC/Orders/AllOrders";
 import AllBusinesses from "./Pages/DashboardBCC/Business/AllBusinesses";
-import AddBusiness from "./Pages/DashboardBCC/Business/AddBusiness";
+import AddBusiness from "./Pages/DashboardBCC/Business/AddNewBusiness";
 import ProcessingOrders from "./Pages/DashboardBCC/Orders/ProcessingOrders";
 import AwaitingPayment from "./Pages/DashboardBCC/Orders/AwaitingPayment";
 import PendingOrders from "./Pages/DashboardBCC/Orders/PendingOrder";
@@ -58,6 +58,11 @@ import DispatchedOrders from "./Pages/DashboardBCC/Orders/DispatchedOrders";
 import CompletedOrders from "./Pages/DashboardBCC/Orders/CompletedOrders";
 import UnfulfilledOrders from "./Pages/DashboardBCC/Orders/UnfulfilledOrders";
 import OTPInput from "./Pages/Auth/OTP";
+import BusinessOnboarding from "./Pages/DashboardBCC/Business/BusinessOnboarding";
+import AQB from "./Pages/DashboardBCC/BusinessCommunity/AQB";
+import PMB from "./Pages/DashboardBCC/BusinessCommunity/PMB";
+import AllServices from "./Pages/DashboardBCC/Services/AllServices";
+import { AddNewService } from "./Pages/DashboardBCC/Services/AddNewService";
 function App() {
   return (
     <>
@@ -139,7 +144,10 @@ function App() {
             <Route path="/CreateBusiness" element={<CreateBusiness />} />
             <Route path="/Business/All" element={<AllBusinesses />} />
             <Route path="/Business/AddNew" element={<AddBusiness />} />
-
+            <Route
+              path="/Business/BusinessOnboarding"
+              element={<BusinessOnboarding />}
+            />
             <Route path="/Orders" element={<AllOrders />} />
             <Route
               path="/Orders/AwaitingPayment"
@@ -158,11 +166,17 @@ function App() {
               path="/Orders/CompleteOrders"
               element={<CompletedOrders />}
             />
-
             <Route
               path="/Orders/UnfulfilledOrders"
               element={<UnfulfilledOrders />}
             />
+
+            <Route path="/BusinessCommunity/AQB" element={<AQB />} />
+            <Route path="/BusinessCommunity/PMB" element={<PMB />} />
+
+            <Route path="/Services" element={<AllServices />} />
+
+            <Route path="/Services/AddNew" element={<AddNewService />} />
           </Route>
         </Routes>
       </Router>
