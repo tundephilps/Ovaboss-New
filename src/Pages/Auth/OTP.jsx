@@ -1,8 +1,12 @@
 import { useState, useRef } from "react";
+import useAuth from "../../hooks/useAuth";
+import Loading from "../../components/Loading";
 
 export default function OTPInput() {
   const [otp, setOtp] = useState(Array(6).fill(""));
   const inputRefs = useRef([]);
+
+  const { inputs, isLoading, handleInput, handleValidateOtp } = useAuth();
 
   const handleChange = (e, index) => {
     const value = e.target.value;
@@ -46,14 +50,13 @@ export default function OTPInput() {
   };
 
   const handleSubmit = (otpValue) => {
-    console.log("OTP Submitted:", otpValue);
-    // Add your submit logic here
+    handleValidateOtp(otpValue);
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4">
       <h2 className="text-2xl font-semibold mb-6 text-gray-800">Enter OTP</h2>
-      <div className="flex gap-3" onPaste={handlePaste}>
+      <div className="flex gap-3" onPaste={handlePaste} style={isLoading ? { opacity: 0.3 } : null}>
         {otp.map((digit, index) => (
           <input
             key={index}
@@ -68,6 +71,7 @@ export default function OTPInput() {
           />
         ))}
       </div>
+      {isLoading && <Loading/>}
     </div>
   );
 }

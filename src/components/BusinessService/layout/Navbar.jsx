@@ -20,6 +20,7 @@ import { MdOutlineInbox } from "react-icons/md";
 
 import Logo from "../../../assets/Logo.png";
 import { Link } from "react-router-dom";
+import { useAppContext } from "../../../context/AppContext";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -27,6 +28,8 @@ const Navbar = () => {
 
   const [showHelpMenu, setShowHelpMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+
+  const { user } = useAppContext();
 
   return (
     <div className="w-full">
@@ -124,7 +127,7 @@ const Navbar = () => {
                 }}
               >
                 <LiaUserCheckSolid size={24} />
-                <span className="ml-2 text-sm">Alexand...</span>
+                <span className="ml-2 text-sm">{user.firstname}</span>
                 <svg
                   className="w-2 h-2 ml-1"
                   fill="none"
@@ -144,7 +147,7 @@ const Navbar = () => {
               {showProfileMenu && (
                 <div className="absolute top-full mt-2 right-0 bg-white shadow-lg rounded-md w-56 py-0 z-50">
                   <div className="px-4 py-2 font-semibold text-gray-800">
-                    Hi, Alexander
+                    Hi, { user.firstname }
                   </div>
                   <a
                     href="/#"
@@ -195,7 +198,7 @@ const Navbar = () => {
                 <div className="flex items-center justify-between py-2 border-b border-gray-200">
                   <div className="flex items-center text-gray-700">
                     <FaUser size={20} />
-                    <span className="ml-2 text-sm">Alexander</span>
+                    <span className="ml-2 text-sm">{ user.firstname }</span>
                   </div>
                 </div>
 

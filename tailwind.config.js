@@ -5,4 +5,5 @@ export default {
     extend: {},
   },
   plugins: [],
+  include: ["src", "vite-env.d.ts"]
 };
