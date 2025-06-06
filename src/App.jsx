@@ -63,6 +63,14 @@ import AQB from "./Pages/DashboardBCC/BusinessCommunity/AQB";
 import PMB from "./Pages/DashboardBCC/BusinessCommunity/PMB";
 import AllServices from "./Pages/DashboardBCC/Services/AllServices";
 import { AddNewService } from "./Pages/DashboardBCC/Services/AddNewService";
+import GeneralReportBCC from "./Pages/DashboardBCC/Reports/GeneralReport";
+import MTRReportBCC from "./Pages/DashboardBCC/Reports/MTRReport";
+import WalletTransactionsBCC from "./Pages/DashboardBCC/Reports/WalletTransactions";
+import EarningTransactionsBCC from "./Pages/DashboardBCC/Reports/EarningTransactions";
+import OnlineInvoiceReportBCC from "./Pages/DashboardBCC/Reports/OnlineInvoiceReport";
+import OfflineInvoiceReportBCC from "./Pages/DashboardBCC/Reports/OfflineInvoiceReport";
+import ServiceOrderReportBCC from "./Pages/DashboardPCC/Reports/ServiceOrderReport";
+import GoodsOrderReportBCC from "./Pages/DashboardPCC/Reports/GoodsOrderReport";
 function App() {
   return (
     <>
@@ -175,8 +183,40 @@ function App() {
             <Route path="/BusinessCommunity/PMB" element={<PMB />} />
 
             <Route path="/Services" element={<AllServices />} />
-
             <Route path="/Services/AddNew" element={<AddNewService />} />
+
+            <Route
+              path="/Reports/GeneralReports"
+              element={<GeneralReportBCC />}
+            />
+            <Route path="/Reports/MTRReports" element={<MTRReportBCC />} />
+
+            <Route
+              path="/Reports/GoodsOrder"
+              element={<GoodsOrderReportBCC />}
+            />
+            <Route
+              path="/Reports/ServiceOrder"
+              element={<ServiceOrderReportBCC />}
+            />
+
+            <Route
+              path="/Reports/WalletTransactions"
+              element={<WalletTransactionsBCC />}
+            />
+            <Route
+              path="/Reports/EarningTransactions"
+              element={<EarningTransactionsBCC />}
+            />
+
+            <Route
+              path="/Reports/OnlineInvoice"
+              element={<OnlineInvoiceReportBCC />}
+            />
+            <Route
+              path="/Reports/OfflineInvoice"
+              element={<OfflineInvoiceReportBCC />}
+            />
           </Route>
         </Routes>
       </Router>

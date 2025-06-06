@@ -1,25 +1,25 @@
 import React from "react";
 import ProfileProgressCard from "../../../components/DashboardBCC/Homepage/ProfileProgressCard";
-import ServiceOrderTable from "../../../components/DashboardBCC/Report/ServiceOrderTable";
+import WalletTable from "../../../components/DashboardBCC/Report/WalletTable";
 
-const ServiceOrderReportBCC = () => {
+const WalletTransactionsBCC = () => {
   return (
     <div className=" bg-[#faf9f9] overflow-y-auto">
-      <div className="py-6 px-4">
+      <div className="py-6 px-4  overflow-x-auto">
         <h1 className="font-bold text-2xl pb-2">Reports</h1>
         <p className="text-xs text-[#687280] ">
           <span className="text-[#687280]">Dashboard › {"  "} Report </span>{" "}
-          <span className="text-[#687280]">› {"  "}General Report </span>{" "}
+          <span className="text-[#687280]">› {"  "}Payout Report </span>{" "}
           <span className="text-yellow-500">
             {" "}
-            › {"  "} Service Order Report{" "}
+            › {"  "} Wallet Transaction Report{" "}
           </span>{" "}
         </p>
         <ProfileProgressCard completedFields={4} totalFields={10} />
-        <ServiceOrderTable />
+        <WalletTable />
       </div>
     </div>
   );
 };
 
-export default ServiceOrderReportBCC;
+export default WalletTransactionsBCC;

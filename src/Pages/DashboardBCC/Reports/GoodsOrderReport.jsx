@@ -1,8 +1,8 @@
 import React from "react";
-import ProfileProgressCard from "../../../components/DashboardBCC/Homepage/ProfileProgressCard";
-import ServiceOrderTable from "../../../components/DashboardBCC/Report/ServiceOrderTable";
+import ProfileProgressCard from "../../../components/DashboardPCC/Homepage/ProfileProgressCard";
+import GoodsOrderTable from "../../../components/DashboardPCC/Report/GoodsOrderTable";
 
-const ServiceOrderReportBCC = () => {
+const GoodsOrderReport = () => {
   return (
     <div className=" bg-[#faf9f9] overflow-y-auto">
       <div className="py-6 px-4">
@@ -10,16 +10,13 @@ const ServiceOrderReportBCC = () => {
         <p className="text-xs text-[#687280] ">
           <span className="text-[#687280]">Dashboard › {"  "} Report </span>{" "}
           <span className="text-[#687280]">› {"  "}General Report </span>{" "}
-          <span className="text-yellow-500">
-            {" "}
-            › {"  "} Service Order Report{" "}
-          </span>{" "}
+          <span className="text-yellow-500"> › {"  "} Goods Order Report </span>{" "}
         </p>
         <ProfileProgressCard completedFields={4} totalFields={10} />
-        <ServiceOrderTable />
+        <GoodsOrderTable />
       </div>
     </div>
   );
 };
 
-export default ServiceOrderReportBCC;
+export default GoodsOrderReport;

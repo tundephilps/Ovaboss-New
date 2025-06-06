@@ -1,8 +1,8 @@
 import React from "react";
-import ProfileProgressCard from "../../../components/DashboardBCC/Homepage/ProfileProgressCard";
-import ServiceOrderTable from "../../../components/DashboardBCC/Report/ServiceOrderTable";
+import ProfileProgressCard from "../../../components/DashboardPCC/Homepage/ProfileProgressCard";
+import ServiceOrderTable from "../../../components/DashboardPCC/Report/ServiceOrderTable";
 
-const ServiceOrderReportBCC = () => {
+const ServiceOrderReport = () => {
   return (
     <div className=" bg-[#faf9f9] overflow-y-auto">
       <div className="py-6 px-4">
@@ -22,4 +22,4 @@ const ServiceOrderReportBCC = () => {
   );
 };
 
-export default ServiceOrderReportBCC;
+export default ServiceOrderReport;

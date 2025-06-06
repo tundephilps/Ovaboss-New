@@ -1,8 +1,8 @@
 import React from "react";
 import ProfileProgressCard from "../../../components/DashboardBCC/Homepage/ProfileProgressCard";
-import ServiceOrderTable from "../../../components/DashboardBCC/Report/ServiceOrderTable";
+import OfflineInvoiceTable from "../../../components/DashboardBCC/Report/OfflineInvoiceTable";
 
-const ServiceOrderReportBCC = () => {
+const OfflineInvoiceReportBCC = () => {
   return (
     <div className=" bg-[#faf9f9] overflow-y-auto">
       <div className="py-6 px-4">
@@ -10,16 +10,17 @@ const ServiceOrderReportBCC = () => {
         <p className="text-xs text-[#687280] ">
           <span className="text-[#687280]">Dashboard › {"  "} Report </span>{" "}
           <span className="text-[#687280]">› {"  "}General Report </span>{" "}
+          <span className="text-[#687280]">› {"  "}Invoice Report </span>{" "}
           <span className="text-yellow-500">
             {" "}
-            › {"  "} Service Order Report{" "}
+            › {"  "} Offline Invoice Report{" "}
           </span>{" "}
         </p>
         <ProfileProgressCard completedFields={4} totalFields={10} />
-        <ServiceOrderTable />
+        <OfflineInvoiceTable />
       </div>
     </div>
   );
 };
 
-export default ServiceOrderReportBCC;
+export default OfflineInvoiceReportBCC;
