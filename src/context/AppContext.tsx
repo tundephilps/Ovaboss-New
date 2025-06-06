@@ -53,11 +53,11 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
     const init = () => {
         const storedUser = getPersistedStorage("user") as User | null;
 
-        if (!storedUser) {
-            setLoading(false);
-            navigate("/signin");
-            return;
-        }
+        // if (!storedUser) {
+        //     setLoading(false);
+        //     navigate("/signin");
+        //     return;
+        // }
 
         setUser(storedUser);
         setLoading(false);

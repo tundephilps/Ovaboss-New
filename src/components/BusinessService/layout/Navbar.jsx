@@ -144,7 +144,7 @@ const Navbar = () => {
                 </svg>
               </div>
               {/* Profile Dropdown Menu */}
-              {showProfileMenu && (
+              {showProfileMenu && user && (
                 <div className="absolute top-full mt-2 right-0 bg-white shadow-lg rounded-md w-56 py-0 z-50">
                   <div className="px-4 py-2 font-semibold text-gray-800">
                     Hi, { user.firstname }

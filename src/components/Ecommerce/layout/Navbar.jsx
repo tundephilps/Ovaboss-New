@@ -86,7 +86,6 @@ const Navbar = () => {
 
   const handleLogin = () => {
     navigate("/signin");
-    setShowProfileMenu(!showProfileMenu);
   }
 
   return (
@@ -307,11 +306,13 @@ const Navbar = () => {
               }
 
               {/* If User is not logged In */}
-              {/* <button className="w-full text-xs py-3 px-12 border bg-[#E6AE06] border-yellow-400 text-black font-medium rounded hover:bg-yellow-50 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50">
-                Login/Signup
-              </button> */}
+              {!user && 
+                <button onClick={handleLogin} className="w-full text-xs py-3 px-12 border bg-[#E6AE06] border-yellow-400 text-black font-medium rounded hover:bg-yellow-50 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50">
+                  Login/Signup
+                </button>
+              }
 
-              {/* {user &&  */}
+              {user && 
                 <div
                   className="flex items-center text-gray-700 hover:text-gray-900 cursor-pointer"
                   onClick={() => {
@@ -336,7 +337,7 @@ const Navbar = () => {
                     />
                   </svg>
                 </div>
-              {/* } */}
+              }
 
               {/* Profile Dropdown Menu */}
               {showProfileMenu && (
@@ -376,17 +377,18 @@ const Navbar = () => {
                       >
                         <MdOutlineInbox className="mr-2" /> Inbox
                       </a>
+                  
+                  
+                      <div className="border-t mt-2"></div>
+                      <button
+                        onClick={handleLogout}
+                        className="block w-full px-4 py-2 text-center bg-[#E6AE06] text-black font-semibold hover:bg-yellow-600"
+                      >
+                        Logout
+                      </button>
                     </>
                   }
-                  
-                  <div className="border-t mt-2"></div>
-                  <button
-                    onClick={user ? handleLogout : handleLogin}
-                    className="block w-full px-4 py-2 text-center bg-[#E6AE06] text-black font-semibold hover:bg-yellow-600"
-                  >
-                    {user ? "Logout" : "Login"}
-                  </button>
-                </div>
+                 </div> 
               )}
             </div>
           </div>
