@@ -65,6 +65,7 @@ import AllServices from "./Pages/DashboardBCC/Services/AllServices";
 import { AddNewService } from "./Pages/DashboardBCC/Services/AddNewService";
 import AppContextProvider from "./context/AppContext";
 import PasswordUpdate from "./Pages/Auth/PasswordUpdate";
+import VerifyEmail from "./Pages/Auth/VerifyEmail";
 
 function App() {
   return (
@@ -80,6 +81,7 @@ function App() {
               <Route path="/Resetpassword" element={<PasswordReset />} />
               <Route path="/OTP" element={<OTPInput />} />
               <Route path="/UpdatePassword" element={<PasswordUpdate />} />
+              <Route path="/VerifyEmail" element={<VerifyEmail />} />
 
               <Route path="/ProductDetails" element={<ProductDetails />} />
 

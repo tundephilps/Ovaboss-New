@@ -119,6 +119,14 @@ const SignIn = () => {
               </Link>
             </div>
           </div>
+           <div>
+              <Link
+                to="/VerifyEmail"
+                className="text-sm font-medium text-yellow-500 hover:text-yellow-600"
+              >
+                Verify Email?
+              </Link>
+            </div>
           {/* Sign Up Button */}
 
           <button

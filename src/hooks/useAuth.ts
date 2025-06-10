@@ -28,7 +28,11 @@ const useAuth = () => {
             code: "",
             password: "",
             password_confirmation: "",
-        }
+        },
+        verifyEmail: {
+            email: "",
+            purpose: "Email Verification"
+        },
     })
     const [ responses, setResponses ] = React.useState({
         forgotPassword: {
@@ -204,6 +208,27 @@ const useAuth = () => {
         }
     }
 
+    const handleVerifyEmail = async (event: Event) => {
+        event.preventDefault();
+
+        try {
+            const { email } = inputs.verifyEmail;
+
+            if(!email) throw new Error("Enter email address");
+
+            setIsLoading(true);
+
+            await axiosClient.post("user/request-otp", inputs.verifyEmail);
+
+            navigate("/OTP");
+             
+        } catch(error) {
+             toast.error(error.message);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return {
         inputs,
         isLoading,
@@ -214,6 +239,7 @@ const useAuth = () => {
         handleForgotPassword,
         handleValidateOtp,
         handleResetPassword,
+        handleVerifyEmail,
     }
 }
 
