@@ -47,6 +47,9 @@ import LAA from "./Pages/DashboardPCC/Wallets/LAA";
 import SignOn from "./Pages/DashboardPCC/Wallets/SignOn";
 import BuyOn from "./Pages/DashboardPCC/Wallets/BuyOn";
 import MTR from "./Pages/DashboardPCC/MTR";
+import ServiceOrderReportBCC from "./Pages/DashboardPCC/Reports/ServiceOrderReport";
+import GoodsOrderReportBCC from "./Pages/DashboardPCC/Reports/GoodsOrderReport";
+
 import CreateBusiness from "./Pages/DashboardBCC/Business/CreateBusiness";
 import AllOrders from "./Pages/DashboardBCC/Orders/AllOrders";
 import AllBusinesses from "./Pages/DashboardBCC/Business/AllBusinesses";
@@ -69,8 +72,8 @@ import WalletTransactionsBCC from "./Pages/DashboardBCC/Reports/WalletTransactio
 import EarningTransactionsBCC from "./Pages/DashboardBCC/Reports/EarningTransactions";
 import OnlineInvoiceReportBCC from "./Pages/DashboardBCC/Reports/OnlineInvoiceReport";
 import OfflineInvoiceReportBCC from "./Pages/DashboardBCC/Reports/OfflineInvoiceReport";
-import ServiceOrderReportBCC from "./Pages/DashboardPCC/Reports/ServiceOrderReport";
-import GoodsOrderReportBCC from "./Pages/DashboardPCC/Reports/GoodsOrderReport";
+import OfflineSalesInvoice from "./Pages/DashboardBCC/Orders/OfflineSalesInvoice";
+import OnlineSalesInvoice from "./Pages/DashboardBCC/Orders/OnlineSalesInvoice";
 function App() {
   return (
     <>
@@ -177,6 +180,14 @@ function App() {
             <Route
               path="/Orders/UnfulfilledOrders"
               element={<UnfulfilledOrders />}
+            />
+            <Route
+              path="/Orders/OfflineSalesInvoice"
+              element={<OfflineSalesInvoice />}
+            />
+            <Route
+              path="/Orders/OnlineSalesInvoice"
+              element={<OnlineSalesInvoice />}
             />
 
             <Route path="/BusinessCommunity/AQB" element={<AQB />} />

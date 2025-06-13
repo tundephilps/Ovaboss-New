@@ -1,6 +1,6 @@
 import React from "react";
-import ProfileProgressCard from "../../../components/DashboardBCC/Homepage/ProfileProgressCard";
-import ServiceOrderTable from "../../../components/DashboardBCC/Report/ServiceOrderTable";
+import ProfileProgressCard from "../../../components/DashboardPCC/Homepage/ProfileProgressCard";
+import ServiceOrderTable from "../../../components/DashboardPCC/Report/ServiceOrderTable";
 
 const ServiceOrderReportBCC = () => {
   return (

@@ -20,6 +20,7 @@ import BusinessInfoCard from "../../components/Ecommerce/ProductDetails/Business
 import LoginModal from "../../components/Ecommerce/ProductDetails/LoginModal";
 import OrderOptionsModal from "../../components/Ecommerce/ProductDetails/OrderOptionsModal";
 import ImageSlider from "../../components/Ecommerce/ProductDetails/ImageSlider";
+import ProductSpecifications from "../../components/Ecommerce/ProductDetails/ProductSpecifications";
 
 const ProductDetails = () => {
   const [isModalOpen, setModalOpen] = useState(true);
@@ -207,6 +208,7 @@ const ProductDetails = () => {
           </div>
 
           <Details />
+          <ProductSpecifications />
           <SponsoredProducts />
           <AlsoLike />
         </div>

@@ -4,8 +4,8 @@ import { BsTwitterX } from "react-icons/bs";
 
 export default function Footer() {
   return (
-    <footer className="bg-black text-white px-6 py-10">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-8">
+    <footer className="bg-black text-white px-4 lg:px-12  py-10">
+      <div className="mx-auto grid grid-cols-1 md:grid-cols-5 gap-8">
         {/* Logo and Contact */}
         <div className="space-y-4">
           <img src={Logo} className="text-white" />

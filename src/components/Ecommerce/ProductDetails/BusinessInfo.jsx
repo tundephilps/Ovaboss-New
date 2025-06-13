@@ -5,9 +5,6 @@ export default function BusinessInfoCard() {
   return (
     <div className="bg-white p-4 rounded-md shadow-md mx-auto">
       {/* Top Right Button */}
-      <button className="absolute top-2 right-2 bg-orange-100 text-orange-800 text-sm px-3 py-1 rounded">
-        View Business store
-      </button>
 
       <div className="inline-flex items-center justify-between w-full mb-2 border-b pb-2">
         <h3 className="font-semibold ">Business Info</h3>
