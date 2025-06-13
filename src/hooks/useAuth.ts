@@ -1,6 +1,6 @@
 import React from "react";
 import toast from "react-hot-toast";
-import axiosClient from "../utils/axiosclient";
+import axiosClient from "../utils/axiosClient";
 import { useAppContext } from "../context/AppContext";
 import { useNavigate } from "react-router-dom";
 
@@ -199,7 +199,7 @@ const useAuth = () => {
 
             await axiosClient.post("user/otp-verification", { code });
 
-            navigate("");
+            navigate("/");
 
         } catch(error) {
             toast.error(error.message);
