@@ -74,6 +74,9 @@ import OnlineInvoiceReportBCC from "./Pages/DashboardBCC/Reports/OnlineInvoiceRe
 import OfflineInvoiceReportBCC from "./Pages/DashboardBCC/Reports/OfflineInvoiceReport";
 import OfflineSalesInvoice from "./Pages/DashboardBCC/Orders/OfflineSalesInvoice";
 import OnlineSalesInvoice from "./Pages/DashboardBCC/Orders/OnlineSalesInvoice";
+import PickupLocation from "./Pages/DashboardBCC/Goods/PickupLocation";
+import AllGoods from "./Pages/DashboardBCC/Goods/AllGoods";
+import Promotions from "./Pages/DashboardBCC/Goods/Promotions";
 function App() {
   return (
     <>
@@ -228,6 +231,10 @@ function App() {
               path="/Reports/OfflineInvoice"
               element={<OfflineInvoiceReportBCC />}
             />
+            <Route path="/Goods/PickupLocations" element={<PickupLocation />} />
+            <Route path="/Goods/AllGoods" element={<AllGoods />} />
+
+            <Route path="/Goods/AddNewGoods" element={<Promotions />} />
           </Route>
         </Routes>
       </Router>

@@ -42,21 +42,21 @@ const PurchaseChart = () => {
           <Tooltip formatter={(value) => `£${value}`} />
           <Legend />
           <Line
-            type="monotone"
+            type="linear"
             dataKey="Online"
             stroke="#4285F4"
             strokeWidth={2}
             activeDot={{ r: 6 }}
           />
           <Line
-            type="monotone"
+            type="linear"
             dataKey="Inland"
             stroke="#fbbc04"
             strokeWidth={2}
             activeDot={{ r: 6 }}
           />
           <Line
-            type="monotone"
+            type="linear"
             dataKey="Mobile"
             stroke="#ea4335"
             strokeWidth={2}

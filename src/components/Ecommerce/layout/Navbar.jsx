@@ -326,36 +326,36 @@ const Navbar = () => {
                   <div className="px-4 py-2 font-semibold text-gray-800">
                     Hi, Alexander
                   </div>
-                  <a
-                    href="/#"
+                  <Link
+                    to="/PCCDashboard"
                     className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
                   >
                     <VscDashboard className="mr-2" /> My Dashboard
-                  </a>
-                  <a
-                    href="/#"
+                  </Link>
+                  <Link
+                    to="/#"
                     className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
                   >
                     <BsBoxSeam className="mr-2" /> Orders
-                  </a>
-                  <a
-                    href="/#"
+                  </Link>
+                  <Link
+                    to="/#"
                     className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
                   >
                     <PiWallet className="mr-2" /> Wallet
-                  </a>
-                  <a
-                    href="/#"
+                  </Link>
+                  <Link
+                    to="/#"
                     className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
                   >
                     <IoLocationOutline className="mr-2" /> Track My Orders
-                  </a>
-                  <a
-                    href="/#"
+                  </Link>
+                  <Link
+                    to="/#"
                     className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
                   >
                     <MdOutlineInbox className="mr-2" /> Inbox
-                  </a>
+                  </Link>
                   <div className="border-t mt-2"></div>
                   <Link
                     to="/Signin"

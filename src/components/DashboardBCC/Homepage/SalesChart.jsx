@@ -28,7 +28,7 @@ const data = [
 
 const SalesChart = () => {
   return (
-    <div className="bg-white p-6 rounded-xl shadow-md w-full mt-8  mx-auto">
+    <div className="bg-white p-6 rounded-xl shadow-md w-full  mx-auto mt-8">
       <h2 className="text-xl font-semibold text-center mb-1">Total Sales</h2>
       <p className="text-center text-sm text-gray-500 mb-4">
         This graph shows your total sales across each month
@@ -42,21 +42,21 @@ const SalesChart = () => {
           <Tooltip formatter={(value) => `£${value}`} />
           <Legend />
           <Line
-            type="monotone"
+            type="linear"
             dataKey="Online"
             stroke="#4285F4"
             strokeWidth={2}
             activeDot={{ r: 6 }}
           />
           <Line
-            type="monotone"
+            type="linear"
             dataKey="Inland"
             stroke="#fbbc04"
             strokeWidth={2}
             activeDot={{ r: 6 }}
           />
           <Line
-            type="monotone"
+            type="linear"
             dataKey="Mobile"
             stroke="#ea4335"
             strokeWidth={2}

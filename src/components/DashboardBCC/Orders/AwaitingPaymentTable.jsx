@@ -98,9 +98,34 @@ const statusColors = {
   Cancelled: "text-red-600",
 };
 
+// Dropdown content data
+const filterMenuOptions = {
+  Date: [
+    "Last 3 Days",
+    "Last 7 Days",
+    "Last 2 Weeks",
+    "Last 1 Month",
+    "Last 3 Months",
+    "Last Year",
+  ],
+  "Order Status": [
+    "Pending",
+    "Processing",
+    "Shipped",
+    "Delivered",
+    "Cancelled",
+  ],
+  Amount: ["0-1000", "1000-10000", "10000-above"],
+};
+
 export default function AwaitingPaymentTable() {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const totalAmount = orders.reduce((sum, o) => sum + o.amount, 0);
+  const [activeFilterMenu, setActiveFilterMenu] = useState(null);
+
+  const handleFilterToggle = (menuName) => {
+    setActiveFilterMenu((prev) => (prev === menuName ? null : menuName));
+  };
 
   const handleDropdownToggle = (index) => {
     setActiveDropdown(activeDropdown === index ? null : index);
@@ -132,15 +157,35 @@ export default function AwaitingPaymentTable() {
         </h2>
         <div className="flex gap-4 items-center  whitespace-nowrap">
           <p className="font-semibold text-sm lg:flex hidden ">Sort By</p>
-          {["Date", "Order Status", "Amount"].map((label) => (
-            <div key={label} className="relative">
-              <button className="border px-4 py-2 rounded bg-gray-50 flex items-center text-xs gap-6">
-                <div className="inline-flex items-center gap-1">
-                  <VscSettings className="text-black text-xs" />
-                  {label}
+          {Object.entries(filterMenuOptions).map(([menuName, menuItems]) => (
+            <div key={menuName} className="relative">
+              <button
+                onClick={() => handleFilterToggle(menuName)}
+                className="border px-4 py-2 rounded bg-gray-50 flex items-center text-xs gap-6"
+              >
+                <div className="inline-flex items-center gap-1 text-black">
+                  <VscSettings className="text-xs" />
+                  {menuName}
                 </div>
                 <MdKeyboardArrowDown />
               </button>
+
+              {activeFilterMenu === menuName && (
+                <div className="absolute left-0 top-12 bg-white rounded shadow p-2 text-sm w-44 z-10">
+                  {menuItems.map((item) => (
+                    <div
+                      key={item}
+                      className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => {
+                        console.log(`${menuName} selected:`, item);
+                        setActiveFilterMenu(null);
+                      }}
+                    >
+                      {item}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>

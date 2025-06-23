@@ -64,7 +64,7 @@ const menuItems = [
     children: [
       { label: "All PickUp Locations", path: "/Goods/PickupLocations" },
       { label: "All Goods", path: "/Goods/AllGoods" },
-      { label: "Add New Goods", path: "/Goods/AddNew" },
+      { label: "Promotion", path: "/Goods/AddNewGoods" },
     ],
   },
 
