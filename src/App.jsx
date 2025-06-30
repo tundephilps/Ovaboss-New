@@ -77,6 +77,7 @@ import OnlineSalesInvoice from "./Pages/DashboardBCC/Orders/OnlineSalesInvoice";
 import PickupLocation from "./Pages/DashboardBCC/Goods/PickupLocation";
 import AllGoods from "./Pages/DashboardBCC/Goods/AllGoods";
 import Promotions from "./Pages/DashboardBCC/Goods/Promotions";
+import AddNewGoods from "./Pages/DashboardBCC/Goods/AddNewGoods";
 function App() {
   return (
     <>
@@ -234,7 +235,8 @@ function App() {
             <Route path="/Goods/PickupLocations" element={<PickupLocation />} />
             <Route path="/Goods/AllGoods" element={<AllGoods />} />
 
-            <Route path="/Goods/AddNewGoods" element={<Promotions />} />
+            <Route path="/Goods/AddNewGoods" element={<AddNewGoods />} />
+            {/* <Route path="/Goods/AddNewGoods" element={<Promotions />} /> */}
           </Route>
         </Routes>
       </Router>
