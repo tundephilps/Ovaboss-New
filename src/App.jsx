@@ -78,6 +78,10 @@ import PickupLocation from "./Pages/DashboardBCC/Goods/PickupLocation";
 import AllGoods from "./Pages/DashboardBCC/Goods/AllGoods";
 import Promotions from "./Pages/DashboardBCC/Goods/Promotions";
 import AddNewGoods from "./Pages/DashboardBCC/Goods/AddNewGoods";
+import SignOnBCC from "./Pages/DashboardBCC/Wallets/SignOn";
+import BuyOnBCC from "./Pages/DashboardBCC/Wallets/BuyOn";
+import SellOnBCC from "./Pages/DashboardBCC/Wallets/SellOn";
+import BraBCC from "./Pages/DashboardBCC/Wallets/Bra";
 function App() {
   return (
     <>
@@ -196,6 +200,14 @@ function App() {
 
             <Route path="/BusinessCommunity/AQB" element={<AQB />} />
             <Route path="/BusinessCommunity/PMB" element={<PMB />} />
+
+            <Route path="/Wallets/BCCSignon" element={<SignOnBCC />} />
+
+            <Route path="/Wallets/BCCBuyon" element={<BuyOnBCC />} />
+
+            <Route path="/Wallets/SELLOn" element={<SellOnBCC />} />
+
+            <Route path="/Wallets/BRA" element={<BraBCC />} />
 
             <Route path="/Services" element={<AllServices />} />
             <Route path="/Services/AddNew" element={<AddNewService />} />

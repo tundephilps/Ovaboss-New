@@ -1,15 +1,13 @@
-import React from "react";
-import ProfileProgressCard from "../../../components/DashboardPCC/Homepage/ProfileProgressCard";
-// import PCMtable from "../../../components/DashboardPCC/MyCommunity/PCMtable";
-// import Pagination from "../../../components/DashboardPCC/MyCommunity/Pagination";
-import SignOnCard from "../../../components/DashboardPCC/Wallet/SignOnCard";
-import SignOnForm from "../../../components/DashboardPCC/Wallet/SignOnForm";
-import SignOnTab from "../../../components/DashboardPCC/Wallet/SignOnTab";
-import SignOnForm2 from "../../../components/DashboardPCC/Wallet/SignOnForm2";
-import { FaChevronDown, FaFile, FaFolder } from "react-icons/fa";
-import { useState } from "react";
+import React, { useState } from "react";
+import ChangeBusiness from "../../../components/DashboardBCC/Homepage/ChangeBusiness";
 
-const SignOn = () => {
+import { FaChevronDown, FaFile, FaFolder } from "react-icons/fa";
+import SellOnForm from "../../../components/DashboardBCC/Wallet/SellOnForm";
+import SellOnForm2 from "../../../components/DashboardBCC/Wallet/SellOnForm2";
+import SellOnCard from "../../../components/DashboardBCC/Wallet/SellOnCard";
+import SellOnTab from "../../../components/DashboardBCC/Wallet/SellOnTab";
+
+const SellOnBCC = () => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState("Transfer to Wallet");
 
@@ -20,27 +18,23 @@ const SignOn = () => {
 
   // Dummy components for switching content
   function TransferToWallet() {
-    return <SignOnForm />;
+    return <SellOnForm />;
   }
 
   function TransferToBank() {
-    return <SignOnForm2 />;
+    return <SellOnForm2 />;
   }
-
   return (
     <div className=" bg-[#faf9f9] overflow-y-auto">
+      <ChangeBusiness />
       <div className="py-6 px-4">
-        <h1 className="font-bold text-2xl pb-2">Wallet</h1>
+        <h1 className="font-bold text-2xl pb-2">Wallets</h1>
         <p className="text-xs text-[#687280] ">
-          <span className="text-[#687280]">
-            Dashboard › {"  "} All Wallet Transactions{" "}
-          </span>{" "}
+          Dashboard ›<span> All Wallet Transactions ›</span>
           <span className="text-yellow-500">
-            {" "}
-            › {"  "} SIGNON Transactions{" "}
+            {"  "} BCC SELLON Wallet Transactions{" "}
           </span>{" "}
         </p>
-        <ProfileProgressCard completedFields={4} totalFields={10} />
 
         <div className="mx-auto bg-white rounded-xl  p-4 my-6 ">
           <div className="flex justify-between pb-4">
@@ -73,17 +67,18 @@ const SignOn = () => {
             </div>
           </div>
 
-          <SignOnCard />
+          <SellOnCard />
 
           {/* Dynamic Component Below */}
           {selected === "Transfer to Wallet" && <TransferToWallet />}
           {selected === "Transfer to Bank" && <TransferToBank />}
         </div>
 
-        <SignOnTab />
+        <SellOnTab />
       </div>
+      {/* <PMBTable /> */}
     </div>
   );
 };
 
-export default SignOn;
+export default SellOnBCC;
