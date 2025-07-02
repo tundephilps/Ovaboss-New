@@ -105,7 +105,7 @@ const AllGoodsTable = () => {
 
         <button
           onClick={() => setShowModal(true)}
-          className="flex items-center text-xs gap-2 bg-[#e6ae06] hover:bg-yellow-600 text-white font-semibold px-4 py-2 rounded"
+          className="flex items-center text-xs gap-2 bg-[#FFD700] hover:bg-yellow-600 text-white font-semibold px-4 py-2 rounded"
         >
           <FiPlus />
           Add Product

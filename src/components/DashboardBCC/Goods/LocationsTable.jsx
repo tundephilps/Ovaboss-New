@@ -29,7 +29,7 @@ export default function LocationsTable() {
       <div className="flex justify-end mb-4">
         <button
           onClick={() => setShowModal(true)}
-          className="flex items-center text-xs gap-2 bg-[#e6ae06] hover:bg-yellow-600 text-white font-semibold px-4 py-2 rounded"
+          className="flex items-center text-xs gap-2 bg-[#FFD700] hover:bg-yellow-600 text-white font-semibold px-4 py-2 rounded"
         >
           <FiPlus />
           Add Location
@@ -107,7 +107,7 @@ export default function LocationsTable() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-[#e6ae06] hover:bg-yellow-600 text-black rounded"
+                  className="px-4 py-2 bg-[#FFD700] hover:bg-yellow-600 text-black rounded"
                 >
                   Save Location
                 </button>

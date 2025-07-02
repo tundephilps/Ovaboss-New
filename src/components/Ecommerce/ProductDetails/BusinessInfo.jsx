@@ -34,7 +34,7 @@ export default function BusinessInfoCard() {
       {/* Contact Button */}
       <Link to="/BusinessPage">
         {" "}
-        <button className="w-full mt-4 bg-[#e6ae06] hover:bg-yellow-600 text-black font-semibold py-2 rounded">
+        <button className="w-full mt-4 bg-[#FFD700] hover:bg-yellow-600 text-black font-semibold py-2 rounded">
           Contact Business
         </button>
       </Link>

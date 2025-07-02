@@ -95,8 +95,8 @@ const SignUpPage = () => {
             <button
               className={`w-full py-2 rounded-md text-center font-medium ${
                 selectedType
-                  ? "bg-[#e6ae06] text-[#202020] hover:bg-yellow-600"
-                  : "bg-[#e6ae06] text-white opacity-90"
+                  ? "bg-[#FFD700] text-[#202020] hover:bg-yellow-600"
+                  : "bg-[#FFD700] text-white opacity-90"
               }`}
             >
               Continue

@@ -79,7 +79,7 @@ export default function Footer() {
               placeholder="Email Address"
               className="w-full p-2 text-black rounded-l-md"
             />
-            <button className="bg-[#e6ae06] text-black px-4 text-xs rounded-r-md font-bold">
+            <button className="bg-[#FFD700] text-black px-4 text-xs rounded-r-md font-bold">
               Subscribe
             </button>
           </div>

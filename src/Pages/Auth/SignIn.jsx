@@ -118,7 +118,7 @@ const SignIn = () => {
           <Link to="/">
             <button
               type="submit"
-              className="w-full bg-[#E6AE06] hover:bg-yellow-600 text-[#202020] py-2 rounded-md font-medium mt-4"
+              className="w-full bg-[#FFD700] hover:bg-yellow-600 text-[#202020] py-2 rounded-md font-medium mt-4"
             >
               Log In
             </button>

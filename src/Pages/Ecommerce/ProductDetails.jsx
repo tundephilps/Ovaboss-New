@@ -190,7 +190,7 @@ const ProductDetails = () => {
               <button
                 // onClick={() => setModalOpen(true)}
                 onClick={() => setIsOpen(true)}
-                className="w-full mt-4 bg-[#e6ae06] hover:bg-yellow-500 text-black py-2 rounded-md font-semibold flex items-center justify-center gap-2"
+                className="w-full mt-4 bg-[#FFD700] hover:bg-yellow-500 text-black py-2 rounded-md font-semibold flex items-center justify-center gap-2"
               >
                 🛒 Add to cart
               </button>

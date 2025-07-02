@@ -191,7 +191,7 @@ const ContactUs = ({ onSubmit }) => {
                         </div>
                       </div>
                       <button
-                        className="bg-[#E6AE06] rounded-xl pt-3 pr-spacing-padding-s pb-3 pl-spacing-padding-s flex flex-row gap-spacing-gap-xs items-center justify-center w-[100%] shrink-0 max-w-[501px] relative overflow-hidden"
+                        className="bg-[#FFD700] rounded-xl pt-3 pr-spacing-padding-s pb-3 pl-spacing-padding-s flex flex-row gap-spacing-gap-xs items-center justify-center w-[100%] shrink-0 max-w-[501px] relative overflow-hidden"
                         style={{ transition: "background-color 0.3s ease" }}
                         onMouseEnter={(e) =>
                           (e.currentTarget.style.backgroundColor = "#CC9A06")

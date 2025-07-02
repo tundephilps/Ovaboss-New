@@ -29,7 +29,7 @@ const Map = () => {
 
             {/* Header */}
             <div className="flex items-start mb-2">
-              <div className="bg-[#E6AE06] p-2 rounded-md mr-3">
+              <div className="bg-[#FFD700] p-2 rounded-md mr-3">
                 <FaStore className="text-white" />
               </div>
               <div>
@@ -43,7 +43,7 @@ const Map = () => {
             </div>
 
             {/* Directions Button */}
-            <button className="bg-[#E6AE06] text-black px-4 py-2 rounded-md hover:bg-yellow-500">
+            <button className="bg-[#FFD700] text-black px-4 py-2 rounded-md hover:bg-yellow-500">
               Directions
             </button>
           </div>

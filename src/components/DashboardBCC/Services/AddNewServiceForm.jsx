@@ -197,7 +197,7 @@ export default function AddNEwServiceForm() {
         <div className="p-2 border-2 rounded-md px-6 text-sm cursor-pointer hover:bg-gray-200">
           Reset
         </div>
-        <div className="p-2 border rounded-md px-6 text-sm cursor-pointer bg-[#e6ae06] hover:bg-yellow-600">
+        <div className="p-2 border rounded-md px-6 text-sm cursor-pointer bg-[#FFD700] hover:bg-yellow-600">
           Submit
         </div>
       </div>

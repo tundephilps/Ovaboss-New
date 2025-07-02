@@ -69,7 +69,7 @@ export default function BuyOnForm2() {
         <div className="text-right">
           <button
             type="submit"
-            className="bg-[#E6AE06] text-white px-5 py-2 rounded hover:bg-yellow-600 text-sm font-medium"
+            className="bg-[#FFD700] text-white px-5 py-2 rounded hover:bg-yellow-600 text-sm font-medium"
           >
             Submit
           </button>
