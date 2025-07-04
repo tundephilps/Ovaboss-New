@@ -94,7 +94,7 @@ const PaymentPage = () => {
             <div className="flex justify-end">
               <button
                 onClick={handleDone}
-                className="bg-[#e6ae06] hover:bg-yellow-600 text-white font-medium py-2 px-12 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50 transition-colors"
+                className="bg-[#FFD700] hover:bg-yellow-600 text-white font-medium py-2 px-12 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50 transition-colors"
               >
                 Done
               </button>
@@ -144,7 +144,7 @@ const PaymentPage = () => {
               </div>
             </div>
             <div className="flex flex-col sm:flex-row gap-2 w-full">
-              <button className="w-full text-white hover:text-black py-2 px-4 whitespace-nowrap rounded hover:bg-yellow-600 bg-[#e6ae06] font-medium flex items-center justify-center">
+              <button className="w-full text-white hover:text-black py-2 px-4 whitespace-nowrap rounded hover:bg-yellow-600 bg-[#FFD700] font-medium flex items-center justify-center">
                 Proceed to Checkout
                 <BiChevronRight className="ml-1" />
               </button>

@@ -58,7 +58,7 @@ const DeliveryAddressForm = () => {
             >
               Edit
             </button>
-            <button className="px-8 py-2 rounded-md bg-[#e6ae06] text-white hover:text-black hover:bg-yellow-600">
+            <button className="px-8 py-2 rounded-md bg-[#FFD700] text-white hover:text-black hover:bg-yellow-600">
               Use Address
             </button>
           </div>
@@ -182,7 +182,7 @@ const DeliveryAddressForm = () => {
             </button>
             <button
               type="submit"
-              className="px-12 py-2 rounded-md bg-[#e6ae06] text-white hover:text-black hover:bg-yellow-600"
+              className="px-12 py-2 rounded-md bg-[#FFD700] text-white hover:text-black hover:bg-yellow-600"
             >
               Save
             </button>

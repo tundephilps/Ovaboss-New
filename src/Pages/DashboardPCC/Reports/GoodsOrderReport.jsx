@@ -2,7 +2,7 @@ import React from "react";
 import ProfileProgressCard from "../../../components/DashboardPCC/Homepage/ProfileProgressCard";
 import GoodsOrderTable from "../../../components/DashboardPCC/Report/GoodsOrderTable";
 
-const GoodsOrderReport = () => {
+const GoodsOrderReportBCC = () => {
   return (
     <div className=" bg-[#faf9f9] overflow-y-auto">
       <div className="py-6 px-4">
@@ -19,4 +19,4 @@ const GoodsOrderReport = () => {
   );
 };
 
-export default GoodsOrderReport;
+export default GoodsOrderReportBCC;

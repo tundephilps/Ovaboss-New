@@ -20,6 +20,7 @@ import BusinessInfoCard from "../../components/Ecommerce/ProductDetails/Business
 import LoginModal from "../../components/Ecommerce/ProductDetails/LoginModal";
 import OrderOptionsModal from "../../components/Ecommerce/ProductDetails/OrderOptionsModal";
 import ImageSlider from "../../components/Ecommerce/ProductDetails/ImageSlider";
+import ProductSpecifications from "../../components/Ecommerce/ProductDetails/ProductSpecifications";
 
 const ProductDetails = () => {
   const [isModalOpen, setModalOpen] = useState(true);
@@ -189,7 +190,7 @@ const ProductDetails = () => {
               <button
                 // onClick={() => setModalOpen(true)}
                 onClick={() => setIsOpen(true)}
-                className="w-full mt-4 bg-[#e6ae06] hover:bg-yellow-500 text-black py-2 rounded-md font-semibold flex items-center justify-center gap-2"
+                className="w-full mt-4 bg-[#FFD700] hover:bg-yellow-500 text-black py-2 rounded-md font-semibold flex items-center justify-center gap-2"
               >
                 🛒 Add to cart
               </button>
@@ -207,6 +208,7 @@ const ProductDetails = () => {
           </div>
 
           <Details />
+          <ProductSpecifications />
           <SponsoredProducts />
           <AlsoLike />
         </div>

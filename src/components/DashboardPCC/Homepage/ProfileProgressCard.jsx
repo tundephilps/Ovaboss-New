@@ -27,7 +27,7 @@ const ProfileProgressCard = ({ completedFields = 4, totalFields = 10 }) => {
         experience.
       </p>
 
-      <button className="bg-[#e6ae06] text-white font-semibold text-sm px-4 py-2 rounded hover:bg-yellow-600 transition">
+      <button className="bg-[#FFD700] text-white font-semibold text-sm px-4 py-2 rounded hover:bg-yellow-600 transition">
         Complete My Profile
       </button>
     </div>

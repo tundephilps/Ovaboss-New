@@ -176,7 +176,7 @@ export default function BuyOnTab() {
         {activeTab === "wallet" && (
           <div>
             <h2 className="text-lg font-semibold text-gray-800 mb-4">
-              LAA Transactions
+              BUYON Transactions
             </h2>
             {renderLAATransactions()}
           </div>

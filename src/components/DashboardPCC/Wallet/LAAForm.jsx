@@ -2,7 +2,7 @@ import { FaChevronDown } from "react-icons/fa";
 
 export default function LAAForm() {
   return (
-    <div className="mx-auto bg-white shadow-md rounded-xl p-6 space-y-6">
+    <div className="mx-auto bg-white  p-6 space-y-6">
       <h2 className="text-lg font-semibold border-b pb-2">
         Personal Inter-Wallet Transfer
       </h2>
@@ -80,7 +80,7 @@ export default function LAAForm() {
         <div className="text-right">
           <button
             type="submit"
-            className="bg-[#] text-white px-5 py-2 rounded hover:bg-yellow-600 text-sm font-medium"
+            className="bg-[#FFD700] text-white px-5 py-2 rounded hover:bg-yellow-600 text-sm font-medium"
           >
             Submit
           </button>

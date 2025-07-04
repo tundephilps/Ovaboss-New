@@ -79,7 +79,7 @@ const HowItWorks = () => {
         ))}
       </div>
 
-      <button className="bg-[#E6AE06] hover:bg-yellow-600 mt-12 text-black font-bold w-[420px] py-4 rounded transition-colors">
+      <button className="bg-[#FFD700] hover:bg-yellow-600 mt-12 text-black font-bold w-[420px] py-4 rounded transition-colors">
         Start selling now
       </button>
     </section>

@@ -157,7 +157,7 @@ const ServiceChat = () => {
                 <span className="text-xs text-green-600">Online</span>
               </div>
             </div>
-            <button className="bg-[#e6ae06] hover:bg-yellow-500 text-sm px-4 py-2 rounded text-white font-medium">
+            <button className="bg-[#FFD700] hover:bg-yellow-500 text-sm px-4 py-2 rounded text-white font-medium">
               Create Milestone
             </button>
           </div>
@@ -214,7 +214,7 @@ const ServiceChat = () => {
             />
             <button
               onClick={handleSend}
-              className="bg-[#e6ae06] hover:bg-yellow-500 text-white font-semibold px-4 py-2 rounded"
+              className="bg-[#FFD700] hover:bg-yellow-500 text-white font-semibold px-4 py-2 rounded"
             >
               Send
             </button>

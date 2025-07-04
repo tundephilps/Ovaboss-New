@@ -111,7 +111,7 @@ const TopServices = () => {
         ))}
       </div>
 
-      <div className="bg-[#e6ae06] hover:bg-yellow-600 py-2 cursor-pointer font-semibold px-12 w-fit mx-auto flex items-center justify-center rounded-md mt-12">
+      <div className="bg-[#FFD700] hover:bg-yellow-600 py-2 cursor-pointer font-semibold px-12 w-fit mx-auto flex items-center justify-center rounded-md mt-12">
         More
       </div>
 

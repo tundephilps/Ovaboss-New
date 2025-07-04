@@ -29,7 +29,7 @@ const PaymentSuccessModal = ({ isOpen, onClose }) => {
           </p>
 
           <div className="bg-[#ffffff] p-4  rounded shadow text-left text-sm relative">
-            <div className="px-2 py-1 -top-4 right-[43%] bg-[#E6AE06] text-[10px] absolute rounded-full">
+            <div className="px-2 py-1 -top-4 right-[43%] bg-[#FFD700] text-[10px] absolute rounded-full">
               Transaction Details
             </div>
             <div className="grid grid-cols-2 gap-4">

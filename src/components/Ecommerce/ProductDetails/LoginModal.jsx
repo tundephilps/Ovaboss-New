@@ -16,7 +16,7 @@ const LoginModal = ({ isOpen, onClose }) => {
 
         {/* Title */}
         <h2 className="text-xl font-bold text-center mb-2">Member’s Login</h2>
-        <div className="w-[250px] h-1 bg-[#E6AE06] mx-auto mb-6 rounded" />
+        <div className="w-[250px] h-1 bg-[#FFD700] mx-auto mb-6 rounded" />
 
         {/* Email */}
         <label className="block text-sm font-medium text-gray-700">Email</label>
@@ -43,7 +43,7 @@ const LoginModal = ({ isOpen, onClose }) => {
         </div>
 
         {/* Login Button */}
-        <button className="w-full bg-[#E6AE06] hover:bg-yellow-500 text-white font-bold py-2 rounded-lg mb-4">
+        <button className="w-full bg-[#FFD700] hover:bg-yellow-500 text-white font-bold py-2 rounded-lg mb-4">
           Log In
         </button>
 

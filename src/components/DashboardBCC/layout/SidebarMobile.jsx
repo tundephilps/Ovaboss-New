@@ -41,7 +41,6 @@ const menuItems = [
 
       { label: "Dispatched Orders", path: "/Orders/DispatchedOrders" },
       { label: "Completed Orders", path: "/Orders/CompleteOrders" },
-
       { label: "Unfulfilled Orders", path: "/Orders/UnfulfilledOrders" },
       {
         label: "General Online Sales Invoice",
@@ -106,14 +105,15 @@ const menuItems = [
         label: "General Reports",
         path: "/Reports/General",
         children: [
-          { label: "MTR Order Report", path: "/reports/general/mtr-order" },
+          { label: "General Report", path: "/Reports/GeneralReports" },
+          { label: "MTR Order Report", path: "/Reports/MTRReports" },
           {
             label: "Goods Order Reports",
-            path: "/reports/general/goods-order",
+            path: "/Reports/GoodsOrder",
           },
           {
             label: "Service Order Reports",
-            path: "/reports/general/service-order",
+            path: "/Reports/ServiceOrder",
           },
         ],
       },
@@ -123,20 +123,20 @@ const menuItems = [
         children: [
           {
             label: "Wallet Transactions",
-            path: "/reports/payout/wallet-transactions",
+            path: "/Reports/WalletTransactions",
           },
           {
             label: "Earning Transactions",
-            path: "/reports/payout/earning-transactions",
+            path: "/Reports/EarningTransactions",
           },
         ],
       },
       {
         label: "Invoice Report",
-        path: "/reports/invoice",
+        path: "/Reports/invoice",
         children: [
-          { label: "Online Invoice Report", path: "/reports/invoice/online" },
-          { label: "Offline Invoice Report", path: "/reports/invoice/offline" },
+          { label: "Online Invoice Report", path: "/Reports/OnlineInvoice" },
+          { label: "Offline Invoice Report", path: "/Reports/OfflineInvoice" },
         ],
       },
     ],
@@ -154,10 +154,9 @@ const menuItems = [
   {
     icon: <FaCartShopping className="text-xl" />,
     label: "Switch to PCC",
-    path: "/store",
+    path: "/PCCDashboard",
   },
 ];
-
 const SidebarItem = ({ item, isCollapsed }) => {
   const [open, setOpen] = useState(false);
 

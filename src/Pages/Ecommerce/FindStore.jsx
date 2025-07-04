@@ -126,7 +126,7 @@ export default function FindStore() {
         content: `
           <div class="p-2 min-w-[180px]">
             <p class="font-bold text-sm">${centre.name}</p>
-            <button class="bg-[#E6AE06] text-xs text-white px-2 py-1 mt-1 rounded">
+            <button class="bg-[#FFD700] text-xs text-white px-2 py-1 mt-1 rounded">
               Directions
             </button>
           </div>
@@ -181,7 +181,7 @@ export default function FindStore() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <button className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-[#E6AE06] p-2 rounded">
+            <button className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-[#FFD700] p-2 rounded">
               <FaSearch size={16} className="text-white" />
             </button>
           </div>
@@ -225,7 +225,7 @@ export default function FindStore() {
                 }}
               >
                 <div className="flex items-start">
-                  <div className="h-6 w-6 bg-[#E6AE06] rounded-sm flex items-center justify-center flex-shrink-0 mr-3">
+                  <div className="h-6 w-6 bg-[#FFD700] rounded-sm flex items-center justify-center flex-shrink-0 mr-3">
                     <CiLocationOn size={16} className="text-white" />
                   </div>
                   <div className="flex-grow">
@@ -241,7 +241,7 @@ export default function FindStore() {
 
                     <div className="flex space-x-2 mt-3">
                       <button
-                        className="bg-[#E6AE06] text-xs text-white px-3 py-1 rounded hover:bg-yellow-600 transition-colors"
+                        className="bg-[#FFD700] text-xs text-white px-3 py-1 rounded hover:bg-yellow-600 transition-colors"
                         onClick={(e) => {
                           e.stopPropagation();
                           window.open(

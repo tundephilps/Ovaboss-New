@@ -67,7 +67,7 @@ export default function ProductReviews() {
       </div>
 
       <div className="mt-6">
-        <button className="w-full bg-[#e6ae06] text-center py-2 text-black font-medium rounded hover:bg-yellow-600 transition-colors">
+        <button className="w-full bg-[#FFD700] text-center py-2 text-black font-medium rounded hover:bg-yellow-600 transition-colors">
           View All
         </button>
       </div>

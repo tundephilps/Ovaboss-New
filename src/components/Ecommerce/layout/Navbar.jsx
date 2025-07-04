@@ -205,7 +205,7 @@ const Navbar = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <button className="absolute right-0 top-0 h-full bg-[#e6ae06] px-4 rounded-r-md flex items-center justify-center">
+                <button className="absolute right-0 top-0 h-full bg-[#FFD700] px-4 rounded-r-md flex items-center justify-center">
                   <FaSearch className="text-black" />
                 </button>
               </div>
@@ -306,11 +306,9 @@ const Navbar = () => {
               }
 
               {/* If User is not logged In */}
-              {!user && 
-                <button onClick={handleLogin} className="w-full text-xs py-3 px-12 border bg-[#E6AE06] border-yellow-400 text-black font-medium rounded hover:bg-yellow-50 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50">
-                  Login/Signup
-                </button>
-              }
+              {/* <button className="w-full text-xs py-3 px-12 border bg-[#FFD700] border-yellow-400 text-black font-medium rounded hover:bg-yellow-50 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50">
+                Login/Signup
+              </button> */}
 
               {user && 
                 <div

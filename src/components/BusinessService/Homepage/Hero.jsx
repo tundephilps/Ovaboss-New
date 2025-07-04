@@ -3,7 +3,7 @@ import workerImage from "../../../assets/Hero2.png"; // adjust the path as neede
 
 const Hero = () => {
   return (
-    <div className="bg-[#fff6da] py-10 px-4 rounded-xl max-w-7xl mx-auto relative">
+    <div className="bg-[#fff6da] py-10 px-4 rounded-xl lg:mx-12 mx-4 relative">
       <div className="flex flex-col lg:flex-row items-center gap-8">
         {/* Left Section: Text Box */}
         <div className="bg-white p-6 rounded-lg shadow max-w-sm absolute left-12 top-8 hidden lg:block">
@@ -15,11 +15,11 @@ const Hero = () => {
         </div>
 
         {/* Center: Image */}
-        <div className="mx-auto">
+        <div className="lg:mx-12 mx-1">
           <img
             src={workerImage}
             alt="Worker assembling furniture"
-            className="rounded-lg w-full h-full mx-auto"
+            className="rounded-lg w-screen h-full mx-auto"
           />
         </div>
 

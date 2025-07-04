@@ -84,7 +84,7 @@ const Navbar = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <button className="absolute right-0 top-0 h-full bg-[#e6ae06] px-4 rounded-r-md flex items-center justify-center">
+                <button className="absolute right-0 top-0 h-full bg-[#FFD700] px-4 rounded-r-md flex items-center justify-center">
                   <FaSearch className="text-black" />
                 </button>
               </div>
@@ -184,7 +184,7 @@ const Navbar = () => {
                   <div className="border-t mt-2"></div>
                   <a
                     href="/#"
-                    className="block px-4 py-2 text-center bg-[#E6AE06] text-black font-semibold hover:bg-yellow-600"
+                    className="block px-4 py-2 text-center bg-[#FFD700] text-black font-semibold hover:bg-yellow-600"
                   >
                     Logout
                   </a>

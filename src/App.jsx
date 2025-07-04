@@ -47,6 +47,9 @@ import LAA from "./Pages/DashboardPCC/Wallets/LAA";
 import SignOn from "./Pages/DashboardPCC/Wallets/SignOn";
 import BuyOn from "./Pages/DashboardPCC/Wallets/BuyOn";
 import MTR from "./Pages/DashboardPCC/MTR";
+import ServiceOrderReportBCC from "./Pages/DashboardPCC/Reports/ServiceOrderReport";
+import GoodsOrderReportBCC from "./Pages/DashboardPCC/Reports/GoodsOrderReport";
+
 import CreateBusiness from "./Pages/DashboardBCC/Business/CreateBusiness";
 import AllOrders from "./Pages/DashboardBCC/Orders/AllOrders";
 import AllBusinesses from "./Pages/DashboardBCC/Business/AllBusinesses";
@@ -63,10 +66,22 @@ import AQB from "./Pages/DashboardBCC/BusinessCommunity/AQB";
 import PMB from "./Pages/DashboardBCC/BusinessCommunity/PMB";
 import AllServices from "./Pages/DashboardBCC/Services/AllServices";
 import { AddNewService } from "./Pages/DashboardBCC/Services/AddNewService";
-import AppContextProvider from "./context/AppContext";
-import PasswordUpdate from "./Pages/Auth/PasswordUpdate";
-import VerifyEmail from "./Pages/Auth/VerifyEmail";
-
+import GeneralReportBCC from "./Pages/DashboardBCC/Reports/GeneralReport";
+import MTRReportBCC from "./Pages/DashboardBCC/Reports/MTRReport";
+import WalletTransactionsBCC from "./Pages/DashboardBCC/Reports/WalletTransactions";
+import EarningTransactionsBCC from "./Pages/DashboardBCC/Reports/EarningTransactions";
+import OnlineInvoiceReportBCC from "./Pages/DashboardBCC/Reports/OnlineInvoiceReport";
+import OfflineInvoiceReportBCC from "./Pages/DashboardBCC/Reports/OfflineInvoiceReport";
+import OfflineSalesInvoice from "./Pages/DashboardBCC/Orders/OfflineSalesInvoice";
+import OnlineSalesInvoice from "./Pages/DashboardBCC/Orders/OnlineSalesInvoice";
+import PickupLocation from "./Pages/DashboardBCC/Goods/PickupLocation";
+import AllGoods from "./Pages/DashboardBCC/Goods/AllGoods";
+import Promotions from "./Pages/DashboardBCC/Goods/Promotions";
+import AddNewGoods from "./Pages/DashboardBCC/Goods/AddNewGoods";
+import SignOnBCC from "./Pages/DashboardBCC/Wallets/SignOn";
+import BuyOnBCC from "./Pages/DashboardBCC/Wallets/BuyOn";
+import SellOnBCC from "./Pages/DashboardBCC/Wallets/SellOn";
+import BraBCC from "./Pages/DashboardBCC/Wallets/Bra";
 function App() {
   return (
     <>
@@ -146,47 +161,99 @@ function App() {
               <Route path="/MTR" element={<MTR />} />
             </Route>
 
-            <Route element={<DashboardBCCLayout />}>
-              <Route path="/BCCDashboard" element={<DashboardHomeBCC />} />
-              <Route path="/CreateBusiness" element={<CreateBusiness />} />
-              <Route path="/Business/All" element={<AllBusinesses />} />
-              <Route path="/Business/AddNew" element={<AddBusiness />} />
-              <Route
-                path="/Business/BusinessOnboarding"
-                element={<BusinessOnboarding />}
-              />
-              <Route path="/Orders" element={<AllOrders />} />
-              <Route
-                path="/Orders/AwaitingPayment"
-                element={<AwaitingPayment />}
-              />
-              <Route path="/Orders/PendingOrders" element={<PendingOrders />} />
-              <Route
-                path="/Orders/ProcessingOrders"
-                element={<ProcessingOrders />}
-              />
-              <Route
-                path="/Orders/DispatchedOrders"
-                element={<DispatchedOrders />}
-              />
-              <Route
-                path="/Orders/CompleteOrders"
-                element={<CompletedOrders />}
-              />
-              <Route
-                path="/Orders/UnfulfilledOrders"
-                element={<UnfulfilledOrders />}
-              />
+          <Route element={<DashboardBCCLayout />}>
+            <Route path="/BCCDashboard" element={<DashboardHomeBCC />} />
+            <Route path="/CreateBusiness" element={<CreateBusiness />} />
+            <Route path="/Business/All" element={<AllBusinesses />} />
+            <Route path="/Business/AddNew" element={<AddBusiness />} />
+            <Route
+              path="/Business/BusinessOnboarding"
+              element={<BusinessOnboarding />}
+            />
+            <Route path="/Orders" element={<AllOrders />} />
+            <Route
+              path="/Orders/AwaitingPayment"
+              element={<AwaitingPayment />}
+            />
+            <Route path="/Orders/PendingOrders" element={<PendingOrders />} />
+            <Route
+              path="/Orders/ProcessingOrders"
+              element={<ProcessingOrders />}
+            />
+            <Route
+              path="/Orders/DispatchedOrders"
+              element={<DispatchedOrders />}
+            />
+            <Route
+              path="/Orders/CompleteOrders"
+              element={<CompletedOrders />}
+            />
+            <Route
+              path="/Orders/UnfulfilledOrders"
+              element={<UnfulfilledOrders />}
+            />
+            <Route
+              path="/Orders/OfflineSalesInvoice"
+              element={<OfflineSalesInvoice />}
+            />
+            <Route
+              path="/Orders/OnlineSalesInvoice"
+              element={<OnlineSalesInvoice />}
+            />
 
-              <Route path="/BusinessCommunity/AQB" element={<AQB />} />
-              <Route path="/BusinessCommunity/PMB" element={<PMB />} />
+            <Route path="/BusinessCommunity/AQB" element={<AQB />} />
+            <Route path="/BusinessCommunity/PMB" element={<PMB />} />
 
-              <Route path="/Services" element={<AllServices />} />
+            <Route path="/Wallets/BCCSignon" element={<SignOnBCC />} />
 
-              <Route path="/Services/AddNew" element={<AddNewService />} />
-            </Route>
-          </Routes>
-        </AppContextProvider>
+            <Route path="/Wallets/BCCBuyon" element={<BuyOnBCC />} />
+
+            <Route path="/Wallets/SELLOn" element={<SellOnBCC />} />
+
+            <Route path="/Wallets/BRA" element={<BraBCC />} />
+
+            <Route path="/Services" element={<AllServices />} />
+            <Route path="/Services/AddNew" element={<AddNewService />} />
+
+            <Route
+              path="/Reports/GeneralReports"
+              element={<GeneralReportBCC />}
+            />
+            <Route path="/Reports/MTRReports" element={<MTRReportBCC />} />
+
+            <Route
+              path="/Reports/GoodsOrder"
+              element={<GoodsOrderReportBCC />}
+            />
+            <Route
+              path="/Reports/ServiceOrder"
+              element={<ServiceOrderReportBCC />}
+            />
+
+            <Route
+              path="/Reports/WalletTransactions"
+              element={<WalletTransactionsBCC />}
+            />
+            <Route
+              path="/Reports/EarningTransactions"
+              element={<EarningTransactionsBCC />}
+            />
+
+            <Route
+              path="/Reports/OnlineInvoice"
+              element={<OnlineInvoiceReportBCC />}
+            />
+            <Route
+              path="/Reports/OfflineInvoice"
+              element={<OfflineInvoiceReportBCC />}
+            />
+            <Route path="/Goods/PickupLocations" element={<PickupLocation />} />
+            <Route path="/Goods/AllGoods" element={<AllGoods />} />
+
+            <Route path="/Goods/AddNewGoods" element={<AddNewGoods />} />
+            {/* <Route path="/Goods/AddNewGoods" element={<Promotions />} /> */}
+          </Route>
+        </Routes>
       </Router>
     </>
   );

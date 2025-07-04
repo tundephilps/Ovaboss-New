@@ -180,7 +180,7 @@ const CreateBusiness = () => {
 
         <div className="mt-6 text-right mb-48">
           <Link to="/#">
-            <button className="bg-[#E6AE06] text-black font-semibold px-6 py-2 rounded hover:bg-yellow-600">
+            <button className="bg-[#FFD700] text-black font-semibold px-6 py-2 rounded hover:bg-yellow-600">
               Next
             </button>
           </Link>
