@@ -68,13 +68,19 @@ const useAuth = () => {
 
             const { data } = await axiosClient.post('user/login', inputs.login)
 
-            const { data: userData, token  } = data.data;
+            const { token } = data.data;
+
+            localStorage.setItem('authToken', token);
+
+            const { data: response } = await axiosClient.get('user/profile-details');
+            const { userData, ...rest } = response.data;
 
             handleSetUser({
                 ...userData,
-                token
+                ...rest,
+                token,
             })
-
+            
             navigate("/");
 
         } catch(error) {

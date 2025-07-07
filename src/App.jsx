@@ -83,6 +83,7 @@ import BuyOnBCC from "./Pages/DashboardBCC/Wallets/BuyOn";
 import SellOnBCC from "./Pages/DashboardBCC/Wallets/SellOn";
 import BraBCC from "./Pages/DashboardBCC/Wallets/Bra";
 import AppContextProvider from "./context/AppContext";
+import ProtectedRoute from "./Pages/ProtectedRoute";
 
 function App() {
   return (
@@ -122,43 +123,45 @@ function App() {
               <Route path="/ServiceChat" element={<ServiceChat />} />
             </Route>
 
-            <Route element={<DashboardPCCLayout />}>
-              <Route path="/PCCDashboard" element={<DashboardHome />} />
-              <Route path="/Profile" element={<Profile />} />
-              <Route path="/EditProfile" element={<EditProfile />} />
-              <Route path="/EditBankInfo" element={<EditBankInfo />} />
-              <Route path="/Community/AQM" element={<AQM />} />
-              <Route path="/Community/PCM" element={<PCM />} />
-              <Route path="/Wallets/LAA" element={<LAA />} />
-              <Route path="/Wallets/SignOn" element={<SignOn />} />
-              <Route path="/Wallets/BuyOn" element={<BuyOn />} />
-              <Route path="/Reports/GeneralReport" element={<GeneralReport />} />
-              <Route path="/Reports/GeneralReport/MTR" element={<MTRReport />} />
-              <Route
-                path="/Reports/GeneralReport/ServiceOrderReport"
-                element={<ServiceOrderReport />}
-              />
-              <Route
-                path="/Reports/Invoice/Online"
-                element={<OnlineInvoiceReport />}
-              />
-              <Route
-                path="/Reports/Invoice/Offline"
-                element={<OfflineInvoiceReport />}
-              />
-              <Route
-                path="/Reports/GeneralReport/GoodsOrderReport"
-                element={<GoodsOrderReport />}
-              />
-              <Route
-                path="/Reports/Payout/WalletTransactions"
-                element={<WalletTransactions />}
-              />
-              <Route
-                path="/Reports/Payout/EarningTransactions"
-                element={<EarningTransactions />}
-              />
-              <Route path="/MTR" element={<MTR />} />
+            <Route element={<ProtectedRoute />}>
+              <Route element={<DashboardPCCLayout />}>
+                <Route path="/PCCDashboard" element={<DashboardHome />} />
+                <Route path="/Profile" element={<Profile />} />
+                <Route path="/EditProfile" element={<EditProfile />} />
+                <Route path="/EditBankInfo" element={<EditBankInfo />} />
+                <Route path="/Community/AQM" element={<AQM />} />
+                <Route path="/Community/PCM" element={<PCM />} />
+                <Route path="/Wallets/LAA" element={<LAA />} />
+                <Route path="/Wallets/SignOn" element={<SignOn />} />
+                <Route path="/Wallets/BuyOn" element={<BuyOn />} />
+                <Route path="/Reports/GeneralReport" element={<GeneralReport />} />
+                <Route path="/Reports/GeneralReport/MTR" element={<MTRReport />} />
+                <Route
+                  path="/Reports/GeneralReport/ServiceOrderReport"
+                  element={<ServiceOrderReport />}
+                />
+                <Route
+                  path="/Reports/Invoice/Online"
+                  element={<OnlineInvoiceReport />}
+                />
+                <Route
+                  path="/Reports/Invoice/Offline"
+                  element={<OfflineInvoiceReport />}
+                />
+                <Route
+                  path="/Reports/GeneralReport/GoodsOrderReport"
+                  element={<GoodsOrderReport />}
+                />
+                <Route
+                  path="/Reports/Payout/WalletTransactions"
+                  element={<WalletTransactions />}
+                />
+                <Route
+                  path="/Reports/Payout/EarningTransactions"
+                  element={<EarningTransactions />}
+                />
+                <Route path="/MTR" element={<MTR />} />
+              </Route>
             </Route>
 
             <Route element={<DashboardBCCLayout />}>

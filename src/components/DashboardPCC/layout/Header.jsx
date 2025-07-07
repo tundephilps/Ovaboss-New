@@ -12,12 +12,15 @@ import { CiMenuBurger } from "react-icons/ci";
 import { FaTimes } from "react-icons/fa";
 import Sidebar from "./Sidebar";
 import SidebarMobile from "./SidebarMobile";
+import { useAppContext } from "../../../context/AppContext";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const dropdownRef = useRef(null);
+  
+  const { user } = useAppContext();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -42,7 +45,7 @@ const Header = () => {
       className="relative bg-white flex items-center justify-between lg:justify-end"
       ref={dropdownRef}
     >
-      <img src={Logo} className="h-12 ml-2 lg:hidden flex" />
+      <img src={user.profile_picture || Logo} className="h-12 ml-2 lg:hidden flex" />
 
       {/* User info and toggle button */}
       <div className="inline-flex">
@@ -52,9 +55,9 @@ const Header = () => {
         >
           <div className="flex flex-col text-right">
             <span className="font-medium text-[#000000]">
-              Fatimah Oladigbolu
+              { user.firstname } { user.lastname }
             </span>
-            <span className="text-xs text-gray-500">Member</span>
+            <span className="text-xs text-gray-500">{ user.userType }</span>
           </div>
           <IoMdArrowDropdown
             className={`text-gray-500 transition-transform duration-200 ${
@@ -104,7 +107,7 @@ const Header = () => {
           <div className="px-4 py-3 bg-gray-50 border-b border-gray-200">
             <p className="text-sm font-medium text-gray-800">Signed in as</p>
             <p className="text-sm text-gray-600 truncate">
-              fatimah.oladigbolu@example.com
+              {user.email}
             </p>
           </div>
 
