@@ -61,7 +61,7 @@ const Profile = () => {
             <div className="flex flex-col items-center lg:w-1/4">
               <div className="w-32 h-32 rounded-full overflow-hidden mb-4 border-2 border-gray-200">
                 <img
-                  src={Avatar} // Replace with your own image URL
+                  src={user.profile_picture || Avatar} // Replace with your own image URL
                   alt="User"
                   className="w-full h-full object-cover rounded-full"
                 />

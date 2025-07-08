@@ -45,7 +45,7 @@ const Header = () => {
       className="relative bg-white flex items-center justify-between lg:justify-end"
       ref={dropdownRef}
     >
-      <img src={user.profile_picture || Logo} className="h-12 ml-2 lg:hidden flex" />
+      <img src={Logo} className="h-12 ml-2 lg:hidden flex" />
 
       {/* User info and toggle button */}
       <div className="inline-flex">
@@ -66,7 +66,7 @@ const Header = () => {
           />
           {/* User avatar */}
           <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 font-medium">
-            <img src={Profile} className="h-full w-full rounded-full" />
+            <img src={user.profile_picture || Profile} className="h-full w-full rounded-full" />
           </div>
         </div>
         <button onClick={() => setSidebarOpen(true)}>

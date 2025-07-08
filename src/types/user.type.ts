@@ -24,8 +24,31 @@ export interface User {
   dateOfBirth: string | null;
   defaultCurrency: string | null;
   nid: string | null;
-  nextOfKin: string | null;
-  bankAccountDetails: any[];  // You can define a separate interface if needed
+  nextOfKin: NextOfKin;
+  bankAccountDetails: BankAccountDetails[];
   address: any[];             // Same as above
   token: string;
+}
+
+export interface NextOfKin {
+  fullName: string;
+  birthDate: string; // ISO date string (e.g. "2025-06-24")
+  address: string;
+  email: string;
+  phoneNumber: string;
+  nationality: string;
+}
+
+export interface BankAccountDetails {
+  id: number;
+  bankId: string;
+  bankName: string;
+  countryId: string;
+  countryName: string;
+  bankAccountTypeId: string;
+  bankAccountType: string;
+  accountNumber: string;
+  accountName: string;
+  swiftCode: string;
+  recipientCode: string;
 }

@@ -4,6 +4,7 @@ import { FiEdit2, FiPrinter, FiDownload } from "react-icons/fi";
 import { MdOutlinePrint } from "react-icons/md";
 import { RiDownloadLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
+import BankAccountTable from "./BankAccountTable";
 
 export default function BankAccountDetails() {
   return (
@@ -29,15 +30,16 @@ export default function BankAccountDetails() {
         </div>
       </div>
 
+      <BankAccountTable showEllipse={false}/>
+
       {/* Details Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 pt-6 text-sm text-gray-700">
+      {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 pt-6 text-sm text-gray-700">
         <Detail label="Account Name" value="Fatimah Oladigbolu" />
         <Detail label="Account Number" value="1234567890" />
         <Detail label="Account Type" value="Savings" />
         <Detail label="Bank Name" value="Access Bank" />
         <Detail label="Country" value="Nigeria" />
-        <Detail label="Swift Code" value="442" /> {/* Optional empty value */}
-      </div>
+      </div> */}
     </div>
   );
 }

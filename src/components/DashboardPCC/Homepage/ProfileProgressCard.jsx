@@ -1,7 +1,22 @@
 import { FaInfoCircle } from "react-icons/fa";
+import { useAppContext } from "../../../context/AppContext";
 
-const ProfileProgressCard = ({ completedFields = 4, totalFields = 10 }) => {
+const ProfileProgressCard = () => {
+
+  const { user } = useAppContext();
+
+  let totalFields = 4;
+  let completedFields = 1;
+
+  if(user.nextOfKin) completedFields++; 
+  if(user.address.length) completedFields++; 
+  if(user.bankAccountDetails.length) completedFields++; 
+
   const percentage = Math.round((completedFields / totalFields) * 100);
+
+  if(percentage === 100) {
+    return ;
+  }
 
   return (
     <div className="bg-[#fffbeb] border border-yellow-200 rounded-lg p-4 mt-4 mx-auto shadow-sm">

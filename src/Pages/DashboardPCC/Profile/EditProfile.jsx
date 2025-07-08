@@ -27,7 +27,7 @@ const EditProfile = () => {
         setImagePreview(reader.result);
       };
       reader.readAsDataURL(file);
-      handleInput('profile_picture', file);
+      handleInput('profile.profile_picture', file);
     }
   };
 
@@ -41,7 +41,7 @@ const EditProfile = () => {
     handleInput('profile_picture', "");
   };
 
-  const profilePhoto = (typeof inputs.profile_picture === 'string' && inputs.profile_picture) ? inputs.profile_picture : imagePreview;
+  const profilePhoto = (typeof inputs.profile.profile_picture === 'string' && inputs.profile.profile_picture) ? inputs.profile.profile_picture : imagePreview;
 
   return (
     <div className=" bg-[#faf9f9] overflow-y-auto">
@@ -65,7 +65,7 @@ const EditProfile = () => {
               className="relative w-32 h-32 rounded-full bg-[#F3F4F6] border-dashed border-2 border-[#D1D5DB] flex items-center justify-center text-gray-400 mb-4  cursor-pointer"
               onClick={triggerFileSelect}
             >
-              {imagePreview || (typeof inputs.profile_picture === 'string' && inputs.profile_picture) ? (
+              {imagePreview || (typeof inputs.profile.profile_picture === 'string' && inputs.profile.profile_picture) ? (
                 <>
                   <img
                     src={profilePhoto}
@@ -120,18 +120,18 @@ const EditProfile = () => {
                 <label className="block  text-xs mb-1">Firstname</label>
                 <input
                   name="fullName"
-                  value={inputs.firstname}
-                  onChange={e => handleInput('firstname', e.target.value)}
+                  value={inputs.profile.firstname}
+                  onChange={e => handleInput('profile.firstname', e.target.value)}
                   className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
                 />
               </div>
 
                <div className="mb-5">
-                <label className="block  text-xs mb-1">Full Name</label>
+                <label className="block  text-xs mb-1">Lastname</label>
                 <input
                   name="fullName"
-                  value={inputs.lastname}
-                  onChange={e => handleInput('lastname', e.target.value)}
+                  value={inputs.profile.lastname}
+                  onChange={e => handleInput('profile.lastname', e.target.value)}
                   className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
                 />
               </div>
@@ -142,8 +142,8 @@ const EditProfile = () => {
                   <input
                     type="date"
                     name="dob"
-                    value={inputs.date_of_birth}
-                    onChange={e => handleInput('date_of_birth', e.target.value)}
+                    value={inputs.profile.date_of_birth}
+                    onChange={e => handleInput('profile.date_of_birth', e.target.value)}
                     className="w-full border border-gray-300 rounded px-3 py-2 text-sm appearance-none"
                   />
                   {/* <BsCalendar className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" /> */}
@@ -155,13 +155,13 @@ const EditProfile = () => {
                 <div className="relative">
                   <select
                     name="gender"
-                    value={inputs.gender}
-                    onChange={e => handleInput('gender', e.target.value)}
+                    value={inputs.profile.gender}
+                    onChange={e => handleInput('profile.gender', e.target.value)}
                     className="w-full border border-gray-300 rounded px-3 py-2 text-sm appearance-none"
                   >
-                    <option>Male</option>
-                    <option>Female</option>
-                    <option>Other</option>
+                    <option value='Male'>Male</option>
+                    <option value='Female'>Female</option>
+                    <option value='Other'>Other</option>
                   </select>
                   <IoChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                 </div>
@@ -211,12 +211,12 @@ const EditProfile = () => {
                 <div className="relative">
                   <select
                     name="country"
-                    // value={inputs.country_id}
-                    onChange={e => handleInput('country_id', e.target.value)}
+                    // value={inputs.profile.country_id}
+                    onChange={e => handleInput('profile.country_id', Number(e.target.value))}
                     className="w-full border border-gray-300 rounded px-3 py-2 text-sm appearance-none"
                   >
                     {countries.map((item, key) => (
-                      <option key={key} value={item.country_id} selected={item.country === inputs.country_id}>{ item.country }</option>
+                      <option key={key} value={item.countryId} selected={item.country === inputs.profile.country_id}>{ item.country }</option>
                     ))}
                   </select>
                   <IoChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -234,8 +234,8 @@ const EditProfile = () => {
                 <label className="block  text-xs mb-1">Phone</label>
                 <input
                   name="phone"
-                  value={inputs.phone_number}
-                  onChange={e => handleInput('phone_number', e.target.value)}
+                  value={inputs.profile.phone_number}
+                  onChange={e => handleInput('profile.phone_number', e.target.value)}
                   className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
                 />
               </div>
@@ -244,8 +244,8 @@ const EditProfile = () => {
                 <label className="block  text-xs mb-1">Email</label>
                 <input
                   name="email"
-                  value={inputs.email}
-                  onChange={e => handleInput('email', e.target.value)}
+                  value={inputs.profile.email}
+                  onChange={e => handleInput('profile.email', e.target.value)}
                   placeholder="Enter your email address"
                   className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
                 />
@@ -326,17 +326,18 @@ const EditProfile = () => {
         </div>
 
         <div className="mt-6 text-right mb-48 gap-5 flex justify-end">
+          <Link to="/EditBankInfo">
+            <button className="bg-[#FFD700] text-black font-semibold px-6 py-2 rounded hover:bg-yellow-600">
+              Next
+            </button>
+          </Link>
+          
           <button 
             className="bg-[#FFD700] text-black font-semibold px-6 py-2 rounded hover:bg-yellow-600"
             onClick={handleUpdateProfile}
           >
             {isLoading ? <Loading/> : 'Save'}
           </button>
-          <Link to="/EditBankInfo">
-            <button className="bg-[#FFD700] text-black font-semibold px-6 py-2 rounded hover:bg-yellow-600">
-              Next
-            </button>
-          </Link>
         </div>
       </div>
     </div>

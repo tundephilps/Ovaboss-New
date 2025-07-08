@@ -1,6 +1,8 @@
 import React, { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { User } from "../types/user.type";
+import axiosClient from "../utils/axiosClient";
+import Loading from "../components/Loading";
 
 interface AppContextType {
     user: User | null;
@@ -50,7 +52,23 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
         handleLogout,
     };
 
-    const init = () => {
+    const init = async () => {
+        try {
+             const { status, data: response } = await axiosClient.get('user/profile-details');
+            if(status === 200) {
+                const { userData, ...rest } = response.data;
+
+                handleSetUser({
+                    ...userData,
+                    ...rest,
+                })
+            }
+        } catch(error) {
+
+        }
+
+        console.log(status)
+
         const storedUser = getPersistedStorage("user") as User | null;
 
         // if (!storedUser) {
@@ -69,7 +87,7 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
 
     return (
         <AppContext.Provider value={contextValue}>
-            {isLoading ? <p>Loading...</p> : children}
+            {isLoading ? <Loading/> : children}
         </AppContext.Provider>
     );
 };

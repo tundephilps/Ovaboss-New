@@ -43,9 +43,7 @@ import OnlineInvoiceReport from "./Pages/DashboardPCC/Reports/OnlineInvoiceRepor
 import OfflineInvoiceReport from "./Pages/DashboardPCC/Reports/OfflineInvoiceReport";
 import WalletTransactions from "./Pages/DashboardPCC/Reports/WalletTransactions";
 import EarningTransactions from "./Pages/DashboardPCC/Reports/EarningTransactions";
-import LAA from "./Pages/DashboardPCC/Wallets/LAA";
-import SignOn from "./Pages/DashboardPCC/Wallets/SignOn";
-import BuyOn from "./Pages/DashboardPCC/Wallets/BuyOn";
+import Wallet from "./Pages/DashboardPCC/Wallets/Wallet";
 import MTR from "./Pages/DashboardPCC/MTR";
 import ServiceOrderReportBCC from "./Pages/DashboardPCC/Reports/ServiceOrderReport";
 import GoodsOrderReportBCC from "./Pages/DashboardPCC/Reports/GoodsOrderReport";
@@ -131,9 +129,7 @@ function App() {
                 <Route path="/EditBankInfo" element={<EditBankInfo />} />
                 <Route path="/Community/AQM" element={<AQM />} />
                 <Route path="/Community/PCM" element={<PCM />} />
-                <Route path="/Wallets/LAA" element={<LAA />} />
-                <Route path="/Wallets/SignOn" element={<SignOn />} />
-                <Route path="/Wallets/BuyOn" element={<BuyOn />} />
+                <Route path="/Wallets/:walletName" element={<Wallet />} />
                 <Route path="/Reports/GeneralReport" element={<GeneralReport />} />
                 <Route path="/Reports/GeneralReport/MTR" element={<MTRReport />} />
                 <Route
