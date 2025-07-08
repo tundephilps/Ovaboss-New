@@ -1,6 +1,6 @@
 import { FaChevronDown } from "react-icons/fa";
 
-export default function LAAForm() {
+export default function TransferToWallet({ wallets, wallet }) {
   return (
     <div className="mx-auto bg-white  p-6 space-y-6">
       <h2 className="text-lg font-semibold border-b pb-2">
@@ -17,7 +17,7 @@ export default function LAAForm() {
           </label>
           <input
             type="text"
-            value="Personal LAA Wallet"
+            value={`Personal ${wallet.walletName} Wallet`}
             disabled
             className="w-full border rounded px-3 py-2 text-sm bg-gray-100 cursor-not-allowed"
           />
@@ -57,8 +57,11 @@ export default function LAAForm() {
               <option value="" disabled>
                 Select Wallet to Transfer To
               </option>
-              <option value="wallet1">SIGNON -$0.00 </option>
-              <option value="wallet2">BUYON -$0.00</option>
+              {wallets
+              .filter(item => item.walletName !== wallet.walletName)
+              .map((item, key) => (
+                <option value="wallet1" key={key}>{item.walletName} -${item.balance} </option>
+              ))}
             </select>
             <FaChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm pointer-events-none" />
           </div>

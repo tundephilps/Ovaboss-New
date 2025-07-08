@@ -5,7 +5,7 @@ import { VscSettings } from "react-icons/vsc";
 import { AiOutlineEye, AiOutlineMail } from "react-icons/ai";
 import Pagination from "../Report/Pagination";
 
-const laaTransactionsData = [
+const walletTransactionsData = [
   {
     id: "#19234",
     category: "Product Order",
@@ -26,7 +26,7 @@ const statusColor = {
   Credit: "text-green-600",
 };
 
-export default function LAATab() {
+export default function WalletTab({ wallet }) {
   const [activeTab, setActiveTab] = useState("wallet");
   const [openDropdown, setOpenDropdown] = useState(null);
 
@@ -59,7 +59,7 @@ export default function LAATab() {
     </div>
   );
 
-  const renderLAATransactions = () => (
+  const renderWalletTransactions = () => (
     <>
       <div className="overflow-x-auto">
         <table className="w-full">
@@ -77,7 +77,7 @@ export default function LAATab() {
             </tr>
           </thead>
           <tbody className="text-sm">
-            {laaTransactionsData.map((item, index) => (
+            {walletTransactionsData.map((item, index) => (
               <tr
                 key={index}
                 className="hover:bg-gray-50 border-b border-gray-100"
@@ -176,9 +176,9 @@ export default function LAATab() {
         {activeTab === "wallet" && (
           <div>
             <h2 className="text-lg font-semibold text-gray-800 mb-4">
-              LAA Transactions
+              { wallet.walletName } Transactions
             </h2>
-            {renderLAATransactions()}
+            {renderWalletTransactions()}
           </div>
         )}
 

@@ -7,10 +7,17 @@ import { useRef } from "react";
 import { IoChevronDown } from "react-icons/io5";
 import { BsCalendar } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import useProfile from "../../../hooks/useProfile";
+import Loading from "../../../components/Loading";
+import useCountry from "../../../hooks/useCountry";
 
 const EditProfile = () => {
   const [imagePreview, setImagePreview] = useState(null);
+  // const [ currentTab, setCurrentTab ] = useState('profile');
   const fileInputRef = useRef(null);
+
+  const { inputs, isLoading, handleInput, handleUpdateProfile } = useProfile();
+  const { countries } = useCountry();
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -20,6 +27,7 @@ const EditProfile = () => {
         setImagePreview(reader.result);
       };
       reader.readAsDataURL(file);
+      handleInput('profile.profile_picture', file);
     }
   };
 
@@ -30,30 +38,10 @@ const EditProfile = () => {
   const handleImageDelete = () => {
     setImagePreview(null);
     fileInputRef.current.value = ""; // Clear file input
+    handleInput('profile_picture', "");
   };
 
-  const [formData, setFormData] = useState({
-    fullName: "",
-    dob: "2025-02-03", // Format for input type="date"
-    gender: "Male",
-    phone: "",
-    email: "",
-    address: "",
-    city: "",
-    state: "",
-    postalCode: "",
-    country: "Canada",
-    pin: "••••••",
-    inviteLink: "https://www.ovaboss.com/register?",
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+  const profilePhoto = (typeof inputs.profile.profile_picture === 'string' && inputs.profile.profile_picture) ? inputs.profile.profile_picture : imagePreview;
 
   return (
     <div className=" bg-[#faf9f9] overflow-y-auto">
@@ -77,10 +65,10 @@ const EditProfile = () => {
               className="relative w-32 h-32 rounded-full bg-[#F3F4F6] border-dashed border-2 border-[#D1D5DB] flex items-center justify-center text-gray-400 mb-4  cursor-pointer"
               onClick={triggerFileSelect}
             >
-              {imagePreview ? (
+              {imagePreview || (typeof inputs.profile.profile_picture === 'string' && inputs.profile.profile_picture) ? (
                 <>
                   <img
-                    src={imagePreview}
+                    src={profilePhoto}
                     alt="Preview"
                     className="w-full h-full object-cover rounded-full"
                   />
@@ -129,11 +117,21 @@ const EditProfile = () => {
               </h2>
 
               <div className="mb-5">
-                <label className="block  text-xs mb-1">Full Name</label>
+                <label className="block  text-xs mb-1">Firstname</label>
                 <input
                   name="fullName"
-                  value={formData.fullName}
-                  onChange={handleChange}
+                  value={inputs.profile.firstname}
+                  onChange={e => handleInput('profile.firstname', e.target.value)}
+                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
+                />
+              </div>
+
+               <div className="mb-5">
+                <label className="block  text-xs mb-1">Lastname</label>
+                <input
+                  name="fullName"
+                  value={inputs.profile.lastname}
+                  onChange={e => handleInput('profile.lastname', e.target.value)}
                   className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
                 />
               </div>
@@ -144,28 +142,11 @@ const EditProfile = () => {
                   <input
                     type="date"
                     name="dob"
-                    value={formData.dob}
-                    onChange={handleChange}
+                    value={inputs.profile.date_of_birth}
+                    onChange={e => handleInput('profile.date_of_birth', e.target.value)}
                     className="w-full border border-gray-300 rounded px-3 py-2 text-sm appearance-none"
                   />
                   {/* <BsCalendar className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" /> */}
-                </div>
-              </div>
-
-              <div className="mb-5">
-                <label className="block  text-xs mb-1">Gender</label>
-                <div className="relative">
-                  <select
-                    name="gender"
-                    value={formData.gender}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded px-3 py-2 text-sm appearance-none"
-                  >
-                    <option>Male</option>
-                    <option>Female</option>
-                    <option>Other</option>
-                  </select>
-                  <IoChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                 </div>
               </div>
 
@@ -173,7 +154,7 @@ const EditProfile = () => {
                 Location Details
               </h2>
 
-              <div className="mb-5">
+              {/* <div className="mb-5">
                 <label className="block  text-xs mb-1">City</label>
                 <input
                   name="city"
@@ -204,7 +185,7 @@ const EditProfile = () => {
                   placeholder="Enter your postal code"
                   className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
                 />
-              </div>
+              </div> */}
 
               <div className="mb-5">
                 <label className="block  text-xs mb-1">
@@ -213,13 +194,13 @@ const EditProfile = () => {
                 <div className="relative">
                   <select
                     name="country"
-                    value={formData.country}
-                    onChange={handleChange}
+                    // value={inputs.profile.country_id}
+                    onChange={e => handleInput('profile.country_id', Number(e.target.value))}
                     className="w-full border border-gray-300 rounded px-3 py-2 text-sm appearance-none"
                   >
-                    <option>Canada</option>
-                    <option>USA</option>
-                    <option>UK</option>
+                    {countries.map((item, key) => (
+                      <option key={key} value={item.countryId} selected={item.country === inputs.profile.country_id}>{ item.country }</option>
+                    ))}
                   </select>
                   <IoChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                 </div>
@@ -236,8 +217,8 @@ const EditProfile = () => {
                 <label className="block  text-xs mb-1">Phone</label>
                 <input
                   name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
+                  value={inputs.profile.phone_number}
+                  onChange={e => handleInput('profile.phone_number', e.target.value)}
                   className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
                 />
               </div>
@@ -246,14 +227,14 @@ const EditProfile = () => {
                 <label className="block  text-xs mb-1">Email</label>
                 <input
                   name="email"
-                  value={formData.email}
-                  onChange={handleChange}
+                  value={inputs.profile.email}
+                  onChange={e => handleInput('profile.email', e.target.value)}
                   placeholder="Enter your email address"
                   className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
                 />
               </div>
 
-              <div className="mb-5">
+              {/* <div className="mb-5">
                 <label className="block  text-xs mb-1">Address</label>
                 <input
                   name="address"
@@ -262,9 +243,9 @@ const EditProfile = () => {
                   placeholder="Enter your address"
                   className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
                 />
-              </div>
+              </div> */}
 
-              <h2 className="text-xs font-semibold text-gray-400 mt-8 mb-5 uppercase tracking-wider">
+              {/* <h2 className="text-xs font-semibold text-gray-400 mt-8 mb-5 uppercase tracking-wider">
                 User's Invite (Auto Generated)
               </h2>
 
@@ -276,7 +257,7 @@ const EditProfile = () => {
                   readOnly
                   className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                 />
-              </div>
+              </div> */}
 
               <div className="mb-5">
                 <label className="block  text-xs mb-1">
@@ -284,7 +265,7 @@ const EditProfile = () => {
                 </label>
                 <div className="flex gap-2">
                   <input
-                    value={formData.inviteLink}
+                    value=""
                     readOnly
                     className="w-full border border-gray-300 rounded-l px-3 py-2 text-sm bg-white"
                   />
@@ -327,12 +308,19 @@ const EditProfile = () => {
           </div>
         </div>
 
-        <div className="mt-6 text-right mb-48">
+        <div className="mt-6 text-right mb-48 gap-5 flex justify-end">
           <Link to="/EditBankInfo">
             <button className="bg-[#FFD700] text-black font-semibold px-6 py-2 rounded hover:bg-yellow-600">
               Next
             </button>
           </Link>
+
+          <button 
+            className="bg-[#FFD700] text-black font-semibold px-6 py-2 rounded hover:bg-yellow-600"
+            onClick={handleUpdateProfile}
+          >
+            {isLoading ? <Loading/> : 'Save'}
+          </button>
         </div>
       </div>
     </div>

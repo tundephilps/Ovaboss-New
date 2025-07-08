@@ -3,45 +3,40 @@ import { FaFacebookF, FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
 import { SiX } from "react-icons/si";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { IoChevronDown } from "react-icons/io5";
+import useProfile from "../../../hooks/useProfile";
+import useCountry from "../../../hooks/useCountry";
+import { useAppContext } from "../../../context/AppContext";
+import Loading from "../../../components/Loading";
+import BankAccountTable from "../../../components/DashboardPCC/Profile/BankAccountTable";
+import AddBankAccountModal from "../../../components/DashboardPCC/Profile/AddBankAccountModal";
+
 
 const EditBankInfo = () => {
   const [isChecked, setIsChecked] = useState(false);
+  const [ isModalOpan , setModalOpen] = useState(false);
+  const [ isAddBankAccount , setIsAddBankAccount] = useState(true);
+  
 
-  const [formData, setFormData] = useState({
-    fullName: "",
-    dob: "", // Format for input type="date"
-    gender: "",
-    phone: "",
-    email: "",
-    address: "",
-    city: "",
-    state: "",
-    postalCode: "",
-    country: "Canada",
-    pin: "",
-    inviteLink: "",
-  });
+  const { 
+    isSaving, 
+    inputs, 
+    handleInput, 
+    setInputs,
+    handleCreateNextOfKin, 
+    handleAddBankAccount,
+    handleUpdateBankAccount, 
+  } = useProfile();
+  const { countries } = useCountry();
+  const { user } = useAppContext();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
 
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
   };
 
-  const handleSubmit = () => {
-    if (isChecked) {
-      console.log("Form submitted with accepted terms");
-      // Additional submission logic would go here
-    } else {
-      console.log("Please accept the terms to continue");
-    }
-  };
+  const bankAccountCallback = () => setModalOpen(false);
+
+  const isNextOfKinDisabled = !!user.nextOfKin;
 
   return (
     <div className=" bg-[#faf9f9] overflow-y-auto">
@@ -74,13 +69,38 @@ const EditBankInfo = () => {
         <h2 className="text-xl font-semibold pb-2 mb-6 border-b ">
           Personal Details 2
         </h2>
-        <div className="flex flex-col lg:flex-row gap-8">
+       <div className="w-full flex justify-end">
+          <button
+            onClick={() => setModalOpen(true)}
+            className="px-6 py-2 text-white font-medium rounded bg-yellow-500 hover:bg-yellow-600 cursor-pointer"
+          >
+            Add Bank Account
+          </button>
+        </div>
+
+        <AddBankAccountModal 
+          isOpen={isModalOpan} 
+          onClose={() => setModalOpen(false)} 
+          onSubmit={isAddBankAccount ? handleAddBankAccount : handleUpdateBankAccount}
+          inputs={inputs}
+          handleInput={handleInput}
+          callback={bankAccountCallback}
+          isLoading={isSaving}
+          isAddBankAccount={isAddBankAccount}
+        />
+        <BankAccountTable
+          setModalOpen={setModalOpen} 
+          setInputs={setInputs}
+          setIsAddBankAccount={setIsAddBankAccount}
+        />
+
+        <div className="flex flex-col lg:flex-row gap-8 mb-8">
           {/* Form Section */}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 w-full">
             {/* Left Column - Basic Information */}
             <div>
-              <h2 className="text-xs font-semibold text-gray-400 mb-5 uppercase tracking-wider">
+              {/* <h2 className="text-xs font-semibold text-gray-400 mb-5 uppercase tracking-wider">
                 Bank Information
               </h2>
 
@@ -94,9 +114,9 @@ const EditBankInfo = () => {
                   onChange={handleChange}
                   className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
                 />
-              </div>
+              </div> */}
 
-              <div className="mb-5">
+              {/* <div className="mb-5">
                 <label className="block  text-xs mb-1">Account Type</label>
                 <div className="relative">
                   <input
@@ -105,11 +125,11 @@ const EditBankInfo = () => {
                     onChange={handleChange}
                     className="w-full border border-gray-300 rounded px-3 py-2 text-sm appearance-none"
                   />
-                  {/* <BsCalendar className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" /> */}
-                </div>
-              </div>
 
-              <div className="mb-5">
+                </div>
+              </div> */}
+
+              {/* <div className="mb-5">
                 <label className="block  text-xs mb-1">Bank Name</label>
                 <div className="relative">
                   <select
@@ -124,7 +144,7 @@ const EditBankInfo = () => {
                   </select>
                   <IoChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                 </div>
-              </div>
+              </div> */}
 
               <h2 className="text-xs font-semibold text-gray-400 mt-8 mb-5 uppercase tracking-wider">
                 Next of kin
@@ -134,19 +154,23 @@ const EditBankInfo = () => {
                 <label className="block  text-xs mb-1">Full Name</label>
                 <input
                   name="fullname"
-                  onChange={handleChange}
+                  onChange={e => handleInput("nextOfKin.full_name", e.target.value)}
+                  value={inputs.nextOfKin.full_name}
+                  disabled={isNextOfKinDisabled}
                   placeholder="Enter your name"
                   className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
                 />
               </div>
 
               <div className="mb-5">
-                <label className="block  text-xs mb-1">State</label>
+                <label className="block  text-xs mb-1">Date of birth</label>
                 <input
-                  name="state"
-                  value={formData.state}
-                  onChange={handleChange}
-                  placeholder="Enter your state"
+                  type="date"
+                  name="postalCode"
+                  onChange={e => handleInput("nextOfKin.birth_date", e.target.value)}
+                  value={inputs.nextOfKin.birth_date}
+                  disabled={isNextOfKinDisabled}
+                  placeholder="Enter phone number"
                   className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
                 />
               </div>
@@ -155,17 +179,19 @@ const EditBankInfo = () => {
                 <label className="block  text-xs mb-1">Phone Number</label>
                 <input
                   name="postalCode"
-                  value={formData.postalCode}
-                  onChange={handleChange}
+                  onChange={e => handleInput("nextOfKin.phone_number", e.target.value)}
+                  value={inputs.nextOfKin.phone_number}
+                  disabled={isNextOfKinDisabled}
                   placeholder="Enter phone number"
                   className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
                 />
               </div>
+              
             </div>
 
             {/* Right Column - Contact Information */}
             <div>
-              <div className="mb-5 pt-9">
+              {/* <div className="mb-5 pt-9">
                 <label className="block  text-xs mb-1">Account Number</label>
                 <input
                   name="Account Number"
@@ -196,12 +222,15 @@ const EditBankInfo = () => {
                   placeholder="Enter your address"
                   className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
                 />
-              </div>
+              </div> */}
 
               <div className="mb-5 mt-[70px]">
                 <label className="block  text-xs mb-1">Email Address</label>
                 <input
                   type="email"
+                  onChange={e => handleInput("nextOfKin.email", e.target.value)}
+                  value={inputs.nextOfKin.email}
+                  disabled={isNextOfKinDisabled}
                   placeholder="Enter email Address"
                   className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
                 />
@@ -209,56 +238,76 @@ const EditBankInfo = () => {
 
               <div className="mb-5">
                 <label className="block  text-xs mb-1">
-                  Country of Residence
+                  Nationality
                 </label>
                 <div className="flex gap-2">
-                  <input
-                    placeholder="Canada"
+                  <select
+                    disabled={isNextOfKinDisabled}
+                    onChange={e => handleInput("nextOfKin.nationality_id", Number(e.target.value))}
                     className="w-full border border-gray-300 rounded-l px-3 py-2 text-sm bg-white"
-                  />
+                  >
+                    {countries.map((item, key) => (
+                      <option value={item.countryId} key={key} selected={item.country === inputs.nextOfKin.nationality_id}>{item.country}</option>
+                    ))}
+                  </select>
                 </div>
               </div>
+
+               <div className="mb-5">
+                <label className="block  text-xs mb-1">Address</label>
+                <input
+                  name="postalCode"
+                  onChange={e => handleInput("nextOfKin.address", e.target.value)}
+                  value={inputs.nextOfKin.address}
+                  disabled={isNextOfKinDisabled}
+                  placeholder="Enter address"
+                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
+                />
+              </div>
+
             </div>
           </div>
         </div>
 
-        <div className="mt-6 text-right mb-48 w-full">
-          <div className="flex flex-row items-center justify-between w-full">
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                id="privacy-terms"
-                checked={isChecked}
-                onChange={handleCheckboxChange}
-                className="w-4 h-4 border-gray-300 rounded accent-gray-500 cursor-pointer"
-              />
-              <label
-                htmlFor="privacy-terms"
-                className="ml-2 text-sm text-gray-700 cursor-pointer"
-              >
-                I read and accept the{" "}
-                <a
-                  href="#"
-                  className="text-indigo-600 font-medium hover:text-indigo-500"
+        {!isNextOfKinDisabled && 
+          <div className="mt-6 text-right mb-48 w-full">
+            <div className="flex flex-row items-center justify-between w-full">
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  id="privacy-terms"
+                  checked={isChecked}
+                  onChange={handleCheckboxChange}
+                  className="w-4 h-4 border-gray-300 rounded accent-gray-500 cursor-pointer"
+                />
+                <label
+                  htmlFor="privacy-terms"
+                  className="ml-2 text-sm text-gray-700 cursor-pointer"
                 >
-                  Privacy Terms and Conditions
-                </a>
-              </label>
-            </div>
+                  I read and accept the{" "}
+                  <a
+                    href="#"
+                    className="text-indigo-600 font-medium hover:text-indigo-500"
+                  >
+                    Privacy Terms and Conditions
+                  </a>
+                </label>
+              </div>
 
-            <button
-              onClick={handleSubmit}
-              disabled={!isChecked}
-              className={`ml-4 px-6 py-2 text-white font-medium rounded ${
-                isChecked
-                  ? "bg-yellow-500 hover:bg-yellow-600 cursor-pointer"
-                  : "bg-yellow-400 opacity-80 cursor-not-allowed"
-              }`}
-            >
-              Submit
-            </button>
+              <button
+                onClick={handleCreateNextOfKin}
+                disabled={!isChecked}
+                className={`ml-4 px-6 py-2 text-white font-medium rounded ${
+                  isChecked
+                    ? "bg-yellow-500 hover:bg-yellow-600 cursor-pointer"
+                    : "bg-yellow-400 opacity-80 cursor-not-allowed"
+                }`}
+              >
+                Submit
+              </button>
+            </div>
           </div>
-        </div>
+        }
       </div>
     </div>
   );

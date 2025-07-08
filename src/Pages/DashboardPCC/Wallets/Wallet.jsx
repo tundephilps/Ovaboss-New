@@ -1,31 +1,65 @@
 import React from "react";
 import ProfileProgressCard from "../../../components/DashboardPCC/Homepage/ProfileProgressCard";
-import LAACard from "../../../components/DashboardPCC/Wallet/LAACard";
-import LAAForm from "../../../components/DashboardPCC/Wallet/LAAForm";
+import WalletCard from "../../../components/DashboardPCC/Wallet/WalletCard";
+import TransferToWallet from "../../../components/DashboardPCC/Wallet/TransferToWallet";
 
-import LAAForm2 from "../../../components/DashboardPCC/Wallet/LAAForm2";
-import LAATab from "../../../components/DashboardPCC/Wallet/LAATab";
+import TransferToBank from "../../../components/DashboardPCC/Wallet/TransferToBank";
+import WalletTab from "../../../components/DashboardPCC/Wallet/WalletTab";
 
 import { FaChevronDown, FaFile, FaFolder } from "react-icons/fa";
 import { useState } from "react";
+import useWallets from "../../../hooks/useWallets";
+import Loading from "../../../components/Loading";
+import { useNavigate, useParams } from "react-router-dom";
+// import { Wallet } from "../../../types/wallet.type";
 
 const LAA = () => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState("Transfer to Wallet");
+  // const [ wallet, setWallet ] = useState<Wallet>(null)
+
+  const { wallets, isLoading } = useWallets({ shouldGetTransactions: true });
+  const navigate = useNavigate();
 
   const handleSelect = (option) => {
     setSelected(option);
     setOpen(false);
   };
 
+  const { walletName } = useParams();
+
+
   // Dummy components for switching content
-  function TransferToWallet() {
-    return <LAAForm />;
+  // function TransferToWallet() {
+  //   return <LAAForm />;
+  // }
+
+  // function TransferToBank() {
+  //   return <LAAForm2 />;
+  // }
+
+  if(isLoading) {
+    return <Loading/>
   }
 
-  function TransferToBank() {
-    return <LAAForm2 />;
+  const wallet = wallets.pcc.filter(item => item.walletName === walletName)[0];
+
+  if(!wallet) {
+    navigate(-1);
+    return;
   }
+
+  // React.useEffect(() => {
+  //   const wallet = wallets.pcc.filter(item => item.walletName === walletName)[0];
+
+  //   if(!wallet) {
+  //     navigate(-1);
+  //     return;
+  //   }
+
+  //   setWallet(wallet);
+
+  // }, [])
 
   return (
     <div className=" bg-[#faf9f9]  overflow-y-auto">
@@ -35,7 +69,7 @@ const LAA = () => {
           <span className="text-[#687280]">
             Dashboard › {"  "} All Wallet Transactions{" "}
           </span>{" "}
-          <span className="text-yellow-500"> › {"  "} LAA Transactions </span>{" "}
+          <span className="text-yellow-500"> › {"  "} { wallet.walletName } Transactions </span>{" "}
         </p>
         <ProfileProgressCard completedFields={4} totalFields={10} />
 
@@ -69,13 +103,13 @@ const LAA = () => {
               )}
             </div>
           </div>
-          <LAACard />
+          <WalletCard wallet={wallet}/>
 
           {/* Dynamic Component Below */}
-          {selected === "Transfer to Wallet" && <TransferToWallet />}
-          {selected === "Transfer to Bank" && <TransferToBank />}
+          {selected === "Transfer to Wallet" && <TransferToWallet wallets={wallets.pcc} wallet={wallet}/>}
+          {selected === "Transfer to Bank" && <TransferToBank wallet={wallet}/>}
         </div>
-        <LAATab />
+        <WalletTab wallet={wallet}/>
       </div>
     </div>
   );

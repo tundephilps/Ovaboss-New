@@ -20,6 +20,7 @@ import { MdOutlineInbox } from "react-icons/md";
 
 import Logo from "../../../assets/Logo.png";
 import { Link } from "react-router-dom";
+import { useAppContext } from "../../../context/AppContext";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -27,6 +28,8 @@ const Navbar = () => {
 
   const [showHelpMenu, setShowHelpMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+
+  const { user } = useAppContext();
 
   return (
     <div className="w-full">
@@ -116,35 +119,37 @@ const Navbar = () => {
                   3
                 </span>
               </div> */}
-              <div
-                className="flex items-center text-gray-700 hover:text-gray-900 cursor-pointer"
-                onClick={() => {
-                  setShowProfileMenu(!showProfileMenu);
-                  setShowHelpMenu(false); // Close help if profile is clicked
-                }}
-              >
-                <LiaUserCheckSolid size={24} />
-                <span className="ml-2 text-sm">Alexand...</span>
-                <svg
-                  className="w-2 h-2 ml-1"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+              {user && 
+                <div
+                  className="flex items-center text-gray-700 hover:text-gray-900 cursor-pointer"
+                  onClick={() => {
+                    setShowProfileMenu(!showProfileMenu);
+                    setShowHelpMenu(false); // Close help if profile is clicked
+                  }}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </div>
+                  <LiaUserCheckSolid size={24} />
+                  <span className="ml-2 text-sm">{user.firstname}</span>
+                  <svg
+                    className="w-2 h-2 ml-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </div>
+              }
               {/* Profile Dropdown Menu */}
-              {showProfileMenu && (
+              {showProfileMenu && user && (
                 <div className="absolute top-full mt-2 right-0 bg-white shadow-lg rounded-md w-56 py-0 z-50">
                   <div className="px-4 py-2 font-semibold text-gray-800">
-                    Hi, Alexander
+                    Hi, { user.firstname }
                   </div>
                   <a
                     href="/#"
@@ -189,13 +194,13 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Menu - Shown when menu is open */}
-          {isMenuOpen && (
+          {isMenuOpen && user && (
             <div className="md:hidden mt-4">
               <div className="space-y-4">
                 <div className="flex items-center justify-between py-2 border-b border-gray-200">
                   <div className="flex items-center text-gray-700">
                     <FaUser size={20} />
-                    <span className="ml-2 text-sm">Alexander</span>
+                    <span className="ml-2 text-sm">{ user.firstname }</span>
                   </div>
                 </div>
 

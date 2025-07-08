@@ -33,19 +33,19 @@ const SignUpPage = () => {
           </p>
 
           <div className="grid grid-cols-2 gap-4 px-8 mb-12">
-            {/* Buyer Option */}
+            {/* CUSTOMER Option */}
             <div
               className={`border rounded-lg p-4 cursor-pointer transition-all ${
-                selectedType === "buyer"
+                selectedType === "CUSTOMER"
                   ? "border-[#e6ae06]"
                   : "border-gray-200 hover:bg-gray-50"
               }`}
-              onClick={() => handleAccountTypeSelect("buyer")}
+              onClick={() => handleAccountTypeSelect("CUSTOMER")}
             >
               <div className="flex flex-col items-start">
                 <div
                   className={`mb-2 ${
-                    selectedType === "buyer"
+                    selectedType === "CUSTOMER"
                       ? "text-yellow-500"
                       : "text-gray-600"
                   }`}
@@ -61,19 +61,19 @@ const SignUpPage = () => {
               </div>
             </div>
 
-            {/* Business Option */}
+            {/* BUSINESS Option */}
             <div
               className={`border rounded-lg p-4 cursor-pointer transition-all ${
-                selectedType === "business"
+                selectedType === "BUSINESS"
                   ? "border-[#e6ae06]"
                   : "border-gray-200 hover:bg-gray-50"
               }`}
-              onClick={() => handleAccountTypeSelect("business")}
+              onClick={() => handleAccountTypeSelect("BUSINESS")}
             >
               <div className="flex flex-col items-start">
                 <div
                   className={`mb-2 ${
-                    selectedType === "business"
+                    selectedType === "BUSINESS"
                       ? "text-yellow-500"
                       : "text-gray-600"
                   }`}
@@ -91,7 +91,7 @@ const SignUpPage = () => {
           </div>
 
           {/* Continue Button */}
-          <Link to="/Signupform">
+          <Link to={`/Signupform/${selectedType}`}>
             <button
               className={`w-full py-2 rounded-md text-center font-medium ${
                 selectedType

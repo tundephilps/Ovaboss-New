@@ -16,31 +16,42 @@ import { PiWallet } from "react-icons/pi";
 import { IoMdLocate } from "react-icons/io";
 import { IoStorefrontOutline } from "react-icons/io5";
 import { AiOutlineDashboard } from "react-icons/ai";
+import { useAppContext } from "../../../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 const UserDashboardQuickLinks = () => {
+  const { user } = useAppContext();
+
+  const navigate = useNavigate();
+
   return (
     <div className="bg-white p-4 rounded shadow w-full  mx-auto">
       {/* User Info */}
       <div className="flex items-center mb-4">
-        <div className="bg-yellow-500 text-white font-bold rounded-md h-10 w-10 flex items-center justify-center mr-3 text-lg">
-          a
-        </div>
-        <div>
-          <div className="font-semibold text-gray-800">alexsander army</div>
-          <div className="text-sm text-gray-500">alexsander@gamil.com</div>
-        </div>
+        {user && 
+          <div>
+            <div className="bg-yellow-500 text-white font-bold rounded-md h-10 w-10 flex items-center justify-center mr-3 text-lg">
+              {user.firstname.charAt(0)}
+            </div>
+            <div className="font-semibold text-gray-800">{user.firstname} {user.lastname}</div>
+            <div className="text-sm text-gray-500">{user.email}</div>
+          </div>
+        }
+        
       </div>
 
       {/* If users not logged in */}
-      <div className="flex space-x-4 justify-between pb-4">
-        <button className="w-full text-xs py-2 border border-yellow-400 text-yellow-400 font-medium rounded hover:bg-yellow-50 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50">
-          Login
-        </button>
+      {!user &&
+        <div className="flex space-x-4 justify-between pb-4">
+          <button onClick={() => navigate('/signin')} className="w-full text-xs py-2 border border-yellow-400 text-yellow-400 font-medium rounded hover:bg-yellow-50 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50">
+            Login
+          </button>
 
-        <button className="w-full text-xs py-2 border border-yellow-400 text-yellow-400 font-medium rounded hover:bg-yellow-50 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50">
-          Signup
-        </button>
-      </div>
+          <button onClick={() => navigate('/signup')}  className="w-full text-xs py-2 border border-yellow-400 text-yellow-400 font-medium rounded hover:bg-yellow-50 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50">
+            Signup
+          </button>
+        </div>
+      }
 
       {/* Links Grid */}
       <div className="grid grid-cols-2 gap-4 text-sm text-gray-700">

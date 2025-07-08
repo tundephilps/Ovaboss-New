@@ -1,10 +1,10 @@
 import { FaChevronDown } from "react-icons/fa";
 
-export default function LAAForm2() {
+export default function TransferToBank({ wallet }) {
   return (
     <div className="mx-auto  p-6 space-y-6">
       <h2 className="text-lg font-semibold border-b pb-2">
-        LAA Transfer to Bank
+        { wallet.walletName } Transfer to Bank
       </h2>
 
       <p className="text-sm font-medium text-gray-600">User to user Transfer</p>

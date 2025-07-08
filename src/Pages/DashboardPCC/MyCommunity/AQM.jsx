@@ -1,6 +1,6 @@
 import React from "react";
 import ProfileProgressCard from "../../../components/DashboardPCC/Homepage/ProfileProgressCard";
-import AQMtable from "../../../components/DashboardPCC/MyCommunity/AQMtable";
+import Table from "../../../components/DashboardPCC/MyCommunity/Table";
 
 const AQM = () => {
   return (
@@ -17,7 +17,7 @@ const AQM = () => {
           </span>{" "}
         </p>
         <ProfileProgressCard completedFields={4} totalFields={10} />
-        <AQMtable />
+        <Table type='aqm'/>
       </div>
     </div>
   );

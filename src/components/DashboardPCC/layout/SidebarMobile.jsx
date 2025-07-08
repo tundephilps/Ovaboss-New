@@ -13,8 +13,62 @@ import Contain from "../../../assets/Container.svg";
 import Contain2 from "../../../assets/Container2.svg";
 import { FaCartShopping } from "react-icons/fa6";
 import Contain3 from "../../../assets/Container3.svg";
+import useWallets from "../../../hooks/useWallets";
 
-const menuItems = [
+const SidebarItem = ({ item, isCollapsed }) => {
+  const [open, setOpen] = useState(false);
+
+  const hasChildren = item.children && item.children.length > 0;
+
+  const handleItemClick = (e) => {
+    if (hasChildren) {
+      e.preventDefault();
+      setOpen(!open);
+    }
+  };
+
+  return (
+    <div className="w-full text-xs ">
+      <Link to={item.path || "#"} className="block" onClick={handleItemClick}>
+        <div className="flex items-center justify-between px-4 py-2 cursor-pointer  hover:bg-gray-700 text-white">
+          <div className="flex items-center gap-2">
+            <span className="text-[#CC9A06]">{item.icon}</span>
+            {!isCollapsed && (
+              <span className="text-[#9EA8B5]">{item.label}</span>
+            )}
+          </div>
+          {hasChildren &&
+            !isCollapsed &&
+            (open ? (
+              <BiChevronDown className="text-[#CC9A06]" />
+            ) : (
+              <BiChevronRight className="text-[#9EA8B5]" />
+            ))}
+        </div>
+      </Link>
+      {hasChildren && open && !isCollapsed && (
+        <div className="pl-6">
+          {item.children.map((child, idx) => (
+            <SidebarItem key={idx} item={child} isCollapsed={isCollapsed} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const SidebarMobile = () => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
+  const { wallets, isLoading } = useWallets();
+
+  const allPCCWallets = wallets.pcc.map(item => ({ label: item.walletName, path: `/Wallets/${item.walletName}` }))
+
+  const menuItems = [
   {
     icon: <img src={Contain} />,
     label: "PCC Dashboard",
@@ -34,11 +88,7 @@ const menuItems = [
     icon: <FaWallet className="text-xl" />,
     label: "Wallets/Accounts",
     path: "/wallets",
-    children: [
-      { label: "LAA", path: "/Wallets/LAA" },
-      { label: "SIGN ON", path: "/Wallets/SignOn" },
-      { label: "BUY ON", path: "/Wallets/BuyOn" },
-    ],
+    children: allPCCWallets,
   },
   {
     icon: <FaFileInvoice className="text-xl" />,
@@ -100,55 +150,6 @@ const menuItems = [
     path: "/",
   },
 ];
-
-const SidebarItem = ({ item, isCollapsed }) => {
-  const [open, setOpen] = useState(false);
-
-  const hasChildren = item.children && item.children.length > 0;
-
-  const handleItemClick = (e) => {
-    if (hasChildren) {
-      e.preventDefault();
-      setOpen(!open);
-    }
-  };
-
-  return (
-    <div className="w-full text-xs ">
-      <Link to={item.path || "#"} className="block" onClick={handleItemClick}>
-        <div className="flex items-center justify-between px-4 py-2 cursor-pointer  hover:bg-gray-700 text-white">
-          <div className="flex items-center gap-2">
-            <span className="text-[#CC9A06]">{item.icon}</span>
-            {!isCollapsed && (
-              <span className="text-[#9EA8B5]">{item.label}</span>
-            )}
-          </div>
-          {hasChildren &&
-            !isCollapsed &&
-            (open ? (
-              <BiChevronDown className="text-[#CC9A06]" />
-            ) : (
-              <BiChevronRight className="text-[#9EA8B5]" />
-            ))}
-        </div>
-      </Link>
-      {hasChildren && open && !isCollapsed && (
-        <div className="pl-6">
-          {item.children.map((child, idx) => (
-            <SidebarItem key={idx} item={child} isCollapsed={isCollapsed} />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
-
-const SidebarMobile = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
-
-  const toggleSidebar = () => {
-    setIsCollapsed(!isCollapsed);
-  };
 
   return (
     <div className="transition-all duration-300 lg:min-h-screen overflow-y-auto h-full  bg-gradient-to-b from-[#000000] to-[#121212] text-white shadow-lg">
