@@ -150,23 +150,6 @@ const EditProfile = () => {
                 </div>
               </div>
 
-              <div className="mb-5">
-                <label className="block  text-xs mb-1">Gender</label>
-                <div className="relative">
-                  <select
-                    name="gender"
-                    value={inputs.profile.gender}
-                    onChange={e => handleInput('profile.gender', e.target.value)}
-                    className="w-full border border-gray-300 rounded px-3 py-2 text-sm appearance-none"
-                  >
-                    <option value='Male'>Male</option>
-                    <option value='Female'>Female</option>
-                    <option value='Other'>Other</option>
-                  </select>
-                  <IoChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                </div>
-              </div>
-
               <h2 className="text-xs font-semibold text-gray-400 mt-8 mb-5 uppercase tracking-wider">
                 Location Details
               </h2>
@@ -331,7 +314,7 @@ const EditProfile = () => {
               Next
             </button>
           </Link>
-          
+
           <button 
             className="bg-[#FFD700] text-black font-semibold px-6 py-2 rounded hover:bg-yellow-600"
             onClick={handleUpdateProfile}

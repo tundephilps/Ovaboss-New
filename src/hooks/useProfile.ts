@@ -15,7 +15,6 @@ const useProfile = () => {
             firstname: user?.firstname,
             lastname: user?.lastname,
             date_of_birth: user?.date_of_birth,
-            gender: user?.gender,
             email: user?.email,
             country_id: user?.country,
             profile_picture: user?.profile_picture,
@@ -94,7 +93,6 @@ const useProfile = () => {
                 date_of_birth: inputs.profile.date_of_birth!,
                 firstname: inputs.profile.firstname!,
                 lastname: inputs.profile.lastname!,
-                gender: inputs.profile.gender!,
                 email: inputs.profile.email!,
                 phone_number: inputs.profile.phone_number!,
             });

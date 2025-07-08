@@ -14,7 +14,6 @@ export interface User {
   position: string;
   profile_complete: boolean;
   stars: string;
-  gender: string;
   remember_token: string;
   smile_status: string;
   profile_picture: string;
