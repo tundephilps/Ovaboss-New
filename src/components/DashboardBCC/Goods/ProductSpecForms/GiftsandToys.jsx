@@ -82,6 +82,34 @@ const GiftsandToys = () => {
           </div>
         </div>
 
+        {/* Row 4 */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label className="block mb-1 font-medium">Toys Features</label>
+            <input
+              type="text"
+              placeholder="Ex: E14679G (Indicate Food and Drug Age...)"
+              className="border p-2 rounded w-full"
+            />
+          </div>
+          <div>
+            <label className="block mb-1 font-medium">
+              Battery Capacity (mAh)
+            </label>
+            <input
+              type="text"
+              placeholder="Model"
+              className="border p-2 rounded w-full"
+            />
+          </div>
+          <div>
+            <label className="block mb-1 font-medium">Power Type</label>
+            <select className="border p-2 rounded w-full text-gray-500">
+              <option>Ex: </option>
+            </select>
+          </div>
+        </div>
+
         {/* "What is in the box" Section */}
         <div>
           <label className="block mb-1 font-medium">What is in the box</label>

@@ -1,5 +1,6 @@
 import React from "react";
 import ProfileProgressCard from "../../../components/DashboardBCC/Homepage/ProfileProgressCard";
+import PromotionForm from "../../../components/DashboardBCC/Goods/PromotionForm";
 
 const Promotions = () => {
   return (
@@ -8,10 +9,11 @@ const Promotions = () => {
         <h1 className="font-bold text-2xl">Goods</h1>
         <p className="text-xs text-[#687280] ">
           Dashboard ›<span> All Goods ›</span>
-          <span className="text-yellow-500">{"  "} Add New Goods</span>{" "}
+          <span className="text-yellow-500">{"  "} Promotions</span>{" "}
         </p>
-        <ProfileProgressCard completedFields={4} totalFields={10} />
       </div>
+
+      <PromotionForm />
     </div>
   );
 };

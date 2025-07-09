@@ -254,7 +254,7 @@ function App() {
             <Route path="/Goods/AllGoods" element={<AllGoods />} />
 
             <Route path="/Goods/AddNewGoods" element={<AddNewGoods />} />
-            {/* <Route path="/Goods/AddNewGoods" element={<Promotions />} /> */}
+            <Route path="/Goods/Promotions" element={<Promotions />} />
           </Route>
         </Routes>
       </Router>

@@ -396,6 +396,12 @@ const AddNewGoods = () => {
             Product Specification
           </h2>
           {selectedCategory && <>{renderProductSpecification()}</>}
+
+          <div className="flex justify-end mb-4">
+            <button className="flex items-center text-xs gap-2 bg-[#FFD700] hover:bg-yellow-600 text-black font-semibold px-4 py-2 rounded">
+              Submit
+            </button>
+          </div>
         </form>
         <div className="pb-40" />
       </div>

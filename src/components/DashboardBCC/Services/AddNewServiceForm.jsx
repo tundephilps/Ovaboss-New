@@ -5,7 +5,8 @@ export default function AddNEwServiceForm() {
   const [images, setImages] = useState(new Array(6).fill(null));
   const [form, setForm] = useState({
     name: "",
-    category: "",
+    category:
+      "Design & Creative, Development & IT, Writing & Content, Digital Marketing, Customer Service, Business & Consulting, Pet Services, Fashion and Tailoring ",
     subCategory: "",
     price: "",
     country: "",
