@@ -67,9 +67,7 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
 
         }
 
-        console.log(status)
-
-        const storedUser = getPersistedStorage("user") as User | null;
+        // const storedUser = getPersistedStorage("user") as User | null;
 
         // if (!storedUser) {
         //     setLoading(false);
@@ -77,7 +75,7 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
         //     return;
         // }
 
-        setUser(storedUser);
+        // setUser(storedUser);
         setLoading(false);
     };
 
