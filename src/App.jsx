@@ -53,7 +53,9 @@ import GoodsOrderReportBCC from "./Pages/DashboardPCC/Reports/GoodsOrderReport";
 import CreateBusiness from "./Pages/DashboardBCC/Business/CreateBusiness";
 import AllOrders from "./Pages/DashboardBCC/Orders/AllOrders";
 import AllBusinesses from "./Pages/DashboardBCC/Business/AllBusinesses";
-import AddBusiness from "./Pages/DashboardBCC/Business/AddNewBusiness";
+import AddNewBusiness from "./Pages/DashboardBCC/Business/AddNewBusiness";
+import AddNewBusiness2 from "./Pages/DashboardBCC/Business/AddNewBusiness2";
+import AddNewBusiness3 from "./Pages/DashboardBCC/Business/AddNewBusiness3";
 import ProcessingOrders from "./Pages/DashboardBCC/Orders/ProcessingOrders";
 import AwaitingPayment from "./Pages/DashboardBCC/Orders/AwaitingPayment";
 import PendingOrders from "./Pages/DashboardBCC/Orders/PendingOrder";
@@ -162,7 +164,11 @@ function App() {
             <Route path="/BCCDashboard" element={<DashboardHomeBCC />} />
             <Route path="/CreateBusiness" element={<CreateBusiness />} />
             <Route path="/Business/All" element={<AllBusinesses />} />
-            <Route path="/Business/AddNew" element={<AddBusiness />} />
+            <Route path="/Business/AddNew" element={<AddNewBusiness />} />
+
+            <Route path="/Business/AddNew2" element={<AddNewBusiness2 />} />
+
+            <Route path="/Business/AddNew3" element={<AddNewBusiness3 />} />
             <Route
               path="/Business/BusinessOnboarding"
               element={<BusinessOnboarding />}

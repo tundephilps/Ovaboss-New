@@ -3,6 +3,7 @@ import ChangeBusiness from "../../../components/DashboardBCC/Homepage/ChangeBusi
 
 import { useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const AddBusiness = () => {
   const [isAuxiliary, setIsAuxiliary] = useState("No");
@@ -139,14 +140,14 @@ const AddBusiness = () => {
         </div>
 
         {/* Next Button */}
-        <div className="flex justify-end mt-8">
+        <Link to="/Business/AddNew2" className="flex justify-end mt-8">
           <button
             type="button"
             className="px-6 py-2 bg-yellow-500 hover:bg-yellow-600 text-white font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-colors"
           >
             Next
           </button>
-        </div>
+        </Link>
       </div>
     </div>
   );

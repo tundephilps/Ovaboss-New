@@ -14,7 +14,7 @@ const DashboardHome = () => {
       <CreateBusinessHeader />
       <ChangeBusiness />
       <div className="py-6 px-4">
-        <h1 className="font-bold text-2xl">PCC</h1>
+        <h1 className="font-bold text-2xl">BCC</h1>
         <p className="text-xs text-[#687280]">Dashboard</p>
         <ProfileProgressCard completedFields={4} totalFields={10} />
         <OrderStatusCards />
