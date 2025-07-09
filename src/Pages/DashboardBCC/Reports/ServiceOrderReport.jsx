@@ -1,6 +1,5 @@
 import React from "react";
-import ProfileProgressCard from "../../../components/DashboardPCC/Homepage/ProfileProgressCard";
-import ServiceOrderTable from "../../../components/DashboardPCC/Report/ServiceOrderTable";
+import ServiceOrderTable from "../../../components/DashboardBCC/Report/ServiceOrderTable";
 
 const ServiceOrderReport = () => {
   return (
@@ -15,7 +14,6 @@ const ServiceOrderReport = () => {
             › {"  "} Service Order Report{" "}
           </span>{" "}
         </p>
-        <ProfileProgressCard completedFields={4} totalFields={10} />
         <ServiceOrderTable />
       </div>
     </div>

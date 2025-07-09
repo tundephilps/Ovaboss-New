@@ -1,5 +1,4 @@
 import React from "react";
-import ProfileProgressCard from "../../../components/DashboardPCC/Homepage/ProfileProgressCard";
 import GoodsOrderTable from "../../../components/DashboardPCC/Report/GoodsOrderTable";
 
 const GoodsOrderReport = () => {
@@ -12,7 +11,6 @@ const GoodsOrderReport = () => {
           <span className="text-[#687280]">› {"  "}General Report </span>{" "}
           <span className="text-yellow-500"> › {"  "} Goods Order Report </span>{" "}
         </p>
-        <ProfileProgressCard completedFields={4} totalFields={10} />
         <GoodsOrderTable />
       </div>
     </div>

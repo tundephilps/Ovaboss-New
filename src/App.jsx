@@ -47,8 +47,8 @@ import LAA from "./Pages/DashboardPCC/Wallets/LAA";
 import SignOn from "./Pages/DashboardPCC/Wallets/SignOn";
 import BuyOn from "./Pages/DashboardPCC/Wallets/BuyOn";
 import MTR from "./Pages/DashboardPCC/MTR";
-import ServiceOrderReportBCC from "./Pages/DashboardPCC/Reports/ServiceOrderReport";
-import GoodsOrderReportBCC from "./Pages/DashboardPCC/Reports/GoodsOrderReport";
+import ServiceOrderReportBCC from "./Pages/DashboardBCC/Reports/ServiceOrderReport";
+import GoodsOrderReportBCC from "./Pages/DashboardBCC/Reports/GoodsOrderReport";
 
 import CreateBusiness from "./Pages/DashboardBCC/Business/CreateBusiness";
 import AllOrders from "./Pages/DashboardBCC/Orders/AllOrders";
