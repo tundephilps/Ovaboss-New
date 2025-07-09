@@ -37,7 +37,7 @@ axiosClient.interceptors.response.use(
                 location.href = '/Signin';
             }
         }
-        return Promise.reject(new Error(error.response.data.message ?? error.message));
+        return Promise.reject(new Error(error.response?.data?.message ?? error.message));
     }
 );
 
