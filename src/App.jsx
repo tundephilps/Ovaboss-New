@@ -84,6 +84,12 @@ import SignOnBCC from "./Pages/DashboardBCC/Wallets/SignOn";
 import BuyOnBCC from "./Pages/DashboardBCC/Wallets/BuyOn";
 import SellOnBCC from "./Pages/DashboardBCC/Wallets/SellOn";
 import BraBCC from "./Pages/DashboardBCC/Wallets/Bra";
+import Partner from "./Pages/Ecommerce/Partner";
+import BusinessRep from "./Pages/Ecommerce/BusinessRep";
+import TermsOfService from "./Pages/Ecommerce/Terms";
+import Privacy from "./Pages/Ecommerce/Privacy";
+import Blog from "./Pages/Ecommerce/Blog";
+import BlogDetails from "./Pages/Ecommerce/BlogDetails";
 function App() {
   return (
     <>
@@ -112,6 +118,18 @@ function App() {
             <Route path="/FindStore" element={<FindStore />} />
 
             <Route path="/FAQ" element={<FrequentlyAskedQuestions />} />
+
+            <Route path="/Partner" element={<Partner />} />
+
+            <Route path="/BusinessRepresentative" element={<BusinessRep />} />
+
+            <Route path="/TermsofService" element={<TermsOfService />} />
+
+            <Route path="/PrivacyPolicy" element={<Privacy />} />
+
+            <Route path="/Blog" element={<Blog />} />
+
+            <Route path="/BlogDetails" element={<BlogDetails />} />
           </Route>
 
           <Route element={<BusinessLayout />}>
