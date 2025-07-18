@@ -306,9 +306,11 @@ const Navbar = () => {
               }
 
               {/* If User is not logged In */}
-              {/* <button className="w-full text-xs py-3 px-12 border bg-[#FFD700] border-yellow-400 text-black font-medium rounded hover:bg-yellow-50 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50">
-                Login/Signup
-              </button> */}
+              {!user && 
+                <button onClick={handleLogin} className="w-full text-xs py-3 px-12 border bg-[#FFD700] border-yellow-400 text-black font-medium rounded hover:bg-yellow-50 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50">
+                  Login/Signup
+                </button>
+              }
 
               {user && 
                 <div

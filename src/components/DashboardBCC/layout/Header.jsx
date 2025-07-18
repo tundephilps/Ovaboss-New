@@ -13,6 +13,7 @@ import { FaTimes } from "react-icons/fa";
 import Sidebar from "./Sidebar";
 import SidebarMobile from "./SidebarMobile";
 import { useAppContext } from "../../../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,6 +22,7 @@ const Header = () => {
   const dropdownRef = useRef(null);
 
   const { user, handleLogout } = useAppContext();
+  const navigate = useNavigate();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -112,7 +114,7 @@ const Header = () => {
           </div>
 
           <div className="py-1">
-            <button className="flex items-center gap-3 w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-100">
+            <button onClick={() => navigate('/profile')} className="flex items-center gap-3 w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-100">
               <FiUser className="text-gray-500" />
               <span>Update Profile</span>
             </button>

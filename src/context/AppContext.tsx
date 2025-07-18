@@ -37,6 +37,7 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
 
     const removeAllPersistentData = () => {
         sessionStorage.clear();
+        localStorage.clear();
     }
 
     const handleSetUser = (user: User) => {
@@ -47,7 +48,7 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
     const handleLogout = () => {
         setUser(null);
         removeAllPersistentData();
-        navigate("/signin");
+        navigate("/");
     }
 
     const contextValue: AppContextType = {
@@ -58,14 +59,23 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
 
     const init = async () => {
         try {
-             const { status, data: response } = await axiosClient.get('user/profile-details');
-            if(status === 200) {
-                const { userData, ...rest } = response.data;
+            const authToken = localStorage.getItem('authToken');
+            const shouldRun =
+                authToken &&
+                location.pathname !== "/" &&
+                location.pathname !== "/signin" &&
+                !location.pathname.toLowerCase().includes("auth");
 
-                handleSetUser({
-                    ...userData,
-                    ...rest,
-                })
+            if(shouldRun) {
+                const { status, data: response } = await axiosClient.get('user/profile-details');
+                if(status === 200) {
+                    const { userData, ...rest } = response.data;
+
+                    handleSetUser({
+                        ...userData,
+                        ...rest,
+                    })
+                }
             }
         } catch(error) {
 

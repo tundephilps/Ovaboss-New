@@ -101,7 +101,7 @@ function App() {
               <Route path="/" element={<Homepage />} />
               <Route path="/Signin" element={<SignIn />} />
               <Route path="/Signup" element={<SignUpPage />} />
-              <Route path="/Signupform" element={<SignUpForm />} />
+              <Route path="/Signupform/:user_type" element={<SignUpForm />} />
               <Route path="/Resetpassword" element={<PasswordReset />} />
               <Route path="/OTP" element={<OTPInput />} />
 
