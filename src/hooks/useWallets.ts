@@ -4,14 +4,21 @@ import { Wallet } from "../types/wallet.type";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 
+interface WalletArgs {
+    shouldGetTransactions?: boolean;
+    section?: 'pcc' | 'bcc'
+}
+
 let fetchedWallet: Wallet | null = null;
 
-const useWallets = ({ shouldGetTransactions = false } = {}) => {
+const useWallets = ({ shouldGetTransactions = false, section }: WalletArgs = {}) => {
     const [ isLoading, setIsLoading ] = React.useState(true)
+    const [ isLoadingTransactions, setIsLoadingTransactions ] = React.useState(false)
     const [ wallets, setWallets ] = React.useState<Wallet>({
         pcc: [],
         bcc: [],
     })
+    const [ transactions, setTransactions ] = React.useState([])
 
     const { walletName } = useParams();
 
@@ -38,12 +45,23 @@ const useWallets = ({ shouldGetTransactions = false } = {}) => {
 
     const getWalletTransactions = async () => {
         try {
-            setIsLoading(true);
+            setIsLoadingTransactions(true);
+            if(!fetchedWallet || !section) {
+                return toast.error('Could not get wallet, please try again');
+            }
+
+            const wallet = fetchedWallet[section].filter(item => item.walletName === walletName)[0];
+            if(!wallet) {
+                return toast.error('Wallet was not found');
+            }
+
+            const { data: response } = await axiosClient.get(`/user/fetch-wallet?walletId=${wallet.walletId}`);
+            setTransactions(response.data.transactions);
 
         } catch(error) {
             toast.error(error.message)
         } finally {
-            setIsLoading(false);
+            setIsLoadingTransactions(false);
         }
     }
 
@@ -57,6 +75,8 @@ const useWallets = ({ shouldGetTransactions = false } = {}) => {
 
     return {
         isLoading,
+        isLoadingTransactions,
+        transactions,
         wallets,
         walletName,
     }

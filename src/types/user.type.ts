@@ -25,7 +25,7 @@ export interface User {
   nid: string | null;
   nextOfKin: NextOfKin;
   bankAccountDetails: BankAccountDetails[];
-  address: any[];             // Same as above
+  address: Address[];
   token: string;
 }
 
@@ -51,3 +51,17 @@ export interface BankAccountDetails {
   swiftCode: string;
   recipientCode: string;
 }
+
+export interface Address {
+  id: number;
+  address: string;
+  cityId: string;
+  city: string;
+  stateId: string;
+  state: string;
+  postalCode: string;
+  countryId: string;
+  country: string;
+  contactPerson: string;
+}
+

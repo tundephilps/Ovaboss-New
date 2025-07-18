@@ -11,6 +11,7 @@ import BankAccountDetails from "../../../components/DashboardPCC/Profile/BankDet
 import { Link } from "react-router-dom";
 import Avatar from "../../../assets/Profile.jpg";
 import { useAppContext } from "../../../context/AppContext";
+import AddressDetails from "../../../components/DashboardPCC/Profile/AddressDetails";
 
 const Detail = ({ label, value }) => (
   <div>
@@ -22,6 +23,8 @@ const Detail = ({ label, value }) => (
 const Profile = () => {
 
   const { user } = useAppContext();
+
+  const FRONTEND_URL = import.meta.env.VITE_FRONTEND_URL;
 
   return (
     <div className=" bg-[#faf9f9] overflow-y-auto">
@@ -72,24 +75,24 @@ const Profile = () => {
             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6 text-sm text-gray-700">
               <Detail label="Full Name" value={user.firstname + " " + user.lastname} />
               <Detail label="Date of Birth" value={user.date_of_birth} />
-              <Detail label="Gender" value={user.gender} />
+              {/* <Detail label="Gender" value={user.gender} /> */}
               <Detail label="Email" value={user.email} />
               <Detail label="Phone Number" value={user.phone_number} />
               {/* <Detail label="Address" value="41, Lawson, Surulere, Lagos" /> */}
               {/* <Detail label="City" value="Lagos" /> */}
               <Detail label="Country" value={user.country} />
               {/* <Detail label="Postal Code" value="100134" /> */}
-              <Detail label="PIN" value="•••••" />
+              <Detail label="PIN" value={user.pin} />
               <div className="flex items-center gap-2 col-span-1 sm:col-span-2">
                 <div className="w-40">
                   <span className="block text-gray-500 text-xs mb-1">
                     Personal Invite Link:
                   </span>
                   <a
-                    href="https://www.ovaboss.co"
+                    href={`${FRONTEND_URL}/Signup/${user.pin}`}
                     className="text-blue-500 break-all text-sm"
                   >
-                    https://www.ovaboss.co
+                    {FRONTEND_URL}/Signup/{user.pin}
                   </a>
                 </div>
                 <button className="text-xs px-2 py-1 bg-gray-200 rounded-md">
@@ -130,6 +133,7 @@ const Profile = () => {
         </div>
 
         <BankAccountDetails />
+        <AddressDetails />
       </div>
     </div>
   );

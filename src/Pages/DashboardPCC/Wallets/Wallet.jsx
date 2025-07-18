@@ -18,7 +18,7 @@ const LAA = () => {
   const [selected, setSelected] = useState("Transfer to Wallet");
   // const [ wallet, setWallet ] = useState<Wallet>(null)
 
-  const { wallets, isLoading } = useWallets({ shouldGetTransactions: true });
+  const { wallets, isLoading, isLoadingTransactions, transactions } = useWallets({ shouldGetTransactions: true, section: 'pcc' });
   const navigate = useNavigate();
 
   const handleSelect = (option) => {
@@ -109,7 +109,11 @@ const LAA = () => {
           {selected === "Transfer to Wallet" && <TransferToWallet wallets={wallets.pcc} wallet={wallet}/>}
           {selected === "Transfer to Bank" && <TransferToBank wallet={wallet}/>}
         </div>
-        <WalletTab wallet={wallet}/>
+        <WalletTab 
+          wallet={wallet}
+          transactions={transactions}
+          isLoadingTransactions={isLoadingTransactions}
+        />
       </div>
     </div>
   );

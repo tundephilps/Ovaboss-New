@@ -18,6 +18,7 @@ import { AiOutlineExclamationCircle } from "react-icons/ai";
 
 import Power from "../../../assets/Power.svg";
 import useWallets from "../../../hooks/useWallets";
+import { useAppContext } from "../../../context/AppContext";
 
 
 // Logout Confirmation Modal Component
@@ -105,6 +106,7 @@ const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const { wallets, isLoading } = useWallets();
+  const { user, handleLogout } = useAppContext();
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
@@ -118,7 +120,7 @@ const Sidebar = () => {
     setShowLogoutModal(false);
     // Add your logout logic here
     // For example: dispatch logout action, clear tokens, redirect to login
-    console.log("User logged out");
+    handleLogout();
   };
 
   const handleLogoutCancel = () => {
@@ -146,7 +148,7 @@ const Sidebar = () => {
     {
       icon: <FaWallet className="text-xl" />,
       label: "Wallets/Accounts",
-      path: "/wallets",
+      path: "#",
       children: allPCCWallets,
     },
     {
@@ -198,11 +200,15 @@ const Sidebar = () => {
       ],
     },
     { icon: <FaMoneyBillWave className="text-xl" />, label: "MTR", path: "/MTR" },
-    {
-      icon: <img src={Contain3} />,
-      label: "Switch to BCC",
-      path: "/BCCDashboard",
-    },
+    ...(user.userType === "BUSINESS"
+    ? [
+        {
+          icon: <img src={Contain3} />,
+          label: "Switch to BCC",
+          path: "/BCCDashboard",
+        },
+      ]
+    : []),
     {
       icon: <FaCartShopping className="text-xl" />,
       label: "Back to Store",

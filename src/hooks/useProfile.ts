@@ -2,9 +2,11 @@ import React from "react";
 import { useAppContext } from "../context/AppContext";
 import axiosClient from "../utils/axiosClient";
 import toast from "react-hot-toast";
-import { BankAccountDetails } from "../types/user.type";
+import { Address, BankAccountDetails } from "../types/user.type";
 import useCountry from "./useCountry";
 import useBank from "./useBank";
+import { City, State } from "../types/country.type";
+import { useNavigate } from "react-router-dom";
 
 const useProfile = () => {
 
@@ -36,10 +38,20 @@ const useProfile = () => {
             email: user?.nextOfKin.email,
             phone_number: user?.nextOfKin.phoneNumber,
             nationality_id: user?.nextOfKin.nationality,
+        },
+        address: {
+            country_id : "",
+            state_id : "",
+            city_id : "",
+            postal_code : "",
+            address : "",
+            contact_person : ""
         }
     });
     const [ isLoading, setIsLoading ] = React.useState(false);
     const [ isSaving, setIsSaving ] = React.useState(false);
+
+    const navigate = useNavigate();
 
     const handleInput = (fieldKey: string, value: any) => {
         const [ parentField, childField ] = fieldKey.split('.');
@@ -52,7 +64,7 @@ const useProfile = () => {
         }))
     }
 
-    const { countries } = useCountry();
+    const { countries, getCities, getStates } = useCountry();
     const { getBanks, bankAccountTypes } = useBank();
 
     const handleUpdateProfile = async () => {
@@ -109,16 +121,38 @@ const useProfile = () => {
 
     const handleCreateNextOfKin = async () => {
         try {
-            setIsLoading(true);
+            setIsSaving(true);
 
-            const { data: response } = await axiosClient.post('/user/create-next-of-kin', inputs.nextOfKin);
+            let nationality_id: string | number | undefined = inputs.nextOfKin.nationality_id;
+            
+            if(typeof nationality_id === 'string') {
+                const country = countries.filter(item => item.country === nationality_id)[0];
+                nationality_id = country.countryId;
+            }
+
+            const country = countries.filter(item => item.countryId === nationality_id)[0];
+            const countryName = country.country;
+
+            const { data: response } = await axiosClient.post('/user/create-next-of-kin', {...inputs.nextOfKin, nationality_id});
+
+            handleSetUser({
+                ...user!,
+                nextOfKin: {
+                    fullName: inputs.nextOfKin.full_name!,
+                    birthDate: inputs.nextOfKin.birth_date!,
+                    address: inputs.nextOfKin.address!,
+                    email: inputs.nextOfKin.email!,
+                    phoneNumber: inputs.nextOfKin.phone_number!,
+                    nationality: countryName,
+                },
+            });
 
             toast.success(response.message);
 
         } catch(error) {
             toast.error(error.message)
         } finally {
-            setIsLoading(false);
+            setIsSaving(false);
         }
     }
 
@@ -201,6 +235,141 @@ const useProfile = () => {
         }
     }
 
+    const handleAddAddress = async (callback?: () => void) => {
+        try {
+            setIsSaving(true);
+
+            const { 
+                country_id,
+                city_id,
+                state_id,
+                address,
+                contact_person,
+                postal_code
+             } = inputs.address
+
+            const { data: response } = await axiosClient.post('user/create-address', inputs.address);
+            
+            const country = countries.filter(item => item.countryId === +country_id)[0]
+            const states = await getStates(Number(country_id));
+            const cities = await getCities(Number(state_id));
+
+            let state: State | null = null;
+            let city: City | null = null;
+
+            if(states) {
+                state = states.filter(item => item.stateId === +state_id)[0];
+            }
+
+            if(cities) {
+                city = cities.filter(item => item.cityId === +city_id)[0];
+            }
+
+            const newAddress: Address = {
+                id: user!.address.length + 1,
+                address,
+                country: country.country,
+                city: city?.city || '',
+                state: state?.state || '',
+                postalCode: postal_code,
+                contactPerson: contact_person,
+                cityId: city_id,
+                stateId: state_id,
+                countryId: country_id,
+            }
+
+            handleSetUser({
+                ...user!,
+                address: [...user!.address, newAddress]
+            });
+
+            toast.success(response.message);
+
+            if(callback) callback();
+
+        } catch(error) {
+            toast.error(error.message)
+        } finally {
+            setIsSaving(false);
+        }
+    }
+
+    const handleUpdateAddress = async (callback: () => void) => {
+        try {
+            setIsSaving(true);
+
+            const { 
+                country_id,
+                city_id,
+                state_id,
+                address,
+                contact_person,
+                postal_code
+             } = inputs.address
+
+            const { data: response } = await axiosClient.post('user/update-address', inputs.address);
+
+            const country = countries.filter(item => item.countryId === +country_id)[0]
+            const states = await getStates(Number(country_id));
+            const cities = await getCities(Number(state_id));
+
+            let state: State | null = null;
+            let city: City | null = null;
+            const { id } = inputs.address as any;
+
+            if(states) {
+                state = states.filter(item => item.stateId === +state_id)[0];
+            }
+
+            if(cities) {
+                city = cities.filter(item => item.cityId === +city_id)[0];
+            }
+
+            const updatedAddress: Address = {
+                id,
+                address,
+                country: country.country,
+                city: city?.city || '',
+                state: state?.state || '',
+                postalCode: postal_code,
+                contactPerson: contact_person,
+                cityId: city_id,
+                stateId: state_id,
+                countryId: country_id,
+            }
+
+            handleSetUser({
+                ...user!,
+                address: user!.address.map(item => item.id == id ? updatedAddress : item)
+            });
+
+            toast.success(response.message);
+
+            if(callback) callback();
+
+        } catch(error) {
+            toast.error(error.message)
+        } finally {
+            setIsSaving(false);
+        }
+    }
+
+    const handleUpgradeAccount = async () => {
+        try {
+            setIsSaving(true);
+
+            const { data: response } = await axiosClient.get('/user/upgrade-to-bcc');
+
+            localStorage.setItem('authToken', response.data.token);
+            navigate('/bccdashboard');
+
+        } catch(error) {
+            toast.error(error.message);
+        } finally {
+            setIsSaving(false);
+        }
+    }
+
     return {
         inputs,
         isLoading,
@@ -211,6 +380,9 @@ const useProfile = () => {
         handleCreateNextOfKin,
         handleAddBankAccount,
         handleUpdateBankAccount,
+        handleAddAddress,
+        handleUpdateAddress,
+        handleUpgradeAccount,
     }
 }
 

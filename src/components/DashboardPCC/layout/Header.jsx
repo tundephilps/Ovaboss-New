@@ -20,7 +20,7 @@ const Header = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const dropdownRef = useRef(null);
   
-  const { user } = useAppContext();
+  const { user, handleLogout } = useAppContext();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -117,7 +117,7 @@ const Header = () => {
               <span>Update Profile</span>
             </button>
 
-            <button className="flex items-center gap-3 w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-100">
+            <button onClick={handleLogout} className="flex items-center gap-3 w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-100">
               <FiLogOut className="text-gray-500" />
               <span>Log Out</span>
             </button>

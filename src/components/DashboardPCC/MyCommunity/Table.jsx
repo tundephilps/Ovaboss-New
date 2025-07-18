@@ -8,72 +8,6 @@ import Pagination from "./Pagination";
 import useCommunity from "../../../hooks/useCommunity";
 import Loading from "../../Loading";
 
-const data = [
-  {
-    id: "#10234",
-    name: "Fatimah Bello",
-    city: "Orange",
-    country: "Georgia",
-    date: "Feb 28, 2025",
-  },
-  {
-    id: "#10233",
-    name: "David Oke",
-    city: "Toledo",
-    country: "Curaçao",
-    date: "Feb 28, 2025",
-  },
-  {
-    id: "#10232",
-    name: "Mary Johnson",
-    city: "Fairfield",
-    country: "Serbia",
-    date: "Feb 28, 2025",
-  },
-  {
-    id: "#10231",
-    name: "Laura Benson",
-    city: "Austin",
-    country: "Guinea",
-    date: "Feb 28, 2025",
-  },
-  {
-    id: "#10230",
-    name: "John Smith",
-    city: "Pembroke Pines",
-    country: "Iceland",
-    date: "Feb 28, 2025",
-  },
-  {
-    id: "#10229",
-    name: "Sarah Thompson",
-    city: "Fairfield",
-    country: "Haiti",
-    date: "Feb 28, 2025",
-  },
-  {
-    id: "#10229",
-    name: "Sarah Thompson",
-    city: "Fairfield",
-    country: "Haiti",
-    date: "Feb 28, 2025",
-  },
-  {
-    id: "#10229",
-    name: "Sarah Thompson",
-    city: "Fairfield",
-    country: "Haiti",
-    date: "Feb 28, 2025",
-  },
-  {
-    id: "#10229",
-    name: "Sarah Thompson",
-    city: "Fairfield",
-    country: "Haiti",
-    date: "Feb 28, 2025",
-  },
-];
-
 // Dropdown content data
 const filterMenuOptions = {
   Date: [
@@ -148,8 +82,8 @@ export default function Table({ type }) {
               <th>Full Name</th>
               <th>Country</th>
               <th>User Type</th>
-              <th>Email</th>
-              <th>Phone Number</th>
+              {/* <th>Email</th>
+              <th>Phone Number</th> */}
               <th></th>
             </tr>
           </thead>
@@ -173,12 +107,12 @@ export default function Table({ type }) {
                   key={index}
                   className="bg-white hover:bg-gray-50 rounded shadow-sm"
                 >
-                  <td className="py-2">{person.id}</td>
+                  <td className="py-2">{index + 1}</td>
                   <td className="py-2">{person.firstname} {person.lastname}</td>
                   <td className="py-2">{person.country}</td>
                   <td className="py-2">{person.userType}</td>
-                  <td className="py-2">{person.email}</td>
-                  <td className="py-2">{person.phone_number}</td>
+                  {/* <td className="py-2">{person.email}</td> */}
+                  {/* <td className="py-2">{person.phone_number}</td> */}
                   <td className="py-2 text-right relative">
                     <button
                       onClick={() => handleDropdownToggle(index)}

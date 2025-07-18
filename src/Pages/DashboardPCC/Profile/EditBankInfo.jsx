@@ -8,13 +8,17 @@ import useCountry from "../../../hooks/useCountry";
 import { useAppContext } from "../../../context/AppContext";
 import Loading from "../../../components/Loading";
 import BankAccountTable from "../../../components/DashboardPCC/Profile/BankAccountTable";
+import AddressTable from "../../../components/DashboardPCC/Profile/AddressTable";
 import AddBankAccountModal from "../../../components/DashboardPCC/Profile/AddBankAccountModal";
+import AddAddressModal from "../../../components/DashboardPCC/Profile/AddAddressModal";
 
 
 const EditBankInfo = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [ isModalOpan , setModalOpen] = useState(false);
+  const [ isAddressModalOpan , setAddressModalOpen] = useState(false);
   const [ isAddBankAccount , setIsAddBankAccount] = useState(true);
+  const [ isAddAddress , setIsAddAddress] = useState(true);
   
 
   const { 
@@ -25,6 +29,8 @@ const EditBankInfo = () => {
     handleCreateNextOfKin, 
     handleAddBankAccount,
     handleUpdateBankAccount, 
+    handleAddAddress,
+    handleUpdateAddress,
   } = useProfile();
   const { countries } = useCountry();
   const { user } = useAppContext();
@@ -34,9 +40,45 @@ const EditBankInfo = () => {
     setIsChecked(!isChecked);
   };
 
-  const bankAccountCallback = () => setModalOpen(false);
+  const openBankAccountModal = () => {
+    setInputs(prev => ({
+      ...prev,
+      address: {
+        id: undefined,
+        bank_id : "",
+        country_id: "",
+        bank_account_type_id: "",
+        account_name : "",
+        account_number : "",
+        swift_code : "",
+        recipient_code : ""
+      }
+    }))
+    setIsAddBankAccount(true);
+    setModalOpen(true);
+  }
 
-  const isNextOfKinDisabled = !!user.nextOfKin;
+  const openAddressModal = () => {
+    setInputs(prev => ({
+      ...prev,
+      address: {
+        id: undefined,
+        country_id : "",
+        state_id : "",
+        city_id : "",
+        postal_code : "",
+        address : "",
+        contact_person : ""
+      }
+    }))
+    setIsAddAddress(true);
+    setAddressModalOpen(true);
+  }
+
+  const bankAccountCallback = () => setModalOpen(false);
+  const addressCallback = () => setAddressModalOpen(false);
+
+  const isNextOfKinDisabled = false;
 
   return (
     <div className=" bg-[#faf9f9] overflow-y-auto">
@@ -69,9 +111,9 @@ const EditBankInfo = () => {
         <h2 className="text-xl font-semibold pb-2 mb-6 border-b ">
           Personal Details 2
         </h2>
-       <div className="w-full flex justify-end">
+       <div className="w-full flex justify-end mb-2">
           <button
-            onClick={() => setModalOpen(true)}
+            onClick={openBankAccountModal}
             className="px-6 py-2 text-white font-medium rounded bg-yellow-500 hover:bg-yellow-600 cursor-pointer"
           >
             Add Bank Account
@@ -92,6 +134,31 @@ const EditBankInfo = () => {
           setModalOpen={setModalOpen} 
           setInputs={setInputs}
           setIsAddBankAccount={setIsAddBankAccount}
+        />
+
+        <div className="w-full flex justify-end mt-5 mb-2">
+          <button
+            onClick={openAddressModal}
+            className="px-6 py-2 text-white font-medium rounded bg-yellow-500 hover:bg-yellow-600 cursor-pointer"
+          >
+            Add Address
+          </button>
+        </div>
+
+        <AddAddressModal 
+          isOpen={isAddressModalOpan} 
+          onClose={() => setAddressModalOpen(false)} 
+          onSubmit={isAddAddress ? handleAddAddress : handleUpdateAddress}
+          inputs={inputs}
+          handleInput={handleInput}
+          callback={addressCallback}
+          isLoading={isSaving}
+          isAddAddress={isAddAddress}
+        />
+        <AddressTable
+          setModalOpen={setAddressModalOpen} 
+          setInputs={setInputs}
+          setIsAddAddress={setIsAddAddress}
         />
 
         <div className="flex flex-col lg:flex-row gap-8 mb-8">
@@ -296,14 +363,14 @@ const EditBankInfo = () => {
 
               <button
                 onClick={handleCreateNextOfKin}
-                disabled={!isChecked}
+                disabled={!isChecked || isSaving}
                 className={`ml-4 px-6 py-2 text-white font-medium rounded ${
                   isChecked
                     ? "bg-yellow-500 hover:bg-yellow-600 cursor-pointer"
                     : "bg-yellow-400 opacity-80 cursor-not-allowed"
                 }`}
               >
-                Submit
+                {isSaving ? <Loading/> : 'Submit'}
               </button>
             </div>
           </div>

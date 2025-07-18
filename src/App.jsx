@@ -120,19 +120,19 @@ function App() {
               <Route path="/FindStore" element={<FindStore />} />
 
               <Route path="/FAQ" element={<FrequentlyAskedQuestions />} />
-  
-            <Route path="/Partner" element={<Partner />} />
 
-            <Route path="/BusinessRepresentative" element={<BusinessRep />} />
+              <Route path="/Partner" element={<Partner />} />
 
-            <Route path="/TermsofService" element={<TermsOfService />} />
+              <Route path="/BusinessRepresentative" element={<BusinessRep />} />
 
-            <Route path="/PrivacyPolicy" element={<Privacy />} />
+              <Route path="/TermsofService" element={<TermsOfService />} />
 
-            <Route path="/Blog" element={<Blog />} />
+              <Route path="/PrivacyPolicy" element={<Privacy />} />
 
-            <Route path="/BlogDetails" element={<BlogDetails />} />
-          </Route>
+              <Route path="/Blog" element={<Blog />} />
+
+              <Route path="/BlogDetails" element={<BlogDetails />} />
+            </Route>
 
             <Route element={<BusinessLayout />}>
               <Route path="/BussinessService" element={<BussinessService />} />
@@ -180,101 +180,103 @@ function App() {
               </Route>
             </Route>
 
-            <Route element={<DashboardBCCLayout />}>
-              <Route path="/BCCDashboard" element={<DashboardHomeBCC />} />
-              <Route path="/CreateBusiness" element={<CreateBusiness />} />
-              <Route path="/Business/All" element={<AllBusinesses />} />
-              <Route path="/Business/AddNew" element={<AddNewBusiness />} />
-  
-            <Route path="/Business/AddNew2" element={<AddNewBusiness2 />} />
+            <Route element={<ProtectedRoute section='bcc'/>}>
+              <Route element={<DashboardBCCLayout />}>
+                <Route path="/BCCDashboard" element={<DashboardHomeBCC />} />
+                <Route path="/CreateBusiness" element={<CreateBusiness />} />
+                <Route path="/Business/All" element={<AllBusinesses />} />
+                <Route path="/Business/AddNew" element={<AddNewBusiness />} />
 
-            <Route path="/Business/AddNew3" element={<AddNewBusiness3 />} />
-            <Route
-                path="/Business/BusinessOnboarding"
-                element={<BusinessOnboarding />}
-              />
-              <Route path="/Orders" element={<AllOrders />} />
-              <Route
-                path="/Orders/AwaitingPayment"
-                element={<AwaitingPayment />}
-              />
-              <Route path="/Orders/PendingOrders" element={<PendingOrders />} />
-              <Route
-                path="/Orders/ProcessingOrders"
-                element={<ProcessingOrders />}
-              />
-              <Route
-                path="/Orders/DispatchedOrders"
-                element={<DispatchedOrders />}
-              />
-              <Route
-                path="/Orders/CompleteOrders"
-                element={<CompletedOrders />}
-              />
-              <Route
-                path="/Orders/UnfulfilledOrders"
-                element={<UnfulfilledOrders />}
-              />
-              <Route
-                path="/Orders/OfflineSalesInvoice"
-                element={<OfflineSalesInvoice />}
-              />
-              <Route
-                path="/Orders/OnlineSalesInvoice"
-                element={<OnlineSalesInvoice />}
-              />
+                <Route path="/Business/AddNew2" element={<AddNewBusiness2 />} />
 
-              <Route path="/BusinessCommunity/AQB" element={<AQB />} />
-              <Route path="/BusinessCommunity/PMB" element={<PMB />} />
+                <Route path="/Business/AddNew3" element={<AddNewBusiness3 />} />
+                <Route
+                  path="/Business/BusinessOnboarding"
+                  element={<BusinessOnboarding />}
+                />
+                <Route path="/Orders" element={<AllOrders />} />
+                <Route
+                  path="/Orders/AwaitingPayment"
+                  element={<AwaitingPayment />}
+                />
+                <Route path="/Orders/PendingOrders" element={<PendingOrders />} />
+                <Route
+                  path="/Orders/ProcessingOrders"
+                  element={<ProcessingOrders />}
+                />
+                <Route
+                  path="/Orders/DispatchedOrders"
+                  element={<DispatchedOrders />}
+                />
+                <Route
+                  path="/Orders/CompleteOrders"
+                  element={<CompletedOrders />}
+                />
+                <Route
+                  path="/Orders/UnfulfilledOrders"
+                  element={<UnfulfilledOrders />}
+                />
+                <Route
+                  path="/Orders/OfflineSalesInvoice"
+                  element={<OfflineSalesInvoice />}
+                />
+                <Route
+                  path="/Orders/OnlineSalesInvoice"
+                  element={<OnlineSalesInvoice />}
+                />
 
-              <Route path="/Wallets/BCCSignon" element={<SignOnBCC />} />
+                <Route path="/BusinessCommunity/AQB" element={<AQB />} />
+                <Route path="/BusinessCommunity/PMB" element={<PMB />} />
 
-              <Route path="/Wallets/BCCBuyon" element={<BuyOnBCC />} />
+                <Route path="/Wallets/BCCSignon" element={<SignOnBCC />} />
 
-              <Route path="/Wallets/SELLOn" element={<SellOnBCC />} />
+                <Route path="/Wallets/BCCBuyon" element={<BuyOnBCC />} />
 
-              <Route path="/Wallets/BRA" element={<BraBCC />} />
+                <Route path="/Wallets/SELLOn" element={<SellOnBCC />} />
 
-              <Route path="/Services" element={<AllServices />} />
-              <Route path="/Services/AddNew" element={<AddNewService />} />
+                <Route path="/Wallets/BRA" element={<BraBCC />} />
 
-              <Route
-                path="/Reports/GeneralReports"
-                element={<GeneralReportBCC />}
-              />
-              <Route path="/Reports/MTRReports" element={<MTRReportBCC />} />
+                <Route path="/Services" element={<AllServices />} />
+                <Route path="/Services/AddNew" element={<AddNewService />} />
 
-              <Route
-                path="/Reports/GoodsOrder"
-                element={<GoodsOrderReportBCC />}
-              />
-              <Route
-                path="/Reports/ServiceOrder"
-                element={<ServiceOrderReportBCC />}
-              />
+                <Route
+                  path="/Reports/GeneralReports"
+                  element={<GeneralReportBCC />}
+                />
+                <Route path="/Reports/MTRReports" element={<MTRReportBCC />} />
 
-              <Route
-                path="/Reports/WalletTransactions"
-                element={<WalletTransactionsBCC />}
-              />
-              <Route
-                path="/Reports/EarningTransactions"
-                element={<EarningTransactionsBCC />}
-              />
+                <Route
+                  path="/Reports/GoodsOrder"
+                  element={<GoodsOrderReportBCC />}
+                />
+                <Route
+                  path="/Reports/ServiceOrder"
+                  element={<ServiceOrderReportBCC />}
+                />
 
-              <Route
-                path="/Reports/OnlineInvoice"
-                element={<OnlineInvoiceReportBCC />}
-              />
-              <Route
-                path="/Reports/OfflineInvoice"
-                element={<OfflineInvoiceReportBCC />}
-              />
-              <Route path="/Goods/PickupLocations" element={<PickupLocation />} />
-              <Route path="/Goods/AllGoods" element={<AllGoods />} />
+                <Route
+                  path="/Reports/WalletTransactions"
+                  element={<WalletTransactionsBCC />}
+                />
+                <Route
+                  path="/Reports/EarningTransactions"
+                  element={<EarningTransactionsBCC />}
+                />
 
-              <Route path="/Goods/AddNewGoods" element={<AddNewGoods />} />
-              <Route path="/Goods/Promotions" element={<Promotions />} />
+                <Route
+                  path="/Reports/OnlineInvoice"
+                  element={<OnlineInvoiceReportBCC />}
+                />
+                <Route
+                  path="/Reports/OfflineInvoice"
+                  element={<OfflineInvoiceReportBCC />}
+                />
+                <Route path="/Goods/PickupLocations" element={<PickupLocation />} />
+                <Route path="/Goods/AllGoods" element={<AllGoods />} />
+
+                <Route path="/Goods/AddNewGoods" element={<AddNewGoods />} />
+                <Route path="/Goods/Promotions" element={<Promotions />} />
+              </Route>
             </Route>
           </Routes>
         </AppContextProvider>

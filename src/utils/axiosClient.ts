@@ -1,5 +1,4 @@
 import axios, { AxiosInstance } from "axios";
-import { useNavigate } from "react-router-dom";
 
 const axiosClient: AxiosInstance = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -28,7 +27,7 @@ axiosClient.interceptors.request.use(
 axiosClient.interceptors.response.use(
     (response) => response,
     (error) => {
-        console.log("response", error.response.data)
+        console.log("response", error.response?.data)
         // Handle common errors globally (e.g., 401, 403)
         if (error.response?.status === 401) {
             console.warn("Unauthorized. Redirecting to login...");

@@ -4,6 +4,8 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { VscSettings } from "react-icons/vsc";
 import { AiOutlineEye, AiOutlineMail } from "react-icons/ai";
 import Pagination from "../Report/Pagination";
+import Loading from "../../Loading";
+import { formatDate, numberFormat } from "../../../utils";
 
 const walletTransactionsData = [
   {
@@ -26,7 +28,7 @@ const statusColor = {
   Credit: "text-green-600",
 };
 
-export default function WalletTab({ wallet }) {
+export default function WalletTab({ wallet, transactions, isLoadingTransactions }) {
   const [activeTab, setActiveTab] = useState("wallet");
   const [openDropdown, setOpenDropdown] = useState(null);
 
@@ -77,13 +79,25 @@ export default function WalletTab({ wallet }) {
             </tr>
           </thead>
           <tbody className="text-sm">
-            {walletTransactionsData.map((item, index) => (
+            {isLoadingTransactions && 
+              <tr>
+                <td colSpan={8} className="py-5"><Loading/></td>
+              </tr>
+            }
+            {!isLoadingTransactions && transactions.length === 0 &&
+              <tr>
+                <td colSpan="8" className="text-center py-5 text-gray-500">
+                  No Transaction found
+                </td>
+              </tr>
+            }
+            {transactions.map((item, index) => (
               <tr
                 key={index}
                 className="hover:bg-gray-50 border-b border-gray-100"
               >
                 <td className="py-3 px-4 text-blue-600 font-medium">
-                  {item.id}
+                  {index + 1}
                 </td>
                 <td className="py-3 px-4">{item.category}</td>
                 <td
@@ -100,10 +114,10 @@ export default function WalletTab({ wallet }) {
                 >
                   {item.status}
                 </td>
-                <td className="py-3 px-4 font-medium">{item.amount}</td>
-                <td className="py-3 px-4 font-medium">{item.newBalance}</td>
+                <td className="py-3 px-4 font-medium">{numberFormat(item.amount, 2)}</td>
+                <td className="py-3 px-4 font-medium">{numberFormat(item.newBalance, 2)}</td>
                 <td className="py-3 px-4 text-gray-600">{item.description}</td>
-                <td className="py-3 px-4 text-gray-600">{item.date}</td>
+                <td className="py-3 px-4 text-gray-600">{formatDate(item.date)}</td>
                 <td className="py-3 px-4 text-right relative">
                   <button
                     onClick={() => handleDropdownToggle(index)}

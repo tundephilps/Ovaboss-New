@@ -35,6 +35,10 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
         sessionStorage.removeItem(key);
     };
 
+    const removeAllPersistentData = () => {
+        sessionStorage.clear();
+    }
+
     const handleSetUser = (user: User) => {
         setUser(user);
         persistStorage("user", user);
@@ -42,7 +46,7 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
 
     const handleLogout = () => {
         setUser(null);
-        removePersistentStorage("user");
+        removeAllPersistentData();
         navigate("/signin");
     }
 
