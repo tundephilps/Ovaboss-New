@@ -17,12 +17,11 @@ const ChangeBusiness = ({ onBackClick, onCreateClick }) => {
         </div>
 
         {/* Right side - Create button */}
-        <button
-          onClick={onCreateClick}
-          className="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded font-medium text-sm transition-colors"
-        >
-          Change Selected Business
-        </button>
+        <Link to="/Business/All">
+          <button className="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded font-medium text-sm transition-colors">
+            Change Selected Business
+          </button>
+        </Link>
       </div>
     </>
   );

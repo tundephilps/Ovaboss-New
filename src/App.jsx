@@ -45,13 +45,15 @@ import WalletTransactions from "./Pages/DashboardPCC/Reports/WalletTransactions"
 import EarningTransactions from "./Pages/DashboardPCC/Reports/EarningTransactions";
 import Wallet from "./Pages/DashboardPCC/Wallets/Wallet";
 import MTR from "./Pages/DashboardPCC/MTR";
-import ServiceOrderReportBCC from "./Pages/DashboardPCC/Reports/ServiceOrderReport";
-import GoodsOrderReportBCC from "./Pages/DashboardPCC/Reports/GoodsOrderReport";
+import ServiceOrderReportBCC from "./Pages/DashboardBCC/Reports/ServiceOrderReport";
+import GoodsOrderReportBCC from "./Pages/DashboardBCC/Reports/GoodsOrderReport";
 
 import CreateBusiness from "./Pages/DashboardBCC/Business/CreateBusiness";
 import AllOrders from "./Pages/DashboardBCC/Orders/AllOrders";
 import AllBusinesses from "./Pages/DashboardBCC/Business/AllBusinesses";
-import AddBusiness from "./Pages/DashboardBCC/Business/AddNewBusiness";
+import AddNewBusiness from "./Pages/DashboardBCC/Business/AddNewBusiness";
+import AddNewBusiness2 from "./Pages/DashboardBCC/Business/AddNewBusiness2";
+import AddNewBusiness3 from "./Pages/DashboardBCC/Business/AddNewBusiness3";
 import ProcessingOrders from "./Pages/DashboardBCC/Orders/ProcessingOrders";
 import AwaitingPayment from "./Pages/DashboardBCC/Orders/AwaitingPayment";
 import PendingOrders from "./Pages/DashboardBCC/Orders/PendingOrder";
@@ -83,6 +85,12 @@ import BraBCC from "./Pages/DashboardBCC/Wallets/Bra";
 import AppContextProvider from "./context/AppContext";
 import ProtectedRoute from "./Pages/ProtectedRoute";
 
+import Partner from "./Pages/Ecommerce/Partner";
+import BusinessRep from "./Pages/Ecommerce/BusinessRep";
+import TermsOfService from "./Pages/Ecommerce/Terms";
+import Privacy from "./Pages/Ecommerce/Privacy";
+import Blog from "./Pages/Ecommerce/Blog";
+import BlogDetails from "./Pages/Ecommerce/BlogDetails";
 function App() {
   return (
     <>
@@ -112,7 +120,19 @@ function App() {
               <Route path="/FindStore" element={<FindStore />} />
 
               <Route path="/FAQ" element={<FrequentlyAskedQuestions />} />
-            </Route>
+  
+            <Route path="/Partner" element={<Partner />} />
+
+            <Route path="/BusinessRepresentative" element={<BusinessRep />} />
+
+            <Route path="/TermsofService" element={<TermsOfService />} />
+
+            <Route path="/PrivacyPolicy" element={<Privacy />} />
+
+            <Route path="/Blog" element={<Blog />} />
+
+            <Route path="/BlogDetails" element={<BlogDetails />} />
+          </Route>
 
             <Route element={<BusinessLayout />}>
               <Route path="/BussinessService" element={<BussinessService />} />
@@ -164,8 +184,12 @@ function App() {
               <Route path="/BCCDashboard" element={<DashboardHomeBCC />} />
               <Route path="/CreateBusiness" element={<CreateBusiness />} />
               <Route path="/Business/All" element={<AllBusinesses />} />
-              <Route path="/Business/AddNew" element={<AddBusiness />} />
-              <Route
+              <Route path="/Business/AddNew" element={<AddNewBusiness />} />
+  
+            <Route path="/Business/AddNew2" element={<AddNewBusiness2 />} />
+
+            <Route path="/Business/AddNew3" element={<AddNewBusiness3 />} />
+            <Route
                 path="/Business/BusinessOnboarding"
                 element={<BusinessOnboarding />}
               />
@@ -250,7 +274,7 @@ function App() {
               <Route path="/Goods/AllGoods" element={<AllGoods />} />
 
               <Route path="/Goods/AddNewGoods" element={<AddNewGoods />} />
-              {/* <Route path="/Goods/AddNewGoods" element={<Promotions />} /> */}
+              <Route path="/Goods/Promotions" element={<Promotions />} />
             </Route>
           </Routes>
         </AppContextProvider>

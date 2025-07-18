@@ -4,6 +4,7 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { VscSettings } from "react-icons/vsc";
 
 import { FiMoreVertical } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 // Dropdown content data
 const filterMenuOptions = {
@@ -102,14 +103,12 @@ const AllGoodsTable = () => {
             </div>
           ))}
         </div>
-
-        <button
-          onClick={() => setShowModal(true)}
-          className="flex items-center text-xs gap-2 bg-[#FFD700] hover:bg-yellow-600 text-white font-semibold px-4 py-2 rounded"
-        >
-          <FiPlus />
-          Add Product
-        </button>
+        <Link to="/Goods/AddNewGoods">
+          <button className="flex items-center text-xs gap-2 bg-[#FFD700] hover:bg-yellow-600 text-white font-semibold px-4 py-2 rounded">
+            <FiPlus />
+            Add Product
+          </button>
+        </Link>
       </div>
 
       <table className="w-full text-sm text-left">

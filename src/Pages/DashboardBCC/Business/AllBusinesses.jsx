@@ -10,6 +10,7 @@ import Biz11 from "../../../assets/Biz11.png";
 
 import Biz22 from "../../../assets/Biz22.png";
 import Biz33 from "../../../assets/Biz33.png";
+import { Link } from "react-router-dom";
 
 const businesses = [
   {
@@ -130,9 +131,11 @@ const AllBusinesses = () => {
             </div>
 
             <div className="flex gap-4 mt-4 justify-end">
-              <button className="bg-[#FFD700] text-black px-4 py-2 rounded-lg font-semibold">
-                Edit Business
-              </button>
+              <Link to="/Business/AddNew2">
+                <button className="bg-[#FFD700] text-black px-4 py-2 rounded-lg font-semibold">
+                  Edit Business
+                </button>
+              </Link>
               <button className="border px-4 py-2 rounded-lg font-semibold">
                 Manage Business
               </button>

@@ -8,7 +8,7 @@ import { FiUserPlus, FiXCircle } from "react-icons/fi";
 import { IoChevronDown } from "react-icons/io5";
 import { BsCalendar } from "react-icons/bs";
 
-const CreateBusiness = () => {
+const AddNewBusiness2 = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const fileInputRef = useRef(null);
 
@@ -179,7 +179,7 @@ const CreateBusiness = () => {
         </div>
 
         <div className="mt-6 text-right mb-48">
-          <Link to="/Business/BusinessOnboarding">
+          <Link to="/Business/AddNew3">
             <button className="bg-[#FFD700] text-black font-semibold px-6 py-2 rounded hover:bg-yellow-600">
               Next
             </button>
@@ -190,4 +190,4 @@ const CreateBusiness = () => {
   );
 };
 
-export default CreateBusiness;
+export default AddNewBusiness2;

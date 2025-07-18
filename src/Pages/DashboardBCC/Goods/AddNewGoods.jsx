@@ -2,11 +2,30 @@ import React from "react";
 import { useState } from "react";
 import ProfileProgressCard from "../../../components/DashboardBCC/Homepage/ProfileProgressCard";
 import LocationsTable from "../../../components/DashboardBCC/Goods/LocationsTable";
+import FashionandAccessories from "../../../components/DashboardBCC/Goods/ProductSpecForms/FashionandAccessories";
+import GiftsandToys from "../../../components/DashboardBCC/Goods/ProductSpecForms/GiftsandToys";
+import HealthandFitness from "../../../components/DashboardBCC/Goods/ProductSpecForms/HealthandFitness";
+import HomeandOfice from "../../../components/DashboardBCC/Goods/ProductSpecForms/HomeandOffice";
+import HomeandOffice from "../../../components/DashboardBCC/Goods/ProductSpecForms/HomeandOffice";
+import AgricultureandFood from "../../../components/DashboardBCC/Goods/ProductSpecForms/AgricultureandFood";
+import BeautyProducts from "../../../components/DashboardBCC/Goods/ProductSpecForms/BeautyProducts";
+import ComputersandGadgets from "../../../components/DashboardBCC/Goods/ProductSpecForms/ComputersandGadgets";
+import ElectronicsForm from "../../../components/DashboardBCC/Goods/ProductSpecForms/ElectronicsForm";
 
 const AddNewGoods = () => {
   const [images, setImages] = useState(new Array(6).fill(null));
+  const [selectedCategory, setSelectedCategory] = useState("");
 
-  const categories = ["Electronics", "Appliances", "Furniture"];
+  const categories = [
+    "Agriculture and Food",
+    "Beauty Products",
+    "Computer and Gadgets",
+    "Electronics",
+    "Fashion and Accessories",
+    "Gifts and Toys",
+    "Health and Fitness",
+    "Home and Office",
+  ];
   const colours = ["Red", "Blue", "Black", "Silver"];
   const sizes = ["Small", "Medium", "Large"];
   const countries = ["Nigeria", "Ghana", "Kenya"];
@@ -24,6 +43,34 @@ const AddNewGoods = () => {
     const newImages = [...images];
     newImages[index] = URL.createObjectURL(event.target.files[0]);
     setImages(newImages);
+  };
+
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
+  };
+
+  // Function to render the appropriate product specification component
+  const renderProductSpecification = () => {
+    switch (selectedCategory) {
+      case "Agriculture and Food":
+        return <AgricultureandFood />;
+      case "Beauty Products":
+        return <BeautyProducts />;
+      case "Computer and Gadgets":
+        return <ComputersandGadgets />;
+      case "Electronics":
+        return <ElectronicsForm />;
+      case "Fashion and Accessories":
+        return <FashionandAccessories />;
+      case "Gifts and Toys":
+        return <GiftsandToys />;
+      case "Health and Fitness":
+        return <HealthandFitness />;
+      case "Home and Office":
+        return <HomeandOffice />;
+      default:
+        return null;
+    }
   };
 
   return (
@@ -83,14 +130,21 @@ const AddNewGoods = () => {
               />
             </div>
 
+            {/* Create New Product */}
             <div>
               <label className="block mb-1 font-semibold">
                 Category<span className="text-red-500">*</span>
               </label>
-              <select className="w-full border rounded p-2">
+              <select
+                className="w-full border rounded p-2"
+                value={selectedCategory}
+                onChange={handleCategoryChange}
+              >
                 <option value="">Select Category</option>
                 {categories.map((cat, idx) => (
-                  <option key={idx}>{cat}</option>
+                  <option key={idx} value={cat}>
+                    {cat}
+                  </option>
                 ))}
               </select>
             </div>
@@ -174,6 +228,7 @@ const AddNewGoods = () => {
             ></textarea>
           </div>
 
+          {/* VARIANTS */}
           <h2 className="text-xl font-semibold mb-4 pt-4">Variants</h2>
           <div className="mx-auto pb-4 grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
@@ -335,7 +390,20 @@ const AddNewGoods = () => {
               <input type="date" className="w-full border rounded p-2" />
             </div>
           </div>
+
+          {/* Product Specification - Only render the selected category's component */}
+          <h2 className="text-xl font-semibold mb-4 pt-4">
+            Product Specification
+          </h2>
+          {selectedCategory && <>{renderProductSpecification()}</>}
+
+          <div className="flex justify-end mb-4">
+            <button className="flex items-center text-xs gap-2 bg-[#FFD700] hover:bg-yellow-600 text-black font-semibold px-4 py-2 rounded">
+              Submit
+            </button>
+          </div>
         </form>
+        <div className="pb-40" />
       </div>
     </div>
   );
