@@ -75,7 +75,10 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
                         ...userData,
                         ...rest,
                     })
-                }
+                } else {
+                    location.href = '/signin' ;
+                    return;
+                } 
             }
         } catch(error) {
 
