@@ -12,12 +12,17 @@ import { CiMenuBurger } from "react-icons/ci";
 import { FaTimes } from "react-icons/fa";
 import Sidebar from "./Sidebar";
 import SidebarMobile from "./SidebarMobile";
+import { useAppContext } from "../../../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const dropdownRef = useRef(null);
+
+  const { user, handleLogout } = useAppContext();
+  const navigate = useNavigate();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -52,9 +57,9 @@ const Header = () => {
         >
           <div className="flex flex-col text-right">
             <span className="font-medium text-[#000000]">
-              Fatimah Oladigbolu
+              {user.firstname} {user.lastname}
             </span>
-            <span className="text-xs text-gray-500">Member</span>
+            <span className="text-xs text-gray-500">{user.userType}</span>
           </div>
           <IoMdArrowDropdown
             className={`text-gray-500 transition-transform duration-200 ${
@@ -63,7 +68,7 @@ const Header = () => {
           />
           {/* User avatar */}
           <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 font-medium">
-            <img src={Profile} className="h-full w-full rounded-full" />
+            <img src={user.profile_picture || Profile} className="h-full w-full rounded-full" />
           </div>
         </div>
         <button onClick={() => setSidebarOpen(true)}>
@@ -104,17 +109,17 @@ const Header = () => {
           <div className="px-4 py-3 bg-gray-50 border-b border-gray-200">
             <p className="text-sm font-medium text-gray-800">Signed in as</p>
             <p className="text-sm text-gray-600 truncate">
-              fatimah.oladigbolu@example.com
+              {user.email}
             </p>
           </div>
 
           <div className="py-1">
-            <button className="flex items-center gap-3 w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-100">
+            <button onClick={() => navigate('/profile')} className="flex items-center gap-3 w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-100">
               <FiUser className="text-gray-500" />
               <span>Update Profile</span>
             </button>
 
-            <button className="flex items-center gap-3 w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-100">
+            <button onClick={handleLogout} className="flex items-center gap-3 w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-100">
               <FiLogOut className="text-gray-500" />
               <span>Log Out</span>
             </button>

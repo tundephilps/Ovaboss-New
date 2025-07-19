@@ -4,12 +4,16 @@ import { FcGoogle } from "react-icons/fc";
 
 import Logo from "../../assets/Logo.png";
 import { Link } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import Loading from "../../components/Loading";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordMatch, setPasswordMatch] = useState(true);
+
+  const { inputs, isLoading, handleInput, handleLogin } = useAuth();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -53,6 +57,8 @@ const SignIn = () => {
                   id="Email"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
                   placeholder="Enter your email"
+                  value={inputs.login.email}
+                  onChange={e => handleInput('login.email', e.target.value)}
                 />
               </div>
 
@@ -70,8 +76,8 @@ const SignIn = () => {
                     id="password"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md"
                     placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    value={inputs.login.password}
+                    onChange={e => handleInput('login.password', e.target.value)}
                   />
                   <button
                     type="button"
@@ -113,16 +119,23 @@ const SignIn = () => {
               </Link>
             </div>
           </div>
+           <div>
+              <Link
+                to="/VerifyEmail"
+                className="text-sm font-medium text-yellow-500 hover:text-yellow-600"
+              >
+                Verify Email?
+              </Link>
+            </div>
           {/* Sign Up Button */}
 
-          <Link to="/">
-            <button
-              type="submit"
-              className="w-full bg-[#FFD700] hover:bg-yellow-600 text-[#202020] py-2 rounded-md font-medium mt-4"
-            >
-              Log In
-            </button>
-          </Link>
+          <button
+            onClick={handleLogin}
+            type="submit"
+            className="w-full bg-[#E6AE06] hover:bg-yellow-600 text-[#202020] py-2 rounded-md font-medium mt-4"
+          >
+            {isLoading ? <Loading/> : "Log In"}
+          </button>
 
           {/* OR Divider */}
           <div className="flex items-center my-4">

@@ -8,13 +8,13 @@ import Loading from "../../components/Loading";
 import Logo from "../../assets/Logo.png";
 import { Link } from "react-router-dom";
 
-const PasswordReset = () => {
+const PasswordUpdate = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordMatch, setPasswordMatch] = useState(true);
 
-  const { inputs, isLoading, responses, handleInput, handleForgotPassword } = useAuth();
+  const { inputs, isLoading, handleInput, handleResetPassword } = useAuth();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -36,27 +36,7 @@ const PasswordReset = () => {
         {/* Sign Up Heading */}
         <h1 className="text-2xl font-bold text-center text-[#181818] mb-2">
           Password Reset
-        </h1>
-
-        <div className="space-y-4 mx-auto mt-6 pb-8">
-          {/* Success Alert */}
-          {/* <div className="flex items-center p-4 text-green-900 bg-[#b0d8b0] border text-sm border-green-300 rounded-md">
-            <AiOutlineInfoCircle className="text-xl mt-1 mr-2" />
-            <span>
-              A password reset link has been sent to your email successfully.
-            </span>
-          </div> */}
-
-          {/* Error Alert */}
-          {responses.forgotPassword.status && 
-            <div className={`flex items-center p-4 ${responses.forgotPassword.status === "error" ? "text-red-900 border-red-300 bg-[#ffb0b0]" : "text-green-900 border-green-300 bg-[#b0d8b0]"} border text-sm rounded-md`}>
-              <AiOutlineInfoCircle className="text-xl mt-1 mr-2" />
-              <span>
-                {responses.forgotPassword.message}
-              </span>
-            </div>
-          }
-        </div>
+        </h1>          
 
         {/* Form */}
         <form>
@@ -68,15 +48,53 @@ const PasswordReset = () => {
                   htmlFor="fullName"
                   className="block text-xs font-medium text-gray-700 mb-1"
                 >
-                  Email
+                  OTP
                 </label>
                 <input
                   type="email"
                   id="Email"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                  placeholder="Enter your email"
-                  value={inputs.forgotPassword.email}
-                  onChange={e => handleInput("forgotPassword.email", e.target.value)}
+                  placeholder="Enter OTP"
+                  value={inputs.resetPassword.code}
+                  onChange={e => handleInput("resetPassword.code", e.target.value)}
+                />
+              </div>
+            </div>
+             <div className="col-span-1 space-y-4">
+              {/* Email */}
+              <div>
+                <label
+                  htmlFor="fullName"
+                  className="block text-xs font-medium text-gray-700 mb-1"
+                >
+                  New Password
+                </label>
+                <input
+                  type="email"
+                  id="Email"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  placeholder="New password"
+                  value={inputs.resetPassword.password}
+                  onChange={e => handleInput("resetPassword.password", e.target.value)}
+                />
+              </div>
+            </div>
+             <div className="col-span-1 space-y-4">
+              {/* Email */}
+              <div>
+                <label
+                  htmlFor="fullName"
+                  className="block text-xs font-medium text-gray-700 mb-1"
+                >
+                  Retype New Password
+                </label>
+                <input
+                  type="email"
+                  id="Email"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  placeholder="New password"
+                  value={inputs.resetPassword.password_confirmation}
+                  onChange={e => handleInput("resetPassword.password_confirmation", e.target.value)}
                 />
               </div>
             </div>
@@ -84,11 +102,11 @@ const PasswordReset = () => {
 
           {/* Sign Up Button */}
           <button
-            onClick={handleForgotPassword}
+            onClick={handleResetPassword}
             type="submit"
-            className="w-full bg-[#FFD700] hover:bg-yellow-600 text-[#202020] py-2 rounded-md font-medium mt-4"
+            className="w-full bg-[#E6AE06] hover:bg-yellow-600 text-[#202020] py-2 rounded-md font-medium mt-4"
           >
-            {isLoading ? <Loading/> : "Send Reset Email"}
+            {isLoading ? <Loading/> : "Reset Password"}
           </button>
 
           {/* Already have an account */}
@@ -104,4 +122,4 @@ const PasswordReset = () => {
   );
 };
 
-export default PasswordReset;
+export default PasswordUpdate;

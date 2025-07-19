@@ -17,150 +17,9 @@ import Contain3 from "../../../assets/Container3.svg";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 
 import Power from "../../../assets/Power.svg";
+import { useAppContext } from "../../../context/AppContext";
+import useWallets from "../../../hooks/useWallets";
 
-const menuItems = [
-  {
-    icon: <img src={Contain} />,
-    label: "BCC Dashboard",
-    path: "/BCCDashboard",
-  },
-  {
-    icon: <FaUser className="text-xl" />,
-    label: "Business",
-    path: "/Businesses",
-    children: [
-      { label: "All My Businesses", path: "/Business/All" },
-      { label: "Add New Business", path: "/Business/AddNew" },
-    ],
-  },
-  {
-    icon: <img src={Contain2} />,
-    label: "Orders",
-    path: "/Orders",
-    children: [
-      { label: "All Orders", path: "/Orders" },
-      { label: "Awaiting Payment", path: "/Orders/AwaitingPayment" },
-      { label: "Pending Orders", path: "/Orders/PendingOrders" },
-      { label: "Processing Orders", path: "/Orders/ProcessingOrders" },
-
-      { label: "Dispatched Orders", path: "/Orders/DispatchedOrders" },
-      { label: "Completed Orders", path: "/Orders/CompleteOrders" },
-      { label: "Unfulfilled Orders", path: "/Orders/UnfulfilledOrders" },
-      {
-        label: "General Online Sales Invoice",
-        path: "/Orders/OnlineSalesInvoice",
-      },
-
-      {
-        label: "General Offline Sales Invoice",
-        path: "/Orders/OfflineSalesInvoice",
-      },
-    ],
-  },
-  {
-    icon: <FaWallet className="text-xl" />,
-    label: "Goods",
-    path: "/Goods",
-    children: [
-      { label: "All PickUp Locations", path: "/Goods/PickupLocations" },
-      { label: "All Goods", path: "/Goods/AllGoods" },
-      { label: "Promotion", path: "/Goods/Promotions" },
-    ],
-  },
-
-  {
-    icon: <FaMoneyBillWave className="text-xl" />,
-    label: "Services",
-    path: "/Services",
-    children: [
-      { label: "All Services", path: "/Services" },
-      { label: "Add New Service", path: "/Services/AddNew" },
-    ],
-  },
-
-  {
-    icon: <FaMoneyBillWave className="text-xl" />,
-    label: "Business Community",
-    path: "/Business",
-    children: [
-      { label: "PMB", path: "/BusinessCommunity/PMB" },
-      { label: "AQB", path: "/BusinessCommunity/AQB" },
-    ],
-  },
-
-  {
-    icon: <img src={Contain3} />,
-    label: "Wallets/Accounts",
-    path: "/Wallets",
-    children: [
-      { label: "BCC SIGNON", path: "/Wallets/BCCSignon" },
-      { label: "BCC BUYON", path: "/Wallets/BCCBuyon" },
-      { label: "SELLON", path: "/Wallets/SELLOn" },
-      { label: "BRA", path: "/Wallets/BRA" },
-    ],
-  },
-
-  {
-    icon: <FaFileInvoice className="text-xl" />,
-    label: "Reports",
-    path: "/Reports",
-    children: [
-      {
-        label: "General Reports",
-        path: "/Reports/General",
-        children: [
-          { label: "General Report", path: "/Reports/GeneralReports" },
-          { label: "MTR Order Report", path: "/Reports/MTRReports" },
-          {
-            label: "Goods Order Reports",
-            path: "/Reports/GoodsOrder",
-          },
-          {
-            label: "Service Order Reports",
-            path: "/Reports/ServiceOrder",
-          },
-        ],
-      },
-      {
-        label: "Payout Reports",
-        path: "/Reports/Payout",
-        children: [
-          {
-            label: "Wallet Transactions",
-            path: "/Reports/WalletTransactions",
-          },
-          {
-            label: "Earning Transactions",
-            path: "/Reports/EarningTransactions",
-          },
-        ],
-      },
-      {
-        label: "Invoice Report",
-        path: "/Reports/invoice",
-        children: [
-          { label: "Online Invoice Report", path: "/Reports/OnlineInvoice" },
-          { label: "Offline Invoice Report", path: "/Reports/OfflineInvoice" },
-        ],
-      },
-    ],
-  },
-
-  {
-    icon: <FaCartShopping className="text-xl" />,
-    label: "BCC MTR",
-    path: "/MTR",
-    children: [
-      { label: "Sales Receipt", path: "/BusinessCommunity/PMB" },
-      { label: "Purchase Receipt", path: "/BusinessCommunity/AQB" },
-    ],
-  },
-  {
-    icon: <FaCartShopping className="text-xl" />,
-    label: "Switch to PCC",
-    path: "/PCCDashboard",
-  },
-];
 
 // Logout Confirmation Modal Component
 const LogoutModal = ({ isOpen, onConfirm, onCancel }) => {
@@ -245,6 +104,8 @@ const SidebarItem = ({ item, isCollapsed }) => {
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const { wallets } = useWallets();
+  const { handleLogout } = useAppContext();
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
@@ -258,12 +119,153 @@ const Sidebar = () => {
     setShowLogoutModal(false);
     // Add your logout logic here
     // For example: dispatch logout action, clear tokens, redirect to login
-    console.log("User logged out");
+    handleLogout();
   };
 
   const handleLogoutCancel = () => {
     setShowLogoutModal(false);
   };
+
+  const allBCCWallets = wallets.bcc.map(item => ({ label: item.walletName, path: `/Wallets/${item.walletName}` }))
+
+  const menuItems = [
+  {
+    icon: <img src={Contain} />,
+    label: "BCC Dashboard",
+    path: "/BCCDashboard",
+  },
+  {
+    icon: <FaUser className="text-xl" />,
+    label: "Business",
+    path: "/Businesses",
+    children: [
+      { label: "All My Businesses", path: "/Business/All" },
+      { label: "Add New Business", path: "/Business/AddNew" },
+    ],
+  },
+  {
+    icon: <img src={Contain2} />,
+    label: "Orders",
+    path: "/Orders",
+    children: [
+      { label: "All Orders", path: "/Orders" },
+      { label: "Awaiting Payment", path: "/Orders/AwaitingPayment" },
+      { label: "Pending Orders", path: "/Orders/PendingOrders" },
+      { label: "Processing Orders", path: "/Orders/ProcessingOrders" },
+
+      { label: "Dispatched Orders", path: "/Orders/DispatchedOrders" },
+      { label: "Completed Orders", path: "/Orders/CompleteOrders" },
+      { label: "Unfulfilled Orders", path: "/Orders/UnfulfilledOrders" },
+      {
+        label: "General Online Sales Invoice",
+        path: "/Orders/OnlineSalesInvoice",
+      },
+
+      {
+        label: "General Offline Sales Invoice",
+        path: "/Orders/OfflineSalesInvoice",
+      },
+    ],
+  },
+  {
+    icon: <FaWallet className="text-xl" />,
+    label: "Goods",
+    path: "/Goods",
+    children: [
+      { label: "All PickUp Locations", path: "/Goods/PickupLocations" },
+      { label: "All Goods", path: "/Goods/AllGoods" },
+      { label: "Promotion", path: "/Goods/Promotions" },
+    ],
+  },
+
+  {
+    icon: <FaMoneyBillWave className="text-xl" />,
+    label: "Services",
+    path: "/Services",
+    children: [
+      { label: "All Services", path: "/Services" },
+      { label: "Add New Service", path: "/Services/AddNew" },
+    ],
+  },
+
+  {
+    icon: <FaMoneyBillWave className="text-xl" />,
+    label: "Business Community",
+    path: "/Business",
+    children: [
+      { label: "PMB", path: "/BusinessCommunity/PMB" },
+      { label: "AQB", path: "/BusinessCommunity/AQB" },
+    ],
+  },
+
+  {
+    icon: <img src={Contain3} />,
+    label: "Wallets/Accounts",
+    path: "#",
+    children: allBCCWallets,
+  },
+
+  {
+    icon: <FaFileInvoice className="text-xl" />,
+    label: "Reports",
+    path: "/Reports",
+    children: [
+      {
+        label: "General Reports",
+        path: "/Reports/General",
+        children: [
+          { label: "General Report", path: "/Reports/GeneralReports" },
+          { label: "MTR Order Report", path: "/Reports/MTRReports" },
+          {
+            label: "Goods Order Reports",
+            path: "/Reports/GoodsOrder",
+          },
+          {
+            label: "Service Order Reports",
+            path: "/Reports/ServiceOrder",
+          },
+        ],
+      },
+      {
+        label: "Payout Reports",
+        path: "/Reports/Payout",
+        children: [
+          {
+            label: "Wallet Transactions",
+            path: "/Reports/WalletTransactions",
+          },
+          {
+            label: "Earning Transactions",
+            path: "/Reports/EarningTransactions",
+          },
+        ],
+      },
+      {
+        label: "Invoice Report",
+        path: "/Reports/invoice",
+        children: [
+          { label: "Online Invoice Report", path: "/Reports/OnlineInvoice" },
+          { label: "Offline Invoice Report", path: "/Reports/OfflineInvoice" },
+        ],
+      },
+    ],
+  },
+
+  {
+    icon: <FaCartShopping className="text-xl" />,
+    label: "BCC MTR",
+    path: "/MTR",
+    children: [
+      { label: "Sales Receipt", path: "/BusinessCommunity/PMB" },
+      { label: "Purchase Receipt", path: "/BusinessCommunity/AQB" },
+    ],
+  },
+  {
+    icon: <FaCartShopping className="text-xl" />,
+    label: "Switch to PCC",
+    path: "/PCCDashboard",
+  },
+];
 
   return (
     <>

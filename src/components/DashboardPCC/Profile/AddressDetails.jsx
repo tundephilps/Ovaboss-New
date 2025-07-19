@@ -4,15 +4,15 @@ import { FiEdit2, FiPrinter, FiDownload } from "react-icons/fi";
 import { MdOutlinePrint } from "react-icons/md";
 import { RiDownloadLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import BankAccountTable from "./BankAccountTable";
+import AddressTable from "./AddressTable";
 
-export default function BankAccountDetails() {
+export default function AddressDetails() {
   return (
     <div className="bg-white shadow-sm rounded-lg p-6 w-full  mx-auto ">
       {/* Header */}
       {/* Header */}
       <div className="flex items-center justify-between w-full border-b pb-4">
-        <h2 className="text-lg font-semibold ">Bank Account Details</h2>
+        <h2 className="text-lg font-semibold ">Address Details</h2>
 
         <div className="inline-flex gap-2">
           <Link to="/EditBankInfo">
@@ -30,7 +30,7 @@ export default function BankAccountDetails() {
         </div>
       </div>
 
-      <BankAccountTable showEllipse={false}/>
+      <AddressTable showEllipse={false}/>
 
       {/* Details Grid */}
       {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 pt-6 text-sm text-gray-700">

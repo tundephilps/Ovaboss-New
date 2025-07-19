@@ -17,93 +17,9 @@ import Contain3 from "../../../assets/Container3.svg";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 
 import Power from "../../../assets/Power.svg";
+import useWallets from "../../../hooks/useWallets";
+import { useAppContext } from "../../../context/AppContext";
 
-const menuItems = [
-  {
-    icon: <img src={Contain} />,
-    label: "PCC Dashboard",
-    path: "/PCCDashboard",
-  },
-  { icon: <FaUser className="text-xl" />, label: "Profile", path: "/Profile" },
-  {
-    icon: <img src={Contain2} />,
-    label: "My Community",
-    path: "/community",
-    children: [
-      { label: "PCM", path: "/Community/PCM" },
-      { label: "AQM", path: "/Community/AQM" },
-    ],
-  },
-  {
-    icon: <FaWallet className="text-xl" />,
-    label: "Wallets/Accounts",
-    path: "/wallets",
-    children: [
-      { label: "LAA", path: "/Wallets/LAA" },
-      { label: "SIGN ON", path: "/Wallets/SignOn" },
-      { label: "BUY ON", path: "/Wallets/BuyOn" },
-    ],
-  },
-  {
-    icon: <FaFileInvoice className="text-xl" />,
-    label: "Reports",
-    path: "/GeneralReports",
-    children: [
-      {
-        label: "General Reports",
-        path: "/Reports",
-        children: [
-          { label: "General Report", path: "/Reports/GeneralReport" },
-          {
-            label: "MTR Order Report",
-            path: "/Reports/GeneralReport/MTR",
-          },
-          {
-            label: "Goods Order Reports",
-            path: "/Reports/GeneralReport/GoodsOrderReport",
-          },
-          {
-            label: "Service Order Reports",
-            path: "/Reports/GeneralReport/ServiceOrderReport",
-          },
-        ],
-      },
-      {
-        label: "Payout Reports",
-        path: "/reports/payout",
-        children: [
-          {
-            label: "Wallet Transactions",
-            path: "/Reports/Payout/WalletTransactions",
-          },
-          {
-            label: "Earning Transactions",
-            path: "/Reports/Payout/EarningTransactions",
-          },
-        ],
-      },
-      {
-        label: "Invoice Report",
-        path: "/Reports/invoice",
-        children: [
-          { label: "Online Invoice Report", path: "/Reports/Invoice/Online" },
-          { label: "Offline Invoice Report", path: "/Reports/Invoice/Offline" },
-        ],
-      },
-    ],
-  },
-  { icon: <FaMoneyBillWave className="text-xl" />, label: "MTR", path: "/MTR" },
-  {
-    icon: <img src={Contain3} />,
-    label: "Switch to BCC",
-    path: "/BCCDashboard",
-  },
-  {
-    icon: <FaCartShopping className="text-xl" />,
-    label: "Back to Store",
-    path: "/",
-  },
-];
 
 // Logout Confirmation Modal Component
 const LogoutModal = ({ isOpen, onConfirm, onCancel }) => {
@@ -154,6 +70,7 @@ const SidebarItem = ({ item, isCollapsed }) => {
       setOpen(!open);
     }
   };
+  
 
   return (
     <div className="w-full text-xs ">
@@ -188,6 +105,8 @@ const SidebarItem = ({ item, isCollapsed }) => {
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const { wallets, isLoading } = useWallets();
+  const { user, handleLogout } = useAppContext();
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
@@ -201,12 +120,101 @@ const Sidebar = () => {
     setShowLogoutModal(false);
     // Add your logout logic here
     // For example: dispatch logout action, clear tokens, redirect to login
-    console.log("User logged out");
+    handleLogout();
   };
 
   const handleLogoutCancel = () => {
     setShowLogoutModal(false);
   };
+
+  const allPCCWallets = wallets.pcc.map(item => ({ label: item.walletName, path: `/Wallets/${item.walletName}` }))
+
+  const menuItems = [
+    {
+      icon: <img src={Contain} />,
+      label: "PCC Dashboard",
+      path: "/PCCDashboard",
+    },
+    { icon: <FaUser className="text-xl" />, label: "Profile", path: "/Profile" },
+    {
+      icon: <img src={Contain2} />,
+      label: "My Community",
+      path: "/community",
+      children: [
+        { label: "PCM", path: "/Community/PCM" },
+        { label: "AQM", path: "/Community/AQM" },
+      ],
+    },
+    {
+      icon: <FaWallet className="text-xl" />,
+      label: "Wallets/Accounts",
+      path: "#",
+      children: allPCCWallets,
+    },
+    {
+      icon: <FaFileInvoice className="text-xl" />,
+      label: "Reports",
+      path: "/GeneralReports",
+      children: [
+        {
+          label: "General Reports",
+          path: "/Reports",
+          children: [
+            { label: "General Report", path: "/Reports/GeneralReport" },
+            {
+              label: "MTR Order Report",
+              path: "/Reports/GeneralReport/MTR",
+            },
+            {
+              label: "Goods Order Reports",
+              path: "/Reports/GeneralReport/GoodsOrderReport",
+            },
+            {
+              label: "Service Order Reports",
+              path: "/Reports/GeneralReport/ServiceOrderReport",
+            },
+          ],
+        },
+        {
+          label: "Payout Reports",
+          path: "/reports/payout",
+          children: [
+            {
+              label: "Wallet Transactions",
+              path: "/Reports/Payout/WalletTransactions",
+            },
+            {
+              label: "Earning Transactions",
+              path: "/Reports/Payout/EarningTransactions",
+            },
+          ],
+        },
+        {
+          label: "Invoice Report",
+          path: "/Reports/invoice",
+          children: [
+            { label: "Online Invoice Report", path: "/Reports/Invoice/Online" },
+            { label: "Offline Invoice Report", path: "/Reports/Invoice/Offline" },
+          ],
+        },
+      ],
+    },
+    { icon: <FaMoneyBillWave className="text-xl" />, label: "MTR", path: "/MTR" },
+    ...(user.userType === "BUSINESS"
+    ? [
+        {
+          icon: <img src={Contain3} />,
+          label: "Switch to BCC",
+          path: "/BCCDashboard",
+        },
+      ]
+    : []),
+    {
+      icon: <FaCartShopping className="text-xl" />,
+      label: "Back to Store",
+      path: "/",
+    },
+  ];
 
   return (
     <>

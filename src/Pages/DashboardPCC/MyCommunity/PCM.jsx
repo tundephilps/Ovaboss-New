@@ -1,6 +1,6 @@
 import React from "react";
 import ProfileProgressCard from "../../../components/DashboardPCC/Homepage/ProfileProgressCard";
-import PCMtable from "../../../components/DashboardPCC/MyCommunity/PCMtable";
+import Table from "../../../components/DashboardPCC/MyCommunity/Table";
 import Pagination from "../../../components/DashboardPCC/MyCommunity/Pagination";
 
 const PCM = () => {
@@ -19,7 +19,7 @@ const PCM = () => {
         </p>
         <ProfileProgressCard completedFields={4} totalFields={10} />
 
-        <PCMtable />
+        <Table type='pcm'/>
       </div>
     </div>
   );

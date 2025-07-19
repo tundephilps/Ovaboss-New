@@ -1,7 +1,7 @@
 import { FaChevronDown, FaFile, FaFolder } from "react-icons/fa";
 import Wallet1 from "../../../assets/Wallet1.png";
 
-export default function LAACard() {
+export default function WalletCard({ wallet }) {
   return (
     <div className=" bg-white rounded-xl shadow-md p-4  my-6">
       <div className="flex gap-6">
@@ -9,7 +9,7 @@ export default function LAACard() {
           {/* Logo */}
           <div className="w-full h-full ">
             <img
-              src={Wallet1} // replace with your actual logo path
+              src={wallet.walletDashIcon} // replace with your actual logo path
               alt="LAA Logo"
               className="w-full h-full object-cover "
             />
@@ -18,16 +18,16 @@ export default function LAACard() {
 
         {/* Wallet Info */}
         <div className="flex-1 max-w-md">
-          <h2 className="text-lg font-semibold mb-2">Personal LAA Wallet</h2>
+          <h2 className="text-lg font-semibold mb-2">Personal { wallet.walletName } Wallet</h2>
 
           <div className="text-sm space-y-1">
             <div className="flex justify-between border-b border-gray-700 pb-2">
               <span>Balance</span>
-              <span>0</span>
+              <span>{ wallet.balance }</span>
             </div>
             <div className="flex justify-between">
-              <span>GE:</span>
-              <span>0</span>
+              <span>Reserved:</span>
+              <span>{ wallet.reserved } </span>
             </div>
             <div className="flex justify-between">
               <span>Type:</span>

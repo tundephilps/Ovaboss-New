@@ -23,10 +23,11 @@ import { IoLocationOutline } from "react-icons/io5";
 import { MdOutlineInbox } from "react-icons/md";
 
 import Logo from "../../../assets/Logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UserDashboardQuickLinks from "./UserDashboardQuickLinks";
 import { HiOutlineDotsCircleHorizontal } from "react-icons/hi";
 import MoreOptionsDropdown from "./MoreOptionsDropdown";
+import { useAppContext } from "../../../context/AppContext";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -78,6 +79,14 @@ const Navbar = () => {
   const toggleCategory = (cat) => {
     setExpandedCategory((prev) => (prev === cat ? null : cat));
   };
+
+  const { user, handleLogout } = useAppContext();
+
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    navigate("/signin");
+  }
 
   return (
     <div className="w-full">
@@ -164,25 +173,27 @@ const Navbar = () => {
             )}
 
             {/* Mobile Search + Icons - Visible only on mobile */}
-            <div className="flex md:hidden items-center">
-              {/* Mobile wishlist icon */}
-              <div className="relative mx-2">
-                <FaRegHeart size={20} className="text-gray-700" />
-                <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
-                  1
-                </span>
-              </div>
-
-              {/* Mobile cart icon */}
-              <Link to="/ShoppingCart">
+            {user &&
+              <div className="flex md:hidden items-center">
+                {/* Mobile wishlist icon */}
                 <div className="relative mx-2">
-                  <LuShoppingCart size={20} className="text-gray-700" />
+                  <FaRegHeart size={20} className="text-gray-700" />
                   <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
-                    3
+                    1
                   </span>
                 </div>
-              </Link>
-            </div>
+
+                {/* Mobile cart icon */}
+                <Link to="/ShoppingCart">
+                  <div className="relative mx-2">
+                    <LuShoppingCart size={20} className="text-gray-700" />
+                    <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
+                      3
+                    </span>
+                  </div>
+                </Link>
+              </div>
+            }
 
             {/* Desktop Search Bar - Hidden on mobile */}
             <div className="hidden md:flex flex-1 max-w-xl px-4">
@@ -268,102 +279,116 @@ const Navbar = () => {
                 </div>
               )}
 
-              <div className="relative">
-                <FaRegHeart
-                  size={20}
-                  className="text-gray-700 hover:text-gray-900 cursor-pointer"
-                />
-                <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
-                  2
-                </span>
-              </div>
+              {user &&
+                <>
+                  <div className="relative">
+                    <FaRegHeart
+                      size={20}
+                      className="text-gray-700 hover:text-gray-900 cursor-pointer"
+                    />
+                    <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
+                      2
+                    </span>
+                  </div>
 
-              <Link to="/ShoppingCart">
-                <div className="relative">
-                  <LuShoppingCart
-                    size={20}
-                    className="text-gray-700 hover:text-gray-900 cursor-pointer"
-                  />
-                  <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
-                    3
-                  </span>
-                </div>
-              </Link>
+                  <Link to="/ShoppingCart">
+                    <div className="relative">
+                      <LuShoppingCart
+                        size={20}
+                        className="text-gray-700 hover:text-gray-900 cursor-pointer"
+                      />
+                      <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
+                        3
+                      </span>
+                    </div>
+                  </Link>
+                </>
+              }
 
               {/* If User is not logged In */}
-              {/* <button className="w-full text-xs py-3 px-12 border bg-[#FFD700] border-yellow-400 text-black font-medium rounded hover:bg-yellow-50 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50">
-                Login/Signup
-              </button> */}
+              {!user && 
+                <button onClick={handleLogin} className="w-full text-xs py-3 px-12 border bg-[#FFD700] border-yellow-400 text-black font-medium rounded hover:bg-yellow-50 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50">
+                  Login/Signup
+                </button>
+              }
 
-              <div
-                className="flex items-center text-gray-700 hover:text-gray-900 cursor-pointer"
-                onClick={() => {
-                  setShowProfileMenu(!showProfileMenu);
-                  setShowHelpMenu(false); // Close help if profile is clicked
-                }}
-              >
-                <LiaUserCheckSolid size={24} />
-                <span className="ml-2 text-sm">Alexand...</span>
-                <svg
-                  className="w-2 h-2 ml-1"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+              {user && 
+                <div
+                  className="flex items-center text-gray-700 hover:text-gray-900 cursor-pointer"
+                  onClick={() => {
+                    setShowProfileMenu(!showProfileMenu);
+                    setShowHelpMenu(false); // Close help if profile is clicked
+                  }}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </div>
+                  <LiaUserCheckSolid size={24} />
+                  <span className="ml-2 text-sm">{ user?.firstname }</span>
+                  <svg
+                    className="w-2 h-2 ml-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </div>
+              }
 
               {/* Profile Dropdown Menu */}
               {showProfileMenu && (
                 <div className="absolute top-full mt-2 right-0 bg-white shadow-lg rounded-md w-56 py-0 z-50">
-                  <div className="px-4 py-2 font-semibold text-gray-800">
-                    Hi, Alexander
-                  </div>
-                  <Link
-                    to="/PCCDashboard"
-                    className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
-                  >
-                    <VscDashboard className="mr-2" /> My Dashboard
-                  </Link>
-                  <Link
-                    to="/#"
-                    className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
-                  >
-                    <BsBoxSeam className="mr-2" /> Orders
-                  </Link>
-                  <Link
-                    to="/#"
-                    className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
-                  >
-                    <PiWallet className="mr-2" /> Wallet
-                  </Link>
-                  <Link
-                    to="/#"
-                    className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
-                  >
-                    <IoLocationOutline className="mr-2" /> Track My Orders
-                  </Link>
-                  <Link
-                    to="/#"
-                    className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
-                  >
-                    <MdOutlineInbox className="mr-2" /> Inbox
-                  </Link>
-                  <div className="border-t mt-2"></div>
-                  <Link
-                    to="/Signin"
-                    className="block px-4 py-2 text-center bg-[#FFD700] text-black font-semibold hover:bg-yellow-600"
-                  >
-                    Logout
-                  </Link>
-                </div>
+                  {user && 
+                    <>
+                      <div className="px-4 py-2 font-semibold text-gray-800">
+                        Hi, { user?.firstname }
+                      </div>
+                      <a
+                        href="/#"
+                        className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      >
+                        <VscDashboard className="mr-2" /> My Dashboard
+                      </a>
+                      <a
+                        href="/#"
+                        className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      >
+                        <BsBoxSeam className="mr-2" /> Orders
+                      </a>
+                      <a
+                        href="/#"
+                        className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      >
+                        <PiWallet className="mr-2" /> Wallet
+                      </a>
+                      <a
+                        href="/#"
+                        className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      >
+                        <IoLocationOutline className="mr-2" /> Track My Orders
+                      </a>
+                      <a
+                        href="/#"
+                        className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      >
+                        <MdOutlineInbox className="mr-2" /> Inbox
+                      </a>
+                  
+                  
+                      <div className="border-t mt-2"></div>
+                      <button
+                        onClick={handleLogout}
+                        className="block w-full px-4 py-2 text-center bg-[#E6AE06] text-black font-semibold hover:bg-yellow-600"
+                      >
+                        Logout
+                      </button>
+                    </>
+                  }
+                 </div> 
               )}
             </div>
           </div>

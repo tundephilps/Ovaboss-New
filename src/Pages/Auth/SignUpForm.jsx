@@ -3,13 +3,21 @@ import { FaEye, FaEyeSlash, FaCheck, FaTimes } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
 import Logo from "../../assets/Logo.png";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import Loading from "../../components/Loading";
+import useCountry from "../../hooks/useCountry";
 
 const SignUpForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [password, setPassword] = useState("");
-  const [passwordMatch, setPasswordMatch] = useState(true);
+  const [passwordError, setPasswordError] = useState(false);
+  const [ selectedCountry, setSelectedCountry ] = useState({});
+
+  const { user_type } = useParams();
+
+  const { inputs, isLoading, handleInput, handleRegister } = useAuth();
+  const { isLoading: isLoadingCountries, countries } = useCountry();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -18,6 +26,28 @@ const SignUpForm = () => {
   const toggleConfirmPasswordVisibility = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
+
+  const handlePassword = (password) => {
+    let passwordError = null;
+
+    if (!/(?=.*[a-z])(?=.*[A-Z])/.test(password)) {
+      passwordError = "The password field must contain at least one uppercase and one lowercase letter.";
+    } else if (!/[a-zA-Z]/.test(password)) {
+      passwordError = "The password field must contain at least one letter.";
+    } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      passwordError = "The password field must contain at least one symbol.";
+    }
+
+    handleInput('signup.password', password);
+    setPasswordError(passwordError);
+
+  }
+
+  const handleChangeCountry = (country) => {
+    const parsedCountry = JSON.parse(country);
+    setSelectedCountry(parsedCountry);
+    handleInput("signup.country_id", parsedCountry.countryId);
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#faf9f9] p-4">
@@ -52,6 +82,8 @@ const SignUpForm = () => {
                   id="firstName"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
                   placeholder="Enter your first name"
+                  value={inputs.signup.firstname}
+                  onChange={e => handleInput('signup.firstname', e.target.value)}
                 />
               </div>
 
@@ -68,6 +100,8 @@ const SignUpForm = () => {
                   id="email"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
                   placeholder="Enter your email"
+                  value={inputs.signup.email}
+                  onChange={e => handleInput('signup.email', e.target.value)}
                 />
               </div>
 
@@ -81,13 +115,14 @@ const SignUpForm = () => {
                 </label>
                 <div className="relative">
                   <select
+                    onChange={e => handleChangeCountry(e.target.value)}
                     id="country"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md appearance-none"
                   >
-                    <option value="us">Nigeria</option>
-                    <option value="ca"> Canada</option>
-                    <option value="gb">United Kingdom</option>
-                    {/* Add more countries as needed */}
+                    <option value="" selected disabled>Select Country</option>
+                    {countries.map((item, key) => (
+                      <option value={JSON.stringify(item)} key={key}>{ item.country }</option>
+                    ))}
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                     <svg
@@ -113,10 +148,12 @@ const SignUpForm = () => {
                   <input
                     type={showPassword ? "text" : "password"}
                     id="password"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    className={`w-full px-3 py-2 border rounded-md ${
+                      passwordError ? "border-red-300" : "border-gray-500"
+                    }`}                    
                     placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    value={inputs.signup.password}
+                    onChange={e => handlePassword(e.target.value)}
                   />
                   <button
                     type="button"
@@ -147,6 +184,8 @@ const SignUpForm = () => {
                   id="lastName"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
                   placeholder="Enter your last name"
+                  value={inputs.signup.lastname}
+                  onChange={e => handleInput('signup.lastname', e.target.value)}
                 />
               </div>
 
@@ -158,13 +197,23 @@ const SignUpForm = () => {
                 >
                   Phone Number
                 </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                  placeholder="080 xxx xxxx"
-                />
+
+                <div className="flex items-center space-x-2">
+                  <span className="px-3 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-700">
+                    {selectedCountry.telCode}
+                  </span>
+
+                  <input
+                    type="tel"
+                    id="phone"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    placeholder="080 xxx xxxx"
+                    value={inputs.signup.phone_number}
+                    onChange={(e) => handleInput('signup.phone_number', e.target.value)}
+                  />
+                </div>
               </div>
+
 
               {/* Confirm Password */}
               <div>
@@ -178,10 +227,10 @@ const SignUpForm = () => {
                   <input
                     type={showConfirmPassword ? "text" : "password"}
                     id="confirmPassword"
-                    className={`w-full px-3 py-2 border rounded-md ${
-                      passwordMatch ? "border-gray-300" : "border-red-500"
-                    }`}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
                     placeholder="••••••••"
+                    value={inputs.signup.password_confirmation}
+                    onChange={e => handleInput('signup.password_confirmation', e.target.value)}
                   />
                   <button
                     type="button"
@@ -201,28 +250,22 @@ const SignUpForm = () => {
           {/* Password Requirements */}
           <div className="mt-2 mb-4">
             <p className="text-xs text-gray-500">Minimum of 8 characters</p>
-            {!passwordMatch && (
+            {passwordError && (
               <p className="text-xs text-red-500 mt-1">
                 <FaTimes className="inline mr-1" />
-                Password is field does not match
+                {passwordError}
               </p>
             )}
-            <p className="text-xs text-[#ff0000] mt-1">
-              <FaTimes className="inline mr-1" />
-              Include at least one uppercase letter, one number and one special
-              character
-            </p>
           </div>
 
           {/* Sign Up Button */}
-          <Link to="/">
-            <button
-              type="submit"
-              className="w-full bg-[#FFD700] hover:bg-yellow-600 text-[#202020] py-2 rounded-md font-medium mt-4"
-            >
-              Sign Up
-            </button>
-          </Link>
+          <button
+            onClick={e => handleRegister(e, user_type)}
+            type="submit"
+            className="w-full bg-[#E6AE06] hover:bg-yellow-600 text-[#202020] py-2 rounded-md font-medium mt-4"
+          >
+            {isLoading ? <Loading/> : "Sign Up"}
+          </button>
 
           {/* OR Divider */}
           <div className="flex items-center my-4">
