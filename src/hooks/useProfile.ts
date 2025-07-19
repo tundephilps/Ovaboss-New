@@ -32,12 +32,12 @@ const useProfile = () => {
             recipient_code : ""
         },
         nextOfKin: {
-            full_name: user?.nextOfKin.fullName,
-            birth_date: user?.nextOfKin.birthDate,
-            address: user?.nextOfKin.address,
-            email: user?.nextOfKin.email,
-            phone_number: user?.nextOfKin.phoneNumber,
-            nationality_id: user?.nextOfKin.nationality,
+            full_name: user?.nextOfKin?.fullName,
+            birth_date: user?.nextOfKin?.birthDate,
+            address: user?.nextOfKin?.address,
+            email: user?.nextOfKin?.email,
+            phone_number: user?.nextOfKin?.phoneNumber,
+            nationality_id: user?.nextOfKin?.nationality,
         },
         address: {
             country_id : "",
