@@ -21,7 +21,6 @@ const useBCCDashboard = () => {
             const { data: response } = await axiosClient.get('user/business/analytics');
             setAnalytics(response.data);
         } catch(error) {
-            console.error(error)
             toast.error('Error getting dashboard stats');
         } finally {
             setIsLoading(false);
