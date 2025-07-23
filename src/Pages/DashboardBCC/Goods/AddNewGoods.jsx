@@ -2,15 +2,16 @@ import React from "react";
 import { useState } from "react";
 import ProfileProgressCard from "../../../components/DashboardBCC/Homepage/ProfileProgressCard";
 import LocationsTable from "../../../components/DashboardBCC/Goods/LocationsTable";
-import FashionandAccessories from "../../../components/DashboardBCC/Goods/ProductSpecForms/FashionandAccessories";
-import GiftsandToys from "../../../components/DashboardBCC/Goods/ProductSpecForms/GiftsandToys";
-import HealthandFitness from "../../../components/DashboardBCC/Goods/ProductSpecForms/HealthandFitness";
-import HomeandOfice from "../../../components/DashboardBCC/Goods/ProductSpecForms/HomeandOffice";
-import HomeandOffice from "../../../components/DashboardBCC/Goods/ProductSpecForms/HomeandOffice";
-import AgricultureandFood from "../../../components/DashboardBCC/Goods/ProductSpecForms/AgricultureandFood";
-import BeautyProducts from "../../../components/DashboardBCC/Goods/ProductSpecForms/BeautyProducts";
-import ComputersandGadgets from "../../../components/DashboardBCC/Goods/ProductSpecForms/ComputersandGadgets";
-import ElectronicsForm from "../../../components/DashboardBCC/Goods/ProductSpecForms/ElectronicsForm";
+import FashionandAccessories from "../../../components/DashboardBCC/Goods/VariantForms/FashionandAccessories";
+import GiftsandToys from "../../../components/DashboardBCC/Goods/VariantForms/GiftsandToys";
+import HealthandFitness from "../../../components/DashboardBCC/Goods/VariantForms/HealthandFitness";
+import HomeandOffice from "../../../components/DashboardBCC/Goods/VariantForms/HomeandOffice";
+import AgricultureandFood from "../../../components/DashboardBCC/Goods/VariantForms/AgricultureandFood";
+import BeautyProducts from "../../../components/DashboardBCC/Goods/VariantForms/BeautyProducts";
+import ComputerandGadgets from "../../../components/DashboardBCC/Goods/VariantForms/ComputerandGadgets";
+import ElectronicsForm from "../../../components/DashboardBCC/Goods/VariantForms/ElectronicsForm";
+import AddVariantsTable from "../../../components/DashboardBCC/Goods/VariantForms/AddVariantsTable";
+import { HiOutlinePlusCircle } from "react-icons/hi";
 
 const AddNewGoods = () => {
   const [images, setImages] = useState(new Array(6).fill(null));
@@ -57,7 +58,7 @@ const AddNewGoods = () => {
       case "Beauty Products":
         return <BeautyProducts />;
       case "Computer and Gadgets":
-        return <ComputersandGadgets />;
+        return <ComputerandGadgets />;
       case "Electronics":
         return <ElectronicsForm />;
       case "Fashion and Accessories":
@@ -118,7 +119,8 @@ const AddNewGoods = () => {
         </p>
 
         <form className=" mx-auto py-4  gap-4 text-[10px]">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <h2 className="text-lg font-semibold mb-4 pt-4">Product Details</h2>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
               <label className="block mb-1 font-semibold">
                 Name<span className="text-red-500">*</span>
@@ -170,7 +172,9 @@ const AddNewGoods = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-4">
             <div>
-              <label className="block mb-1 font-semibold">Brand</label>
+              <label className="block mb-1 font-semibold">
+                Brand<span className="text-red-500">*</span>
+              </label>
               <input
                 type="text"
                 placeholder="Brand"
@@ -179,22 +183,13 @@ const AddNewGoods = () => {
             </div>
 
             <div>
-              <label className="block mb-1 font-semibold">Colour</label>
+              <label className="block mb-1 font-semibold">
+                Production Country
+              </label>
               <select className="w-full border rounded p-2">
-                <option value="">Select Colour</option>
-                {colours.map((color, idx) => (
-                  <option key={idx}>{color}</option>
-                ))}
+                <option value="">Nigeria</option>
+                <option value="">Ghana</option>
               </select>
-            </div>
-
-            <div>
-              <label className="block mb-1 font-semibold">Colour Family</label>
-              <input
-                type="text"
-                placeholder="Colour family"
-                className="w-full border rounded p-2"
-              />
             </div>
 
             <div>
@@ -204,6 +199,15 @@ const AddNewGoods = () => {
               <input
                 type="text"
                 placeholder="Ex: 1.2kg"
+                className="w-full border rounded p-2"
+              />
+            </div>
+
+            <div>
+              <label className="block mb-1 font-semibold">Note</label>
+              <input
+                type="text"
+                placeholder="Colour family"
                 className="w-full border rounded p-2"
               />
             </div>
@@ -228,179 +232,21 @@ const AddNewGoods = () => {
             ></textarea>
           </div>
 
-          {/* VARIANTS */}
+          {/* VARAINTS - Only render the selected category's component */}
           <h2 className="text-xl font-semibold mb-4 pt-4">Variants</h2>
-          <div className="mx-auto pb-4 grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div>
-              <label className="block mb-1 font-semibold">
-                Size<span className="text-red-500">*</span>
-              </label>
-              <select className="w-full border rounded p-2">
-                <option>Size</option>
-                {sizes.map((s, idx) => (
-                  <option key={idx}>{s}</option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block mb-1 font-semibold">Note</label>
-              <input
-                type="text"
-                placeholder="Ex: Galaxy A05"
-                className="w-full border rounded p-2"
-              />
-            </div>
-
-            <div>
-              <label className="block mb-1 font-semibold">
-                Target Country<span className="text-red-500">*</span>
-              </label>
-              <select className="w-full border rounded p-2">
-                <option>Target country</option>
-                {countries.map((c, idx) => (
-                  <option key={idx}>{c}</option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block mb-1 font-semibold">Gender</label>
-              <select className="w-full border rounded p-2">
-                <option>Gender</option>
-                {genders.map((g, idx) => (
-                  <option key={idx}>{g}</option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block mb-1 font-semibold">
-                Delivery and Collection<span className="text-red-500">*</span>
-              </label>
-              <select className="w-full border rounded p-2">
-                <option>Delivery and collection</option>
-                {deliveryOptions.map((d, idx) => (
-                  <option key={idx}>{d}</option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block mb-1 font-semibold">Shipped from</label>
-              <input
-                type="text"
-                placeholder="Shipped from"
-                className="w-full border rounded p-2"
-              />
-            </div>
-
-            <div>
-              <label className="block mb-1 font-semibold">
-                Target State/Region
-              </label>
-              <select className="w-full border rounded p-2">
-                <option>Target state/region</option>
-                {states.map((s, idx) => (
-                  <option key={idx}>{s}</option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block mb-1 font-semibold">Sleeve Length</label>
-              <select className="w-full border rounded p-2">
-                <option>Sleeve Length</option>
-                {sleeves.map((s, idx) => (
-                  <option key={idx}>{s}</option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block mb-1 font-semibold">Age Group</label>
-              <select className="w-full border rounded p-2">
-                <option>Age group</option>
-                {ageGroups.map((a, idx) => (
-                  <option key={idx}>{a}</option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block mb-1 font-semibold">
-                Seller SKU<span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                placeholder="Seller SKU"
-                className="w-full border rounded p-2"
-              />
-            </div>
-
-            <div>
-              <label className="block mb-1 font-semibold">GTIN Barcode</label>
-              <input
-                type="text"
-                placeholder="GTIN barcode"
-                className="w-full border rounded p-2"
-              />
-            </div>
-
-            <div>
-              <label className="block mb-1 font-semibold">Quantity</label>
-              <input
-                type="number"
-                placeholder="Quantity"
-                className="w-full border rounded p-2"
-              />
-            </div>
-
-            <div>
-              <label className="block mb-1 font-semibold">
-                Global Price (NGN)<span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                placeholder="Global price"
-                className="w-full border rounded p-2"
-              />
-            </div>
-
-            <div>
-              <label className="block mb-1 font-semibold">
-                Sale Price (NGN)
-              </label>
-              <input
-                type="text"
-                placeholder="Sale price"
-                className="w-full border rounded p-2"
-              />
-            </div>
-
-            <div>
-              <label className="block mb-1 font-semibold">
-                Sale Start Date
-              </label>
-              <input type="date" className="w-full border rounded p-2" />
-            </div>
-
-            <div>
-              <label className="block mb-1 font-semibold">Sale End Date</label>
-              <input type="date" className="w-full border rounded p-2" />
-            </div>
-          </div>
-
-          {/* Product Specification - Only render the selected category's component */}
-          <h2 className="text-xl font-semibold mb-4 pt-4">
-            Product Specification
-          </h2>
           {selectedCategory && <>{renderProductSpecification()}</>}
 
-          <div className="flex justify-end mb-4">
-            <button className="flex items-center text-xs gap-2 bg-[#FFD700] hover:bg-yellow-600 text-black font-semibold px-4 py-2 rounded">
+          <div className="inline-flex my-12  items-center mx-auto w-full gap-2 rounded bg-yellow-400 justify-center py-2 font-medium hover:bg-yellow-500">
+            <HiOutlinePlusCircle className="text-xl" />
+            Add Variant
+          </div>
+
+          <AddVariantsTable />
+
+          <div className="flex justify-end my-8">
+            <div className="flex items-center  cursor-pointer text-xs gap-2 bg-[#FFD700] hover:bg-yellow-600 text-black font-semibold px-12 py-2 rounded">
               Submit
-            </button>
+            </div>
           </div>
         </form>
         <div className="pb-40" />

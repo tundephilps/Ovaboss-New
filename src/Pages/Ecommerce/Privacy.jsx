@@ -4,7 +4,7 @@ import Banner from "../../assets/Policy.png";
 const Privacy = () => {
   return (
     <div className="bg-[#faf9f9] ">
-      <img src={Banner} />
+      <img src={Banner} className="w-full" />
       <div className="max-w-4xl mx-auto lg:p-6 p-2 bg-white my-12">
         <div className=" rounded-lg p-6">
           <h2 className="text-xl font-bold text-gray-900 mb-4">
