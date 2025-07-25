@@ -4,6 +4,9 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { VscSettings } from "react-icons/vsc";
 import { AiOutlineEye, AiOutlineMail } from "react-icons/ai";
 import Pagination from "./Pagination";
+import { WalletReport } from "../../../types/report.type";
+import Loading from "../../Loading";
+import NoTableData from "../../NoTableData";
 
 const data = [
   {
@@ -125,7 +128,14 @@ const filterMenuOptions = {
   ],
   "Payment Status": ["Paid", "Unpaid", "Refunded"],
 };
-export default function WalletTable() {
+
+interface TableProps {
+  isLoading: boolean;
+  reports: WalletReport[];
+}
+
+
+export default function WalletTable({ isLoading, reports }: TableProps) {
   const [openDropdown, setOpenDropdown] = useState(null);
   const [activeFilterMenu, setActiveFilterMenu] = useState(null);
 
@@ -191,21 +201,28 @@ export default function WalletTable() {
             </tr>
           </thead>
           <tbody className="text-sm">
-            {data.map((item, index) => (
+            {isLoading &&
+              <tr>
+                <td colSpan={8}><Loading/></td>
+              </tr>
+            }
+            <NoTableData colspan={8} isLoading={isLoading} data={reports}/>
+
+            {reports.map((item, index) => (
               <tr
                 key={index}
                 className="bg-white hover:bg-gray-50 rounded shadow-sm border-b border-gray-100"
               >
                 <td className="py-3 px-4 text-blue-600 font-medium">
-                  {item.id}
+                  {item.transactionId}
                 </td>
                 <td className="py-3 px-4">{item.category}</td>
                 <td
                   className={`py-3 px-4 font-semibold ${
-                    statusColor[item.type]
+                    statusColor[item.transactionType]
                   }`}
                 >
-                  {item.type}
+                  {item.transactionType}
                 </td>
                 <td
                   className={`py-3 px-4 font-semibold ${
@@ -217,7 +234,7 @@ export default function WalletTable() {
                 <td className="py-3 px-4 font-medium">{item.amount}</td>
                 <td className="py-3 px-4 font-medium">{item.newBalance}</td>
                 <td className="py-3 px-4 text-gray-600">{item.description}</td>
-                <td className="py-3 px-4 text-gray-600">{item.dateTime}</td>
+                <td className="py-3 px-4 text-gray-600">{item.createdAt}</td>
                 <td className="py-3 px-4 text-right relative">
                   <button
                     onClick={() => handleDropdownToggle(index)}
