@@ -86,7 +86,7 @@ const Navbar = () => {
 
   const handleLogin = () => {
     navigate("/signin");
-  }
+  };
 
   return (
     <div className="w-full">
@@ -173,7 +173,7 @@ const Navbar = () => {
             )}
 
             {/* Mobile Search + Icons - Visible only on mobile */}
-            {user &&
+            {user && (
               <div className="flex md:hidden items-center">
                 {/* Mobile wishlist icon */}
                 <div className="relative mx-2">
@@ -193,7 +193,7 @@ const Navbar = () => {
                   </div>
                 </Link>
               </div>
-            }
+            )}
 
             {/* Desktop Search Bar - Hidden on mobile */}
             <div className="hidden md:flex flex-1 max-w-xl px-4">
@@ -279,7 +279,7 @@ const Navbar = () => {
                 </div>
               )}
 
-              {user &&
+              {user && (
                 <>
                   <div className="relative">
                     <FaRegHeart
@@ -303,16 +303,19 @@ const Navbar = () => {
                     </div>
                   </Link>
                 </>
-              }
+              )}
 
               {/* If User is not logged In */}
-              {!user && 
-                <button onClick={handleLogin} className="w-full text-xs py-3 px-12 border bg-[#FFD700] border-yellow-400 text-black font-medium rounded hover:bg-yellow-50 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50">
+              {!user && (
+                <button
+                  onClick={handleLogin}
+                  className="w-full text-xs py-3 px-12 border bg-[#FFD700] border-yellow-400 text-black font-medium rounded hover:bg-yellow-50 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50"
+                >
                   Login/Signup
                 </button>
-              }
+              )}
 
-              {user && 
+              {user && (
                 <div
                   className="flex items-center text-gray-700 hover:text-gray-900 cursor-pointer"
                   onClick={() => {
@@ -321,7 +324,7 @@ const Navbar = () => {
                   }}
                 >
                   <LiaUserCheckSolid size={24} />
-                  <span className="ml-2 text-sm">{ user?.firstname }</span>
+                  <span className="ml-2 text-sm">{user?.firstname}</span>
                   <svg
                     className="w-2 h-2 ml-1"
                     fill="none"
@@ -337,22 +340,22 @@ const Navbar = () => {
                     />
                   </svg>
                 </div>
-              }
+              )}
 
               {/* Profile Dropdown Menu */}
               {showProfileMenu && (
                 <div className="absolute top-full mt-2 right-0 bg-white shadow-lg rounded-md w-56 py-0 z-50">
-                  {user && 
+                  {user && (
                     <>
                       <div className="px-4 py-2 font-semibold text-gray-800">
-                        Hi, { user?.firstname }
+                        Hi, {user?.firstname}
                       </div>
-                      <a
-                        href="/#"
+                      <Link
+                        to="/PCCDashboard"
                         className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
                       >
                         <VscDashboard className="mr-2" /> My Dashboard
-                      </a>
+                      </Link>
                       <a
                         href="/#"
                         className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
@@ -377,8 +380,7 @@ const Navbar = () => {
                       >
                         <MdOutlineInbox className="mr-2" /> Inbox
                       </a>
-                  
-                  
+
                       <div className="border-t mt-2"></div>
                       <button
                         onClick={handleLogout}
@@ -387,8 +389,8 @@ const Navbar = () => {
                         Logout
                       </button>
                     </>
-                  }
-                 </div> 
+                  )}
+                </div>
               )}
             </div>
           </div>

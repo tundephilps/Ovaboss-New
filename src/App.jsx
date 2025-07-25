@@ -91,6 +91,12 @@ import TermsOfService from "./Pages/Ecommerce/Terms";
 import Privacy from "./Pages/Ecommerce/Privacy";
 import Blog from "./Pages/Ecommerce/Blog";
 import BlogDetails from "./Pages/Ecommerce/BlogDetails";
+import BusinessContract from "./Pages/Ecommerce/BusinessContract";
+import DashboardCCCLayout from "./layouts/DashboardCCCLayout";
+import NewsFeed from "./Pages/DashboardCCC/NewsFeed";
+import ChatCenter from "./Pages/DashboardCCC/ChatCenter";
+import Support from "./Pages/DashboardCCC/Support";
+import ProfileCCC from "./Pages/DashboardCCC/Profile";
 function App() {
   return (
     <>
@@ -125,6 +131,8 @@ function App() {
 
               <Route path="/BusinessRepresentative" element={<BusinessRep />} />
 
+              <Route path="/BusinessContract" element={<BusinessContract />} />
+
               <Route path="/TermsofService" element={<TermsOfService />} />
 
               <Route path="/PrivacyPolicy" element={<Privacy />} />
@@ -150,8 +158,14 @@ function App() {
                 <Route path="/Community/AQM" element={<AQM />} />
                 <Route path="/Community/PCM" element={<PCM />} />
                 <Route path="/Wallets/:walletName" element={<Wallet />} />
-                <Route path="/Reports/GeneralReport" element={<GeneralReport />} />
-                <Route path="/Reports/GeneralReport/MTR" element={<MTRReport />} />
+                <Route
+                  path="/Reports/GeneralReport"
+                  element={<GeneralReport />}
+                />
+                <Route
+                  path="/Reports/GeneralReport/MTR"
+                  element={<MTRReport />}
+                />
                 <Route
                   path="/Reports/GeneralReport/ServiceOrderReport"
                   element={<ServiceOrderReport />}
@@ -180,7 +194,7 @@ function App() {
               </Route>
             </Route>
 
-            <Route element={<ProtectedRoute section='bcc'/>}>
+            <Route element={<ProtectedRoute section="bcc" />}>
               <Route element={<DashboardBCCLayout />}>
                 <Route path="/BCCDashboard" element={<DashboardHomeBCC />} />
                 <Route path="/CreateBusiness" element={<CreateBusiness />} />
@@ -199,7 +213,10 @@ function App() {
                   path="/Orders/AwaitingPayment"
                   element={<AwaitingPayment />}
                 />
-                <Route path="/Orders/PendingOrders" element={<PendingOrders />} />
+                <Route
+                  path="/Orders/PendingOrders"
+                  element={<PendingOrders />}
+                />
                 <Route
                   path="/Orders/ProcessingOrders"
                   element={<ProcessingOrders />}
@@ -271,12 +288,22 @@ function App() {
                   path="/Reports/OfflineInvoice"
                   element={<OfflineInvoiceReportBCC />}
                 />
-                <Route path="/Goods/PickupLocations" element={<PickupLocation />} />
+                <Route
+                  path="/Goods/PickupLocations"
+                  element={<PickupLocation />}
+                />
                 <Route path="/Goods/AllGoods" element={<AllGoods />} />
 
                 <Route path="/Goods/AddNewGoods" element={<AddNewGoods />} />
                 <Route path="/Goods/Promotions" element={<Promotions />} />
               </Route>
+            </Route>
+
+            <Route element={<DashboardCCCLayout />}>
+              <Route path="/NewsFeed" element={<NewsFeed />} />
+              <Route path="/CCCProfile" element={<ProfileCCC />} />
+              <Route path="/ChatCenter" element={<ChatCenter />} />
+              <Route path="/Support" element={<Support />} />
             </Route>
           </Routes>
         </AppContextProvider>

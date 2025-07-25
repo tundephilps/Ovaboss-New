@@ -124,7 +124,7 @@ const BusinessRep = () => {
         </div>
 
         <form onSubmit={handleSubmit} className=" text-xs space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* First Name */}
             <div>
               <label className="block mb-1 font-medium">
@@ -154,24 +154,6 @@ const BusinessRep = () => {
                 required
               />
             </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* Phone Number */}
-            <div>
-              <label className="block mb-1 font-medium">
-                Phone Number<span className="text-red-500">*</span>
-              </label>
-              <input
-                type="tel"
-                name="phone"
-                className="border p-2 w-full rounded"
-                value={formData.phone}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
             {/* Ovaboss PIN */}
             <div>
               <label className="block mb-1 font-medium">
@@ -186,7 +168,9 @@ const BusinessRep = () => {
                 required
               />
             </div>
+          </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Email */}
             <div>
               <label className="block mb-1 font-medium">
@@ -220,6 +204,20 @@ const BusinessRep = () => {
                 {/* Add more countries as needed */}
               </select>
             </div>
+            {/* Phone Number */}
+            <div>
+              <label className="block mb-1 font-medium">
+                Phone Number<span className="text-red-500">*</span>
+              </label>
+              <input
+                type="tel"
+                name="phone"
+                className="border p-2 w-full rounded"
+                value={formData.phone}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
             {/* State */}
             <div>
@@ -247,6 +245,19 @@ const BusinessRep = () => {
                 className="border p-2 w-full rounded"
                 value={formData.city}
                 onChange={handleChange}
+                required
+              />
+            </div>
+
+            {/* Zip Code */}
+            <div>
+              <label className="block mb-1 font-medium">
+                Post/Zip code<span className="text-red-500">*</span>
+              </label>
+              <input
+                type="tel"
+                name="phone"
+                className="border p-2 w-full rounded"
                 required
               />
             </div>

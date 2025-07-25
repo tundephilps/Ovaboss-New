@@ -4,7 +4,7 @@ import Banner from "../../assets/Terms.png";
 const TermsOfService = () => {
   return (
     <div className="bg-[#faf9f9]">
-      <img src={Banner} />
+      <img src={Banner} className="w-full" />
       <div className="max-w-4xl mx-auto lg:p-6 p-2 ">
         <div className="space-y-8 py-12 bg-white ">
           {/* Section 1: General Use and User Accounts */}
