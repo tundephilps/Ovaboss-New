@@ -8,17 +8,7 @@ import { GeneralReport } from "../../../types/report.type";
 import { numberFormat } from "../../../utils";
 import Loading from "../../Loading";
 import NoTableData from "../../NoTableData";
-
-const statusColor = {
-  Shipped: "text-blue-600",
-  Delivered: "text-green-600",
-  Successful: "text-green-600",
-  Processing: "text-orange-500",
-  Cancelled: "text-red-500",
-  Paid: "text-green-600",
-  Unpaid: "text-red-500",
-  Refunded: "text-yellow-500",
-};
+import { statusColor } from "../../../types/status.type";
 
 // Dropdown content data
 const filterMenuOptions = {

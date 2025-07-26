@@ -9,6 +9,7 @@ export interface GeneralReport {
 }
 
 export interface GoodsReport extends GeneralReport {}
+export interface ServicesReport extends GeneralReport {}
 
 export interface WalletReport {
     businessId: string | null;

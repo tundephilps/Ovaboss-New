@@ -29,9 +29,9 @@ const useReport = ({ reportType }: UseReportProps) => {
 
             let pathParam: string = reportType;
 
-            switch(reportType) {
-                case 'goods' : pathParam = 'product-type?productTypeName=Goods'; break;
-                case 'services' : pathParam = 'product-type?productTypeName=Services'; break;
+            const reportByTypes = ['goods', 'services'];
+            if(reportByTypes.includes(reportType)) {
+                pathParam = `product-type?productTypeName=${reportType}`
             }
 
             const { data: response } = await axiosClient.get(`user/report/${pathParam}`);

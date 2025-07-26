@@ -1,8 +1,11 @@
 import React from "react";
 import ProfileProgressCard from "../../../components/DashboardPCC/Homepage/ProfileProgressCard";
 import ServiceOrderTable from "../../../components/DashboardPCC/Report/ServiceOrderTable";
+import useReport from "../../../hooks/useReport";
 
 const ServiceOrderReportBCC = () => {
+  const { isLoading, reports } = useReport({ reportType: 'general' });
+
   return (
     <div className=" bg-[#faf9f9] overflow-y-auto">
       <div className="py-6 px-4">
@@ -16,7 +19,10 @@ const ServiceOrderReportBCC = () => {
           </span>{" "}
         </p>
         <ProfileProgressCard completedFields={4} totalFields={10} />
-        <ServiceOrderTable />
+        <ServiceOrderTable 
+          isLoading={isLoading}
+          reports={reports.services}
+        />
       </div>
     </div>
   );
