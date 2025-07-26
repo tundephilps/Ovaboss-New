@@ -4,100 +4,11 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { VscSettings } from "react-icons/vsc";
 import { AiOutlineEye, AiOutlineMail } from "react-icons/ai";
 import Pagination from "./Pagination";
-
-const data = [
-  {
-    id: "#10234",
-    orderNumber: "ORD-1001",
-    trackingNumber: "TBK-984751",
-    orderStatus: "Shipped",
-    paymentStatus: "Paid",
-    amount: "£12.50",
-    orderTime: "2025-05-10 14:32",
-  },
-  {
-    id: "#10233",
-    orderNumber: "ORD-1002",
-    trackingNumber: "TBK-984752",
-    orderStatus: "Processing",
-    paymentStatus: "Unpaid",
-    amount: "£7.00",
-    orderTime: "2025-05-10 15:45",
-  },
-  {
-    id: "#10232",
-    orderNumber: "ORD-1003",
-    trackingNumber: "TBK-984753",
-    orderStatus: "Delivered",
-    paymentStatus: "Paid",
-    amount: "£25.00",
-    orderTime: "2025-05-09 18:15",
-  },
-  {
-    id: "#10231",
-    orderNumber: "ORD-1004",
-    trackingNumber: "TBK-984754",
-    orderStatus: "Cancelled",
-    paymentStatus: "Refunded",
-    amount: "£18.00",
-    orderTime: "2025-05-08 09:20",
-  },
-  {
-    id: "#10230",
-    orderNumber: "ORD-1005",
-    trackingNumber: "TBK-984755",
-    orderStatus: "Delivered",
-    paymentStatus: "Paid",
-    amount: "£10.50",
-    orderTime: "2025-05-11 11:00",
-  },
-  {
-    id: "#10229",
-    orderNumber: "ORD-1006",
-    trackingNumber: "TBK-984755",
-    orderStatus: "Delivered",
-    paymentStatus: "Paid",
-    amount: "£12.50",
-    orderTime: "2025-05-09 10:15",
-  },
-  {
-    id: "#10229",
-    orderNumber: "ORD-1007",
-    trackingNumber: "TBK-984755",
-    orderStatus: "Processing",
-    paymentStatus: "Unpaid",
-    amount: "£25.00",
-    orderTime: "2025-05-10 15:45",
-  },
-  {
-    id: "#10229",
-    orderNumber: "ORD-1008",
-    trackingNumber: "TBK-984755",
-    orderStatus: "Shipped",
-    paymentStatus: "Paid",
-    amount: "£25.00",
-    orderTime: "2025-05-09 10:15",
-  },
-  {
-    id: "#10229",
-    orderNumber: "ORD-1009",
-    trackingNumber: "TBK-984752",
-    orderStatus: "Cancelled",
-    paymentStatus: "Refunded",
-    amount: "£19.50",
-    orderTime: "2025-05-10 15:45",
-  },
-];
-
-const statusColor = {
-  Shipped: "text-blue-600",
-  Delivered: "text-green-600",
-  Processing: "text-orange-500",
-  Cancelled: "text-red-500",
-  Paid: "text-green-600",
-  Unpaid: "text-red-500",
-  Refunded: "text-yellow-500",
-};
+import { GeneralReport } from "../../../types/report.type";
+import { numberFormat } from "../../../utils";
+import Loading from "../../Loading";
+import NoTableData from "../../NoTableData";
+import { statusColor } from "../../../types/status.type";
 
 // Dropdown content data
 const filterMenuOptions = {
@@ -119,7 +30,12 @@ const filterMenuOptions = {
   "Payment Status": ["Paid", "Unpaid", "Refunded"],
 };
 
-export default function GeneralReportTable() {
+interface TableProps {
+  isLoading: boolean;
+  reports: GeneralReport[];
+}
+
+export default function GeneralReportTable({ isLoading, reports }: TableProps) {
   const [openDropdown, setOpenDropdown] = useState(null);
   const [activeFilterMenu, setActiveFilterMenu] = useState(null);
 
@@ -184,12 +100,19 @@ export default function GeneralReportTable() {
             </tr>
           </thead>
           <tbody className="text-sm">
-            {data.map((item, index) => (
+            {isLoading &&
+              <tr>
+                <td colSpan={8}><Loading/></td>
+              </tr>
+            }
+            <NoTableData colspan={8} isLoading={isLoading} data={reports}/>
+
+            {reports.map((item, index) => (
               <tr
                 key={index}
                 className="bg-white hover:bg-gray-50 rounded shadow-sm"
               >
-                <td className="py-2">{item.id}</td>
+                <td className="py-2">#{item.id}</td>
                 <td className="py-2">{item.orderNumber}</td>
                 <td className="py-2">{item.trackingNumber}</td>
                 <td
@@ -206,7 +129,7 @@ export default function GeneralReportTable() {
                 >
                   {item.paymentStatus}
                 </td>
-                <td className="py-2">{item.amount}</td>
+                <td className="py-2">{numberFormat(item.amount, 2)}</td>
                 <td className="py-2">{item.orderTime}</td>
                 <td className="py-2 text-right relative">
                   <button

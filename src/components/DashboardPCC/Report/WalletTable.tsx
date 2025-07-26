@@ -4,107 +4,10 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { VscSettings } from "react-icons/vsc";
 import { AiOutlineEye, AiOutlineMail } from "react-icons/ai";
 import Pagination from "./Pagination";
-
-const data = [
-  {
-    id: "#19234",
-    category: "Product Order",
-    type: "Debit",
-    status: "Completed",
-    amount: "£13.50",
-    newBalance: "£1947.50",
-    description: "Order payment for #1254",
-    dateTime: "2025-05-19 16:52",
-  },
-  {
-    id: "#19233",
-    category: "Personal Inter-wallet",
-    type: "Credit",
-    status: "Completed",
-    amount: "£7.00",
-    newBalance: "£1554.00",
-    description: "Personal inter-wallet Transfer",
-    dateTime: "2025-05-19 15:45",
-  },
-  {
-    id: "#19232",
-    category: "Product Order",
-    type: "Debit",
-    status: "Completed",
-    amount: "£7.00",
-    newBalance: "£1547.00",
-    description: "Order payment for #1256",
-    dateTime: "2025-05-08 10:15",
-  },
-  {
-    id: "#19231",
-    category: "Personal Inter-wallet",
-    type: "Credit",
-    status: "Completed",
-    amount: "£12.50",
-    newBalance: "£1547.50",
-    description: "Order payment for #1256",
-    dateTime: "2025-05-08 09:20",
-  },
-  {
-    id: "#19230",
-    category: "Personal Inter-wallet",
-    type: "Credit",
-    status: "Completed",
-    amount: "£7.00",
-    newBalance: "£1547.50",
-    description: "Personal inter-wallet Transfer",
-    dateTime: "2025-05-11 11:00",
-  },
-  {
-    id: "#19229",
-    category: "Personal Inter-wallet",
-    type: "Credit",
-    status: "Completed",
-    amount: "£13.50",
-    newBalance: "£1552.50",
-    description: "Personal inter-wallet Transfer",
-    dateTime: "2025-05-09 10:15",
-  },
-  {
-    id: "#19228",
-    category: "Personal Inter-wallet",
-    type: "Credit",
-    status: "Completed",
-    amount: "£7.00",
-    newBalance: "£1552.00",
-    description: "Order payment for #1254",
-    dateTime: "2025-05-10 15:45",
-  },
-  {
-    id: "#19227",
-    category: "Personal Inter-wallet",
-    type: "Credit",
-    status: "Completed",
-    amount: "£13.50",
-    newBalance: "£1561.50",
-    description: "Personal inter-wallet Transfer",
-    dateTime: "2025-05-09 10:15",
-  },
-  {
-    id: "#19226",
-    category: "Product Order",
-    type: "Credit",
-    status: "Completed",
-    amount: "£13.50",
-    newBalance: "£1552.00",
-    description: "Order payment for #1256",
-    dateTime: "2025-05-19 16:52",
-  },
-];
-
-const statusColor = {
-  Completed: "text-green-600",
-  Pending: "text-orange-500",
-  Failed: "text-red-500",
-  Debit: "text-red-500",
-  Credit: "text-green-600",
-};
+import { WalletReport } from "../../../types/report.type";
+import Loading from "../../Loading";
+import NoTableData from "../../NoTableData";
+import { statusColor } from "../../../types/status.type";
 
 // Dropdown content data
 const filterMenuOptions = {
@@ -125,7 +28,14 @@ const filterMenuOptions = {
   ],
   "Payment Status": ["Paid", "Unpaid", "Refunded"],
 };
-export default function WalletTable() {
+
+interface TableProps {
+  isLoading: boolean;
+  reports: WalletReport[];
+}
+
+
+export default function WalletTable({ isLoading, reports }: TableProps) {
   const [openDropdown, setOpenDropdown] = useState(null);
   const [activeFilterMenu, setActiveFilterMenu] = useState(null);
 
@@ -191,21 +101,28 @@ export default function WalletTable() {
             </tr>
           </thead>
           <tbody className="text-sm">
-            {data.map((item, index) => (
+            {isLoading &&
+              <tr>
+                <td colSpan={8}><Loading/></td>
+              </tr>
+            }
+            <NoTableData colspan={8} isLoading={isLoading} data={reports}/>
+
+            {reports.map((item, index) => (
               <tr
                 key={index}
                 className="bg-white hover:bg-gray-50 rounded shadow-sm border-b border-gray-100"
               >
                 <td className="py-3 px-4 text-blue-600 font-medium">
-                  {item.id}
+                  {item.transactionId}
                 </td>
                 <td className="py-3 px-4">{item.category}</td>
                 <td
                   className={`py-3 px-4 font-semibold ${
-                    statusColor[item.type]
+                    statusColor[item.transactionType]
                   }`}
                 >
-                  {item.type}
+                  {item.transactionType}
                 </td>
                 <td
                   className={`py-3 px-4 font-semibold ${
@@ -217,7 +134,7 @@ export default function WalletTable() {
                 <td className="py-3 px-4 font-medium">{item.amount}</td>
                 <td className="py-3 px-4 font-medium">{item.newBalance}</td>
                 <td className="py-3 px-4 text-gray-600">{item.description}</td>
-                <td className="py-3 px-4 text-gray-600">{item.dateTime}</td>
+                <td className="py-3 px-4 text-gray-600">{item.createdAt}</td>
                 <td className="py-3 px-4 text-right relative">
                   <button
                     onClick={() => handleDropdownToggle(index)}
