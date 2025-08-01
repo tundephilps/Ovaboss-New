@@ -3,11 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { User } from "../types/user.type";
 import axiosClient from "../utils/axiosClient";
 import Loading from "../components/Loading";
+import { BusinessAccount } from "../types/business.type";
 
 interface AppContextType {
     user: User | null;
     handleSetUser: (user: User) => void;
     handleLogout: () => void;
+    businessAccounts: BusinessAccount[];
+    setBusinessAccounts: React.Dispatch<React.SetStateAction<BusinessAccount[]>>
 }
 
 export const AppContext = React.createContext<AppContextType | undefined>(undefined);
@@ -19,6 +22,7 @@ interface AppContextProviderProps {
 const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => {
     const [user, setUser] = React.useState<User | null>(null);
     const [isLoading, setLoading] = React.useState(true);
+    const [ businessAccounts, setBusinessAccounts ] = React.useState<BusinessAccount[]>([])
 
     const navigate = useNavigate();
 
@@ -53,6 +57,8 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
 
     const contextValue: AppContextType = {
         user,
+        businessAccounts,
+        setBusinessAccounts,
         handleSetUser,
         handleLogout,
     };
@@ -70,6 +76,11 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
                 const { status, data: response } = await axiosClient.get('user/profile-details');
                 if(status === 200) {
                     const { userData, ...rest } = response.data;
+
+                    if(userData.userType === 'BUSINESS') {
+                        const { data: response } = await axiosClient.get('user/business/list-business-account');
+                        setBusinessAccounts(response.data)
+                    }
 
                     handleSetUser({
                         ...userData,
