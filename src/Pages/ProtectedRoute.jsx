@@ -12,7 +12,7 @@ const ProtectedRoute = ({ section }) => {
         return <Navigate to="/" replace />;
     }
 
-    if(section === 'bcc' && businessAccounts.length !== 0 && !ignorePages.some(page => currentPath.includes(page))) {
+    if(section === 'bcc' && businessAccounts.length === 0 && !ignorePages.some(page => currentPath.includes(page))) {
         return <Navigate to="/CreateBusiness" />;
     }
 

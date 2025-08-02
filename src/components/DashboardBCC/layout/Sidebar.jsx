@@ -23,7 +23,7 @@ import useWallets from "../../../hooks/useWallets";
 
 export const getMenuItems = (menuItems, businessAccounts) => {
   const includeBusinessAccount = ['/bccdashboard', '/businesses', '/pccdashboard'];
-  if(businessAccounts.length) {
+  if(!businessAccounts.length) {
     return menuItems.filter(item => includeBusinessAccount.includes(item.path.toLowerCase()))
   }
 
