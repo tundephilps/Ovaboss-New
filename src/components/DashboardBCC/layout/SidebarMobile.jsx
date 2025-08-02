@@ -13,6 +13,8 @@ import Contain from "../../../assets/Container.svg";
 import Contain2 from "../../../assets/Container2.svg";
 import { FaCartShopping } from "react-icons/fa6";
 import Contain3 from "../../../assets/Container3.svg";
+import { getMenuItems } from "./Sidebar";
+import { useAppContext } from "../../../context/AppContext";
 
 const menuItems = [
   {
@@ -202,6 +204,8 @@ const SidebarItem = ({ item, isCollapsed }) => {
 const SidebarMobile = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
+  const { businessAccounts } = useAppContext();
+
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
   };
@@ -216,7 +220,7 @@ const SidebarMobile = () => {
         )}
       </div>
       <div className="flex flex-col gap-1 py-2">
-        {menuItems.map((item, idx) => (
+        {getMenuItems(menuItems, businessAccounts).map((item, idx) => (
           <SidebarItem key={idx} item={item} isCollapsed={isCollapsed} />
         ))}
       </div>
