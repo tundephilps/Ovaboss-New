@@ -41,7 +41,7 @@ const useAuth = () => {
         }
     })
 
-    const { handleSetUser } = useAppContext();
+    const { handleSetUser, setBusinessAccounts } = useAppContext();
     const navigate = useNavigate();
 
     const handleInput = (section_field: string, value: any) => {
@@ -72,15 +72,20 @@ const useAuth = () => {
 
             localStorage.setItem('authToken', token);
 
-            const { data: response } = await axiosClient.get('user/profile-details');
-            const { userData, ...rest } = response.data;
+            const [ profileDetailsData, businessAccountData ] = await Promise.all([
+                axiosClient.get('user/profile-details'),
+                axiosClient.get('user/business/list-business-account'),
+            ])
+
+            const { userData, ...rest } = profileDetailsData.data.data;
 
             handleSetUser({
                 ...userData,
                 ...rest,
                 token,
             })
-            
+            setBusinessAccounts(businessAccountData.data.data)
+
             navigate("/");
 
         } catch(error) {
