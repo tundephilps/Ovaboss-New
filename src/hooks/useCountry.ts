@@ -43,6 +43,7 @@ const useCountry = () => {
 
             if(fetchedStates && fetchedStates[countryId]) {
                 setStates(fetchedStates[countryId]);
+                return fetchedStates[countryId];
             }
 
             const { data: response } = await axiosClient.get(`/user/list-state?countryId=${countryId}`);

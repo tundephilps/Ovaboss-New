@@ -11,6 +11,8 @@ import Biz11 from "../../../assets/Biz11.png";
 import Biz22 from "../../../assets/Biz22.png";
 import Biz33 from "../../../assets/Biz33.png";
 import { Link } from "react-router-dom";
+import { useAppContext } from "../../../context/AppContext";
+import { BusinessAccount } from "../../../types/business.type";
 
 const businesses = [
   {
@@ -43,7 +45,8 @@ const businesses = [
 ];
 
 const AllBusinesses = () => {
-  const [selectedBusiness, setSelectedBusiness] = useState(businesses[0]);
+  const { businessAccounts } = useAppContext();
+  const [ selectedBusiness, setSelectedBusiness ] = useState<BusinessAccount>(businessAccounts[0]);
 
   return (
     <div className=" bg-[#faf9f9] overflow-y-auto">
@@ -60,30 +63,30 @@ const AllBusinesses = () => {
             All Businesses
           </h2>
           <div className=" space-y-2">
-            {businesses.map((biz) => (
+            {businessAccounts.map((item, key) => (
               <div
-                key={biz.id}
+                key={key}
                 className={`flex items-center justify-between p-3 rounded-xl cursor-pointer border ${
-                  selectedBusiness.id === biz.id
+                  selectedBusiness.id === item.id
                     ? "bg-yellow-50 border-yellow-500"
                     : "hover:bg-gray-50"
                 }`}
-                onClick={() => setSelectedBusiness(biz)}
+                onClick={() => setSelectedBusiness(item)}
               >
                 <div className="flex items-center gap-3">
                   <img
-                    src={biz.avatar}
-                    alt={biz.name}
+                    src={item.logo}
+                    alt={item.name}
                     className="w-10 h-10 rounded-full object-cover"
                   />
                   <div>
-                    <div className="font-semibold">{biz.name}</div>
+                    <div className="font-semibold">{item.name}</div>
                     <div className="text-sm text-gray-500">
-                      Type: {biz.type}
+                      Type: Business
                     </div>
                   </div>
                 </div>
-                {selectedBusiness.id === biz.id && (
+                {selectedBusiness.id === item.id && (
                   <FaCheckCircle className="text-green-500" />
                 )}
               </div>
@@ -99,14 +102,14 @@ const AllBusinesses = () => {
             </h2>
             <div className="flex items-center gap-4 mb-4">
               <img
-                src={selectedBusiness.avatar}
+                src={selectedBusiness.logo}
                 alt={selectedBusiness.name}
                 className="w-32 h-32 rounded-xl object-cover"
               />
               <div className="grid lg:grid-cols-2 grid-cols-1 gap-1 w-full  text-sm">
                 <div className="pb-8">
                   <span className="font-semibold ">Business Type:</span>{" "}
-                  {selectedBusiness.type}
+                  BUSINESS
                 </div>
                 <div>
                   <span className="font-semibold">Store Name:</span>{" "}
@@ -148,19 +151,19 @@ const AllBusinesses = () => {
               <StatCard
                 icon={<FaBoxOpen size={20} className="text-blue-600" />}
                 label="Total Products"
-                value={selectedBusiness.stats.products}
+                value={0}
                 bg="bg-blue-100"
               />
               <StatCard
                 icon={<FaShoppingCart size={20} className="text-green-600" />}
                 label="Total Orders"
-                value={selectedBusiness.stats.orders}
+                value={0}
                 bg="bg-green-100"
               />
               <StatCard
                 icon={<FaUser size={20} className="text-purple-600" />}
                 label="Customers"
-                value={selectedBusiness.stats.customers}
+                value={0}
                 bg="bg-purple-100"
               />
             </div>
