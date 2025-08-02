@@ -3,13 +3,15 @@ import ChangeBusiness from "../../../components/DashboardBCC/Homepage/ChangeBusi
 
 import { useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AddBusiness = () => {
   const [isAuxiliary, setIsAuxiliary] = useState("No");
   const [parentBusiness, setParentBusiness] = useState("");
   const [isAuxiliaryOpen, setIsAuxiliaryOpen] = useState(false);
   const [isParentOpen, setIsParentOpen] = useState(false);
+
+  const navigate = useNavigate();
 
   const auxiliaryOptions = ["No", "Yes"];
   const parentBusinessOptions = [
@@ -29,6 +31,12 @@ const AddBusiness = () => {
       setIsParentOpen(false);
     }
   };
+
+  const handleNext = () => {
+    if(isAuxiliary === 'No') {
+      navigate('/createbusiness')
+    }
+  }
 
   return (
     <div className=" bg-[#faf9f9] overflow-y-auto">
@@ -140,14 +148,16 @@ const AddBusiness = () => {
         </div>
 
         {/* Next Button */}
-        <Link to="/Business/AddNew2" className="flex justify-end mt-8">
+        {/* <Link to="/Business/AddNew2" className="flex justify-end mt-8"> */}
           <button
+            onClick={handleNext}
+            disabled={isAuxiliary === 'yes'}
             type="button"
             className="px-6 py-2 bg-yellow-500 hover:bg-yellow-600 text-white font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-colors"
           >
             Next
           </button>
-        </Link>
+        {/* </Link> */}
       </div>
     </div>
   );

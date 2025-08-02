@@ -17,7 +17,7 @@ const CreateBusinessHeader = ({ onBackClick, onCreateClick }) => {
         </div>
 
         {/* Right side - Create button */}
-        <Link to="/CreateBusiness">
+        <Link to="/Business/AddNew">
           <button className="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded font-medium text-sm transition-colors">
             Create Your Business Now
           </button>
