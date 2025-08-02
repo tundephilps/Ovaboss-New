@@ -19,7 +19,17 @@ import { AiOutlineExclamationCircle } from "react-icons/ai";
 import Power from "../../../assets/Power.svg";
 import { useAppContext } from "../../../context/AppContext";
 import useWallets from "../../../hooks/useWallets";
+ 
 
+export const getMenuItems = (menuItems, businessAccounts) => {
+  const includeBusinessAccount = ['/bccdashboard', '/businesses', '/pccdashboard'];
+  if(!businessAccounts.length) {
+    return menuItems.filter(item => includeBusinessAccount.includes(item.path.toLowerCase()))
+  }
+
+  return menuItems;
+
+}
 
 // Logout Confirmation Modal Component
 const LogoutModal = ({ isOpen, onConfirm, onCancel }) => {
@@ -105,7 +115,7 @@ const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const { wallets } = useWallets();
-  const { handleLogout } = useAppContext();
+  const { handleLogout, businessAccounts } = useAppContext();
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
@@ -292,7 +302,7 @@ const Sidebar = () => {
         {/* Main menu items */}
         <div className="flex flex-col h-[90vh] justify-between">
           <div className="flex flex-col gap-1 py-2 flex-1">
-            {menuItems.map((item, idx) => (
+            {getMenuItems(menuItems, businessAccounts).map((item, idx) => (
               <SidebarItem key={idx} item={item} isCollapsed={isCollapsed} />
             ))}
           </div>
