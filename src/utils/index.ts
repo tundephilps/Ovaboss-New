@@ -17,3 +17,16 @@ export const formatDate = (dateStr: string) => {
 
     return formatted;
 }
+
+export const ucfirst = (str: string): string => {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+
+export const ucwords = (str: string): string => {
+  return str
+    .split(" ")
+    .map(word => ucfirst(word))
+    .join(" ");
+}

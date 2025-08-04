@@ -38,6 +38,8 @@ const Navbar = () => {
 
   const [expandedCategory, setExpandedCategory] = useState(null);
 
+  const { totalCarts } = useAppContext();
+
   const categories = [
     "Fashion and Accessories",
     "Home and Office",
@@ -187,9 +189,11 @@ const Navbar = () => {
                 <Link to="/ShoppingCart">
                   <div className="relative mx-2">
                     <LuShoppingCart size={20} className="text-gray-700" />
-                    <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
-                      3
-                    </span>
+                    {!!totalCarts && 
+                      <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
+                        {totalCarts}
+                      </span>
+                    }
                   </div>
                 </Link>
               </div>
@@ -297,9 +301,11 @@ const Navbar = () => {
                         size={20}
                         className="text-gray-700 hover:text-gray-900 cursor-pointer"
                       />
-                      <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
-                        3
-                      </span>
+                      {!!totalCarts && 
+                        <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
+                          {totalCarts}
+                        </span>
+                      }
                     </div>
                   </Link>
                 </>

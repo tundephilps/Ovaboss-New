@@ -21,12 +21,29 @@ import LoginModal from "../../components/Ecommerce/ProductDetails/LoginModal";
 import OrderOptionsModal from "../../components/Ecommerce/ProductDetails/OrderOptionsModal";
 import ImageSlider from "../../components/Ecommerce/ProductDetails/ImageSlider";
 import ProductSpecifications from "../../components/Ecommerce/ProductDetails/ProductSpecifications";
+import { useParams } from "react-router-dom";
+import useProductDetails from "../../hooks/useProductDetails";
+import { numberFormat } from "../../utils";
+import Loading from "../../components/Loading";
 
 const ProductDetails = () => {
   const [isModalOpen, setModalOpen] = useState(true);
   const [quantity, setQuantity] = useState(1);
-
   const [isOpen, setIsOpen] = useState(false);
+
+  const { productId } = useParams();
+
+  const { 
+    productDetails, 
+    isLoading, 
+    isSaving,
+    productCart,
+    selectedVariant, 
+    isLoadingCarts,
+    setSelectedVariant, 
+    handleAddToCart,
+    handleRemoveCart, 
+  } = useProductDetails();
 
   const handleConfirm = (option) => {
     console.log("Selected:", option);
@@ -53,6 +70,19 @@ const ProductDetails = () => {
     },
     { text: "Product details", url: "#" },
   ];
+
+  if(isLoading) {
+    return <Loading/>;
+  }
+
+  const colorVariants = productDetails.productVariants.flatMap(variant =>
+    variant.variants
+      .filter(v => v.variantType === "Color")
+      .map(v => ({
+        color: v.variant,
+        variantTypeId: v.variantTypeId,
+      }))
+  );
 
   return (
     <div className="lg:p-10 p-4 bg-[#faf9f9]">
@@ -88,7 +118,7 @@ const ProductDetails = () => {
           <div className="p-4  rounded-md shadow-md mx-auto flex flex-col md:flex-row gap-6 bg-white">
             {/* Images */}
             <div className="flex flex-col  md:w-1/2">
-              <ImageSlider />
+              <ImageSlider images={productDetails.productImages}/>
               {/* Share Icons */}
               <p className=" pt-12 text-xs">Share With Friends</p>
               <div className="flex items-start justify-start gap-4 py-4">
@@ -108,7 +138,7 @@ const ProductDetails = () => {
             <div className="md:w-1/2 space-y-4">
               <div className="flex justify-between items-center">
                 <h2 className="text-3xl font-bold">
-                  Apple iPad Pro 32.77cm silicone
+                  {productDetails.title}
                 </h2>
                 <FaRegHeart className="text-gray-500 cursor-pointer" />
               </div>
@@ -130,7 +160,7 @@ const ProductDetails = () => {
                   </span>
                 </div>
                 <div className="flex items-end gap-2 px-2">
-                  <span className="text-xl font-bold">£496,370</span>
+                  <span className="text-xl font-bold">£{numberFormat(productDetails.main_price)}</span>
                   <span className="line-through text-gray-400 text-sm">
                     £696,000
                   </span>
@@ -177,10 +207,11 @@ const ProductDetails = () => {
               <div>
                 <p>Variation Available</p>
                 <div className="flex gap-2 mt-2">
-                  {["blue", "green", "yellow", "red", "orange"].map((color) => (
+                  {colorVariants.map((item, key) => (
                     <div
-                      key={color}
-                      className={`w-5 h-5 rounded-sm bg-${color}-500 border cursor-pointer`}
+                      onClick={() => setSelectedVariant(item.variantTypeId)}
+                      key={key}
+                      className={`w-5 h-5 rounded-sm bg-${item.color.toLowerCase()}-500 border cursor-pointer`}
                     />
                   ))}
                 </div>
@@ -188,11 +219,18 @@ const ProductDetails = () => {
 
               {/* Add to Cart */}
               <button
-                // onClick={() => setModalOpen(true)}
-                onClick={() => setIsOpen(true)}
-                className="w-full mt-4 bg-[#FFD700] hover:bg-yellow-500 text-black py-2 rounded-md font-semibold flex items-center justify-center gap-2"
+                onClick={productCart ? handleRemoveCart : handleAddToCart}
+                // onClick={() => setIsOpen(true)}
+                disabled={isSaving || isLoadingCarts}
+                className={`w-full mt-4 bg-[#FFD700] hover:bg-yellow-500 text-black py-2 rounded-md font-semibold flex items-center justify-center gap-2 ${
+                  isSaving || isLoadingCarts ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
               >
-                🛒 Add to cart
+                {isSaving ? <Loading/> : (
+                  <>
+                    {productCart ? 'Remove from cart' : '🛒 Add to cart'}
+                  </>
+                )}
               </button>
 
               {/* <LoginModal
@@ -207,7 +245,7 @@ const ProductDetails = () => {
             </div>
           </div>
 
-          <Details />
+          <Details product={productDetails}/>
           <ProductSpecifications />
           <SponsoredProducts />
           <AlsoLike />

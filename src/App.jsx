@@ -111,7 +111,7 @@ function App() {
               <Route path="/Resetpassword" element={<PasswordReset />} />
               <Route path="/OTP" element={<OTPInput />} />
 
-              <Route path="/ProductDetails" element={<ProductDetails />} />
+              <Route path="/ProductDetails/:productId" element={<ProductDetails />} />
 
               <Route path="/Categories" element={<Categories />} />
               <Route path="/Payment" element={<PaymentPage />} />
@@ -294,7 +294,7 @@ function App() {
                 />
                 <Route path="/Goods/AllGoods" element={<AllGoods />} />
 
-                <Route path="/Goods/AddNewGoods" element={<AddNewGoods />} />
+                <Route path="/Goods/product/:section" element={<AddNewGoods />} />
                 <Route path="/Goods/Promotions" element={<Promotions />} />
               </Route>
             </Route>

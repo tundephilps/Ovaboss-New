@@ -1,37 +1,23 @@
 import React from "react";
 import { FaStar, FaShoppingCart } from "react-icons/fa";
-import Product2 from "../../../assets/Product2.png";
+// import Product2 from "../../../assets/Product2.png";
 
 import { useNavigate } from "react-router-dom";
+import useProduct from "../../../hooks/useProduct";
+import { numberFormat } from "../../../utils";
+import Loading from "../../Loading";
+import { Product } from "../../../types/product.type";
+import { useAppContext } from "../../../context/AppContext";
 
 export default function HouseholdItems() {
   const navigate = useNavigate();
+  const { allProducts, isLoading } = useProduct({ shouldGetAllProducts: true })
+  const { setCurrentProduct } = useAppContext();
 
-  const products = [
-    {
-      id: 1,
-      name: "Unilove High Capacity Backpack",
-      image: Product2,
-      currentPrice: 26731,
-      originalPrice: 41791,
-      discount: 36,
-      rating: 4.8,
-    },
-    {
-      id: 2,
-      name: "WMARK Digital Rechargeable Hair Clipper",
-      image: Product2,
-      currentPrice: 29000,
-      originalPrice: 38000,
-      discount: 24,
-      rating: 4.5,
-    },
-  ];
-
-  // Format price with commas
-  const formatPrice = (price) => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  };
+  const handleOpenProductDetails = (product: Product) => {
+    setCurrentProduct(product);
+    navigate(`/ProductDetails/${product.productId}`);
+  }
 
   return (
     <div className="rounded-lg w-full pb-12 ">
@@ -40,31 +26,35 @@ export default function HouseholdItems() {
       </h2>
 
       <div className=" grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 lg:px-12 px-4">
-        {products.map((product) => (
+        {isLoading.allProducts &&
+          <Loading/>
+        }
+
+        {allProducts.map((product, key) => (
           <div
-            key={product.id}
-            onClick={() => navigate("/ProductDetails")}
+            key={key}
+            onClick={() => handleOpenProductDetails(product)}
             className="flex-1 bg-white rounded-lg p-3 border shadow-lg cursor-pointer"
           >
             <div className="relative">
               <span className="absolute top-0 left-0 bg-[#FFF0E6] text-[#FF0000] text-xs font-semibold py-1 px-2 rounded-full">
-                -{product.discount}%
+                {/* -{product.discount}% */}
               </span>
               <img
-                src={product.image}
-                alt={product.name}
+                src={product.productImages[0].imageUrl}
+                alt={product.title}
                 className="w-full h-40 object-contain mb-2"
               />
             </div>
 
             <h3 className="text-sm font-medium mb-1 line-clamp-2 h-10">
-              {product.name}
+              {product.title}
             </h3>
 
             <div className="flex flex-col gap-1 mb-2">
               <div className="inline-flex items-center justify-between w-full">
                 <div className="font-bold text-lg text-gray-900">
-                  £{product.currentPrice.toLocaleString()}
+                  £{numberFormat(product.main_price, 2)}
                 </div>
                 <button className="ml-auto border-yellow-200 border hover:bg-yellow-500 w-10  h-6 rounded-full flex items-center justify-center">
                   <FaShoppingCart className="text-yellow-300" size={14} />
@@ -72,7 +62,7 @@ export default function HouseholdItems() {
               </div>
 
               <div className="text-xs text-gray-500 line-through ">
-                £{formatPrice(product.originalPrice)}
+                {/* £{formatPrice(product.originalPrice)} */}
               </div>
             </div>
           </div>
