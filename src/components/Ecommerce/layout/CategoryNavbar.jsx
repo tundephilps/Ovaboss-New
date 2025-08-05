@@ -2,21 +2,15 @@ import React, { useState } from "react";
 
 import { FaBars, FaChevronRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import useCategory from "../../../hooks/useCategory";
 
 const CategoryNavbar = () => {
   const [open, setOpen] = useState(false);
 
   const toggleMenu = () => setOpen(!open);
 
-  const categories = [
-    "Fashion and Beauty",
-    "Health and Fitness",
-    "Electronics",
-    "Gift and Toys",
-    "Computer and Gadgets",
-    "Home and Kitchen",
-    "Business Service",
-  ];
+  const { categories, isLoading } = useCategory();
+
 
   return (
     <div className="mx-auto  lg:flex hidden items-center justify-center relative bg-[#E5E5E5]">
@@ -33,22 +27,12 @@ const CategoryNavbar = () => {
         <div className="absolute lg:w-full top-12 z-20 mt-2   bg-white shadow-lg rounded-md flex">
           {/* Left Sidebar */}
           <div className="w-1/4 bg-gray-100  py-2">
-            {[
-              "Fashion and Accessories",
-              "Home and Office",
-              "Computers and Gadgets",
-              "Agriculture and Food",
-              "Electronics",
-              "Beauty Products",
-              "Gifts and Toys",
-              "Health and Fitness",
-              "Business Services",
-            ].map((item, idx) => (
+            {categories.map((item, idx) => (
               <div
                 key={idx}
                 className="flex justify-between items-center text-xs hover:bg-white px-4 py-3.5 hover:text-yellow-500 cursor-pointer"
               >
-                <span className="font-semibold">{item}</span>
+                <span className="font-semibold">{item.categoryName}</span>
                 <FaChevronRight className="w-4 h-4" />
               </div>
             ))}
@@ -98,7 +82,7 @@ const CategoryNavbar = () => {
             to={`/Categories`}
             className="px-5 py-4 whitespace-nowrap text-[#202020] font-semibold hover:bg-white hover:text-yellow-500 "
           >
-            {category}
+            {category.categoryName}
           </Link>
         ))}
       </div>

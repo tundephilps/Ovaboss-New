@@ -10,6 +10,7 @@ import RecentlyViewed from "../../components/Ecommerce/Categories/RecentlyViewed
 import { CiHeart } from "react-icons/ci";
 
 import { FaFilter, FaSort } from "react-icons/fa";
+import useCategory from "../../hooks/useCategory";
 
 const Categories = () => {
   const [sortOption, setSortOption] = useState("Popularity");
@@ -17,6 +18,8 @@ const Categories = () => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [selectedSort, setSelectedSort] = useState("");
+
+  const { categories, isLoading } = useCategory();
 
   const sortOptions = [
     "Newest Arrivals",

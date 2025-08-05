@@ -63,6 +63,13 @@ export interface ProductFullVariant {
     variants: ProductSubVariant[];
 }
 
+export interface ProductReview {
+    sender: string;
+    star: string;
+    review: string;
+    createdAt: string;
+}
+
 export interface Product {
   productId: number;
   productType: string;
@@ -78,7 +85,7 @@ export interface Product {
 
 export interface FullProduct extends Product{
     productVariants: ProductFullVariant[];
-    productReviews: [];
+    productReviews: ProductReview[];
 }
 
 export interface VariantTable {

@@ -84,6 +84,22 @@ const ProductDetails = () => {
       }))
   );
 
+  const getAverageRatings = () => {
+    let total = 0;
+    let count = 0;
+
+    if(!productDetails.productReviews.length) return 0;
+
+    for (const review of productDetails.productReviews) {
+      total += review.star;
+      count++;
+    }
+
+    return count === 0 ? 0 : Math.ceil((total / count));
+  }
+
+  const averageRatings = getAverageRatings();
+
   return (
     <div className="lg:p-10 p-4 bg-[#faf9f9]">
       {/* Bread Crumb */}
@@ -145,7 +161,7 @@ const ProductDetails = () => {
               <p className="text-sm">
                 Business:{" "}
                 <a href="#" className="text-blue-600 underline">
-                  Fatimah Technology
+                  Dummy Fatimah Technology
                 </a>
               </p>
 
@@ -166,17 +182,19 @@ const ProductDetails = () => {
                   </span>
                   <span className="text-red-500 text-sm">-28.7%</span>
                 </div>
-                <p className="text-xs text-gray-500 p-2">Only 18 items left</p>
+                <p className="text-xs text-gray-500 p-2">Only 18-dummy items left</p>
               </div>
 
               {/* Rating */}
               <div className="flex items-center gap-1 text-yellow-400">
-                {[...Array(4)].map((_, i) => (
+                {[...Array(averageRatings)].map((_, i) => (
                   <FaStar key={i} />
                 ))}
-                <FaRegStar />
+                {[...Array(5 - averageRatings)].map((_, i) => (
+                  <FaRegStar key={i} />
+                ))}
                 <span className="text-gray-600 text-sm ml-2">
-                  (179 verified users)
+                  ({productDetails.productReviews.length} verified user{productDetails.productReviews.length > 1 ? 's' : ''})
                 </span>
               </div>
 
@@ -253,7 +271,7 @@ const ProductDetails = () => {
         <div className="space-y-6 lg:col-span-1 col-span-4">
           <DeliveryReturns />
           <BusinessInfoCard />
-          <Review />
+          <Review reviews={productDetails.productReviews}/>
         </div>
       </div>
     </div>

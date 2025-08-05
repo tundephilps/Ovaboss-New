@@ -1,6 +1,6 @@
 import React from "react";
 import { useAppContext } from "../context/AppContext";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axiosClient from "../utils/axiosClient";
 import { FullProduct } from "../types/product.type";
 import toast from "react-hot-toast";
@@ -10,7 +10,7 @@ import { Cart } from "../types/cart.type";
 const useProductDetails = () => {
     const { currentProduct } = useAppContext();
 
-    const [ isLoading, setIsLoading ] = React.useState(false);
+    const [ isLoading, setIsLoading ] = React.useState(true);
     const [ isSaving, setIsSaving ] = React.useState(false);
     const [ productDetails, setProductDetails ] = React.useState<FullProduct>({
         ...(currentProduct && { currentProduct }),
@@ -19,15 +19,16 @@ const useProductDetails = () => {
     const [ selectedVariant, setSelectedVariant ] = React.useState<number>();
     const [ productCart, setProductCart ] = React.useState<Cart>();
 
+    const navigate = useNavigate();
     const { productId } = useParams();
     const { carts, isLoading: isLoadingCarts, handleAddToCart, handleRemoveCart } = useCart({ shouldGetCart: true })
 
     const getProductDetails = async () => {
         try {
-            const { data: response } = await axiosClient.get(`/product/business/fetch-product?productId=${productId}`);
+            const { data: response } = await axiosClient.get(`/product/fetch-product?productId=${productId}`);
             setProductDetails(response.data);
         } catch(error) {
-
+            navigate('/');
         } finally {
             setIsLoading(false);
         }

@@ -282,7 +282,7 @@ export default function ShoppingCart() {
                   <div className="flex justify-between items-center mt-4">
                     <div className="flex flex-col">
                       <p className="text-xs text-gray-800">
-                        Only 18 items left
+                        Only {numberFormat(item.variantDetails.stock)} items left
                       </p>
                       <p className="text-xs">
                         {item.deliveryOption === "pickup" ? (
