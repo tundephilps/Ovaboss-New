@@ -2,20 +2,35 @@ import React from "react";
 import { ProductReview } from "../../../types/product.type";
 import { formatDate } from "../../../utils";
 import { FaStar } from "react-icons/fa";
+import useReview from "../../../hooks/useReview";
+import Loading from "../../Loading";
+import { useAppContext } from "../../../context/AppContext";
 
-export default function ProductReviews({ reviews }: { reviews: ProductReview[] }) {
-  const [rating, setRating] = React.useState<number>(0);
+export default function ProductReviews({ reviews: allReviews }: { reviews: ProductReview[] }) {
   const [hover, setHover] = React.useState<number | null>(null);
-  const [reviewText, setReviewText] = React.useState("");
-  
-  const renderStars = (rating) => {
+  const [reviews, setReviews] = React.useState(allReviews);
 
+  const { inputs, isLoading, handleInput, handleAddReview } = useReview();
+  const { user } = useAppContext();
+
+  const reviewCallback = () => {
+    const newReview: ProductReview = {
+      sender: user!.fullName,
+      star: inputs.star,
+      review: inputs.review,
+      createdAt: Date(),
+    };
+
+    setReviews(prev => [...prev, newReview])
+  }
+  
+  const renderStars = (rating: string) => {
     const stars: any[] = [];
     for (let i = 1; i <= 5; i++) {
       stars.push(
         <span
           key={i}
-          className={i <= rating ? "text-yellow-400" : "text-gray-300"}
+          className={i <= +rating ? "text-yellow-400" : "text-gray-300"}
         >
           ★
         </span>
@@ -36,7 +51,7 @@ export default function ProductReviews({ reviews }: { reviews: ProductReview[] }
             <button
               key={star}
               type="button"
-              onClick={() => setRating(star)}
+              onClick={() => handleInput('star', String(star))}
               onMouseEnter={() => setHover(star)}
               onMouseLeave={() => setHover(null)}
               className="focus:outline-none"
@@ -44,7 +59,7 @@ export default function ProductReviews({ reviews }: { reviews: ProductReview[] }
               <FaStar
                 size={22}
                 className={`transition-colors ${
-                  (hover ?? rating) >= star ? "text-yellow-400" : "text-gray-300"
+                  (hover ?? +inputs.star) >= star ? "text-yellow-400" : "text-gray-300"
                 }`}
               />
             </button>
@@ -57,11 +72,12 @@ export default function ProductReviews({ reviews }: { reviews: ProductReview[] }
           rows={5}
           placeholder="Write your review here..."
           className="w-full border border-gray-300 rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 resize-none placeholder-gray-400"
+          onChange={e => handleInput('review', e.target.value)}
         />
 
         <div className="mt-6">
-          <button className="w-full bg-[#FFD700] text-center py-2 text-black font-medium rounded hover:bg-yellow-600 transition-colors">
-            Create
+          <button onClick={() => handleAddReview(reviewCallback)} className="w-full bg-[#FFD700] text-center py-2 text-black font-medium rounded hover:bg-yellow-600 transition-colors">
+            {isLoading ? <Loading/> : 'Create'}
           </button>
         </div>
       </div>

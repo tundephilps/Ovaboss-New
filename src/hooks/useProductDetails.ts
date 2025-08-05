@@ -16,12 +16,16 @@ const useProductDetails = () => {
         ...(currentProduct && { currentProduct }),
         productVariants: [],
     } as unknown as FullProduct);
-    const [ selectedVariant, setSelectedVariant ] = React.useState<number>();
-    const [ productCart, setProductCart ] = React.useState<Cart>();
+    const [ selectedVariant, setSelectedVariant ] = React.useState({
+        color: '',
+        variantTypeId: '',
+        variantType: '',
+    });
+    const [ productCart, setProductCart ] = React.useState<Cart | null>(null);
 
     const navigate = useNavigate();
     const { productId } = useParams();
-    const { carts, isLoading: isLoadingCarts, handleAddToCart, handleRemoveCart } = useCart({ shouldGetCart: true })
+    const { carts, isLoading: isLoadingCarts, handleAddToCart, handleRemoveCart, getAllCarts } = useCart({ shouldGetCart: true })
 
     const getProductDetails = async () => {
         try {
@@ -46,16 +50,22 @@ const useProductDetails = () => {
     };
 
 
-    const addToCart = () => {
-        handleAddToCart(String(productId), selectedVariant)
+    const addToCart = async () => {
+        setIsSaving(true);
+        const hasAddedToCart = await handleAddToCart(String(productId), +selectedVariant.variantTypeId);
+        setIsSaving(false);
+
+        if(hasAddedToCart) await getAllCarts();
     }
 
-    const removeCart = () => {
+    const removeCart = async () => {
         if(!productCart) {
             return toast.error('Product is not in cart');
         }
-
-        handleRemoveCart(productCart.productId, productCart.variantDetails.id)
+        setIsSaving(true);
+        await handleRemoveCart(productCart.productId, productCart.variantDetails.id);
+        setProductCart(null);
+        setIsSaving(false);
     }
 
     React.useEffect(() => {

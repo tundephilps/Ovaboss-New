@@ -64,6 +64,8 @@ const useCart = ({ shouldGetCart }: UseCart = {}) => {
             });
             setTotalCarts(prev => prev + 1);
             toast.success(response.message);
+
+            return true;
         } catch(error) {
             toast.error(error.message);
         } finally {
@@ -81,6 +83,7 @@ const useCart = ({ shouldGetCart }: UseCart = {}) => {
         carts,
         handleAddToCart,
         handleRemoveCart,
+        getAllCarts,
     }
 }
 

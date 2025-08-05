@@ -81,6 +81,7 @@ const ProductDetails = () => {
       .map(v => ({
         color: v.variant,
         variantTypeId: v.variantTypeId,
+        variantType: v.variantType,
       }))
   );
 
@@ -224,14 +225,20 @@ const ProductDetails = () => {
               {/* Variations */}
               <div>
                 <p>Variation Available</p>
-                <div className="flex gap-2 mt-2">
-                  {colorVariants.map((item, key) => (
-                    <div
-                      onClick={() => setSelectedVariant(item.variantTypeId)}
-                      key={key}
-                      className={`w-5 h-5 rounded-sm bg-${item.color.toLowerCase()}-500 border cursor-pointer`}
-                    />
-                  ))}
+               <div className="flex gap-2 mt-2">
+                  {colorVariants.map((item, key) => {
+                    const isSelected = selectedVariant.color === item.color;
+                    return (
+                      <div
+                        key={key}
+                        onClick={() => setSelectedVariant(item)}
+                        className={`w-6 h-6 rounded-sm border cursor-pointer transition-all
+                          ${isSelected ? "ring-2 ring-yellow-500" : ""}
+                        `}
+                        style={{ backgroundColor: item.color.toLowerCase() }}
+                      />
+                    );
+                  })}
                 </div>
               </div>
 
@@ -246,6 +253,7 @@ const ProductDetails = () => {
               >
                 {isSaving ? <Loading/> : (
                   <>
+                    {/* 🛒 Add to cart */}
                     {productCart ? 'Remove from cart' : '🛒 Add to cart'}
                   </>
                 )}
