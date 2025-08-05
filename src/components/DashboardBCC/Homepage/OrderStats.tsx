@@ -9,9 +9,10 @@ import {
   FaTimesCircle,
 } from "react-icons/fa";
 import { numberFormat } from "../../../utils";
+import { BCCAnalytics } from "../../../types/analytics.type";
 
 
-export default function OrderStatusCards({ analytics }) {
+export default function OrderStatusCards({ analytics }: { analytics: BCCAnalytics }) {
 
   const orderStats = [
   // {
@@ -22,34 +23,40 @@ export default function OrderStatusCards({ analytics }) {
   // },
   {
     icon: <FaShoppingCart className="text-orange-500" size={24} />,
-    count: numberFormat(analytics.noOfProduct),
+    count: numberFormat(analytics.totalProducts),
     label: "Number of Products",
     badgeColor: "bg-orange-100 text-orange-600",
   },
   {
     icon: <FaShoppingBasket className="text-indigo-600" size={24} />,
-    count: numberFormat(analytics.noOfOrders),
-    label: "Number of Orders",
+    count: numberFormat(analytics.todayProducts),
+    label: "Today Products",
     badgeColor: "bg-indigo-100 text-indigo-600",
   },
   {
     icon: <FaTruck className="text-yellow-600" size={24} />,
-    count: numberFormat(analytics.activeProducts),
+    count: numberFormat(analytics.activeProduct),
     label: "Active Products",
     badgeColor: "bg-yellow-100 text-yellow-600",
   },
   {
     icon: <FaShoppingBag className="text-green-600" size={24} />,
-    count: numberFormat(analytics.todayOrders),
-    label: "Todays Orders",
+    count: numberFormat(analytics.approvedProducts),
+    label: "Approved Products",
     badgeColor: "bg-green-100 text-green-600",
   },
   {
-    icon: <CiMoneyBill className="text-red-600" size={24} />,
-    count: numberFormat(analytics.totalRevenue, 2),
-    label: "Total Revenue",
+    icon: <FaShoppingBag className="text-red-600" size={24} />,
+    count: numberFormat(analytics.pendingApprovalProducts),
+    label: "Pending Approval Products",
     badgeColor: "bg-red-100 text-red-600",
   },
+  // {
+  //   icon: <CiMoneyBill className="text-red-600" size={24} />,
+  //   count: numberFormat(analytics.totalRevenue, 2),
+  //   label: "Total Revenue",
+  //   badgeColor: "bg-red-100 text-red-600",
+  // },
 ];
 
   return (
