@@ -1,12 +1,8 @@
-export interface ProductCategory {
-    categoryName: string;
-    categoryId: number;
-}
+import { Category, SubCategory } from "./category.type";
 
-export interface ProductSubCategory {
-    title: string;
-    id: number;
-}
+export interface ProductCategory extends Category{}
+
+export interface ProductSubCategory extends SubCategory{}
 
 export interface ProductVariant {
     name: string;
@@ -14,6 +10,7 @@ export interface ProductVariant {
 }
 
 export interface ProductInput {
+    business_id: string;
     product_type_id: string;
     category_id: string;
     sub_category_id: string;

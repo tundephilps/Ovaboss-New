@@ -8,6 +8,8 @@ import { numberFormat } from "../../../utils";
 import Loading from "../../Loading";
 import { Product } from "../../../types/product.type";
 import { useAppContext } from "../../../context/AppContext";
+import ProductCardSkeleton from "../../skeletons/ProductCardSkeleton";
+import NoProducts from "../../NoProducts";
 
 export default function HouseholdItems() {
   const navigate = useNavigate();
@@ -25,9 +27,13 @@ export default function HouseholdItems() {
         Household Items
       </h2>
 
+      {!isLoading.addProduct && allProducts.length === 0 && 
+        <NoProducts/>
+      }
+
       <div className=" grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 lg:px-12 px-4">
-        {isLoading.allProducts &&
-          <Loading/>
+        {isLoading.allProducts
+          && Array.from({ length: 12 }).map((_, i) => <ProductCardSkeleton key={i} />)
         }
 
         {allProducts.map((product, key) => (

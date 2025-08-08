@@ -45,7 +45,7 @@ const AddNewGoods = () => {
     handleAddProduct,
   } = useProduct();
   const { countries } = useCountry();
-  const { currentProduct } = useAppContext();
+  const { currentProduct, businessAccounts } = useAppContext();
   const { section } = useParams();
   const navigate = useNavigate();
 
@@ -175,6 +175,24 @@ const AddNewGoods = () => {
         <form className=" mx-auto py-4  gap-4 text-[10px]">
           <h2 className="text-lg font-semibold mb-4 pt-4">Product Details</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+             <div>
+              <label className="block mb-1 font-semibold">
+                Business<span className="text-red-500">*</span>
+              </label>
+              <select
+                className="w-full border rounded p-2"
+                value={inputs.business_id}
+                onChange={e => handleInput('business_id', e.target.value)}
+              >
+                <option value="">Select Business</option>
+                {businessAccounts.map((item, idx) => (
+                  <option key={idx} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <div>
               <label className="block mb-1 font-semibold">
                 Name<span className="text-red-500">*</span>

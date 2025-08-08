@@ -5,6 +5,7 @@ import axiosClient from "../utils/axiosClient";
 import Loading from "../components/Loading";
 import { BusinessAccount } from "../types/business.type";
 import { Product } from "../types/product.type";
+import { Category, SubCategory } from "../types/category.type";
 
 interface AppContextType {
     user: User | null;
@@ -15,7 +16,7 @@ interface AppContextType {
     currentProduct: Product | null;
     setCurrentProduct: React.Dispatch<React.SetStateAction<Product | null>>;
     totalCarts: number;
-    setTotalCarts: React.Dispatch<React.SetStateAction<number>>
+    setTotalCarts: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const AppContext = React.createContext<AppContextType | undefined>(undefined);
@@ -25,8 +26,8 @@ interface AppContextProviderProps {
 }
 
 const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => {
-    const [user, setUser] = React.useState<User | null>(null);
-    const [isLoading, setLoading] = React.useState(true);
+    const [ user, setUser ] = React.useState<User | null>(null);
+    const [ isLoading, setIsLoading ] = React.useState(true);
     const [ businessAccounts, setBusinessAccounts ] = React.useState<BusinessAccount[]>([])
     const [ currentProduct, setCurrentProduct ] = React.useState<Product | null>(null);
     const [ totalCarts, setTotalCarts ] = React.useState(0);
@@ -123,7 +124,7 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
         // }
 
         // setUser(storedUser);
-        setLoading(false);
+        setIsLoading(false);
     };
 
     React.useEffect(() => {

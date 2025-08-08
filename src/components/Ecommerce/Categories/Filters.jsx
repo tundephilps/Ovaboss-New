@@ -12,8 +12,8 @@ const SidebarFilter = () => {
           <li>Men's Wear</li>
           <div className="space-y-2 text-sm text-gray-700">
             {["T-shirt", "Formal Suits", "Jeans", "Shorts", "Jeans"].map(
-              (brand) => (
-                <label key={brand} className="flex items-center space-x-2">
+              (brand, key) => (
+                <label key={key} className="flex items-center space-x-2">
                   <input type="checkbox" className="accent-yellow-500" />
                   <span>{brand}</span>
                 </label>

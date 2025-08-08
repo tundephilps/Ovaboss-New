@@ -23,8 +23,9 @@ import ImageSlider from "../../components/Ecommerce/ProductDetails/ImageSlider";
 import ProductSpecifications from "../../components/Ecommerce/ProductDetails/ProductSpecifications";
 import { useParams } from "react-router-dom";
 import useProductDetails from "../../hooks/useProductDetails";
-import { numberFormat } from "../../utils";
+import { getAverageRatings, numberFormat } from "../../utils";
 import Loading from "../../components/Loading";
+import ProductDetailsSkeleton from "../../components/skeletons/ProductDetailsSkeleton";
 
 const ProductDetails = () => {
   const [isModalOpen, setModalOpen] = useState(true);
@@ -72,7 +73,7 @@ const ProductDetails = () => {
   ];
 
   if(isLoading) {
-    return <Loading/>;
+    return <ProductDetailsSkeleton/>;
   }
 
   const colorVariants = productDetails.productVariants.flatMap(variant =>
@@ -85,21 +86,7 @@ const ProductDetails = () => {
       }))
   );
 
-  const getAverageRatings = () => {
-    let total = 0;
-    let count = 0;
-
-    if(!productDetails.productReviews.length) return 0;
-
-    for (const review of productDetails.productReviews) {
-      total += review.star;
-      count++;
-    }
-
-    return count === 0 ? 0 : Math.ceil((total / count));
-  }
-
-  const averageRatings = getAverageRatings();
+  const averageRatings = getAverageRatings(productDetails.productReviews);
 
   return (
     <div className="lg:p-10 p-4 bg-[#faf9f9]">

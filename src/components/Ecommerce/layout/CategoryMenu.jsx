@@ -1,10 +1,11 @@
 import React from "react";
 
 import { FaBars, FaChevronRight } from "react-icons/fa";
-import useCategory from "../../../hooks/useCategory";
+import { useCategoryContext } from "../../../context/CategoryContext";
 
 const CategoryMenu = ({ setOpen, open }) => {
-  const { categories } = useCategory();
+  const { useCategory } = useCategoryContext();
+  const { categories } = useCategory;
 
   return (
     <div className="absolute z-20 mt-2 w-[800px] bg-white shadow-lg rounded-md flex">

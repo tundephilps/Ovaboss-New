@@ -5,6 +5,11 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
 
+interface GetProductProps {
+    categoryId?: number;
+    subCategoryId?: number;
+}
+
 const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts }: UseProductProps = {}) => {
     const [ isLoading, setIsLoading ] = React.useState<IsLoading>({
         productCategory: true,
@@ -23,6 +28,7 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts }: UsePr
     const [ allProducts, setAllProducts ] = React.useState<Product[]>([]);
     const [ myProducts, setMyProducts ] = React.useState<Product[]>([]);
     const [ inputs, setInputs ] = React.useState<ProductInput>({
+        business_id: '',
         product_type_id: '',
         category_id: '',
         sub_category_id: '',
@@ -53,6 +59,15 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts }: UsePr
         tableData: [],
     })
     const [ isAddVariant, setIsAddVariant ] = React.useState(true);
+    const [ productFilter, setProductFilter ] = React.useState({
+        page: 1,
+    });
+    const [ paginationData, setPaginationData ] = React.useState({
+        totalResults: 0,
+        totalPages: 0,
+        page: 1,
+        pageSize: 0,
+    })
     const updateVariantIndex = React.useRef<number | null>(null);
     const variantContainerRef = React.useRef<HTMLDivElement>(null);
 
@@ -63,6 +78,13 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts }: UsePr
         setInputs(prev => ({
             ...prev,
             [field]: value,
+        }))
+    }
+
+    const handlePaginate = (page: number) => {
+        setProductFilter(prev => ({
+            ...prev,
+            page
         }))
     }
 
@@ -171,7 +193,7 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts }: UsePr
             }))
 
             const { data: response } = await axiosClient.get('/product/business/list-product');
-            setMyProducts(response.data);
+            setMyProducts(response.data.data);
 
         } catch(error) {
 
@@ -183,18 +205,51 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts }: UsePr
         }
     }
 
-    const getAllProducts = async () => {
+    const getAllProducts = async (data: GetProductProps = {}) => {
         try {
+            const { categoryId, subCategoryId } = data;
+
             setIsLoading(prev => ({
                 ...prev,
                 allProducts: true
             }))
 
-            const { data: response } = await axiosClient.get('/product/all-products');
-            setAllProducts(response.data);
+            let products: Product[] = [];
+
+            if(categoryId) {
+                const { data: response } = await axiosClient.get(`product/product-by-category?categoryId=${categoryId}&page=${productFilter.page}`);
+                const { data, pagination } = response.data;
+                products = data;
+
+                setPaginationData({
+                    totalPages: pagination.total_page,
+                    totalResults: pagination.total,
+                    page: pagination.current_page,
+                    pageSize: pagination.per_page,
+                })
+
+            } else if(subCategoryId) {
+                const { data: response } = await axiosClient.get(`product/product-by-sub-category?subCategoryId=${subCategoryId}&page=${productFilter.page}`);
+                const { data, pagination } = response.data;
+                products = data;
+
+                setPaginationData({
+                    totalPages: pagination.total_page,
+                    totalResults: pagination.total,
+                    page: pagination.current_page,
+                    pageSize: pagination.per_page,
+                })
+            } else {
+                const { data: response } = await axiosClient.get('/product/all-products');
+                products = response.data;
+            }
+
+            setAllProducts(products);
+
+            return products;
 
         } catch(error) {
-
+            return [];
         } finally {
             setIsLoading(prev => ({
                 ...prev,
@@ -385,6 +440,10 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts }: UsePr
         if(currentProduct) initProductUpdate();
     }, [])
 
+    React.useEffect(() => {
+        if(shouldGetAllProducts) getAllProducts();
+        if(shouldGetMyProducts) getMyProducts();
+    }, [productFilter])
 
     return {
         isLoading,
@@ -399,6 +458,7 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts }: UsePr
         variantContainerRef,
         isAddVariant,
         businessCategoryTypes,
+        paginationData,
         getProductSubCategory,
         getProductVariants,
         handleInput,
@@ -409,6 +469,8 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts }: UsePr
         handleUpdateVariant,
         handleAddProduct,
         handleDeleteProduct,
+        getAllProducts,
+        handlePaginate,
     }
 }
 

@@ -28,6 +28,10 @@ import UserDashboardQuickLinks from "./UserDashboardQuickLinks";
 import { HiOutlineDotsCircleHorizontal } from "react-icons/hi";
 import MoreOptionsDropdown from "./MoreOptionsDropdown";
 import { useAppContext } from "../../../context/AppContext";
+import useCategory from "../../../hooks/useCategory";
+import { Category, SubCategory } from "../../../types/category.type";
+import Loading from "../../Loading";
+import { useCategoryContext } from "../../../context/CategoryContext";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -36,20 +40,20 @@ const Navbar = () => {
   const [showHelpMenu, setShowHelpMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
-  const [expandedCategory, setExpandedCategory] = useState(null);
+  const [expandedCategory, setExpandedCategory] = useState<Category | null>(null);
 
   const { totalCarts } = useAppContext();
 
-  const categories = [
-    "Fashion and Accessories",
-    "Home and Office",
-    "Computers and Gadgets",
-    "Agriculture and Food",
-    "Electronics",
-    "Beauty Products",
-    "Gifts and Toys",
-    "Health and Fitness",
-  ];
+  // const categories = [
+  //   "Fashion and Accessories",
+  //   "Home and Office",
+  //   "Computers and Gadgets",
+  //   "Agriculture and Food",
+  //   "Electronics",
+  //   "Beauty Products",
+  //   "Gifts and Toys",
+  //   "Health and Fitness",
+  // ];
 
   const submenus = {
     "Fashion and Accessories": [
@@ -78,17 +82,33 @@ const Navbar = () => {
     ],
   };
 
-  const toggleCategory = (cat) => {
-    setExpandedCategory((prev) => (prev === cat ? null : cat));
+  const getCategory = (item: Category) => {
+    // setSelectedCategory(item);
+    navigate(`/Categories/${item.categoryId}`);
+    getSubCategory(item.categoryId);
+  }
+
+  const toggleCategory = (category: Category) => {
+    getCategory(category);
+    setExpandedCategory((prev) => (prev === category ? null : category));
   };
 
   const { user, handleLogout } = useAppContext();
+  const { useCategory, setSelectedSubCategory } = useCategoryContext();
+  
+  const { isLoading, categories, subCategories, getSubCategory, getAllProducts } = useCategory;
 
   const navigate = useNavigate();
 
   const handleLogin = () => {
     navigate("/signin");
   };
+
+  const changeSubCategory = (item: SubCategory) => {
+    setSelectedSubCategory(item);
+    setIsMenuOpen(false);
+    getAllProducts({ subCategoryId: item.id });
+  }
 
   return (
     <div className="w-full">
@@ -130,32 +150,32 @@ const Navbar = () => {
                 All Categories
               </div>
               <div className="overflow-y-auto h-full p-4 space-y-2">
-                {categories.map((cat) => (
-                  <div key={cat}>
+                {categories.map((item, key) => (
+                  <div key={key}>
                     <button
-                      onClick={() => toggleCategory(cat)}
+                      onClick={() => toggleCategory(item)}
                       className="w-full flex justify-between items-center text-left px-2 py-2 rounded hover:bg-yellow-100"
                     >
-                      <span>{cat}</span>
-                      {expandedCategory === cat ? (
+                      <span>{item.categoryName}</span>
+                      {expandedCategory?.categoryId === item.categoryId ? (
                         <FaChevronUp />
                       ) : (
                         <FaChevronDown />
                       )}
                     </button>
-                    {expandedCategory === cat && (
+                    {expandedCategory?.categoryId === item.categoryId && (
                       <div className="pl-4 mt-1 text-sm text-gray-600 space-y-1">
-                        {submenus[cat].map((item, idx) => (
-                          <Link
+                        {isLoading.subCategories && 
+                          <Loading/>
+                        }
+                        {!isLoading.subCategories && subCategories.map((item, idx) => (
+                          <button
                             key={idx}
-                            to={`/category/${encodeURIComponent(
-                              item.toLowerCase().replace(/\s+/g, "-")
-                            )}`}
                             className="block hover:text-yellow-500"
-                            onClick={() => setIsMenuOpen(false)} // close menu on click
+                            onClick={() => changeSubCategory(item)} // close menu on click
                           >
-                            {item}
-                          </Link>
+                            {item.title}
+                          </button>
                         ))}
                       </div>
                     )}

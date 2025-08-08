@@ -1,3 +1,5 @@
+import { ProductReview } from "../types/product.type";
+
 export const numberFormat = (number: string | number, decimals = 0) => {
     return Number(number)
         .toFixed(decimals)
@@ -30,3 +32,17 @@ export const ucwords = (str: string): string => {
     .map(word => ucfirst(word))
     .join(" ");
 }
+
+export const getAverageRatings = (reviews: ProductReview[]) => {
+    let total = 0;
+    let count = 0;
+
+    if(!reviews.length) return 0;
+
+    for (const review of reviews) {
+      total += +review.star;
+      count++;
+    }
+
+    return count === 0 ? 0 : Math.ceil((total / count));
+  }

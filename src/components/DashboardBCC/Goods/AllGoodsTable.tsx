@@ -140,14 +140,14 @@ const AllGoodsTable = ({ isLoading, products, handleDeleteProduct }: AllGoodsTab
           </tr>
         </thead>
         <tbody>
-          {isLoading.addProduct &&
+          {isLoading.myProducts &&
             <tr>
               <td colSpan={6}><Loading/></td>
             </tr>
           }
           <NoTableData 
             colspan={6} 
-            isLoading={isLoading.addProduct} 
+            isLoading={isLoading.myProducts} 
             data={products}
           />
           {products.map((item, idx) => (
