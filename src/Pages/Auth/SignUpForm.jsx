@@ -12,7 +12,7 @@ const SignUpForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
-  const [ selectedCountry, setSelectedCountry ] = useState({});
+  const [selectedCountry, setSelectedCountry] = useState({});
 
   const { user_type } = useParams();
 
@@ -31,23 +31,23 @@ const SignUpForm = () => {
     let passwordError = null;
 
     if (!/(?=.*[a-z])(?=.*[A-Z])/.test(password)) {
-      passwordError = "The password field must contain at least one uppercase and one lowercase letter.";
+      passwordError =
+        "The password field must contain at least one uppercase and one lowercase letter.";
     } else if (!/[a-zA-Z]/.test(password)) {
       passwordError = "The password field must contain at least one letter.";
     } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
       passwordError = "The password field must contain at least one symbol.";
     }
 
-    handleInput('signup.password', password);
+    handleInput("signup.password", password);
     setPasswordError(passwordError);
-
-  }
+  };
 
   const handleChangeCountry = (country) => {
     const parsedCountry = JSON.parse(country);
     setSelectedCountry(parsedCountry);
     handleInput("signup.country_id", parsedCountry.countryId);
-  }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#faf9f9] p-4">
@@ -83,7 +83,9 @@ const SignUpForm = () => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
                   placeholder="Enter your first name"
                   value={inputs.signup.firstname}
-                  onChange={e => handleInput('signup.firstname', e.target.value)}
+                  onChange={(e) =>
+                    handleInput("signup.firstname", e.target.value)
+                  }
                 />
               </div>
 
@@ -101,7 +103,7 @@ const SignUpForm = () => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
                   placeholder="Enter your email"
                   value={inputs.signup.email}
-                  onChange={e => handleInput('signup.email', e.target.value)}
+                  onChange={(e) => handleInput("signup.email", e.target.value)}
                 />
               </div>
 
@@ -115,13 +117,17 @@ const SignUpForm = () => {
                 </label>
                 <div className="relative">
                   <select
-                    onChange={e => handleChangeCountry(e.target.value)}
+                    onChange={(e) => handleChangeCountry(e.target.value)}
                     id="country"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md appearance-none"
                   >
-                    <option value="" selected disabled>Select Country</option>
+                    <option value="" selected disabled>
+                      Select Country
+                    </option>
                     {countries.map((item, key) => (
-                      <option value={JSON.stringify(item)} key={key}>{ item.country }</option>
+                      <option value={JSON.stringify(item)} key={key}>
+                        {item.country}
+                      </option>
                     ))}
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -150,10 +156,10 @@ const SignUpForm = () => {
                     id="password"
                     className={`w-full px-3 py-2 border rounded-md ${
                       passwordError ? "border-red-300" : "border-gray-500"
-                    }`}                    
+                    }`}
                     placeholder="••••••••"
                     value={inputs.signup.password}
-                    onChange={e => handlePassword(e.target.value)}
+                    onChange={(e) => handlePassword(e.target.value)}
                   />
                   <button
                     type="button"
@@ -185,7 +191,9 @@ const SignUpForm = () => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
                   placeholder="Enter your last name"
                   value={inputs.signup.lastname}
-                  onChange={e => handleInput('signup.lastname', e.target.value)}
+                  onChange={(e) =>
+                    handleInput("signup.lastname", e.target.value)
+                  }
                 />
               </div>
 
@@ -209,11 +217,12 @@ const SignUpForm = () => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md"
                     placeholder="080 xxx xxxx"
                     value={inputs.signup.phone_number}
-                    onChange={(e) => handleInput('signup.phone_number', e.target.value)}
+                    onChange={(e) =>
+                      handleInput("signup.phone_number", e.target.value)
+                    }
                   />
                 </div>
               </div>
-
 
               {/* Confirm Password */}
               <div>
@@ -230,7 +239,12 @@ const SignUpForm = () => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md"
                     placeholder="••••••••"
                     value={inputs.signup.password_confirmation}
-                    onChange={e => handleInput('signup.password_confirmation', e.target.value)}
+                    onChange={(e) =>
+                      handleInput(
+                        "signup.password_confirmation",
+                        e.target.value
+                      )
+                    }
                   />
                   <button
                     type="button"
@@ -244,6 +258,21 @@ const SignUpForm = () => {
                     )}
                   </button>
                 </div>
+              </div>
+
+              {/* Referral Code */}
+              <div>
+                <label
+                  htmlFor="lastName"
+                  className="block text-xs font-medium text-gray-700 mb-1"
+                >
+                  Referral Code
+                </label>
+                <input
+                  type="text"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  placeholder="Enter Referral Code"
+                />
               </div>
             </div>
           </div>
@@ -260,11 +289,11 @@ const SignUpForm = () => {
 
           {/* Sign Up Button */}
           <button
-            onClick={e => handleRegister(e, user_type)}
+            onClick={(e) => handleRegister(e, user_type)}
             type="submit"
             className="w-full bg-[#E6AE06] hover:bg-yellow-600 text-[#202020] py-2 rounded-md font-medium mt-4"
           >
-            {isLoading ? <Loading/> : "Sign Up"}
+            {isLoading ? <Loading /> : "Sign Up"}
           </button>
 
           {/* OR Divider */}

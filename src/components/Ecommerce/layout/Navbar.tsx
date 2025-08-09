@@ -40,7 +40,9 @@ const Navbar = () => {
   const [showHelpMenu, setShowHelpMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
-  const [expandedCategory, setExpandedCategory] = useState<Category | null>(null);
+  const [expandedCategory, setExpandedCategory] = useState<Category | null>(
+    null
+  );
 
   const { totalCarts } = useAppContext();
 
@@ -86,7 +88,7 @@ const Navbar = () => {
     // setSelectedCategory(item);
     navigate(`/Categories/${item.categoryId}`);
     getSubCategory(item.categoryId);
-  }
+  };
 
   const toggleCategory = (category: Category) => {
     getCategory(category);
@@ -95,8 +97,14 @@ const Navbar = () => {
 
   const { user, handleLogout } = useAppContext();
   const { useCategory, setSelectedSubCategory } = useCategoryContext();
-  
-  const { isLoading, categories, subCategories, getSubCategory, getAllProducts } = useCategory;
+
+  const {
+    isLoading,
+    categories,
+    subCategories,
+    getSubCategory,
+    getAllProducts,
+  } = useCategory;
 
   const navigate = useNavigate();
 
@@ -108,7 +116,7 @@ const Navbar = () => {
     setSelectedSubCategory(item);
     setIsMenuOpen(false);
     getAllProducts({ subCategoryId: item.id });
-  }
+  };
 
   return (
     <div className="w-full">
@@ -165,18 +173,17 @@ const Navbar = () => {
                     </button>
                     {expandedCategory?.categoryId === item.categoryId && (
                       <div className="pl-4 mt-1 text-sm text-gray-600 space-y-1">
-                        {isLoading.subCategories && 
-                          <Loading/>
-                        }
-                        {!isLoading.subCategories && subCategories.map((item, idx) => (
-                          <button
-                            key={idx}
-                            className="block hover:text-yellow-500"
-                            onClick={() => changeSubCategory(item)} // close menu on click
-                          >
-                            {item.title}
-                          </button>
-                        ))}
+                        {isLoading.subCategories && <Loading />}
+                        {!isLoading.subCategories &&
+                          subCategories.map((item, idx) => (
+                            <button
+                              key={idx}
+                              className="block hover:text-yellow-500"
+                              onClick={() => changeSubCategory(item)} // close menu on click
+                            >
+                              {item.title}
+                            </button>
+                          ))}
                       </div>
                     )}
                   </div>
@@ -209,11 +216,11 @@ const Navbar = () => {
                 <Link to="/ShoppingCart">
                   <div className="relative mx-2">
                     <LuShoppingCart size={20} className="text-gray-700" />
-                    {!!totalCarts && 
+                    {!!totalCarts && (
                       <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
                         {totalCarts}
                       </span>
-                    }
+                    )}
                   </div>
                 </Link>
               </div>
@@ -263,39 +270,45 @@ const Navbar = () => {
               </div>
               {/* Help Dropdown Menu */}
               {showHelpMenu && (
-                <div className="absolute top-full mt-2 right-52 bg-white  shadow-lg rounded-md w-48 py-2 z-50">
+                <div className="absolute top-full mt-2 right-52 bg-white shadow-lg rounded-md w-48 py-2 z-50">
                   <Link
                     to="/SellOnOvaboss"
-                    className="block px-4 py-2  text-gray-700 hover:text-yellow-500 hover:bg-gray-100"
+                    onClick={() => setShowHelpMenu(false)}
+                    className="block px-4 py-2 text-gray-700 hover:text-yellow-500 hover:bg-gray-100"
                   >
                     Sell on Ovaboss
                   </Link>
                   <a
                     href="/#"
+                    onClick={() => setShowHelpMenu(false)}
                     className="block px-4 py-2 text-gray-700 hover:text-yellow-500 hover:bg-gray-100"
                   >
                     Help Centre
                   </a>
                   <a
                     href="/#"
+                    onClick={() => setShowHelpMenu(false)}
                     className="block px-4 py-2 text-gray-700 hover:text-yellow-500 hover:bg-gray-100"
                   >
                     Blog
                   </a>
                   <Link
                     to="/FindStore"
+                    onClick={() => setShowHelpMenu(false)}
                     className="block px-4 py-2 text-gray-700 hover:text-yellow-500 hover:bg-gray-100"
                   >
                     Center Locator
                   </Link>
                   <a
                     href="/#"
+                    onClick={() => setShowHelpMenu(false)}
                     className="block px-4 py-2 text-gray-700 hover:text-yellow-500 hover:bg-gray-100"
                   >
                     Track My Orders
                   </a>
                   <a
                     href="/#"
+                    onClick={() => setShowHelpMenu(false)}
                     className="block px-4 py-2 text-gray-700 hover:text-yellow-500 hover:bg-gray-100"
                   >
                     Ovaboss Return Policy
@@ -321,11 +334,11 @@ const Navbar = () => {
                         size={20}
                         className="text-gray-700 hover:text-gray-900 cursor-pointer"
                       />
-                      {!!totalCarts && 
+                      {!!totalCarts && (
                         <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
                           {totalCarts}
                         </span>
-                      }
+                      )}
                     </div>
                   </Link>
                 </>

@@ -34,13 +34,13 @@ const FlashSaleCountdown = () => {
 
   return (
     <>
-      <div className="w-full bg-[#FFB58099] py-3 px-12 flex items-center justify-between">
+      <div className="w-full bg-[#FFB58099] py-3 lg:px-12 px-2 flex items-center justify-between">
         <div className="flex items-center">
           <MdOfflineBolt className="text-orange-500 mr-2" size={24} />
           <span className="font-semibold text-gray-800">Flash Sale</span>
         </div>
 
-        <div className="font-mono">
+        <div className="font-mono lg:text-base text-[10px] ">
           Time left:
           <span className="mx-1  font-bold">{hours}h</span>:
           <span className="mx-1  font-bold">{formatTime(minutes)}m </span>:

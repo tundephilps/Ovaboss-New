@@ -58,7 +58,7 @@ const SignIn = () => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
                   placeholder="Enter your email"
                   value={inputs.login.email}
-                  onChange={e => handleInput('login.email', e.target.value)}
+                  onChange={(e) => handleInput("login.email", e.target.value)}
                 />
               </div>
 
@@ -77,7 +77,9 @@ const SignIn = () => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md"
                     placeholder="••••••••"
                     value={inputs.login.password}
-                    onChange={e => handleInput('login.password', e.target.value)}
+                    onChange={(e) =>
+                      handleInput("login.password", e.target.value)
+                    }
                   />
                   <button
                     type="button"
@@ -119,14 +121,14 @@ const SignIn = () => {
               </Link>
             </div>
           </div>
-           <div>
+          {/* <div>
               <Link
                 to="/VerifyEmail"
                 className="text-sm font-medium text-yellow-500 hover:text-yellow-600"
               >
                 Verify Email?
               </Link>
-            </div>
+            </div> */}
           {/* Sign Up Button */}
 
           <button
@@ -134,7 +136,7 @@ const SignIn = () => {
             type="submit"
             className="w-full bg-[#E6AE06] hover:bg-yellow-600 text-[#202020] py-2 rounded-md font-medium mt-4"
           >
-            {isLoading ? <Loading/> : "Log In"}
+            {isLoading ? <Loading /> : "Log In"}
           </button>
 
           {/* OR Divider */}
