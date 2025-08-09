@@ -17,8 +17,8 @@ const SidebarFilter = () => {
               "Gifts and Toys",
               "Business Service",
               "Health and Fitness",
-            ].map((brand) => (
-              <label key={brand} className="flex items-center space-x-2">
+            ].map((brand, key) => (
+              <label key={key} className="flex items-center space-x-2">
                 <input type="checkbox" className="accent-yellow-500" />
                 <span>{brand}</span>
               </label>
@@ -42,8 +42,8 @@ const SidebarFilter = () => {
             "Bs Bee Sister",
             "Cggarry",
             "Calvin Klein",
-          ].map((brand) => (
-            <label key={brand} className="flex items-center space-x-2">
+          ].map((brand, key) => (
+            <label key={key} className="flex items-center space-x-2">
               <input type="checkbox" className="accent-yellow-500" />
               <span>{brand}</span>
             </label>

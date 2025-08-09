@@ -1,15 +1,22 @@
 import React, { useState } from "react";
 import BreadCrumb from "../../components/Ecommerce/Categories/BreadCrumb";
-import Fashion1 from "../../assets/Fashion1.png";
-
-import Product3 from "../../assets/Product3.png";
 import SidebarFilter from "../../components/Ecommerce/Categories/Filters";
 import { FaRegHeart, FaShoppingCart, FaStar } from "react-icons/fa";
-import Pagination from "../../components/Ecommerce/Categories/Pagination";
+// import Pagination from "../../components/Ecommerce/Categories/Pagination";
 import RecentlyViewed from "../../components/Ecommerce/Categories/RecentlyViewed";
 import { CiHeart } from "react-icons/ci";
 
 import { FaFilter, FaSort } from "react-icons/fa";
+import { Link, useParams } from "react-router-dom";
+import Loading from "../../components/Loading";
+import { numberFormat } from "../../utils";
+import Pagination from "../../components/Pagination";
+import { SubCategory } from "../../types/category.type";
+import { useAppContext } from "../../context/AppContext";
+import { useCategoryContext } from "../../context/CategoryContext";
+import ProductCardSkeleton from "../../components/skeletons/ProductCardSkeleton";
+import SubCategorySkeleton from "../../components/skeletons/SubCategorySkeleton";
+import NoProducts from "../../components/NoProducts";
 
 const Categories = () => {
   const [sortOption, setSortOption] = useState("Popularity");
@@ -17,6 +24,18 @@ const Categories = () => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [selectedSort, setSelectedSort] = useState("");
+
+  const { useCategory, selectedCategory, selectedSubCategory, setSelectedSubCategory } = useCategoryContext();
+  
+  const { 
+    categories, 
+    subCategories, 
+    products, 
+    isLoading, 
+    paginationData, 
+    handlePaginate, 
+    getAllProducts 
+  } = useCategory;
 
   const sortOptions = [
     "Newest Arrivals",
@@ -30,67 +49,55 @@ const Categories = () => {
   const handleSortChange = (e) => {
     setSortOption(e.target.value);
   };
-  const fashionItems = [
-    { label: "Clothing", image: Fashion1 },
-    { label: "Shoes", image: Fashion1 },
-    { label: "Accessories", image: Fashion1 },
-    { label: "Underwears", image: Fashion1 },
-    { label: "Bags", image: Fashion1 },
-    { label: "Watches", image: Fashion1 },
-    { label: "Sneakers", image: Fashion1 },
-    { label: "T-Shirt", image: Fashion1 },
-    { label: "Palm Sandals", image: Fashion1 },
-    { label: "Vintage Clothing", image: Fashion1 },
-    { label: "Leather slippers", image: Fashion1 },
-    { label: "Trads Wears", image: Fashion1 },
-  ];
 
-  const products = [
-    {
-      id: 1,
-      name: "Unilove High Capacity Backpack",
-      image: Product3,
-      currentPrice: 26731,
-      originalPrice: 41791,
-      discount: 36,
-      rating: 4.8,
-      ratingCount: "High repeat customers store",
-    },
-    {
-      id: 2,
-      name: "WMARK Digital Rechargeable Hair Clipper",
-      image: Product3,
-      currentPrice: 29000,
-      originalPrice: 38000,
-      discount: 24,
-      rating: 4.5,
-      ratingCount: "Seller established over 2 years ago",
-    },
-    {
-      id: 3,
-      name: "Unilove High Capacity Backpack",
-      image: Product3,
-      currentPrice: 26731,
-      originalPrice: 41791,
-      discount: 36,
-      rating: 4.8,
-      ratingCount: "High repeat customers store",
-    },
-    {
-      id: 4,
-      name: "WMARK Digital Rechargeable Hair Clipper",
-      image: Product3,
-      currentPrice: 29000,
-      originalPrice: 38000,
-      discount: 24,
-      rating: 4.5,
-      ratingCount: "Seller established over 2 years ago",
-    },
-  ];
+
+  // const products = [
+  //   {
+  //     id: 1,
+  //     name: "Unilove High Capacity Backpack",
+  //     image: Product3,
+  //     currentPrice: 26731,
+  //     originalPrice: 41791,
+  //     discount: 36,
+  //     rating: 4.8,
+  //     ratingCount: "High repeat customers store",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "WMARK Digital Rechargeable Hair Clipper",
+  //     image: Product3,
+  //     currentPrice: 29000,
+  //     originalPrice: 38000,
+  //     discount: 24,
+  //     rating: 4.5,
+  //     ratingCount: "Seller established over 2 years ago",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Unilove High Capacity Backpack",
+  //     image: Product3,
+  //     currentPrice: 26731,
+  //     originalPrice: 41791,
+  //     discount: 36,
+  //     rating: 4.8,
+  //     ratingCount: "High repeat customers store",
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "WMARK Digital Rechargeable Hair Clipper",
+  //     image: Product3,
+  //     currentPrice: 29000,
+  //     originalPrice: 38000,
+  //     discount: 24,
+  //     rating: 4.5,
+  //     ratingCount: "Seller established over 2 years ago",
+  //   },
+  // ];
 
   // Format price with commas
-  const formatPrice = (price) => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const handleGetSubCategoryProduct = (item: SubCategory) => {
+    setSelectedSubCategory(item);
+    getAllProducts({ subCategoryId: item.id });
   };
 
   return (
@@ -98,33 +105,45 @@ const Categories = () => {
       {/* Bread Crumb */}
       <BreadCrumb />
       <h2 className="text-center text-xl mx-auto items-center justify-center font-semibold py-2 lg:flex hidden  bg-[#fff9e6]">
-        Men’s Fashion and Accessories
+        {selectedCategory?.categoryName}
       </h2>
       <div className="bg-white py-6 px-4 lg:mx-12  lg:flex hidden ">
         <div className="grid lg:grid-cols-6 grid-cols-2 gap-4 w-full ">
-          {fashionItems.map((item, index) => (
-            <div
-              key={index}
-              className="flex flex-col  items-center text-center p-2 bg-[#faf9f9] rounded  hover:shadow-md transition"
-            >
-              <img
-                src={`${item.image}`}
-                alt={item.label}
-                className="w-24 h-24 object-contain mb-2"
-              />
-              <span className="text-sm font-medium">{item.label}</span>
-            </div>
-          ))}
+          {isLoading.subCategories
+            && Array.from({ length: 6 }).map((_, i) => <SubCategorySkeleton key={i} />)
+          }
+
+          {!isLoading.subCategories &&
+            subCategories.map((item, index) => (
+              <div
+                key={index}
+                onClick={() => handleGetSubCategoryProduct(item)}
+                className={`flex flex-col items-center text-center p-2 bg-[#faf9f9] cursor-pointer rounded hover:shadow-md transition ${
+                  item.id === selectedSubCategory?.id ? "outline outline-2 outline-yellow-500" : ""
+                }`}
+              >
+                <img
+                  src={`${item.thumbnail}`}
+                  alt={item.title}
+                  className="w-24 h-24 object-contain mb-2"
+                />
+                <span className="text-sm font-medium">{item.title}</span>
+              </div>
+            ))}
+
         </div>
       </div>
 
       {/* Header */}
       <div className="flex items-center justify-between py-4 px-12 w-full">
         <div className="flex lg:flex-row flex-col items-center gap-4 mx-auto w-full">
-          <h1 className="text-xl font-semibold mr-3">T-shirt</h1>
+          <h1 className="text-xl font-semibold mr-3">{selectedCategory?.categoryName}</h1>
           <span className="text-xs text-gray-500">
-            1-48 of {totalResults} results
+            {`${(paginationData.page - 1) * paginationData.pageSize + 1} -
+            ${Math.min(paginationData.page * paginationData.pageSize, paginationData.totalResults)} 
+            of ${paginationData.totalResults} results`}
           </span>
+
         </div>
 
         <div className="lg:flex hidden items-center bg-[#e5e5e5] px-2 whitespace-nowrap rounded-md">
@@ -240,59 +259,67 @@ const Categories = () => {
           <SidebarFilter />
         </div>
         <div className="lg:col-span-3 col-span-4  px-2 lg:px-0">
+           {!isLoading.products && products.length === 0 && 
+              <NoProducts/>
+            }
           <div className=" grid grid-cols-2 lg:grid-cols-4 gap-4 ">
-            {products.map((product) => (
-              <div
-                key={product.id}
-                className="flex-1 bg-white rounded-lg p-2 border shadow-lg"
-              >
-                <div className="relative">
-                  <span className="absolute top-1 left-2 bg-[#FFF0E6] text-[#FF0000] text-[10px] font-semibold py-1 px-2 rounded-full">
-                    -{product.discount}%
-                  </span>
-                  <FaRegHeart
-                    size={24}
-                    className="absolute cursor-pointer top-1 right-2   text-yellow-500  font-semibold "
-                  />
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-contain mb-2"
-                  />
-                </div>
+            {isLoading.products
+              && Array.from({ length: 8 }).map((_, i) => <ProductCardSkeleton key={i} />)
+            }
 
-                <h3 className="text-sm font-medium mb-1 line-clamp-2 h-10">
-                  {product.name}
-                </h3>
-
-                <div className="flex flex-col gap-1 mb-2">
-                  <div className="inline-flex items-center justify-between w-full">
-                    <div className="font-bold text-lg text-gray-900">
-                      £{product.currentPrice.toLocaleString()}
-                    </div>
-                    <button className="ml-auto border-yellow-200 border hover:bg-yellow-500 w-10  h-6 rounded-full flex items-center justify-center">
-                      <FaShoppingCart className="text-yellow-300" size={14} />
-                    </button>
-                  </div>
-
-                  <div className="text-xs text-gray-500 line-through ">
-                    £{formatPrice(product.originalPrice)}
-                  </div>
-                </div>
-
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center">
-                    <span className="text-[10px] text-[#202020]  py-0.5 flex items-center gap-0.5">
-                      <FaStar className="text-green-700" size={10} />
-                      <span className="font-medium">{product.ratingCount}</span>
+            {!isLoading.products && products.map((product, key) => (
+              <Link to={`/productdetails/${product.productId}`} key={key}>
+                <div
+                  className="flex-1 bg-white rounded-lg p-2 border shadow-lg"
+                >
+                  <div className="relative">
+                    <span className="absolute top-1 left-2 bg-[#FFF0E6] text-[#FF0000] text-[10px] font-semibold py-1 px-2 rounded-full">
+                      -0-dummy%
                     </span>
+                    <FaRegHeart
+                      size={24}
+                      className="absolute cursor-pointer top-1 right-2   text-yellow-500  font-semibold "
+                    />
+                    <img
+                      src={product.productImages[0].imageUrl}
+                      alt={product.title}
+                      className="w-full h-full object-contain mb-2"
+                    />
                   </div>
+
+                  <h3 className="text-sm font-medium mb-1 line-clamp-2 h-10">
+                    {product.title}
+                  </h3>
+
+                  <div className="flex flex-col gap-1 mb-2">
+                    <div className="inline-flex items-center justify-between w-full">
+                      <div className="font-bold text-lg text-gray-900">
+                        £{numberFormat(product.main_price, 2)}
+                      </div>
+                      <button className="ml-auto border-yellow-200 border hover:bg-yellow-500 w-10  h-6 rounded-full flex items-center justify-center">
+                        <FaShoppingCart className="text-yellow-300" size={14} />
+                      </button>
+                    </div>
+
+                    <div className="text-xs text-gray-500 line-through ">
+                      £10-dummy
+                    </div>
+                  </div>
+
+                  {/* <div className="flex justify-between items-center">
+                    <div className="flex items-center">
+                      <span className="text-[10px] text-[#202020]  py-0.5 flex items-center gap-0.5">
+                        <FaStar className="text-green-700" size={10} />
+                        <span className="font-medium">{product.ratingCount}</span>
+                      </span>
+                    </div>
+                  </div> */}
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 
-          <Pagination />
+          <Pagination {...paginationData} onPageChange={handlePaginate} />
         </div>
       </div>
 

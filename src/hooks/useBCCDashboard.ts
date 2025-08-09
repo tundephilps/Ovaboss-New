@@ -6,11 +6,12 @@ import { BCCAnalytics } from "../types/analytics.type";
 
 const useBCCDashboard = () => {
     const [ analytics, setAnalytics ] = React.useState<BCCAnalytics>({
-        noOfProduct: 0,
-        noOfOrders: "0",
-        activeProducts: "0",
-        todayOrders: "0",
-        totalRevenue: "0"
+        totalProducts: 0,
+        inActiveProduct: 0,
+        activeProduct: 0,
+        todayProducts: 0,
+        approvedProducts: 0,
+        pendingApprovalProducts: 0,
     });
     const [ isLoading, setIsLoading ] = React.useState(true);
 
@@ -18,7 +19,7 @@ const useBCCDashboard = () => {
 
     const getAnalytics = async () => {
         try {
-            const { data: response } = await axiosClient.get('user/business/analytics');
+            const { data: response } = await axiosClient.get('product/business/product-analytics');
             setAnalytics(response.data);
         } catch(error) {
             toast.error('Error getting dashboard stats');

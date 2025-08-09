@@ -97,13 +97,18 @@ import NewsFeed from "./Pages/DashboardCCC/NewsFeed";
 import ChatCenter from "./Pages/DashboardCCC/ChatCenter";
 import Support from "./Pages/DashboardCCC/Support";
 import ProfileCCC from "./Pages/DashboardCCC/Profile";
+import CategoryContextProvider from "./context/CategoryContext";
 function App() {
   return (
     <>
       <Router>
         <AppContextProvider>
           <Routes>
-            <Route element={<EcommerceLayout />}>
+            <Route element={
+              <CategoryContextProvider>
+                <EcommerceLayout />
+              </CategoryContextProvider>}
+            >
               <Route path="/" element={<Homepage />} />
               <Route path="/Signin" element={<SignIn />} />
               <Route path="/Signup" element={<SignUpPage />} />
@@ -111,9 +116,9 @@ function App() {
               <Route path="/Resetpassword" element={<PasswordReset />} />
               <Route path="/OTP" element={<OTPInput />} />
 
-              <Route path="/ProductDetails" element={<ProductDetails />} />
+              <Route path="/ProductDetails/:productId" element={<ProductDetails />} />
 
-              <Route path="/Categories" element={<Categories />} />
+              <Route path="/Categories/:categoryId" element={<Categories />} />
               <Route path="/Payment" element={<PaymentPage />} />
               <Route path="/ShoppingCart" element={<ShoppingCart />} />
               <Route path="/Checkout" element={<CheckoutPage />} />
@@ -294,7 +299,7 @@ function App() {
                 />
                 <Route path="/Goods/AllGoods" element={<AllGoods />} />
 
-                <Route path="/Goods/AddNewGoods" element={<AddNewGoods />} />
+                <Route path="/Goods/product/:section" element={<AddNewGoods />} />
                 <Route path="/Goods/Promotions" element={<Promotions />} />
               </Route>
             </Route>

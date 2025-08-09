@@ -8,7 +8,7 @@ const ProtectedRoute = ({ section }) => {
     const currentPath = location.pathname.toLowerCase();
     const ignorePages = ['createbusiness', 'business/onboarding', 'business/all', 'business/addnew']
 
-    if(section === 'bcc' && user.userType !== 'BUSINESS') {
+    if(section === 'bcc' && user?.userType !== 'BUSINESS') {
         return <Navigate to="/" replace />;
     }
 

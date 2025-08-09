@@ -1,21 +1,24 @@
 import React from "react";
+import { FullProduct } from "../../../types/product.type";
 
-const Details = () => {
+const Details = ({ product }: { product: FullProduct }) => {
   return (
     <div className="bg-white p-4 rounded-md shadow-md mx-auto">
       <h1 className="text-2xl font-bold mb-4">Product Details</h1>
 
       <div className="mb-6">
         <p className="text-gray-700 mb-4">
-          The everyday is a little more extraordinary with the Apple iPad Pro
-          iOS. Packed with the Snapdragon Gen 2 processor and powerful battery,
-          it lets you enjoy all the things you love seamlessly. With 11" screen
-          and 120Hz refresh rate, get super smooth experience whether you're
-          working, streaming, or gaming.
+          {product.highlights}
         </p>
       </div>
 
       <div className="mb-6">
+        <p className="text-gray-700 mb-4">
+          {product.description}
+        </p>
+      </div>
+
+      {/* <div className="mb-6">
         <h2 className="text-lg font-semibold mb-2">Power and performance</h2>
         <ul className="list-disc pl-6 space-y-2 text-gray-700">
           <li>
@@ -69,7 +72,7 @@ const Details = () => {
             on your synced devices
           </li>
         </ul>
-      </div>
+      </div> */}
     </div>
   );
 };

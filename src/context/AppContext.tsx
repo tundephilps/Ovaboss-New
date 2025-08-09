@@ -4,13 +4,19 @@ import { User } from "../types/user.type";
 import axiosClient from "../utils/axiosClient";
 import Loading from "../components/Loading";
 import { BusinessAccount } from "../types/business.type";
+import { Product } from "../types/product.type";
+import { Category, SubCategory } from "../types/category.type";
 
 interface AppContextType {
     user: User | null;
     handleSetUser: (user: User) => void;
     handleLogout: () => void;
     businessAccounts: BusinessAccount[];
-    setBusinessAccounts: React.Dispatch<React.SetStateAction<BusinessAccount[]>>
+    setBusinessAccounts: React.Dispatch<React.SetStateAction<BusinessAccount[]>>;
+    currentProduct: Product | null;
+    setCurrentProduct: React.Dispatch<React.SetStateAction<Product | null>>;
+    totalCarts: number;
+    setTotalCarts: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const AppContext = React.createContext<AppContextType | undefined>(undefined);
@@ -20,9 +26,11 @@ interface AppContextProviderProps {
 }
 
 const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => {
-    const [user, setUser] = React.useState<User | null>(null);
-    const [isLoading, setLoading] = React.useState(true);
+    const [ user, setUser ] = React.useState<User | null>(null);
+    const [ isLoading, setIsLoading ] = React.useState(true);
     const [ businessAccounts, setBusinessAccounts ] = React.useState<BusinessAccount[]>([])
+    const [ currentProduct, setCurrentProduct ] = React.useState<Product | null>(null);
+    const [ totalCarts, setTotalCarts ] = React.useState(0);
 
     const navigate = useNavigate();
 
@@ -58,7 +66,11 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
     const contextValue: AppContextType = {
         user,
         businessAccounts,
+        currentProduct,
+        totalCarts,
+        setTotalCarts,
         setBusinessAccounts,
+        setCurrentProduct,
         handleSetUser,
         handleLogout,
     };
@@ -74,22 +86,30 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
 
             if(shouldRun) {
                 const { status, data: response } = await axiosClient.get('user/profile-details');
-                if(status === 200) {
+                if (status === 200) {
                     const { userData, ...rest } = response.data;
 
-                    if(userData.userType === 'BUSINESS') {
-                        const { data: response } = await axiosClient.get('user/business/list-business-account');
-                        setBusinessAccounts(response.data)
-                    }
+                    // Run parallel requests
+                    const cartRequest = axiosClient.get('/product/list-cart');
+                    const businessRequest =
+                        userData.userType === 'BUSINESS'
+                        ? axiosClient.get('user/business/list-business-account')
+                        : Promise.resolve({ data: { data: [] } }); // fallback empty result
+
+                    const [cartResponse, businessResponse] = await Promise.all([cartRequest, businessRequest]);
+
+                    setTotalCarts(cartResponse.data.data.length);
+                    setBusinessAccounts(businessResponse.data.data);
 
                     handleSetUser({
                         ...userData,
                         ...rest,
-                    })
+                    });
                 } else {
-                    location.href = '/signin' ;
+                    location.href = '/signin';
                     return;
-                } 
+                }
+
             }
         } catch(error) {
 
@@ -104,7 +124,7 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
         // }
 
         // setUser(storedUser);
-        setLoading(false);
+        setIsLoading(false);
     };
 
     React.useEffect(() => {

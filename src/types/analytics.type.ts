@@ -1,7 +1,9 @@
 export interface BCCAnalytics {
-  noOfProduct: number;
-  noOfOrders: string;
-  activeProducts: string;
-  todayOrders: string;
-  totalRevenue: string;
+  totalProducts: number;
+  inActiveProduct: number;
+  activeProduct: number;
+  todayProducts: number;
+  approvedProducts: number;
+  pendingApprovalProducts: number;
 }
+

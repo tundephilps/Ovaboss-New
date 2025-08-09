@@ -1,17 +1,10 @@
 import { useState } from "react";
 import { MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
 
-// Replace these with actual images (import or URLs)
-import Biz1 from "../../../assets/Product1.png";
+import { ProductImage } from "../../../types/product.type";
 
-import Biz2 from "../../../assets/Product1.png";
-import Biz3 from "../../../assets/Product1.png";
-import Biz4 from "../../../assets/Product1.png";
-import Biz5 from "../../../assets/Product1.png";
 
-const images = [Biz1, Biz2, Biz3, Biz4, Biz5];
-
-export default function ImageSlider() {
+export default function ImageSlider({ images }: { images: ProductImage[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const goToPrevious = () => {
@@ -27,7 +20,7 @@ export default function ImageSlider() {
       {/* Main image with navigation */}
       <div className="relative">
         <img
-          src={images[currentIndex]}
+          src={images && images[currentIndex]?.imageUrl}
           alt={`Main view ${currentIndex}`}
           className="w-full h-[380px] object-cover rounded-md"
         />
@@ -51,10 +44,10 @@ export default function ImageSlider() {
 
       {/* Thumbnail Images */}
       <div className="flex gap-2 mt-4 overflow-auto">
-        {images.map((img, i) => (
+        {images?.map((img, i) => (
           <img
             key={i}
-            src={img}
+            src={img.imageUrl}
             alt={`Thumbnail ${i}`}
             onClick={() => setCurrentIndex(i)}
             className={`lg:w-full w-20 h-20 object-cover border rounded cursor-pointer transition ${

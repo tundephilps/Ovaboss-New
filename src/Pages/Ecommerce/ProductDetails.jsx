@@ -21,12 +21,30 @@ import LoginModal from "../../components/Ecommerce/ProductDetails/LoginModal";
 import OrderOptionsModal from "../../components/Ecommerce/ProductDetails/OrderOptionsModal";
 import ImageSlider from "../../components/Ecommerce/ProductDetails/ImageSlider";
 import ProductSpecifications from "../../components/Ecommerce/ProductDetails/ProductSpecifications";
+import { useParams } from "react-router-dom";
+import useProductDetails from "../../hooks/useProductDetails";
+import { getAverageRatings, numberFormat } from "../../utils";
+import Loading from "../../components/Loading";
+import ProductDetailsSkeleton from "../../components/skeletons/ProductDetailsSkeleton";
 
 const ProductDetails = () => {
   const [isModalOpen, setModalOpen] = useState(true);
   const [quantity, setQuantity] = useState(1);
-
   const [isOpen, setIsOpen] = useState(false);
+
+  const { productId } = useParams();
+
+  const { 
+    productDetails, 
+    isLoading, 
+    isSaving,
+    productCart,
+    selectedVariant, 
+    isLoadingCarts,
+    setSelectedVariant, 
+    handleAddToCart,
+    handleRemoveCart, 
+  } = useProductDetails();
 
   const handleConfirm = (option) => {
     console.log("Selected:", option);
@@ -53,6 +71,22 @@ const ProductDetails = () => {
     },
     { text: "Product details", url: "#" },
   ];
+
+  if(isLoading) {
+    return <ProductDetailsSkeleton/>;
+  }
+
+  const colorVariants = productDetails.productVariants.flatMap(variant =>
+    variant.variants
+      .filter(v => v.variantType === "Color")
+      .map(v => ({
+        color: v.variant,
+        variantTypeId: v.variantTypeId,
+        variantType: v.variantType,
+      }))
+  );
+
+  const averageRatings = getAverageRatings(productDetails.productReviews);
 
   return (
     <div className="lg:p-10 p-4 bg-[#faf9f9]">
@@ -88,7 +122,7 @@ const ProductDetails = () => {
           <div className="p-4  rounded-md shadow-md mx-auto flex flex-col md:flex-row gap-6 bg-white">
             {/* Images */}
             <div className="flex flex-col  md:w-1/2">
-              <ImageSlider />
+              <ImageSlider images={productDetails.productImages}/>
               {/* Share Icons */}
               <p className=" pt-12 text-xs">Share With Friends</p>
               <div className="flex items-start justify-start gap-4 py-4">
@@ -108,14 +142,14 @@ const ProductDetails = () => {
             <div className="md:w-1/2 space-y-4">
               <div className="flex justify-between items-center">
                 <h2 className="text-3xl font-bold">
-                  Apple iPad Pro 32.77cm silicone
+                  {productDetails.title}
                 </h2>
                 <FaRegHeart className="text-gray-500 cursor-pointer" />
               </div>
               <p className="text-sm">
                 Business:{" "}
                 <a href="#" className="text-blue-600 underline">
-                  Fatimah Technology
+                  Dummy Fatimah Technology
                 </a>
               </p>
 
@@ -130,23 +164,25 @@ const ProductDetails = () => {
                   </span>
                 </div>
                 <div className="flex items-end gap-2 px-2">
-                  <span className="text-xl font-bold">£496,370</span>
+                  <span className="text-xl font-bold">£{numberFormat(productDetails.main_price)}</span>
                   <span className="line-through text-gray-400 text-sm">
                     £696,000
                   </span>
                   <span className="text-red-500 text-sm">-28.7%</span>
                 </div>
-                <p className="text-xs text-gray-500 p-2">Only 18 items left</p>
+                <p className="text-xs text-gray-500 p-2">Only 18-dummy items left</p>
               </div>
 
               {/* Rating */}
               <div className="flex items-center gap-1 text-yellow-400">
-                {[...Array(4)].map((_, i) => (
+                {[...Array(averageRatings)].map((_, i) => (
                   <FaStar key={i} />
                 ))}
-                <FaRegStar />
+                {[...Array(5 - averageRatings)].map((_, i) => (
+                  <FaRegStar key={i} />
+                ))}
                 <span className="text-gray-600 text-sm ml-2">
-                  (179 verified users)
+                  ({productDetails.productReviews.length} verified user{productDetails.productReviews.length > 1 ? 's' : ''})
                 </span>
               </div>
 
@@ -176,23 +212,38 @@ const ProductDetails = () => {
               {/* Variations */}
               <div>
                 <p>Variation Available</p>
-                <div className="flex gap-2 mt-2">
-                  {["blue", "green", "yellow", "red", "orange"].map((color) => (
-                    <div
-                      key={color}
-                      className={`w-5 h-5 rounded-sm bg-${color}-500 border cursor-pointer`}
-                    />
-                  ))}
+               <div className="flex gap-2 mt-2">
+                  {colorVariants.map((item, key) => {
+                    const isSelected = selectedVariant.color === item.color;
+                    return (
+                      <div
+                        key={key}
+                        onClick={() => setSelectedVariant(item)}
+                        className={`w-6 h-6 rounded-sm border cursor-pointer transition-all
+                          ${isSelected ? "ring-2 ring-yellow-500" : ""}
+                        `}
+                        style={{ backgroundColor: item.color.toLowerCase() }}
+                      />
+                    );
+                  })}
                 </div>
               </div>
 
               {/* Add to Cart */}
               <button
-                // onClick={() => setModalOpen(true)}
-                onClick={() => setIsOpen(true)}
-                className="w-full mt-4 bg-[#FFD700] hover:bg-yellow-500 text-black py-2 rounded-md font-semibold flex items-center justify-center gap-2"
+                onClick={productCart ? handleRemoveCart : handleAddToCart}
+                // onClick={() => setIsOpen(true)}
+                disabled={isSaving || isLoadingCarts}
+                className={`w-full mt-4 bg-[#FFD700] hover:bg-yellow-500 text-black py-2 rounded-md font-semibold flex items-center justify-center gap-2 ${
+                  isSaving || isLoadingCarts ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
               >
-                🛒 Add to cart
+                {isSaving ? <Loading/> : (
+                  <>
+                    {/* 🛒 Add to cart */}
+                    {productCart ? 'Remove from cart' : '🛒 Add to cart'}
+                  </>
+                )}
               </button>
 
               {/* <LoginModal
@@ -207,7 +258,7 @@ const ProductDetails = () => {
             </div>
           </div>
 
-          <Details />
+          <Details product={productDetails}/>
           <ProductSpecifications />
           <SponsoredProducts />
           <AlsoLike />
@@ -215,7 +266,7 @@ const ProductDetails = () => {
         <div className="space-y-6 lg:col-span-1 col-span-4">
           <DeliveryReturns />
           <BusinessInfoCard />
-          <Review />
+          <Review reviews={productDetails.productReviews}/>
         </div>
       </div>
     </div>

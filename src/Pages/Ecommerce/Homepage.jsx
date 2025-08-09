@@ -12,10 +12,10 @@ const Homepage = () => {
   return (
     <div className="min-h-screen">
       <Hero />
-      <FlashSaleCountdown />
-      <FlashSales />
-      <SponsoredProducts />
-      <Dealoftheday />
+      {/* <FlashSaleCountdown /> */}
+      {/* <FlashSales /> */}
+      {/* <SponsoredProducts /> */}
+      {/* <Dealoftheday /> */}
       <AccessoriesCategories />
       <HouseholdItems />
       <Intro />

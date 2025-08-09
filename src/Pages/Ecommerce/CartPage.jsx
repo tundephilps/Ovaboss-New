@@ -7,10 +7,15 @@ import { BsExclamationCircle } from "react-icons/bs";
 import Product1 from "../../assets/Product1.png";
 import EmptyCart from "../../components/Ecommerce/CartPage/EmptyCart";
 import { Link } from "react-router-dom";
+import useCart from "../../hooks/useCart";
+import { numberFormat } from "../../utils";
+import Loading from "../../components/Loading";
 
 // Placeholder for product image;
 
 export default function ShoppingCart() {
+  const { carts, isSaving, isLoading, handleRemoveCart } = useCart({ shouldGetCart: true });
+
   const [items, setItems] = useState([
     {
       id: 1,
@@ -209,7 +214,7 @@ export default function ShoppingCart() {
               onChange={handleSelectAll}
             />
             <h2 className="text-xl font-semibold">
-              Cart ({items.length}){" "}
+              Cart ({carts.length}){" "}
               {getSelectedCount() > 0 && (
                 <span className="text-yellow-500 text-base">
                   | {getSelectedCount()} selected
@@ -218,11 +223,15 @@ export default function ShoppingCart() {
             </h2>
           </div>
 
-          {items.map((item) => (
+          {isLoading &&
+            <Loading/>
+          }
+
+          {carts.map((item, key) => (
             <div
-              key={item.id}
+              key={key}
               className={`mb-6 pb-6 border-b ${
-                selectedItems[item.id] ? "bg-yellow-50" : ""
+                selectedItems[item.productId] ? "bg-yellow-50" : ""
               }`}
             >
               <div className="flex flex-col sm:flex-row lg:space-y-0 space-y-4">
@@ -231,16 +240,16 @@ export default function ShoppingCart() {
                   <input
                     type="checkbox"
                     className="mt-2 lg:pb-6 mr-3  scale-150 accent-yellow-500 cursor-pointer"
-                    checked={!!selectedItems[item.id]}
-                    onChange={() => handleSelectItem(item.id)}
+                    checked={!!selectedItems[item.productId]}
+                    onChange={() => handleSelectItem(item.productId)}
                   />
                 </div>
 
                 {/* Product Image */}
                 <div className="relative mr-4 mb-4 sm:mb-0">
                   <img
-                    src={item.image}
-                    alt={item.name}
+                    src={item.productImage}
+                    alt={item.productName}
                     className="w-28 h-28 object-cover rounded"
                   />
                   {item.tag && (
@@ -255,7 +264,7 @@ export default function ShoppingCart() {
                   <div className="inline-flex items-center justify-between w-full">
                     <h3 className="font-medium text-lg mb-1">{item.name}</h3>
                     <span className="font-bold text-lg">
-                      £{item.price.toFixed(2)}
+                      £{numberFormat(item.variantDetails.price, 2)}
                     </span>
                   </div>
 
@@ -263,7 +272,7 @@ export default function ShoppingCart() {
                     <p className="text-gray-600 mb-1">Color: {item.color}</p>
                     <div className="flex items-center">
                       <span className="text-gray-500 line-through ml-2">
-                        £{item.originalPrice.toFixed(2)}
+                        £1,000
                       </span>
                       <span className="ml-2 bg-red-100 text-red-600 px-1 rounded text-xs">
                         -{item.discount}
@@ -273,7 +282,7 @@ export default function ShoppingCart() {
                   <div className="flex justify-between items-center mt-4">
                     <div className="flex flex-col">
                       <p className="text-xs text-gray-800">
-                        Only 18 items left
+                        Only {numberFormat(item.variantDetails.stock)} items left
                       </p>
                       <p className="text-xs">
                         {item.deliveryOption === "pickup" ? (
@@ -302,7 +311,7 @@ export default function ShoppingCart() {
                       </button>
                       <input
                         type="text"
-                        value={item.quantity}
+                        value={1}
                         readOnly
                         className="border-t border-b w-8 text-center"
                       />
@@ -318,18 +327,22 @@ export default function ShoppingCart() {
                   </div>
 
                   <button
-                    className="flex items-center text-red-600 font-semibold mt-4"
-                    onClick={() => removeItem(item.id)}
+                    className={`flex items-center text-red-600 font-semibold mt-4 transition-opacity ${
+                      isSaving ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                    onClick={() => handleRemoveCart(item.productId, item.variantDetails.id)}
+                    disabled={isSaving}
                   >
                     <HiOutlineTrash className="mr-1" />
                     <span>Remove</span>
                   </button>
+
                 </div>
               </div>
             </div>
           ))}
 
-          {items.length === 0 && <EmptyCart />}
+          {carts.length === 0 && !isLoading && <EmptyCart />}
         </div>
 
         {/* Right side - Order Summary */}
@@ -338,7 +351,7 @@ export default function ShoppingCart() {
             <div className="inline-flex items-center justify-between w-full">
               <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
               <h2 className="text-xl font-semibold mb-4">
-                {getSelectedCount() > 0 ? getSelectedCount() : items.length}{" "}
+                {getSelectedCount() > 0 ? getSelectedCount() : carts.length}{" "}
                 {getSelectedCount() === 1 ? "Item" : "Items"}
               </h2>
             </div>
@@ -382,11 +395,11 @@ export default function ShoppingCart() {
               <Link to="/Checkout">
                 <button
                   className={`${
-                    getSelectedCount() > 0 || items.length > 0
+                    getSelectedCount() > 0 || carts.length > 0
                       ? "bg-yellow-500"
                       : "bg-gray-300"
                   } w-full text-white py-2 px-4 whitespace-nowrap rounded hover:bg-yellow-600 font-medium flex items-center justify-center`}
-                  disabled={getSelectedCount() === 0 && items.length === 0}
+                  disabled={getSelectedCount() === 0 && carts.length === 0}
                 >
                   Proceed to Checkout
                   <BiChevronRight className="ml-1" />
