@@ -34,7 +34,7 @@ const ProductDetails = () => {
 
   const { productId } = useParams();
 
-  const { 
+  const {
     productDetails, 
     isLoading, 
     isSaving,
@@ -149,7 +149,7 @@ const ProductDetails = () => {
               <p className="text-sm">
                 Business:{" "}
                 <a href="#" className="text-blue-600 underline">
-                  Dummy Fatimah Technology
+                  {productDetails.businessInformation.storeName}
                 </a>
               </p>
 
@@ -265,7 +265,7 @@ const ProductDetails = () => {
         </div>
         <div className="space-y-6 lg:col-span-1 col-span-4">
           <DeliveryReturns />
-          <BusinessInfoCard />
+          <BusinessInfoCard details={productDetails.businessInformation}/>
           <Review reviews={productDetails.productReviews}/>
         </div>
       </div>

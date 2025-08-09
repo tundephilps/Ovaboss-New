@@ -17,6 +17,10 @@ const useCheckout = () => {
                 return toast.error('Select a payment method');
             }
 
+            if(checkoutData.payment_method === 'WALLET' && !checkoutData.wallet_id) {
+                return toast.error('Select a wallet');
+            }
+
             const payload = {
                 ...checkoutData,
                 shipping_cost: 20,

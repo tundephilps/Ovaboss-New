@@ -13,13 +13,14 @@ import { numberFormat } from "../../utils";
 import useCheckout from "../../hooks/useCheckout";
 import Loading from "../../components/Loading";
 import { useNavigate } from "react-router-dom";
+import { CartWithQuantity } from "../../types/cart.type";
 
 const PaymentPage = () => {
   const [selectedType, setSelectedType] = useState("personal");
 
   const { checkoutData, checkoutItems, setCheckoutData } = useAppContext();
   
-  const totalPrice = numberFormat(checkoutItems.reduce((total, item) => total + +item.variantDetails.price * (item.quantity || 1), 0), 2);
+  const totalPrice = numberFormat(checkoutItems.reduce((total, item: CartWithQuantity) => total + +item.variantDetails.price * (item.quantity || 1), 0), 2);
   
   const { isLoading, handleCheckout } = useCheckout();
 

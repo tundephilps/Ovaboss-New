@@ -23,8 +23,8 @@ const OrderSummary = () => {
   const handleProceed = () => {
     const { address_id, phone_number, delivery_options } = checkoutData;
     if(!address_id) {
-      return toast.error('Select an address');
-    // } else if(!phone_number) {
+      // return toast.error('Select an address');
+    } else if(!phone_number) {
       // return toast.error('Enter phone number');
     } else if(!delivery_options) {
       // return toast.error('Select a delivery options')

@@ -80,9 +80,20 @@ export interface Product {
   productImages: ProductImage[];
 }
 
+export interface ProductBusinessInformation {
+  id: number;
+  name: string;
+  storeName: string;
+  link: string | null;
+  logo: string;
+  description: string;
+  businessCategoryType: string[];
+}
+
 export interface FullProduct extends Product{
     productVariants: ProductFullVariant[];
     productReviews: ProductReview[];
+    businessInformation: ProductBusinessInformation;
 }
 
 export interface VariantTable {

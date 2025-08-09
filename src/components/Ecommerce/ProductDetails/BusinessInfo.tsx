@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom";
 import Profile from "../../../assets/Profile.jpg";
+import { ProductBusinessInformation } from "../../../types/product.type";
 
-export default function BusinessInfoCard() {
+interface BusinessInfoCardProps {
+  details: ProductBusinessInformation;
+}
+
+export default function BusinessInfoCard({ details }: BusinessInfoCardProps) {
   return (
     <div className="bg-white p-4 rounded-md shadow-md mx-auto">
       {/* Top Right Button */}
@@ -19,13 +24,13 @@ export default function BusinessInfoCard() {
       {/* Business Profile */}
       <div className="flex items-center gap-3 mb-2">
         <img
-          src={Profile}
-          alt="Fatimah Technology"
+          src={details?.logo}
+          alt={details?.storeName}
           className="w-10 h-10 rounded-full object-cover"
         />
         <div>
           <p className="text-[#0000ff] font-semibold cursor-pointer hover:underline">
-            Fatimah Technology
+            {details?.name}
           </p>
           <p className="text-sm text-gray-600">3 Years of Selling on Ovaboss</p>
         </div>
