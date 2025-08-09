@@ -10,9 +10,9 @@ const HeroMobile = () => {
   return (
     <div className="w-full lg:hidden block px-4 py-8">
       <img src={Promo6} className="object-cover " />
-      <div className="grid grid-cols-3 gap-1 pt-1">
+      <div className="grid grid-cols-2 gap-1 pt-1">
         <img src={Promo4} className="object-cover " />
-        <img src={Promo5} className="object-cover " />
+        {/* <img src={Promo5} className="object-cover " /> */}
         <img src={Promo1} className="object-cover " />
       </div>
     </div>
