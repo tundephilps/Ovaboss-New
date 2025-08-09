@@ -98,6 +98,7 @@ import ChatCenter from "./Pages/DashboardCCC/ChatCenter";
 import Support from "./Pages/DashboardCCC/Support";
 import ProfileCCC from "./Pages/DashboardCCC/Profile";
 import CategoryContextProvider from "./context/CategoryContext";
+import PaymentStatus from "./Pages/Ecommerce/PaymentStatus";
 function App() {
   return (
     <>
@@ -120,6 +121,7 @@ function App() {
 
               <Route path="/Categories/:categoryId" element={<Categories />} />
               <Route path="/Payment" element={<PaymentPage />} />
+              <Route path="/payment/status" element={<PaymentStatus />} />
               <Route path="/ShoppingCart" element={<ShoppingCart />} />
               <Route path="/Checkout" element={<CheckoutPage />} />
               <Route path="/BusinessPage" element={<BusinessPage />} />

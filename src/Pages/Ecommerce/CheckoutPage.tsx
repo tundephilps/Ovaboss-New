@@ -1,10 +1,15 @@
 import React, { useState } from "react";
-import { FaLock, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
+import { FaLock, FaMapMarkerAlt, FaPhone, FaShippingFast } from "react-icons/fa";
 import { SlHandbag } from "react-icons/sl";
 import Product1 from "../../assets/Product1.png";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import OrderSummary from "../../components/Ecommerce/Checkout/OrderSummary";
 import DeliveryAddressForm from "../../components/Ecommerce/Checkout/DeliveryAddressForm";
+import { useAppContext } from "../../context/AppContext";
+import { numberFormat } from "../../utils";
+import { Address } from "../../types/user.type";
+import { CartWithQuantity } from "../../types/cart.type";
+import { useNavigate } from "react-router-dom";
 
 const pickups = [
   {
@@ -63,10 +68,27 @@ const CheckoutPage = () => {
   // State to manage accordion open/closed state
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const { checkoutItems, user, checkoutData, setCheckoutData } = useAppContext();
+
+  const navigate = useNavigate();
+
   // Toggle accordion
   const toggleAccordion = () => {
     setIsExpanded(!isExpanded);
   };
+
+  const handleInput = (field: keyof typeof checkoutData, value: any ) => {
+    setCheckoutData(prev => ({
+      ...prev,
+      [field]: value
+    }))
+  }
+
+  React.useEffect(() => {
+    if(checkoutItems.length === 0) {
+      navigate('/ShoppingCart');
+    }
+  }, [])
 
   return (
     <div className="bg-[#faf9f9] min-h-screen">
@@ -107,34 +129,40 @@ const CheckoutPage = () => {
             </div>
 
             {/* Initial pickup items (always visible) */}
-            {pickups.map((item, index) => (
+            {checkoutItems.map((item: CartWithQuantity, index) => (
               <div key={`initial-${index}`} className="bg-white p-4">
                 {/* Card */}
                 <div className="flex space-x-4 border-b pb-4">
                   <img
-                    src={item.image}
+                    src={item.productImage}
                     alt="Product"
                     className="w-20 h-20 object-contain"
                   />
                   <div className="flex-1">
                     <div className="inline-flex items-center w-full justify-between">
-                      <h3 className="font-semibold">{item.title}</h3>
+                      <h3 className="font-semibold">{item.productName}</h3>
 
-                      <div className="flex flex-col">
-                        <span className="text-lg font-bold">{item.price}</span>
-                      </div>
+                     <div className="flex flex-row items-center justify-center gap-3">
+                      <span className="text-lg font-bold text-gray-900">
+                        £{numberFormat(item.variantDetails.price, 2)}
+                      </span>
+                      <span className="px-2 py-0.5 text-sm font-medium bg-gray-100 text-gray-700 rounded">
+                        x{item.quantity || 1}
+                      </span>
+                    </div>
+
                     </div>
                     <div className="inline-flex justify-between w-full pt-2">
                       <p className="text-xl font-semibold text-gray-600">
-                        {item.color}
+                        {item.variantDetails.variants.find(item => item?.key?.toLowerCase() === 'color')?.value || ''}
                       </p>
                       <div className="space-x-4">
                         <span className="text-sm text-gray-400 line-through">
-                          {item.originalPrice}
+                          {item.originalPrice}-dummy
                         </span>
 
                         <span className="ml-2 bg-red-100 text-red-600 p-1 rounded-full text-xs">
-                          {item.discount}
+                          {item.discount}-dummy
                         </span>
                       </div>
                     </div>
@@ -142,11 +170,11 @@ const CheckoutPage = () => {
                     <div className="mt-2 space-y-1 text-sm text-gray-700">
                       <div className="flex items-center space-x-2">
                         <FaMapMarkerAlt className="text-yellow-400" />
-                        <span>{item.location}</span>
+                        <span>{item.location}location-dummy</span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <FaPhone className="text-yellow-400" />
-                        <span>{item.phone}</span>
+                        <span>{item.phone}-phone-dmmy</span>
                       </div>
                     </div>
                   </div>
@@ -154,62 +182,8 @@ const CheckoutPage = () => {
               </div>
             ))}
 
-            {/* Additional items (shown when expanded) */}
-            {isExpanded && (
-              <>
-                {additionalPickups.map((item, index) => (
-                  <div key={`additional-${index}`} className="bg-white p-4">
-                    {/* Card */}
-                    <div className="flex space-x-4 border-b pb-4">
-                      <img
-                        src={item.image}
-                        alt="Product"
-                        className="w-20 h-20 object-contain"
-                      />
-                      <div className="flex-1">
-                        <div className="inline-flex items-center w-full justify-between">
-                          <h3 className="font-semibold">{item.title}</h3>
-
-                          <div className="flex flex-col">
-                            <span className="text-lg font-bold">
-                              {item.price}
-                            </span>
-                          </div>
-                        </div>
-                        <div className="inline-flex justify-between w-full pt-2">
-                          <p className="text-xl font-semibold text-gray-600">
-                            {item.color}
-                          </p>
-                          <div className="space-x-4">
-                            <span className="text-sm text-gray-400 line-through">
-                              {item.originalPrice}
-                            </span>
-
-                            <span className="ml-2 bg-red-100 text-red-600 p-1 rounded-full text-xs">
-                              {item.discount}
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex items-center space-x-2 mt-1"></div>
-                        <div className="mt-2 space-y-1 text-sm text-gray-700">
-                          <div className="flex items-center space-x-2">
-                            <FaMapMarkerAlt className="text-yellow-400" />
-                            <span>{item.location}</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <FaPhone className="text-yellow-400" />
-                            <span>{item.phone}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </>
-            )}
-
             {/* Accordion toggle button */}
-            <div
+            {/* <div
               className="flex justify-center py-2 cursor-pointer hover:bg-gray-50 transition-colors"
               onClick={toggleAccordion}
             >
@@ -226,11 +200,72 @@ const CheckoutPage = () => {
                   </>
                 )}
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div className="space-y-4">
-            <DeliveryAddressForm />
+           <select
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                handleInput('address_id', e.target.value)
+              }
+              className="w-full rounded-md border border-gray-300 bg-white px-3 py-3 text-sm text-gray-700 shadow-sm focus:border-yellow-500 focus:ring focus:ring-yellow-200 focus:ring-opacity-50"
+            >
+              <option value="">Select Address</option>
+              {user?.address.map((item, key) => (
+                <option key={key} value={item.id}>
+                  {item.address}
+                </option>
+              ))}
+            </select>
+
+            {!!checkoutData.address_id && <DeliveryAddressForm addressId={checkoutData.address_id}/>}
+          </div>
+
+          <div className="mx-auto bg-white p-4 rounded-md shadow space-y-4">
+            {/* Header */}
+            <div className="flex items-center space-x-2 text-lg font-semibold border-b pb-2">
+              <FaShippingFast className="text-yellow-500" />
+              <span>Delivery Option (For Deliverable Items)</span>
+            </div>
+
+            {/* Options */}
+            <div className="space-y-3">
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="radio"
+                  name="deliveryOption"
+                  value="standard"
+                  className="text-yellow-500 focus:ring-yellow-400"
+                  onChange={e => handleInput('delivery_options', e.target.value)}
+                  checked={checkoutData.delivery_options === 'standard'}
+                />
+                <span className="text-gray-700">Standard Delivery</span>
+              </label>
+
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="radio"
+                  name="deliveryOption"
+                  value="express"
+                  className="text-yellow-500 focus:ring-yellow-400"
+                  onChange={e => handleInput('delivery_options', e.target.value)}
+                  checked={checkoutData.delivery_options === 'express'}
+                />
+                <span className="text-gray-700">Express Delivery</span>
+              </label>
+
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="radio"
+                  name="deliveryOption"
+                  value="pickup"
+                  className="text-yellow-500 focus:ring-yellow-400"
+                  onChange={e => handleInput('delivery_options', e.target.value)}
+                  checked={checkoutData.delivery_options === 'pickup'}
+                />
+                <span className="text-gray-700">Store Pickup</span>
+              </label>
+            </div>
           </div>
         </div>
 

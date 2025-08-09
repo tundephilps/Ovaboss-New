@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Mastercard from "../../../assets/mastercard.svg"; // adjust path as needed
 import ConfirmCardPaymentModal from "./ConfirmCardPaymentModal";
+import { useAppContext } from "../../../context/AppContext";
 
 const PayWithCardSelector = () => {
   const [showForm, setShowForm] = useState(false);
@@ -9,22 +10,29 @@ const PayWithCardSelector = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  const { checkoutData, setCheckoutData } = useAppContext();
+
   const handleConfirmPayment = () => {
     // Add your payment logic here
     console.log("Payment Confirmed");
     closeModal();
   };
 
+  const handleInput = () => setCheckoutData(prev => ({
+    ...prev,
+    payment_method: 'CARD'
+  }))
+
   return (
     <div className="p-4 shadow-md bg-white rounded relative">
       {/* Trigger Section */}
       <div
         className="flex items-center space-x-2 font-semibold cursor-pointer"
-        onClick={() => setShowForm((prev) => !prev)}
+        onClick={handleInput}
       >
         <input
           type="radio"
-          checked={showForm}
+          checked={checkoutData.payment_method === 'CARD'}
           readOnly
           className="accent-yellow-500"
         />
@@ -33,7 +41,7 @@ const PayWithCardSelector = () => {
       </div>
 
       {/* Accordion Form Section */}
-      {showForm && (
+      {false && showForm && (
         <div className="mt-6 space-y-4">
           <h4 className="text-sm font-semibold">Enter Card Details</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

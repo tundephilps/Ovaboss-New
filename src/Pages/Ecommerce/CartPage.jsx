@@ -6,15 +6,18 @@ import { BiChevronRight } from "react-icons/bi";
 import { BsExclamationCircle } from "react-icons/bs";
 import Product1 from "../../assets/Product1.png";
 import EmptyCart from "../../components/Ecommerce/CartPage/EmptyCart";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useCart from "../../hooks/useCart";
 import { numberFormat } from "../../utils";
 import Loading from "../../components/Loading";
+import { useAppContext } from "../../context/AppContext";
 
 // Placeholder for product image;
 
 export default function ShoppingCart() {
-  const { carts, isSaving, isLoading, handleRemoveCart } = useCart({ shouldGetCart: true });
+  const { carts: cartItems, isSaving, isLoading, handleRemoveCart } = useCart({ shouldGetCart: true });
+  const [ carts, setCarts ] = useState(cartItems);
+  const { setCheckoutItems } = useAppContext();
 
   const [items, setItems] = useState([
     {
@@ -72,9 +75,11 @@ export default function ShoppingCart() {
   // State to track selected items
   const [selectedItems, setSelectedItems] = useState({});
 
+  const navigate = useNavigate();
+
   // Check if all items are selected
   const allSelected =
-    items.length > 0 && items.every((item) => selectedItems[item.id]);
+    carts.length > 0 && carts.every((item) => selectedItems[item.productId]);
 
   // Handle select all toggle
   const handleSelectAll = () => {
@@ -84,10 +89,11 @@ export default function ShoppingCart() {
     } else {
       // Select all items
       const newSelectedItems = {};
-      items.forEach((item) => {
-        newSelectedItems[item.id] = true;
+      carts.forEach((item) => {
+        newSelectedItems[item.productId] = true;
       });
       setSelectedItems(newSelectedItems);
+      setCheckoutItems(carts);
     }
   };
 
@@ -124,11 +130,9 @@ export default function ShoppingCart() {
 
   const updateQuantity = (id, newQuantity) => {
     if (newQuantity < 1) return;
-    setItems(
-      items.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
+    const updatedCart = carts.map(item => item.id === id ? { ...item, quantity: newQuantity } : item);
+    setCarts(updatedCart);
+    setCheckoutItems(updatedCart)
   };
 
   const getSelectedCount = () => {
@@ -136,16 +140,13 @@ export default function ShoppingCart() {
   };
 
   const getTotalPrice = () => {
-    return items
-      .reduce((total, item) => total + item.price * item.quantity, 0)
-      .toFixed(2);
+    return numberFormat(carts.reduce((total, item) => total + item.variantDetails.price * (item.quantity || 1), 0), 2);
   };
 
   const getSelectedTotalPrice = () => {
-    return items
-      .filter((item) => selectedItems[item.id])
-      .reduce((total, item) => total + item.price * item.quantity, 0)
-      .toFixed(2);
+    return numberFormat(carts
+      .filter((item) => selectedItems[item.productId])
+      .reduce((total, item) => total + item.variantDetails.price * (item.quantity || 1), 0), 2);
   };
 
   const getTotalDiscount = () => {
@@ -173,6 +174,22 @@ export default function ShoppingCart() {
     { text: "Home", url: "/" },
     { text: "Shopping Cart", url: "/Fatima" },
   ];
+
+  const handleProceedTocheckout = () => {
+    const selectedKeys = Object.keys(selectedItems).filter(key => selectedItems[key]);
+    if(selectedKeys > 0) {
+      const updatedItem = carts.filter(item => selectedKeys.includes(String(item.productId)));
+      console.log(updatedItem)
+      setCheckoutItems(updatedItem);
+    }
+    navigate('/Checkout');
+  }
+
+  React.useEffect(() => {
+    setCarts(cartItems);
+    setCheckoutItems(cartItems);
+  }, [cartItems])
+  
 
   return (
     <div className="bg-[#faf9f9] min-h-screen">
@@ -272,7 +289,7 @@ export default function ShoppingCart() {
                     <p className="text-gray-600 mb-1">Color: {item.color}</p>
                     <div className="flex items-center">
                       <span className="text-gray-500 line-through ml-2">
-                        £1,000
+                        £1,000-dummy
                       </span>
                       <span className="ml-2 bg-red-100 text-red-600 px-1 rounded text-xs">
                         -{item.discount}
@@ -304,21 +321,21 @@ export default function ShoppingCart() {
                       <button
                         className="border rounded-l p-1"
                         onClick={() =>
-                          updateQuantity(item.id, item.quantity - 1)
+                          updateQuantity(item.id, (item.quantity || 1) - 1)
                         }
                       >
                         <HiMinus className="text-gray-600" />
                       </button>
                       <input
                         type="text"
-                        value={1}
+                        value={item.quantity || 1}
                         readOnly
                         className="border-t border-b w-8 text-center"
                       />
                       <button
                         className="border rounded-r p-1"
                         onClick={() =>
-                          updateQuantity(item.id, item.quantity + 1)
+                          updateQuantity(item.id, (item.quantity || 1) + 1)
                         }
                       >
                         <HiPlus className="text-gray-600" />
@@ -371,6 +388,7 @@ export default function ShoppingCart() {
                 {getSelectedCount() > 0
                   ? getSelectedTotalDiscount()
                   : getTotalDiscount()}
+                -dummy
               </span>
             </div>
             <div className="border-t pt-4 mb-4">
@@ -392,19 +410,18 @@ export default function ShoppingCart() {
                 Continue Shopping
               </button>
 
-              <Link to="/Checkout">
-                <button
-                  className={`${
-                    getSelectedCount() > 0 || carts.length > 0
-                      ? "bg-yellow-500"
-                      : "bg-gray-300"
-                  } w-full text-white py-2 px-4 whitespace-nowrap rounded hover:bg-yellow-600 font-medium flex items-center justify-center`}
-                  disabled={getSelectedCount() === 0 && carts.length === 0}
-                >
-                  Proceed to Checkout
-                  <BiChevronRight className="ml-1" />
-                </button>
-              </Link>
+              <button
+                onClick={handleProceedTocheckout}
+                className={`${
+                  getSelectedCount() > 0 || carts.length > 0
+                    ? "bg-yellow-500"
+                    : "bg-gray-300"
+                } w-full text-white py-2 px-4 whitespace-nowrap rounded hover:bg-yellow-600 font-medium flex items-center justify-center`}
+                disabled={getSelectedCount() === 0 && carts.length === 0}
+              >
+                Proceed to Checkout
+                <BiChevronRight className="ml-1" />
+              </button>
             </div>
           </div>
         </div>

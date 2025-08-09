@@ -6,6 +6,16 @@ import Loading from "../components/Loading";
 import { BusinessAccount } from "../types/business.type";
 import { Product } from "../types/product.type";
 import { Category, SubCategory } from "../types/category.type";
+import { Cart } from "../types/cart.type";
+
+interface CheckoutData {
+    notes: string;
+    phone_number: string;
+    payment_method: string;
+    delivery_options: string;
+    address_id: string;
+    wallet_id?: string;
+}
 
 interface AppContextType {
     user: User | null;
@@ -17,6 +27,10 @@ interface AppContextType {
     setCurrentProduct: React.Dispatch<React.SetStateAction<Product | null>>;
     totalCarts: number;
     setTotalCarts: React.Dispatch<React.SetStateAction<number>>;
+    checkoutItems: Cart[];
+    setCheckoutItems: React.Dispatch<React.SetStateAction<Cart[]>>;
+    checkoutData: CheckoutData;
+    setCheckoutData: React.Dispatch<React.SetStateAction<CheckoutData>>;
 }
 
 export const AppContext = React.createContext<AppContextType | undefined>(undefined);
@@ -31,6 +45,14 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
     const [ businessAccounts, setBusinessAccounts ] = React.useState<BusinessAccount[]>([])
     const [ currentProduct, setCurrentProduct ] = React.useState<Product | null>(null);
     const [ totalCarts, setTotalCarts ] = React.useState(0);
+    const [ checkoutItems, setCheckoutItems] = React.useState<Cart[]>([]);
+    const [ checkoutData, setCheckoutData ] = React.useState<CheckoutData>({
+        notes: '',
+        phone_number: '',
+        payment_method: '',
+        delivery_options: '',
+        address_id: '',
+    })
 
     const navigate = useNavigate();
 
@@ -68,9 +90,13 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
         businessAccounts,
         currentProduct,
         totalCarts,
+        checkoutItems,
+        checkoutData,
+        setCheckoutItems,
         setTotalCarts,
         setBusinessAccounts,
         setCurrentProduct,
+        setCheckoutData,
         handleSetUser,
         handleLogout,
     };

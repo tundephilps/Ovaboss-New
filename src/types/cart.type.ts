@@ -22,3 +22,7 @@ export interface Cart {
 export interface UseCart {
     shouldGetCart?: boolean;
 }
+
+export interface CartWithQuantity extends Cart {
+  quantity?: number;
+}

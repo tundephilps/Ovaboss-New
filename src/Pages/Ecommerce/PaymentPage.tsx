@@ -1,16 +1,30 @@
 import React from "react";
 import { useState } from "react";
-import Mastercard from "../../assets/Mastercard.svg";
+// import Mastercard from "../../assets/Mastercard.svg";
 
-import Transfer from "../../assets/Transfer.svg";
+// import Transfer from "../../assets/Transfer.svg";
 import { HiMinus, HiPlus, HiOutlineTrash } from "react-icons/hi";
 import { BiChevronRight } from "react-icons/bi";
 import PaymentOptionSelector from "../../components/Ecommerce/PaymentPage/PaymentOptionSelector";
 import PayWithCardSelector from "../../components/Ecommerce/PaymentPage/PayWithCardSelector";
 import BankTransferSelector from "../../components/Ecommerce/PaymentPage/BankTransferSelector";
+import { useAppContext } from "../../context/AppContext";
+import { numberFormat } from "../../utils";
+import useCheckout from "../../hooks/useCheckout";
+import Loading from "../../components/Loading";
+import { useNavigate } from "react-router-dom";
 
 const PaymentPage = () => {
   const [selectedType, setSelectedType] = useState("personal");
+
+  const { checkoutData, checkoutItems, setCheckoutData } = useAppContext();
+  
+  const totalPrice = numberFormat(checkoutItems.reduce((total, item) => total + +item.variantDetails.price * (item.quantity || 1), 0), 2);
+  
+  const { isLoading, handleCheckout } = useCheckout();
+
+  const navigate = useNavigate();
+
   const breadcrumbs = [
     { text: "Home", url: "/" },
     { text: "Shopping Cart", url: "/Fatima" },
@@ -26,6 +40,12 @@ const PaymentPage = () => {
     console.log("Selected checkout type:", selectedType);
     // You can add your checkout flow logic here
   };
+  
+  React.useEffect(() => {
+    if(checkoutItems.length === 0) {
+      navigate('/ShoppingCart');
+    }
+  }, [])
 
   return (
     <div className="bg-[#faf9f9] min-h-screen">
@@ -60,7 +80,7 @@ const PaymentPage = () => {
         {/* Left side - Cart Items */}
         <div className="lg:col-span-3 col-span-5 space-y-4">
           {/* Select Checkout Type */}
-          <div className="p-4 shadow-md bg-white rounded">
+          {/* <div className="p-4 shadow-md bg-white rounded">
             <div className="mb-6">
               <h2 className=" font-medium text-xl text-gray-900 mb-4">
                 Select Checkout Type
@@ -99,7 +119,7 @@ const PaymentPage = () => {
                 Done
               </button>
             </div>
-          </div>
+          </div> */}
           <div className="p-4 shadow-md bg-white rounded">
             <PaymentOptionSelector />
           </div>
@@ -116,37 +136,47 @@ const PaymentPage = () => {
             </div>
           </div> */}
           <PayWithCardSelector />
-          <BankTransferSelector />
+          {/* <BankTransferSelector /> */}
         </div>
         {/* Right side - Order summary */}
         <div className="lg:col-span-2 col-span-5 self-start p-4 shadow-md bg-white rounded">
           <div className="p-4 rounded">
             <div className="inline-flex items-center justify-between w-full">
               <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
-              <h2 className="text-xl font-semibold mb-4">3 Items</h2>
+              <h2 className="text-xl font-semibold mb-4">{checkoutItems.length} Item{checkoutItems.length > 1 ? 's' : ''}</h2>
             </div>
             <div className="flex justify-between mb-2">
               <span className="text-gray-600">Items Total</span>
-              <span>£ 50</span>
+              <span>£ {totalPrice}</span>
             </div>
             <div className="flex justify-between mb-4">
               <span className="text-gray-600">Item(s) Discount</span>
-              <span>-£ 4500</span>
+              <span>-£ 4500-dummy</span>
             </div>
             <div className="flex justify-between mb-4">
               <span className="text-gray-600">Delivery Fee</span>
-              <span>£ 200</span>
+              <span>£ 200-dummy</span>
             </div>
             <div className="border-t pt-4 mb-4">
               <div className="flex justify-between items-center font-bold">
                 <span>Total</span>
-                <span className="text-2xl">£0</span>
+                <span className="text-2xl">£{totalPrice}</span>
               </div>
             </div>
             <div className="flex flex-col sm:flex-row gap-2 w-full">
-              <button className="w-full text-white hover:text-black py-2 px-4 whitespace-nowrap rounded hover:bg-yellow-600 bg-[#FFD700] font-medium flex items-center justify-center">
-                Proceed to Checkout
-                <BiChevronRight className="ml-1" />
+              <button 
+                onClick={handleCheckout}
+                disabled={isLoading}
+                className="w-full text-white hover:text-black py-2 px-4 whitespace-nowrap rounded hover:bg-yellow-600 bg-[#FFD700] font-medium flex items-center justify-center"
+              >
+                {isLoading ? (
+                  <Loading/>
+                ) : (
+                  <>
+                    Proceed to Checkout
+                    <BiChevronRight className="ml-1" />
+                  </>
+                )}
               </button>
             </div>
           </div>
