@@ -14,12 +14,13 @@ const Homepage = () => {
     <div className="min-h-screen">
       <Hero />
       <HeroMobile />
-      {/* <FlashSaleCountdown /> */}
+      <FlashSaleCountdown />
       {/* <FlashSales /> */}
+
+      <HouseholdItems />
       {/* <SponsoredProducts /> */}
       {/* <Dealoftheday /> */}
       <AccessoriesCategories />
-      <HouseholdItems />
       <Intro />
     </div>
   );

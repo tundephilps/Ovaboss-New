@@ -13,28 +13,27 @@ import NoProducts from "../../NoProducts";
 
 export default function HouseholdItems() {
   const navigate = useNavigate();
-  const { allProducts, isLoading } = useProduct({ shouldGetAllProducts: true })
+  const { allProducts, isLoading } = useProduct({ shouldGetAllProducts: true });
   const { setCurrentProduct } = useAppContext();
 
   const handleOpenProductDetails = (product: Product) => {
     setCurrentProduct(product);
     navigate(`/ProductDetails/${product.productId}`);
-  }
+  };
 
   return (
     <div className="rounded-lg w-full pb-12 ">
       <h2 className="text-lg font-bold mb-4 text-gray-800 bg-[#FFF9E6] w-full lg:px-12 px-4 py-2">
-        Household Items
+        Latest Products
       </h2>
 
-      {!isLoading.addProduct && allProducts.length === 0 && 
-        <NoProducts/>
-      }
+      {!isLoading.addProduct && allProducts.length === 0 && <NoProducts />}
 
       <div className=" grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 lg:px-12 px-4">
-        {isLoading.allProducts
-          && Array.from({ length: 12 }).map((_, i) => <ProductCardSkeleton key={i} />)
-        }
+        {isLoading.allProducts &&
+          Array.from({ length: 12 }).map((_, i) => (
+            <ProductCardSkeleton key={i} />
+          ))}
 
         {allProducts.map((product, key) => (
           <div
