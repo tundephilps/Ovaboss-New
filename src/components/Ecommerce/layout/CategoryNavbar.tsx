@@ -62,7 +62,7 @@ const CategoryNavbar = () => {
               <button
                 key={idx}
                 onClick={() => getCategory(item)}
-                className="flex justify-between w-full items-center text-xs hover:bg-white px-4 py-3.5 hover:text-yellow-500 cursor-pointer"
+                className="flex justify-between w-full items-center text-[10px] hover:bg-white px-2 py-3.5 hover:text-yellow-500 cursor-pointer"
               >
                 <span className="font-semibold">{item.categoryName}</span>
                 <FaChevronRight className="w-4 h-4" />
