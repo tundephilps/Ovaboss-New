@@ -12,6 +12,8 @@ import SignIn from "./Pages/Auth/SignIn";
 import SignUpPage from "./Pages/Auth/SignUp";
 import SignUpForm from "./Pages/Auth/SignUpForm";
 import PasswordReset from "./Pages/Auth/PasswordReset";
+import VerifyEmail from "./Pages/Auth/VerifyEmail";
+import PasswordUpdate from "./Pages/Auth/PasswordUpdate";
 
 import Homepage from "../src/Pages/Ecommerce/Homepage";
 import ProductDetails from "./Pages/Ecommerce/ProductDetails";
@@ -104,10 +106,12 @@ function App() {
       <Router>
         <AppContextProvider>
           <Routes>
-            <Route element={
-              <CategoryContextProvider>
-                <EcommerceLayout />
-              </CategoryContextProvider>}
+            <Route
+              element={
+                <CategoryContextProvider>
+                  <EcommerceLayout />
+                </CategoryContextProvider>
+              }
             >
               <Route path="/" element={<Homepage />} />
               <Route path="/Signin" element={<SignIn />} />
@@ -115,8 +119,13 @@ function App() {
               <Route path="/Signupform/:user_type" element={<SignUpForm />} />
               <Route path="/Resetpassword" element={<PasswordReset />} />
               <Route path="/OTP" element={<OTPInput />} />
+              <Route path="/VerifyEmail" element={<VerifyEmail />} />
+              <Route path="/UpdatePassword" element={<PasswordUpdate />} />
 
-              <Route path="/ProductDetails/:productId" element={<ProductDetails />} />
+              <Route
+                path="/ProductDetails/:productId"
+                element={<ProductDetails />}
+              />
 
               <Route path="/Categories/:categoryId" element={<Categories />} />
               <Route path="/Payment" element={<PaymentPage />} />
@@ -299,7 +308,10 @@ function App() {
                 />
                 <Route path="/Goods/AllGoods" element={<AllGoods />} />
 
-                <Route path="/Goods/product/:section" element={<AddNewGoods />} />
+                <Route
+                  path="/Goods/product/:section"
+                  element={<AddNewGoods />}
+                />
                 <Route path="/Goods/Promotions" element={<Promotions />} />
               </Route>
             </Route>
