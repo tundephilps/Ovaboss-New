@@ -104,10 +104,12 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
     const init = async () => {
         try {
             const authToken = localStorage.getItem('authToken');
+            const currentPath = location.pathname.toLowerCase();
+            const excludedPath = ['/signin', '/verifyemail', '/'];
+
             const shouldRun =
                 authToken &&
-                location.pathname !== "/" &&
-                location.pathname !== "/signin" &&
+                !excludedPath.includes(currentPath) && 
                 !location.pathname.toLowerCase().includes("auth");
 
             if(shouldRun) {

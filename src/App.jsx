@@ -12,6 +12,8 @@ import SignIn from "./Pages/Auth/SignIn";
 import SignUpPage from "./Pages/Auth/SignUp";
 import SignUpForm from "./Pages/Auth/SignUpForm";
 import PasswordReset from "./Pages/Auth/PasswordReset";
+import PasswordUpdate from "./Pages/Auth/PasswordUpdate";
+import VerifyEmail from "./Pages/Auth/VerifyEmail";
 
 import Homepage from "../src/Pages/Ecommerce/Homepage";
 import ProductDetails from "./Pages/Ecommerce/ProductDetails";
@@ -115,6 +117,8 @@ function App() {
               <Route path="/Signup" element={<SignUpPage />} />
               <Route path="/Signupform/:user_type" element={<SignUpForm />} />
               <Route path="/Resetpassword" element={<PasswordReset />} />
+              <Route path="/Updatepassword" element={<PasswordUpdate />} />
+              <Route path="/VerifyEmail" element={<VerifyEmail />} />
               <Route path="/OTP" element={<OTPInput />} />
 
               <Route path="/ProductDetails/:productId" element={<ProductDetails />} />
