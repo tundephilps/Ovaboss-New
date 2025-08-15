@@ -10,7 +10,7 @@ interface GetProductProps {
     subCategoryId?: number;
 }
 
-const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts }: UseProductProps = {}) => {
+const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldGetCategory = true, shouldGetBusinessCategoryType = true }: UseProductProps = {}) => {
     const [ isLoading, setIsLoading ] = React.useState<IsLoading>({
         productCategory: true,
         productSubCategory: false,
@@ -433,8 +433,8 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts }: UsePr
 
 
     React.useEffect(() => {
-        getProductCategory();
-        getBusinessCategoryType();
+        if(shouldGetCategory) getProductCategory();
+        if(shouldGetBusinessCategoryType) getBusinessCategoryType();
         if(shouldGetAllProducts) getAllProducts();
         if(shouldGetMyProducts) getMyProducts();
         if(currentProduct) initProductUpdate();

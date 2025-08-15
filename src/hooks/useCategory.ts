@@ -19,7 +19,7 @@ const useCategory = () => {
     const [ subCategories, setSubCategories ] = React.useState<SubCategory[]>([]);
 
     const { categoryId } = useParams();
-    const { isLoading: isLoadingProduct, allProducts, paginationData, getAllProducts, handlePaginate } = useProduct();
+    const { isLoading: isLoadingProduct, allProducts, paginationData, getAllProducts, handlePaginate } = useProduct({ shouldGetCategory: false, shouldGetBusinessCategoryType: false });
 
     const getCategories = async () => {
         try {
@@ -97,7 +97,6 @@ const useCategory = () => {
     }, [])
 
     React.useEffect(() => {
-        console.log('categoryId', categoryId)
         if(categoryId) getSubCategory(+categoryId);
     }, [categoryId])
 

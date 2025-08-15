@@ -13,7 +13,7 @@ import NoProducts from "../../NoProducts";
 
 export default function HouseholdItems() {
   const navigate = useNavigate();
-  const { allProducts, isLoading } = useProduct({ shouldGetAllProducts: true })
+  const { allProducts, isLoading } = useProduct({ shouldGetAllProducts: true, shouldGetBusinessCategoryType: false, shouldGetCategory: false, })
   const { setCurrentProduct } = useAppContext();
 
   const handleOpenProductDetails = (product: Product) => {

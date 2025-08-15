@@ -115,4 +115,6 @@ export interface IsLoading {
 export interface UseProductProps {
     shouldGetAllProducts?: boolean;
     shouldGetMyProducts?: boolean;
+    shouldGetCategory?: boolean;
+    shouldGetBusinessCategoryType?: boolean;
 }
