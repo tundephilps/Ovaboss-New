@@ -100,6 +100,8 @@ import ChatCenter from "./Pages/DashboardCCC/ChatCenter";
 import Support from "./Pages/DashboardCCC/Support";
 import ProfileCCC from "./Pages/DashboardCCC/Profile";
 import CategoryContextProvider from "./context/CategoryContext";
+import Wishlist from "./Pages/Ecommerce/WishList";
+import EmptyWishlist from "./Pages/Ecommerce/WishlistEmpty";
 function App() {
   return (
     <>
@@ -131,6 +133,8 @@ function App() {
               <Route path="/Payment" element={<PaymentPage />} />
               <Route path="/ShoppingCart" element={<ShoppingCart />} />
               <Route path="/Checkout" element={<CheckoutPage />} />
+              <Route path="/WishList" element={<Wishlist />} />
+              <Route path="/EmptyWishList" element={<EmptyWishlist />} />
               <Route path="/BusinessPage" element={<BusinessPage />} />
 
               <Route path="/ContactUs" element={<ContactUs />} />

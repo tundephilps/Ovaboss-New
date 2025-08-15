@@ -205,13 +205,14 @@ const Navbar = () => {
             {user && (
               <div className="flex md:hidden items-center">
                 {/* Mobile wishlist icon */}
-                <div className="relative mx-2">
-                  <FaRegHeart size={20} className="text-gray-700" />
-                  <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
-                    1
-                  </span>
-                </div>
-
+                <Link to="/Wishlist">
+                  <div className="relative mx-2">
+                    <FaRegHeart size={20} className="text-gray-700" />
+                    <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
+                      1
+                    </span>
+                  </div>
+                </Link>
                 {/* Mobile cart icon */}
                 <Link to="/ShoppingCart">
                   <div className="relative mx-2">
@@ -318,15 +319,17 @@ const Navbar = () => {
 
               {user && (
                 <>
-                  <div className="relative">
-                    <FaRegHeart
-                      size={20}
-                      className="text-gray-700 hover:text-gray-900 cursor-pointer"
-                    />
-                    <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
-                      2
-                    </span>
-                  </div>
+                  <Link to="/WishList">
+                    <div className="relative">
+                      <FaRegHeart
+                        size={20}
+                        className="text-gray-700 hover:text-gray-900 cursor-pointer"
+                      />
+                      <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
+                        2
+                      </span>
+                    </div>{" "}
+                  </Link>
 
                   <Link to="/ShoppingCart">
                     <div className="relative">
