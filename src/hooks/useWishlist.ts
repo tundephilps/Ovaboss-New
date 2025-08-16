@@ -48,7 +48,8 @@ const useWishlist = ({ shouldGetWishlist }: UseWishlist = {}) => {
     }
 
     const syncWishlists = async () => {
-        const serverWishlists = await getAllWishlists();
+        const { data: response } = await axiosClient.get('/product/list-wish-list');
+        const serverWishlists = response.data;
         const localWishlists = getPersistedStorage<Wishlist[]>('wishlists') || [];
 
         const allServerCardIds = serverWishlists.map(item => item.productId);
@@ -58,7 +59,8 @@ const useWishlist = ({ shouldGetWishlist }: UseWishlist = {}) => {
             handleAddToWishlist({
                 productId: item.productId,
                 variantId: item.variantDetails.id,
-                shouldShowToast: false
+                shouldShowToast: false,
+                addToServer: true,
             });
         }))
     }
@@ -93,7 +95,7 @@ const useWishlist = ({ shouldGetWishlist }: UseWishlist = {}) => {
     const handleAddToWishlist = async (data: AddToWishlistProps) => {
         try {
             setIsSaving(true);
-            const { productId, variantId, product, shouldShowToast = true} = data;
+            const { productId, variantId, product, shouldShowToast = true, addToServer} = data;
 
             if(!variantId) {
                 throw new Error('Select a variant');
@@ -101,7 +103,7 @@ const useWishlist = ({ shouldGetWishlist }: UseWishlist = {}) => {
 
             let message = 'Product has been added to wishlist';
 
-            if(user) {
+            if(user || addToServer) {
                 const { data: response } = await axiosClient.post('/product/add-to-wish-list', {
                     product_id: productId,
                     variant_id: variantId,

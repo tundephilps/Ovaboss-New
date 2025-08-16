@@ -234,7 +234,7 @@ const ProductDetails = () => {
               <div>
                 <p className="text-sm font-medium text-gray-700">Variation Available</p>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-3">
+                <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 mt-3">
                   {productDetails.productVariants.map((item, key) => {
                     const isSelected = selectedVariant.id === item.id;
 

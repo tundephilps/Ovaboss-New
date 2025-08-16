@@ -46,20 +46,24 @@ const useCart = ({ shouldGetCart }: UseCart = {}) => {
     }
 
     const syncCarts = async () => {
-        const serverCarts = await getAllCarts();
+        const { data: response } = await axiosClient.get('/product/list-cart');
+        const serverCarts = response.data as Cart[];
         const localCarts = getPersistedStorage<Cart[]>('carts') || [];
 
         const allServerCardIds = serverCarts.map(item => item.productId);
         const itemsNotInServer = localCarts.filter(item => !allServerCardIds.includes(item.productId));
 
         await Promise.all(itemsNotInServer.map(async (item) =>  {
-            handleAddToCart({
+            await handleAddToCart({
                 productId: item.productId,
                 variantId: item.variantDetails.id,
                 shouldShowToast: false,
                 quantity: item.quantity,
+                addToServer: true,
             });
         }))
+
+        setTotalCarts(localCarts.length);
     }
 
     const handleRemoveCart = async (product_id: number, variant_id: number) => {
@@ -99,13 +103,14 @@ const useCart = ({ shouldGetCart }: UseCart = {}) => {
                 shouldShowToast = true,
                 cart,
                 quantity,
+                addToServer,
             } = data;
 
             if(!variantId) {
                 throw new Error('Select a variant');
             }
 
-            if(user) {
+            if(user || addToServer) {
                 const { data: response } = await axiosClient.post('/product/add-to-cart', {
                     product_id: productId,
                     variant_id: variantId,

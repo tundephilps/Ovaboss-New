@@ -34,4 +34,5 @@ export interface AddToWishlistProps {
   variantId: number;
   product?: FullProduct;
   shouldShowToast?: boolean;
+  addToServer?: boolean;
 }

@@ -33,4 +33,5 @@ export interface AddToCartProps {
   shouldShowToast?: boolean;
   cart?: Cart;
   quantity: number | string;
+  addToServer?: boolean;
 }
