@@ -8,12 +8,6 @@ const Details = ({ product }: { product: FullProduct }) => {
 
       <div className="mb-6">
         <p className="text-gray-700 mb-4">
-          {product.highlights}
-        </p>
-      </div>
-
-      <div className="mb-6">
-        <p className="text-gray-700 mb-4">
           {product.description}
         </p>
       </div>

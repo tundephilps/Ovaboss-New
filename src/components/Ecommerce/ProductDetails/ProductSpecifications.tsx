@@ -1,6 +1,7 @@
 import React from "react";
+import { FullProduct } from "../../../types/product.type";
 
-const ProductSpecifications = () => {
+const ProductSpecifications = ({ product }: { product: FullProduct }) => {
   return (
     <div className="mx-auto lg:p-6 p-4 bg-white">
       <h2 className="text-xl font-semibold text-gray-800 mb-6">
@@ -11,58 +12,16 @@ const ProductSpecifications = () => {
         {/* Key Features */}
         <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
           <h3 className="text-lg font-medium text-gray-800 mb-4 border-b pb-2">
-            Key Features
+            Highlights
           </h3>
-          <ul className="space-y-2 text-sm text-gray-700">
-            <li className="flex items-start">
-              <span className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-              10.9" Liquid Retina Display
-            </li>
-            <li className="flex items-start">
-              <span className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-              A14 Bionic Chip with 6-Core & 4-Core GPU
-            </li>
-            <li className="flex items-start">
-              <span className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-              12MP Ultra Wide Camera
-            </li>
-            <li className="flex items-start">
-              <span className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-              Touch ID - Apple Pay
-            </li>
-            <li className="flex items-start">
-              <span className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-              Wi-Fi
-            </li>
-            <li className="flex items-start">
-              <span className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-              Make quick work of your work
-            </li>
-            <li className="flex items-start">
-              <span className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-              Take notes and collaborate
-            </li>
-            <li className="flex items-start">
-              <span className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-              Create to your heart's content
-            </li>
-            <li className="flex items-start">
-              <span className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-              High-quality audio
-            </li>
-            <li className="flex items-start">
-              <span className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-              Get in touch - stay in frame
-            </li>
-            <li className="flex items-start">
-              <span className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-              Super-fast connections
-            </li>
-          </ul>
+          
+          <p className="text-gray-700 mb-4">
+            {product.highlights}
+          </p>
         </div>
 
         {/* What's in the box */}
-        <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+        {/* <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
           <h3 className="text-lg font-medium text-gray-800 mb-4 border-b pb-2">
             What's in the box
           </h3>
@@ -80,10 +39,10 @@ const ProductSpecifications = () => {
               20W USB-C Power Adapter
             </li>
           </ul>
-        </div>
+        </div> */}
 
         {/* Specifications */}
-        <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+        {/* <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
           <h3 className="text-lg font-medium text-gray-800 mb-4 border-b pb-2">
             Specifications
           </h3>
@@ -113,10 +72,10 @@ const ProductSpecifications = () => {
               </span>
             </li>
           </ul>
-        </div>
+        </div> */}
 
         {/* Warranty */}
-        <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+        {/* <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
           <h3 className="text-lg font-medium text-gray-800 mb-4 border-b pb-2">
             Warranty
           </h3>
@@ -135,7 +94,7 @@ const ProductSpecifications = () => {
               damage protection (extra cost)
             </li>
           </ul>
-        </div>
+        </div> */}
       </div>
     </div>
   );

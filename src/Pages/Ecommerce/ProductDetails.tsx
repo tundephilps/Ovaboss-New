@@ -272,7 +272,7 @@ const ProductDetails = () => {
                         {/* Variant text */}
                         <div className="min-w-0">
                           <p className="text-sm font-semibold text-gray-900 truncate">
-                            £{item.price}
+                            £{numberFormat(item.price, 2)}
                           </p>
                           <p className="text-xs text-gray-500">{item.stock} Left</p>
                         </div>
@@ -324,7 +324,7 @@ const ProductDetails = () => {
           </div>
 
           <Details product={productDetails}/>
-          <ProductSpecifications />
+          <ProductSpecifications product={productDetails}/>
           <SponsoredProducts />
           <AlsoLike />
         </div>

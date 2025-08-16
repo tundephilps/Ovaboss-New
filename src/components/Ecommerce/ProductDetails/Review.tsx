@@ -5,6 +5,7 @@ import { FaStar } from "react-icons/fa";
 import useReview from "../../../hooks/useReview";
 import Loading from "../../Loading";
 import { useAppContext } from "../../../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 export default function ProductReviews({ reviews: allReviews }: { reviews: ProductReview[] }) {
   const [hover, setHover] = React.useState<number | null>(null);
@@ -12,6 +13,7 @@ export default function ProductReviews({ reviews: allReviews }: { reviews: Produ
 
   const { inputs, isLoading, handleInput, handleAddReview } = useReview();
   const { user } = useAppContext();
+  const navigate = useNavigate();
 
   const reviewCallback = () => {
     const newReview: ProductReview = {
@@ -22,6 +24,14 @@ export default function ProductReviews({ reviews: allReviews }: { reviews: Produ
     };
 
     setReviews(prev => [...prev, newReview])
+  }
+
+  const addReview = () => {
+    if(user) {
+      return handleAddReview(reviewCallback);
+    }
+    
+    navigate('/signin');
   }
   
   const renderStars = (rating: string) => {
@@ -76,7 +86,7 @@ export default function ProductReviews({ reviews: allReviews }: { reviews: Produ
         />
 
         <div className="mt-6">
-          <button onClick={() => handleAddReview(reviewCallback)} className="w-full bg-[#FFD700] text-center py-2 text-black font-medium rounded hover:bg-yellow-600 transition-colors">
+          <button onClick={addReview} className="w-full bg-[#FFD700] text-center py-2 text-black font-medium rounded hover:bg-yellow-600 transition-colors">
             {isLoading ? <Loading/> : 'Create'}
           </button>
         </div>

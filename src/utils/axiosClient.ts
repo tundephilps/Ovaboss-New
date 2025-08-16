@@ -35,7 +35,7 @@ axiosClient.interceptors.response.use(
             const currentPath = location.pathname.toLowerCase();
 
             if (currentPath !== '/signin' && currentPath !== '/verifyemail') {
-                // location.href = '/Signin';
+                location.href = '/Signin';
             }
         }
         return Promise.reject(new Error(error.response?.data?.message ?? error.message));
