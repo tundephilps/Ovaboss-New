@@ -4,7 +4,7 @@ import GoodsOrderTable from "../../../components/DashboardPCC/Report/GoodsOrderT
 import useReport from "../../../hooks/useReport";
 
 const GoodsOrderReportBCC = () => {
-  const { isLoading, reports } = useReport({ reportType: 'general' });
+  const { isLoading, reports } = useReport({ reportType: 'general' }); 
 
   return (
     <div className=" bg-[#faf9f9] overflow-y-auto">

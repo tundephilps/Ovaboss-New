@@ -39,11 +39,15 @@ const ProductDetails = () => {
     isLoading, 
     isSaving,
     productCart,
+    productWishlist,
     selectedVariant, 
     isLoadingCarts,
+    isLoadingWishlists,
     setSelectedVariant, 
     handleAddToCart,
     handleRemoveCart, 
+    handleAddToWishlist,
+    handleRemoveWishlist, 
   } = useProductDetails();
 
   const handleConfirm = (option) => {
@@ -78,7 +82,7 @@ const ProductDetails = () => {
 
   const colorVariants = productDetails.productVariants.flatMap(variant =>
     variant.variants
-      .filter(v => v.variantType === "Color")
+      // .filter(v => v.variantType === "Color")
       .map(v => ({
         color: v.variant,
         variantTypeId: v.variantTypeId,
@@ -144,12 +148,23 @@ const ProductDetails = () => {
                 <h2 className="text-3xl font-bold">
                   {productDetails.title}
                 </h2>
-                <FaRegHeart className="text-gray-500 cursor-pointer" />
+
+                <button
+                  onClick={ productWishlist ? handleRemoveWishlist : handleAddToWishlist}
+                  disabled={isSaving.wishlist || isLoadingWishlists}
+                >
+                  {productWishlist ? (
+                    <FaHeart className="text-red-500" />
+                  ) : (
+                    <FaRegHeart className="text-gray-500" />
+                  )}
+                </button>
+
               </div>
               <p className="text-sm">
                 Business:{" "}
                 <a href="#" className="text-blue-600 underline">
-                  {productDetails.businessInformation.storeName}
+                  {productDetails?.businessInformation?.storeName}
                 </a>
               </p>
 
@@ -166,7 +181,7 @@ const ProductDetails = () => {
                 <div className="flex items-end gap-2 px-2">
                   <span className="text-xl font-bold">£{numberFormat(productDetails.main_price)}</span>
                   <span className="line-through text-gray-400 text-sm">
-                    £696,000
+                    £696,000-dummy
                   </span>
                   <span className="text-red-500 text-sm">-28.7%</span>
                 </div>
@@ -233,12 +248,12 @@ const ProductDetails = () => {
               <button
                 onClick={productCart ? handleRemoveCart : handleAddToCart}
                 // onClick={() => setIsOpen(true)}
-                disabled={isSaving || isLoadingCarts}
+                disabled={isSaving.cart || isLoadingCarts}
                 className={`w-full mt-4 bg-[#FFD700] hover:bg-yellow-500 text-black py-2 rounded-md font-semibold flex items-center justify-center gap-2 ${
-                  isSaving || isLoadingCarts ? 'opacity-50 cursor-not-allowed' : ''
+                  isSaving.cart || isLoadingCarts ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
               >
-                {isSaving ? <Loading/> : (
+                {isSaving.cart ? <Loading/> : (
                   <>
                     {/* 🛒 Add to cart */}
                     {productCart ? 'Remove from cart' : '🛒 Add to cart'}

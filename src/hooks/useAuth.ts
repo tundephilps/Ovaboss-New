@@ -3,6 +3,10 @@ import toast from "react-hot-toast";
 import axiosClient from "../utils/axiosClient";
 import { useAppContext } from "../context/AppContext";
 import { useNavigate } from "react-router-dom";
+import useCart from "./useCart";
+import { Cart } from "../types/cart.type";
+import { getPersistedStorage } from "../utils/storage";
+import useWishlist from "./useWishlist";
 
 const useAuth = () => {
     const [ isLoading, setIsLoading ] = React.useState(false);
@@ -41,6 +45,8 @@ const useAuth = () => {
         }
     })
 
+    const { syncCarts } = useCart({ shouldGetCart: false });
+    const { syncWishlists } = useWishlist({ shouldGetWishlist: false });
     const { handleSetUser, setBusinessAccounts } = useAppContext();
     const navigate = useNavigate();
 
@@ -84,7 +90,12 @@ const useAuth = () => {
                 ...rest,
                 token,
             })
-            setBusinessAccounts(businessAccountData.data.data)
+            setBusinessAccounts(businessAccountData.data.data);
+
+            await Promise.all([
+                syncCarts(),
+                syncWishlists(),
+            ]);
 
             navigate("/");
 

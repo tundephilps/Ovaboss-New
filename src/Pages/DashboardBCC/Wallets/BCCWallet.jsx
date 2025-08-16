@@ -13,12 +13,12 @@ import Loading from "../../../components/Loading";
 import { useNavigate, useParams } from "react-router-dom";
 // import { Wallet } from "../../../types/wallet.type";
 
-const LAA = () => {
+const BCCWallet = () => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState("Transfer to Wallet");
   // const [ wallet, setWallet ] = useState<Wallet>(null)
 
-  const { wallets, isLoading, isLoadingTransactions, transactions } = useWallets({ shouldGetTransactions: true, section: 'pcc' });
+  const { wallets, isLoading, isLoadingTransactions, transactions, getWalletTransactions } = useWallets({ section: 'bcc' });
   const navigate = useNavigate();
 
   const handleSelect = (option) => {
@@ -38,11 +38,17 @@ const LAA = () => {
   //   return <LAAForm2 />;
   // }
 
+  
+
+  const wallet = wallets?.bcc.find(item => item.walletName === walletName);
+
+  React.useEffect(() => {
+    if(wallet) getWalletTransactions(wallet)
+  }, [wallet])
+
   if(isLoading) {
     return <Loading/>
   }
-
-  const wallet = wallets.pcc.filter(item => item.walletName === walletName)[0];
 
   if(!wallet) {
     navigate(-1);
@@ -50,7 +56,7 @@ const LAA = () => {
   }
 
   // React.useEffect(() => {
-  //   const wallet = wallets.pcc.filter(item => item.walletName === walletName)[0];
+  //   const wallet = wallets.bcc.filter(item => item.walletName === walletName)[0];
 
   //   if(!wallet) {
   //     navigate(-1);
@@ -106,7 +112,7 @@ const LAA = () => {
           <WalletCard wallet={wallet}/>
 
           {/* Dynamic Component Below */}
-          {selected === "Transfer to Wallet" && <TransferToWallet wallets={wallets.pcc} wallet={wallet}/>}
+          {selected === "Transfer to Wallet" && <TransferToWallet wallets={wallets.bcc} wallet={wallet}/>}
           {selected === "Transfer to Bank" && <TransferToBank wallet={wallet}/>}
         </div>
         <WalletTab 
@@ -119,4 +125,4 @@ const LAA = () => {
   );
 };
 
-export default LAA;
+export default BCCWallet;

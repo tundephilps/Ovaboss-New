@@ -17,7 +17,7 @@ const PaymentOptionSelector = () => {
   const closeModal = () => setIsModalOpen(false);
 
   const { checkoutData, checkoutItems, setCheckoutData } = useAppContext();
-  const { isLoading, wallets } = useWallets();
+  const { isLoading, wallets } = useWallets({ shouldUseCache: false });
   
   const handleConfirmPayment = () => {
     // Add your payment logic here

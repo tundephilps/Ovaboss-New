@@ -5,6 +5,8 @@ import { useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import useBusinessAccount from "../../../hooks/useBusinessAccount";
 import Loading from "../../../components/Loading";
+import { useSearchParams } from "react-router-dom";
+import DeleteModal from "../../../components/DeleteModal";
 
 interface BusinessOnboarding {
   businessAccountHooks: ReturnType<typeof useBusinessAccount>;
@@ -12,30 +14,20 @@ interface BusinessOnboarding {
 }
 
 const BusinessOnboarding = ({ businessAccountHooks, setCurrentSection }: BusinessOnboarding) => {
-  const [formData, setFormData] = useState({
-    categoryType: [],
-    saleType: [],
-    businessScale: "",
-    businessCategory: "",
-    specialCategory: "",
-    businessTypes: [],
-  });
 
-  const { isLoading, businessData, inputs, isSaving, handleArrayInput, handleInput, handleCreateBusiness } = businessAccountHooks;
+  const { 
+    isLoading, 
+    businessData, 
+    inputs, 
+    isSaving, 
+    handleArrayInput, 
+    handleInput, 
+    handleCreateBusiness,
+    handleUpdateBusiness,
+  } = businessAccountHooks;
 
-  const handleCheckbox = (group, value) => {
-    setFormData((prev) => {
-      const current = prev[group];
-      const updated = current.includes(value)
-        ? current.filter((v) => v !== value)
-        : [...current, value];
-      return { ...prev, [group]: updated };
-    });
-  };
-
-  const handleChange = (field, value) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
+  const [searchParams] = useSearchParams();
+  const updateId = searchParams.get("updateId");
 
   if(isLoading) {
     return <Loading/>
@@ -48,7 +40,7 @@ const BusinessOnboarding = ({ businessAccountHooks, setCurrentSection }: Busines
         <h1 className="font-bold text-2xl pb-2">Profile</h1>
         <p className="text-xs text-[#687280] ">
           Dashboard ›<span> Business Profile ›</span>
-          <span> Add New Business ›</span>
+          <span> {updateId ? 'Update' : 'Add'} New Business ›</span>
           <span className="text-yellow-500">
             {"  "} Business Onboarding{" "}
           </span>{" "}
@@ -182,11 +174,11 @@ const BusinessOnboarding = ({ businessAccountHooks, setCurrentSection }: Busines
             Back
           </button>
           <button
-            onClick={handleCreateBusiness}
+            onClick={updateId ? handleUpdateBusiness : handleCreateBusiness}
             type="button"
             className="px-6 py-2 bg-yellow-500 hover:bg-yellow-600 text-white font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-colors"
           >
-            { isSaving ? <Loading/> : 'Create Business' }
+            { isSaving ? <Loading/> : updateId ? 'Update Business' : 'Create Business' }
           </button>
         </div>
       </div>

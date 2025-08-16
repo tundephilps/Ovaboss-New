@@ -1,8 +1,11 @@
 import React from "react";
 import { FaHeart } from "react-icons/fa";
 import Love from "../../assets/Love.png";
+import { useNavigate } from "react-router-dom";
 
 const EmptyWishlist = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="lg:px-12 px-4 mx-auto my-20 px-4 text-center">
       <h1 className="text-xl font-semibold border-b pb-4 text-left">
@@ -20,7 +23,7 @@ const EmptyWishlist = () => {
           Found something you love? Tap the heart icon to save it to your
           wishlist! All your favorites will appear here.
         </p>
-        <button className="bg-yellow-400 hover:bg-yellow-500 text-sm font-semibold text-black px-5 py-2 rounded">
+        <button onClick={() => navigate('/')} className="bg-yellow-400 hover:bg-yellow-500 text-sm font-semibold text-black px-5 py-2 rounded">
           Continue Shopping
         </button>
       </div>

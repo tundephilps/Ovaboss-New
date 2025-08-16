@@ -1,8 +1,8 @@
 import React from "react";
-import ProfileProgressCard from "../../../components/DashboardBCC/Homepage/ProfileProgressCard";
-import MTRTable from "../../../components/DashboardBCC/Report/MTRTable";
+import ProfileProgressCard from "../../../components/DashboardPCC/Homepage/ProfileProgressCard";
+import MTRTable from "../../../components/DashboardPCC/Report/MTRTable";
 
-const MTRReportBCC = () => {
+const MTRReport = () => {
   return (
     <div className=" bg-[#faf9f9] overflow-y-auto">
       <div className="py-6 px-4">
@@ -19,4 +19,4 @@ const MTRReportBCC = () => {
   );
 };
 
-export default MTRReportBCC;
+export default MTRReport;

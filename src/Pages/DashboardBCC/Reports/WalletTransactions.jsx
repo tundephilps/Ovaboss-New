@@ -1,8 +1,11 @@
 import React from "react";
-import ProfileProgressCard from "../../../components/DashboardBCC/Homepage/ProfileProgressCard";
-import WalletTable from "../../../components/DashboardBCC/Report/WalletTable";
+import ProfileProgressCard from "../../../components/DashboardPCC/Homepage/ProfileProgressCard";
+import WalletTable from "../../../components/DashboardPCC/Report/WalletTable";
+import useReport from "../../../hooks/useReport";
 
-const WalletTransactionsBCC = () => {
+const WalletTransactions = () => {
+  const { isLoading, reports } = useReport({ reportType: 'wallet' });
+
   return (
     <div className=" bg-[#faf9f9] overflow-y-auto">
       <div className="py-6 px-4  overflow-x-auto">
@@ -16,10 +19,10 @@ const WalletTransactionsBCC = () => {
           </span>{" "}
         </p>
         <ProfileProgressCard completedFields={4} totalFields={10} />
-        <WalletTable />
+        <WalletTable isLoading={isLoading} reports={reports.wallet}/>
       </div>
     </div>
   );
 };
 
-export default WalletTransactionsBCC;
+export default WalletTransactions;

@@ -13,7 +13,7 @@ export interface VariantDetails {
   variants: VariantOption[];
 }
 
-export interface Cart {
+export interface Wishlist {
   productId: number;
   productName: string;
   description: string;
@@ -21,17 +21,17 @@ export interface Cart {
   variantDetails: VariantDetails;
 }
 
-export interface UseCart {
-  shouldGetCart?: boolean;
+export interface UseWishlist {
+    shouldGetWishlist?: boolean;
 }
 
-export interface CartWithQuantity extends Cart {
+export interface WishlistWithQuantity extends Wishlist {
   quantity?: number;
 }
-export interface AddToCartProps {
+
+export interface AddToWishlistProps {
   productId: number;
   variantId: number;
   product?: FullProduct;
   shouldShowToast?: boolean;
-  cart?: Cart;
 }

@@ -1,7 +1,11 @@
 import React from "react";
-import ServiceOrderTable from "../../../components/DashboardBCC/Report/ServiceOrderTable";
+import ProfileProgressCard from "../../../components/DashboardPCC/Homepage/ProfileProgressCard";
+import ServiceOrderTable from "../../../components/DashboardPCC/Report/ServiceOrderTable";
+import useReport from "../../../hooks/useReport";
 
-const ServiceOrderReport = () => {
+const ServiceOrderReportBCC = () => {
+  const { isLoading, reports } = useReport({ reportType: 'general' });
+
   return (
     <div className=" bg-[#faf9f9] overflow-y-auto">
       <div className="py-6 px-4">
@@ -14,10 +18,14 @@ const ServiceOrderReport = () => {
             › {"  "} Service Order Report{" "}
           </span>{" "}
         </p>
-        <ServiceOrderTable />
+        <ProfileProgressCard completedFields={4} totalFields={10} />
+        <ServiceOrderTable 
+          isLoading={isLoading}
+          reports={reports.services}
+        />
       </div>
     </div>
   );
 };
 
-export default ServiceOrderReport;
+export default ServiceOrderReportBCC;

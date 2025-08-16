@@ -66,7 +66,7 @@ const SidebarMobile = () => {
 
   const { wallets, isLoading } = useWallets();
 
-  const allPCCWallets = wallets.pcc.map(item => ({ label: item.walletName, path: `/Wallets/${item.walletName}` }))
+  const allPCCWallets = wallets.pcc.map(item => ({ label: item.walletName, path: `/pcc/Wallets/${item.walletName}` }))
 
   const menuItems = [
   {
@@ -87,7 +87,7 @@ const SidebarMobile = () => {
   {
     icon: <FaWallet className="text-xl" />,
     label: "Wallets/Accounts",
-    path: "/wallets",
+    path: "#",
     children: allPCCWallets,
   },
   {

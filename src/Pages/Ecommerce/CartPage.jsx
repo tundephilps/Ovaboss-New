@@ -17,7 +17,7 @@ import { useAppContext } from "../../context/AppContext";
 export default function ShoppingCart() {
   const { carts: cartItems, isSaving, isLoading, handleRemoveCart } = useCart({ shouldGetCart: true });
   const [ carts, setCarts ] = useState(cartItems);
-  const { setCheckoutItems } = useAppContext();
+  const { user, setCheckoutItems } = useAppContext();
 
   const [items, setItems] = useState([
     {
@@ -176,10 +176,14 @@ export default function ShoppingCart() {
   ];
 
   const handleProceedTocheckout = () => {
+    if(!user) {
+      navigate('/signin');
+      return;
+    }
+
     const selectedKeys = Object.keys(selectedItems).filter(key => selectedItems[key]);
     if(selectedKeys > 0) {
       const updatedItem = carts.filter(item => selectedKeys.includes(String(item.productId)));
-      console.log(updatedItem)
       setCheckoutItems(updatedItem);
     }
     navigate('/Checkout');

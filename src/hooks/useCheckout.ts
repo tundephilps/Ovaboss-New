@@ -3,11 +3,14 @@ import toast from "react-hot-toast";
 import { useAppContext } from "../context/AppContext";
 import { CartWithQuantity } from "../types/cart.type";
 import axiosClient from "../utils/axiosClient";
+import { useNavigate } from "react-router-dom";
 
 const useCheckout = () => {
     const [ isLoading, setIsLoading ] = React.useState(false);
 
     const { checkoutData, checkoutItems } = useAppContext();
+
+    const navigate = useNavigate();
 
     const handleCheckout = async () => {
         try {
@@ -40,6 +43,8 @@ const useCheckout = () => {
             if(checkoutData.payment_method === 'CARD') {
                 window.open(url, "_blank", "noopener,noreferrer");
                 return;
+            } else {
+                navigate(`/payment/status?status=success&trxRef=${response.data.transaction_id}`)
             }
 
             toast.success(response.message);

@@ -1,8 +1,8 @@
 import React from "react";
-import ProfileProgressCard from "../../../components/DashboardBCC/Homepage/ProfileProgressCard";
-import OnlineInvoiceTable from "../../../components/DashboardBCC/Report/OnlineInvoiceTable";
+import ProfileProgressCard from "../../../components/DashboardPCC/Homepage/ProfileProgressCard";
+import OnlineInvoiceTable from "../../../components/DashboardPCC/Report/OnlineInvoiceTable";
 
-const OnlineInvoiceReportBCC = () => {
+const OnlineInvoiceReport = () => {
   return (
     <div className=" bg-[#faf9f9] overflow-y-auto">
       <div className="py-6 px-4">
@@ -23,4 +23,4 @@ const OnlineInvoiceReportBCC = () => {
   );
 };
 
-export default OnlineInvoiceReportBCC;
+export default OnlineInvoiceReport;

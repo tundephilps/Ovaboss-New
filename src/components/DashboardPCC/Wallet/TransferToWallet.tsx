@@ -1,6 +1,24 @@
 import { FaChevronDown } from "react-icons/fa";
+import useTransferWallet, { TransferTypes } from "../../../hooks/useTransferWallet";
+import { WalletItem } from "../../../types/wallet.type";
+import Loading from "../../Loading";
 
-export default function TransferToWallet({ wallets, wallet }) {
+interface TransferToWalletProps {
+  wallets: WalletItem[],
+  wallet: WalletItem,
+}
+
+export default function TransferToWallet({ wallets, wallet }: TransferToWalletProps) {
+  const { isSaving, transferType, setTransferType, handleInput, handleInterWalletTransfer } = useTransferWallet(wallet);
+
+  const handleTransfer = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault(); 
+    if(transferType === 'interwallet') {
+      handleInterWalletTransfer();
+    }
+
+  }
+
   return (
     <div className="mx-auto bg-white  p-6 space-y-6">
       <h2 className="text-lg font-semibold border-b pb-2">
@@ -31,14 +49,15 @@ export default function TransferToWallet({ wallets, wallet }) {
           <div className="relative">
             <select
               className="w-full border rounded px-3 py-2 text-sm appearance-none pr-8"
-              defaultValue="default"
+              defaultValue={transferType}
+              onChange={e => setTransferType(e.target.value as TransferTypes)}
             >
-              <option value="default" disabled>
+              <option value="" disabled>
                 Select Transfer Type
               </option>
               <option value="user">User to User Transfer</option>
-              <option value="peer">Personal inter wallet Transfer</option>
-              <option value="group">User to Business Transfer</option>
+              <option value="interwallet">Personal inter wallet Transfer</option>
+              <option value="business">User to Business Transfer</option>
             </select>
             <FaChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm pointer-events-none" />
           </div>
@@ -53,6 +72,7 @@ export default function TransferToWallet({ wallets, wallet }) {
             <select
               className="w-full border rounded px-3 py-2 text-sm appearance-none pr-8"
               defaultValue=""
+              onChange={(e) => handleInput('interwallet.credit_wallet_id', +e.target.value)}
             >
               <option value="" disabled>
                 Select Wallet to Transfer To
@@ -60,7 +80,7 @@ export default function TransferToWallet({ wallets, wallet }) {
               {wallets
               .filter(item => item.walletName !== wallet.walletName)
               .map((item, key) => (
-                <option value="wallet1" key={key}>{item.walletName} -${item.balance} </option>
+                <option value={item.walletId} key={key}>{item.walletName} -${item.balance} </option>
               ))}
             </select>
             <FaChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm pointer-events-none" />
@@ -76,16 +96,18 @@ export default function TransferToWallet({ wallets, wallet }) {
             type="number"
             defaultValue={0}
             className="w-full border rounded px-3 py-2 text-sm"
+            onChange={(e) => handleInput('interwallet.amount', e.target.value)}
           />
         </div>
 
         {/* Submit */}
         <div className="text-right">
           <button
+            onClick={e => handleTransfer(e)}
             type="submit"
             className="bg-[#FFD700] text-white px-5 py-2 rounded hover:bg-yellow-600 text-sm font-medium"
           >
-            Submit
+            {isSaving ? <Loading/> : 'Submit'}
           </button>
         </div>
       </form>

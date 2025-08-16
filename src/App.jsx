@@ -14,8 +14,6 @@ import SignUpForm from "./Pages/Auth/SignUpForm";
 import PasswordReset from "./Pages/Auth/PasswordReset";
 import PasswordUpdate from "./Pages/Auth/PasswordUpdate";
 import VerifyEmail from "./Pages/Auth/VerifyEmail";
-import VerifyEmail from "./Pages/Auth/VerifyEmail";
-import PasswordUpdate from "./Pages/Auth/PasswordUpdate";
 
 import Homepage from "../src/Pages/Ecommerce/Homepage";
 import ProductDetails from "./Pages/Ecommerce/ProductDetails";
@@ -47,7 +45,8 @@ import OnlineInvoiceReport from "./Pages/DashboardPCC/Reports/OnlineInvoiceRepor
 import OfflineInvoiceReport from "./Pages/DashboardPCC/Reports/OfflineInvoiceReport";
 import WalletTransactions from "./Pages/DashboardPCC/Reports/WalletTransactions";
 import EarningTransactions from "./Pages/DashboardPCC/Reports/EarningTransactions";
-import Wallet from "./Pages/DashboardPCC/Wallets/Wallet";
+import PCCWallet from "./Pages/DashboardPCC/Wallets/PCCWallet";
+import BCCWallet from "./Pages/DashboardBCC/Wallets/BCCWallet";
 import MTR from "./Pages/DashboardPCC/MTR";
 import ServiceOrderReportBCC from "./Pages/DashboardBCC/Reports/ServiceOrderReport";
 import GoodsOrderReportBCC from "./Pages/DashboardBCC/Reports/GoodsOrderReport";
@@ -105,6 +104,7 @@ import CategoryContextProvider from "./context/CategoryContext";
 import PaymentStatus from "./Pages/Ecommerce/PaymentStatus";
 import Wishlist from "./Pages/Ecommerce/WishList";
 import EmptyWishlist from "./Pages/Ecommerce/WishlistEmpty";
+
 function App() {
   return (
     <>
@@ -181,7 +181,8 @@ function App() {
                 <Route path="/EditBankInfo" element={<EditBankInfo />} />
                 <Route path="/Community/AQM" element={<AQM />} />
                 <Route path="/Community/PCM" element={<PCM />} />
-                <Route path="/Wallets/:walletName" element={<Wallet />} />
+                <Route path="/pcc/Wallets/:walletName" element={<PCCWallet/>} />
+                <Route path="/bcc/Wallets/:walletName" element={<BCCWallet/>} />
                 <Route
                   path="/Reports/GeneralReport"
                   element={<GeneralReport />}

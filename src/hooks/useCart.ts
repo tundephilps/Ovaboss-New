@@ -1,10 +1,9 @@
 import React from "react";
 import { useAppContext } from "../context/AppContext";
-import { useParams } from "react-router-dom";
 import axiosClient from "../utils/axiosClient";
-import { FullProduct } from "../types/product.type";
 import toast from "react-hot-toast";
-import { Cart, UseCart } from "../types/cart.type";
+import { AddToCartProps, Cart, UseCart } from "../types/cart.type";
+import { getPersistedStorage, persistStorage } from "../utils/storage";
 
 let fetchedCarts: Cart[] = [];
 
@@ -13,37 +12,75 @@ const useCart = ({ shouldGetCart }: UseCart = {}) => {
     const [ isSaving, setIsSaving ] = React.useState(false);
     const [ carts, setCarts ] = React.useState<Cart[]>([]);
 
-    const { setTotalCarts } = useAppContext();
+    const { setTotalCarts, user } = useAppContext();
 
     const getAllCarts = async () => {
         try {
             setIsLoading(true);
-            if(fetchedCarts.length) {
-                setCarts(fetchedCarts);
-                return;
+            // if(fetchedCarts.length) {
+            //     setCarts(fetchedCarts);
+            //     return;
+            // }
+
+            let cartItems: Cart[] = [];
+
+            if(user) {
+                const { data: response } = await axiosClient.get('/product/list-cart');
+                cartItems = response.data;
+                persistStorage('carts', JSON.stringify(cartItems));
+            } else {
+                const carts = getPersistedStorage<Cart[]>('carts');
+                if(carts) cartItems = carts;
             }
 
-            const { data: response } = await axiosClient.get('/product/list-cart');
-            setCarts(response.data);
-            fetchedCarts = response.data as Cart[];
-        } catch(error) {
+            setTotalCarts(cartItems.length);
+            setCarts(cartItems);
+            fetchedCarts = cartItems;
 
+            return cartItems;
+        } catch(error) {
+            return [];
         } finally {
             setIsLoading(false);
         }
     }
 
+    const syncCarts = async () => {
+        const serverCarts = await getAllCarts();
+        const localCarts = getPersistedStorage<Cart[]>('carts') || [];
+
+        const allServerCardIds = serverCarts.map(item => item.productId);
+        const itemsNotInServer = localCarts.filter(item => !allServerCardIds.includes(item.productId));
+
+        await Promise.all(itemsNotInServer.map(async (item) =>  {
+            handleAddToCart({
+                productId: item.productId,
+                variantId: item.variantDetails.id,
+                shouldShowToast: false
+            });
+        }))
+    }
+
     const handleRemoveCart = async (product_id: number, variant_id: number) => {
         try {
             setIsSaving(true);
-            const { data: response } = await axiosClient.post('/product/remove-from-cart', {
-                product_id,
-                variant_id,
-            });
+            let message = 'Product has been removed from cart';
+
+            if(user) {
+                const { data: response } = await axiosClient.post('/product/remove-from-cart', {
+                    product_id,
+                    variant_id,
+                });
+                message = response.message;
+            }
+           
+            const allCarts = getPersistedStorage<Cart[]>('carts') || [];
+            const filteredCarts = allCarts.filter(item => item.productId !== product_id && item.variantDetails.id !== variant_id);
+            persistStorage('carts', JSON.stringify(filteredCarts));
 
             setCarts(prev => prev.filter(item => item.productId !== product_id && item.variantDetails.id !== variant_id));
             setTotalCarts(prev => prev - 1);
-            toast.success(response.message);
+            toast.success(message);
         } catch(error) {
             toast.error(error.message);
         } finally {
@@ -51,26 +88,84 @@ const useCart = ({ shouldGetCart }: UseCart = {}) => {
         }
     }
 
-    const handleAddToCart = async (productId: number | string, selectedVariant?: number) => {
+    const handleAddToCart = async (data: AddToCartProps) => {
         try {
             setIsSaving(true);
-            if(!selectedVariant) {
+            const { 
+                productId, 
+                variantId, 
+                product, 
+                shouldShowToast = true,
+                cart,
+            } = data;
+
+            if(!variantId) {
                 throw new Error('Select a variant');
             }
 
-            const { data: response } = await axiosClient.post('/product/add-to-cart', {
-                product_id: productId,
-                variant_id: selectedVariant,
-            });
-            setTotalCarts(prev => prev + 1);
-            toast.success(response.message);
+            if(user) {
+                const { data: response } = await axiosClient.post('/product/add-to-cart', {
+                    product_id: productId,
+                    variant_id: variantId,
+                });
 
-            return true;
+                if(shouldShowToast) toast.success(response.message);
+                setTotalCarts(prev => prev + 1);
+
+                return true;
+            }
+
+            if(!product && !cart) return;
+
+
+            let cartItem: Cart = {} as Cart;
+
+            if(product) {
+                const { 
+                    title,
+                    description,
+                    productImages,
+                    productVariants,
+                } = product;
+
+                const variantDetails = productVariants.find(item => item.id === variantId)!;
+
+                cartItem = {
+                    productId,
+                    productName: title,
+                    description,
+                    productImage: productImages[0].imageUrl,
+                    variantDetails: {
+                        ...variantDetails,
+                        variants: variantDetails.variants.map(item => ({ 
+                            key: item.variantType, 
+                            value: item.variant ,
+                        }))
+                    },
+                }
+            }
+
+            if(cart) cartItem = cart;
+
+            const carts = getPersistedStorage<Cart[]>('carts') || [];
+            const allCarts = [...carts, cartItem];
+            persistStorage('carts', JSON.stringify(allCarts));
+            setCarts(allCarts);
+            
+            setTotalCarts(prev => prev + 1);
+            if(shouldShowToast) toast.success('Product has been added to cart');
+
         } catch(error) {
             toast.error(error.message);
         } finally {
             setIsSaving(false);
         }
+    }
+
+    const removeAllCartItems = async () => {
+        persistStorage('carts', JSON.stringify([]));
+        setCarts([]);
+        setTotalCarts(0);
     }
 
     React.useEffect(() => {
@@ -84,6 +179,8 @@ const useCart = ({ shouldGetCart }: UseCart = {}) => {
         handleAddToCart,
         handleRemoveCart,
         getAllCarts,
+        removeAllCartItems,
+        syncCarts,
     }
 }
 

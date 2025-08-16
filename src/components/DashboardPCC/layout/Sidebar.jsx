@@ -127,7 +127,7 @@ const Sidebar = () => {
     setShowLogoutModal(false);
   };
 
-  const allPCCWallets = wallets.pcc.map(item => ({ label: item.walletName, path: `/Wallets/${item.walletName}` }))
+  const allPCCWallets = wallets.pcc.map(item => ({ label: item.walletName, path: `/pcc/Wallets/${item.walletName}` }))
 
   const menuItems = [
     {

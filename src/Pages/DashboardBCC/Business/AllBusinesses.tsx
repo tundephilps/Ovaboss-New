@@ -13,40 +13,20 @@ import Biz33 from "../../../assets/Biz33.png";
 import { Link } from "react-router-dom";
 import { useAppContext } from "../../../context/AppContext";
 import { BusinessAccount } from "../../../types/business.type";
+import Loading from "../../../components/Loading";
+import DeleteModal from "../../../components/DeleteModal";
+import useBusinessAccount from "../../../hooks/useBusinessAccount";
 
-const businesses = [
-  {
-    id: 1,
-    name: "Fatimah Technology",
-    type: "Business",
-    storeName: "Fatimah's Venture",
-    link: "fatimah-s-venture",
-    avatar: Biz11, // or use import
-    stats: { products: 24, orders: 156, customers: 87 },
-  },
-  {
-    id: 2,
-    name: "Global Solutions",
-    type: "Business",
-    storeName: "Global Market",
-    link: "global-market",
-    avatar: Biz22,
-    stats: { products: 102, orders: 304, customers: 210 },
-  },
-  {
-    id: 3,
-    name: "Innovate Labs",
-    type: "Business",
-    storeName: "Innovate Central",
-    link: "innovate-central",
-    avatar: Biz33,
-    stats: { products: 58, orders: 198, customers: 143 },
-  },
-];
 
 const AllBusinesses = () => {
+  const [ isVisibleDeleteModal, setIsVisibleDeleteModal ] = React.useState(false);
   const { businessAccounts } = useAppContext();
-  const [ selectedBusiness, setSelectedBusiness ] = useState<BusinessAccount>(businessAccounts[0]);
+  const [ selectedBusiness, setSelectedBusiness ] = React.useState<BusinessAccount>(businessAccounts[0]);
+  const { isSaving, handleDeleteBusiness } = useBusinessAccount({ shouldGetBusinessData: false });
+
+  if(!selectedBusiness) {
+    return <Loading/>;
+  }
 
   return (
     <div className=" bg-[#faf9f9] overflow-y-auto">
@@ -55,6 +35,17 @@ const AllBusinesses = () => {
         <p className="text-xs text-[#687280]">Dashboard</p>
         <ProfileProgressCard completedFields={4} totalFields={10} />
       </div>
+
+      <DeleteModal 
+        isOpen={isVisibleDeleteModal} 
+        onClose={() => setIsVisibleDeleteModal(false)}
+        onConfirm={async () => { 
+          setIsVisibleDeleteModal(false);
+          await handleDeleteBusiness(selectedBusiness.id);
+          setSelectedBusiness(businessAccounts[0]);
+        }}  
+        message={`Are you sure you want to delete this business? \n Business Name: ${selectedBusiness.name}`}  
+      />
 
       <div className="flex flex-col md:flex-row gap-6 p-6">
         {/* All Businesses List */}
@@ -122,7 +113,7 @@ const AllBusinesses = () => {
                 <div>
                   <span className="font-semibold">Link:</span>{" "}
                   <a
-                    href={`https://${selectedBusiness.link}.com`}
+                    href={`https://${selectedBusiness.link}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-600 underline"
@@ -134,11 +125,18 @@ const AllBusinesses = () => {
             </div>
 
             <div className="flex gap-4 mt-4 justify-end">
-              <Link to="/Business/AddNew2">
+              <Link to={`/createbusiness?updateId=${selectedBusiness.id}`}>
                 <button className="bg-[#FFD700] text-black px-4 py-2 rounded-lg font-semibold">
                   Edit Business
                 </button>
               </Link>
+              <button
+                onClick={() => setIsVisibleDeleteModal(true)}
+                type="button"
+                className="px-6 py-2 bg-red-500 hover:bg-red-600 text-white font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors"
+              >
+                {isSaving ? <Loading/> : 'Delete Business'}
+              </button>
               <button className="border px-4 py-2 rounded-lg font-semibold">
                 Manage Business
               </button>

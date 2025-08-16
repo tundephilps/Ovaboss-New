@@ -7,6 +7,7 @@ import { BusinessAccount } from "../types/business.type";
 import { Product } from "../types/product.type";
 import { Category, SubCategory } from "../types/category.type";
 import { Cart } from "../types/cart.type";
+import { persistStorage, removeAllPersistentData } from "../utils/storage";
 
 interface CheckoutData {
     notes: string;
@@ -19,21 +20,31 @@ interface CheckoutData {
 
 interface AppContextType {
     user: User | null;
+    businessAccounts: BusinessAccount[];
+    currentProduct: Product | null;
+    totalCarts: number;
+    checkoutItems: Cart[];
+    checkoutData: CheckoutData;
+    totalWishlists: number;
     handleSetUser: (user: User) => void;
     handleLogout: () => void;
-    businessAccounts: BusinessAccount[];
     setBusinessAccounts: React.Dispatch<React.SetStateAction<BusinessAccount[]>>;
-    currentProduct: Product | null;
     setCurrentProduct: React.Dispatch<React.SetStateAction<Product | null>>;
-    totalCarts: number;
     setTotalCarts: React.Dispatch<React.SetStateAction<number>>;
-    checkoutItems: Cart[];
+    setTotalWishlists: React.Dispatch<React.SetStateAction<number>>;
     setCheckoutItems: React.Dispatch<React.SetStateAction<Cart[]>>;
-    checkoutData: CheckoutData;
     setCheckoutData: React.Dispatch<React.SetStateAction<CheckoutData>>;
 }
 
 export const AppContext = React.createContext<AppContextType | undefined>(undefined);
+
+export const initialCheckoutData = {
+    notes: '',
+    phone_number: '',
+    payment_method: '',
+    delivery_options: '',
+    address_id: '',
+}
 
 interface AppContextProviderProps {
     children: ReactNode;
@@ -45,34 +56,12 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
     const [ businessAccounts, setBusinessAccounts ] = React.useState<BusinessAccount[]>([])
     const [ currentProduct, setCurrentProduct ] = React.useState<Product | null>(null);
     const [ totalCarts, setTotalCarts ] = React.useState(0);
+    const [ totalWishlists, setTotalWishlists ] = React.useState(0);
     const [ checkoutItems, setCheckoutItems] = React.useState<Cart[]>([]);
-    const [ checkoutData, setCheckoutData ] = React.useState<CheckoutData>({
-        notes: '',
-        phone_number: '',
-        payment_method: '',
-        delivery_options: '',
-        address_id: '',
-    })
+    const [ checkoutData, setCheckoutData ] = React.useState<CheckoutData>(initialCheckoutData)
 
     const navigate = useNavigate();
 
-    const persistStorage = (key: string, value: unknown) => {
-        sessionStorage.setItem(key, JSON.stringify(value));
-    };
-
-    const getPersistedStorage = (key: string): unknown => {
-        const value = sessionStorage.getItem(key);
-        return value ? JSON.parse(value) : null;
-    };
-
-    const removePersistentStorage = (key: string) => {
-        sessionStorage.removeItem(key);
-    };
-
-    const removeAllPersistentData = () => {
-        sessionStorage.clear();
-        localStorage.clear();
-    }
 
     const handleSetUser = (user: User) => {
         setUser(user);
@@ -92,6 +81,7 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
         totalCarts,
         checkoutItems,
         checkoutData,
+        totalWishlists,
         setCheckoutItems,
         setTotalCarts,
         setBusinessAccounts,
@@ -99,6 +89,7 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
         setCheckoutData,
         handleSetUser,
         handleLogout,
+        setTotalWishlists,
     };
 
     const init = async () => {
@@ -119,14 +110,16 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
 
                     // Run parallel requests
                     const cartRequest = axiosClient.get('/product/list-cart');
+                    const wishlistRequest = axiosClient.get('/product/list-wish-list');
                     const businessRequest =
                         userData.userType === 'BUSINESS'
                         ? axiosClient.get('user/business/list-business-account')
                         : Promise.resolve({ data: { data: [] } }); // fallback empty result
 
-                    const [cartResponse, businessResponse] = await Promise.all([cartRequest, businessRequest]);
+                    const [cartResponse, wishlistResponse, businessResponse] = await Promise.all([cartRequest, wishlistRequest, businessRequest]);
 
                     setTotalCarts(cartResponse.data.data.length);
+                    setTotalWishlists(wishlistResponse.data.data.length);
                     setBusinessAccounts(businessResponse.data.data);
 
                     handleSetUser({

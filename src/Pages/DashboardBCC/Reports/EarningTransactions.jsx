@@ -1,8 +1,8 @@
 import React from "react";
-import ProfileProgressCard from "../../../components/DashboardBCC/Homepage/ProfileProgressCard";
-import EarningsTable from "../../../components/DashboardBCC/Report/EarningsTable";
+import ProfileProgressCard from "../../../components/DashboardPCC/Homepage/ProfileProgressCard";
+import EarningsTable from "../../../components/DashboardPCC/Report/EarningsTable";
 
-const EarningTransactionsBCC = () => {
+const EarningTransactions = () => {
   return (
     <div className=" bg-[#faf9f9] overflow-y-auto">
       <div className="py-6 px-4">
@@ -22,4 +22,4 @@ const EarningTransactionsBCC = () => {
   );
 };
 
-export default EarningTransactionsBCC;
+export default EarningTransactions;

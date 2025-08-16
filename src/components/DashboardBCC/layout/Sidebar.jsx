@@ -136,7 +136,7 @@ const Sidebar = () => {
     setShowLogoutModal(false);
   };
 
-  const allBCCWallets = wallets.bcc.map(item => ({ label: item.walletName, path: `/Wallets/${item.walletName}` }))
+  const allBCCWallets = wallets.bcc.map(item => ({ label: item.walletName, path: `/bcc/Wallets/${item.walletName}` }))
 
   const menuItems = [
   {

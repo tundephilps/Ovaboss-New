@@ -24,7 +24,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
     <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center">
       <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
         <h2 className="text-lg font-semibold text-gray-800 mb-2">{title}</h2>
-        <p className="text-sm text-gray-600 mb-6">{message}</p>
+        <p className="text-sm text-gray-600 mb-6 whitespace-pre-line">{message}</p>
 
         <div className="flex justify-end space-x-3">
           <button

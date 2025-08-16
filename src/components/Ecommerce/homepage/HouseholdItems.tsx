@@ -27,7 +27,7 @@ export default function HouseholdItems() {
         Latest Products
       </h2>
 
-      {!isLoading.addProduct && allProducts.length === 0 && <NoProducts />}
+      {!isLoading.allProducts && allProducts.length === 0 && <NoProducts />}
 
       <div className=" grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 lg:px-12 px-4">
         {isLoading.allProducts &&

@@ -1,3 +1,5 @@
+import { Address } from "./user.type";
+
 export interface BusinessCategoryType {
     type: string;
     id: number;
@@ -40,4 +42,39 @@ export interface BusinessAccount {
   logo: string;
   description: string;
   businessCategoryType: string[];
+}
+
+
+export interface BusinessCategoryType {
+  id: number;
+  name: string;
+}
+
+export interface BusinessSpeciality {
+  businessScale: string;
+  businessCategory: string;
+}
+
+export interface BusinessAccountDetails {
+  id: number;
+  name: string;
+  storeName: string;
+  link: string | null;
+  logo: string | null;
+  description: string | null;
+  isRegistered: boolean | null;
+  registrationNumber: string;
+  registrationDate: string | null;
+  storeSlug: string;
+  tin: string | null;
+  country: string;
+  stars: string;
+  assignedBy: string | null;
+  assignedTo: string | null;
+  verifiedBy: string | null;
+  businessCategoryType: BusinessCategoryType[];
+  address: Address;
+  businessSpeciality: BusinessSpeciality;
+  salesType: BusinessSalesType[];
+  businessType: BusinessType[];
 }

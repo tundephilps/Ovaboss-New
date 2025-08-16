@@ -44,45 +44,7 @@ const Navbar = () => {
     null
   );
 
-  const { totalCarts } = useAppContext();
-
-  // const categories = [
-  //   "Fashion and Accessories",
-  //   "Home and Office",
-  //   "Computers and Gadgets",
-  //   "Agriculture and Food",
-  //   "Electronics",
-  //   "Beauty Products",
-  //   "Gifts and Toys",
-  //   "Health and Fitness",
-  // ];
-
-  const submenus = {
-    "Fashion and Accessories": [
-      "Men's Clothing",
-      "Women's Clothing",
-      "Watches",
-      "Bags",
-      "Jewelry",
-    ],
-    "Home and Office": ["Furniture", "Decor", "Kitchen Appliances", "Lighting"],
-    "Computers and Gadgets": [
-      "Laptops",
-      "Smartphones",
-      "Accessories",
-      "Gaming Gear",
-    ],
-    "Agriculture and Food": ["Fertilizers", "Seeds", "Food Items"],
-    Electronics: ["TVs", "Audio Systems", "Cameras", "Smart Devices"],
-    "Beauty Products": ["Makeup", "Skincare", "Hair Products", "Fragrances"],
-    "Gifts and Toys": ["Toys for Kids", "Gift Sets", "Party Supplies"],
-    "Health and Fitness": [
-      "Supplements",
-      "Fitness Equipment",
-      "Personal Care",
-      "Medical Devices",
-    ],
-  };
+  const { totalCarts, totalWishlists } = useAppContext();
 
   const getCategory = (item: Category) => {
     // setSelectedCategory(item);
@@ -317,35 +279,35 @@ const Navbar = () => {
                 </div>
               )}
 
-              {user && (
-                <>
-                  <Link to="/WishList">
-                    <div className="relative">
-                      <FaRegHeart
-                        size={20}
-                        className="text-gray-700 hover:text-gray-900 cursor-pointer"
-                      />
+              <>
+                <Link to="/WishList">
+                  <div className="relative">
+                    <FaRegHeart
+                      size={20}
+                      className="text-gray-700 hover:text-gray-900 cursor-pointer"
+                    />
+                    {!!totalWishlists && (
                       <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
-                        2
+                        {totalWishlists}
                       </span>
-                    </div>{" "}
-                  </Link>
+                    )}
+                  </div>{" "}
+                </Link>
 
-                  <Link to="/ShoppingCart">
-                    <div className="relative">
-                      <LuShoppingCart
-                        size={20}
-                        className="text-gray-700 hover:text-gray-900 cursor-pointer"
-                      />
-                      {!!totalCarts && (
-                        <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
-                          {totalCarts}
-                        </span>
-                      )}
-                    </div>
-                  </Link>
-                </>
-              )}
+                <Link to="/ShoppingCart">
+                  <div className="relative">
+                    <LuShoppingCart
+                      size={20}
+                      className="text-gray-700 hover:text-gray-900 cursor-pointer"
+                    />
+                    {!!totalCarts && (
+                      <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
+                        {totalCarts}
+                      </span>
+                    )}
+                  </div>
+                </Link>
+              </>
 
               {/* If User is not logged In */}
               {!user && (
