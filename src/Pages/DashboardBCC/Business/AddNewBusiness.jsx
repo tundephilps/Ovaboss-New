@@ -33,10 +33,10 @@ const AddBusiness = () => {
   };
 
   const handleNext = () => {
-    if(isAuxiliary === 'No') {
-      navigate('/createbusiness')
+    if (isAuxiliary === "No") {
+      navigate("/createbusiness");
     }
-  }
+  };
 
   return (
     <div className=" bg-[#faf9f9] overflow-y-auto">
@@ -149,14 +149,17 @@ const AddBusiness = () => {
 
         {/* Next Button */}
         {/* <Link to="/Business/AddNew2" className="flex justify-end mt-8"> */}
+        <div className="flex justify-end mt-8">
           <button
             onClick={handleNext}
-            disabled={isAuxiliary === 'yes'}
+            disabled={isAuxiliary === "yes"}
             type="button"
-            className="px-6 py-2 bg-yellow-500 hover:bg-yellow-600 text-white font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-colors"
+            className="px-6 py-2 bg-yellow-500  hover:bg-yellow-600 text-white font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-colors"
           >
             Next
           </button>
+        </div>
+
         {/* </Link> */}
       </div>
     </div>

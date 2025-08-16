@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Mastercard from "../../../assets/mastercard.svg"; // adjust path as needed
+import Mastercard from "../../../assets/Mastercard.svg"; // adjust path as needed
 import ConfirmCardPaymentModal from "./ConfirmCardPaymentModal";
 import { useAppContext } from "../../../context/AppContext";
 

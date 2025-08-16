@@ -58,13 +58,15 @@ const Navbar = () => {
             {/* Mobile Search + Icons - Visible only on mobile */}
             <div className="flex md:hidden items-center">
               {/* Mobile wishlist icon */}
-              <div className="relative mx-2">
-                <FaRegHeart size={20} className="text-gray-700" />
-                <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
-                  1
-                </span>
-              </div>
 
+              <Link to="/Wishlist">
+                <div className="relative mx-2">
+                  <FaRegHeart size={20} className="text-gray-700" />
+                  <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
+                    1
+                  </span>
+                </div>
+              </Link>
               {/* Mobile cart icon */}
               <div className="relative mx-2">
                 <LuShoppingCart size={20} className="text-gray-700" />
@@ -101,15 +103,17 @@ const Navbar = () => {
                 </Link>
               </div>
 
-              <div className="relative">
-                <FaRegHeart
-                  size={20}
-                  className="text-gray-700 hover:text-gray-900 cursor-pointer"
-                />
-                <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
-                  2
-                </span>
-              </div>
+              <Link to="/Wishlist">
+                <div className="relative">
+                  <FaRegHeart
+                    size={20}
+                    className="text-gray-700 hover:text-gray-900 cursor-pointer"
+                  />
+                  <span className="absolute -top-2 -right-2 bg-yellow-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
+                    2
+                  </span>
+                </div>
+              </Link>
               {/* <div className="relative">
                 <LuShoppingCart
                   size={20}
@@ -119,7 +123,7 @@ const Navbar = () => {
                   3
                 </span>
               </div> */}
-              {user && 
+              {user && (
                 <div
                   className="flex items-center text-gray-700 hover:text-gray-900 cursor-pointer"
                   onClick={() => {
@@ -144,12 +148,12 @@ const Navbar = () => {
                     />
                   </svg>
                 </div>
-              }
+              )}
               {/* Profile Dropdown Menu */}
               {showProfileMenu && user && (
                 <div className="absolute top-full mt-2 right-0 bg-white shadow-lg rounded-md w-56 py-0 z-50">
                   <div className="px-4 py-2 font-semibold text-gray-800">
-                    Hi, { user.firstname }
+                    Hi, {user.firstname}
                   </div>
                   <a
                     href="/#"
@@ -200,7 +204,7 @@ const Navbar = () => {
                 <div className="flex items-center justify-between py-2 border-b border-gray-200">
                   <div className="flex items-center text-gray-700">
                     <FaUser size={20} />
-                    <span className="ml-2 text-sm">{ user.firstname }</span>
+                    <span className="ml-2 text-sm">{user.firstname}</span>
                   </div>
                 </div>
 

@@ -14,6 +14,8 @@ import SignUpForm from "./Pages/Auth/SignUpForm";
 import PasswordReset from "./Pages/Auth/PasswordReset";
 import PasswordUpdate from "./Pages/Auth/PasswordUpdate";
 import VerifyEmail from "./Pages/Auth/VerifyEmail";
+import VerifyEmail from "./Pages/Auth/VerifyEmail";
+import PasswordUpdate from "./Pages/Auth/PasswordUpdate";
 
 import Homepage from "../src/Pages/Ecommerce/Homepage";
 import ProductDetails from "./Pages/Ecommerce/ProductDetails";
@@ -101,16 +103,20 @@ import Support from "./Pages/DashboardCCC/Support";
 import ProfileCCC from "./Pages/DashboardCCC/Profile";
 import CategoryContextProvider from "./context/CategoryContext";
 import PaymentStatus from "./Pages/Ecommerce/PaymentStatus";
+import Wishlist from "./Pages/Ecommerce/WishList";
+import EmptyWishlist from "./Pages/Ecommerce/WishlistEmpty";
 function App() {
   return (
     <>
       <Router>
         <AppContextProvider>
           <Routes>
-            <Route element={
-              <CategoryContextProvider>
-                <EcommerceLayout />
-              </CategoryContextProvider>}
+            <Route
+              element={
+                <CategoryContextProvider>
+                  <EcommerceLayout />
+                </CategoryContextProvider>
+              }
             >
               <Route path="/" element={<Homepage />} />
               <Route path="/Signin" element={<SignIn />} />
@@ -120,14 +126,21 @@ function App() {
               <Route path="/Updatepassword" element={<PasswordUpdate />} />
               <Route path="/VerifyEmail" element={<VerifyEmail />} />
               <Route path="/OTP" element={<OTPInput />} />
+              <Route path="/VerifyEmail" element={<VerifyEmail />} />
+              <Route path="/UpdatePassword" element={<PasswordUpdate />} />
 
-              <Route path="/ProductDetails/:productId" element={<ProductDetails />} />
+              <Route
+                path="/ProductDetails/:productId"
+                element={<ProductDetails />}
+              />
 
               <Route path="/Categories/:categoryId" element={<Categories />} />
               <Route path="/Payment" element={<PaymentPage />} />
               <Route path="/payment/status" element={<PaymentStatus />} />
               <Route path="/ShoppingCart" element={<ShoppingCart />} />
               <Route path="/Checkout" element={<CheckoutPage />} />
+              <Route path="/WishList" element={<Wishlist />} />
+              <Route path="/EmptyWishList" element={<EmptyWishlist />} />
               <Route path="/BusinessPage" element={<BusinessPage />} />
 
               <Route path="/ContactUs" element={<ContactUs />} />
@@ -305,7 +318,10 @@ function App() {
                 />
                 <Route path="/Goods/AllGoods" element={<AllGoods />} />
 
-                <Route path="/Goods/product/:section" element={<AddNewGoods />} />
+                <Route
+                  path="/Goods/product/:section"
+                  element={<AddNewGoods />}
+                />
                 <Route path="/Goods/Promotions" element={<Promotions />} />
               </Route>
             </Route>

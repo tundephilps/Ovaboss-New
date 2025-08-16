@@ -11,10 +11,16 @@ const CategoryNavbar = () => {
 
   const toggleMenu = () => setOpen(!open);
 
-  const { useCategory, setSelectedCategory, setSelectedSubCategory } = useCategoryContext();
+  const { useCategory, setSelectedCategory, setSelectedSubCategory } =
+    useCategoryContext();
 
-  const { categories, isLoading, subCategories, getSubCategory, getAllProducts } = useCategory;
-
+  const {
+    categories,
+    isLoading,
+    subCategories,
+    getSubCategory,
+    getAllProducts,
+  } = useCategory;
 
   const navigate = useNavigate();
 
@@ -22,19 +28,19 @@ const CategoryNavbar = () => {
     // setSelectedCategory(item);
     navigate(`/Categories/${item.categoryId}`);
     getSubCategory(item.categoryId);
-  }
+  };
 
   const changeCategory = (item: Category) => {
     navigate(`/Categories/${item.categoryId}`);
     setSelectedCategory(item);
     // getSubCategory(item.categoryId);
-  }
+  };
 
   const changeSubCategory = (item: SubCategory) => {
     setSelectedSubCategory(item);
     setOpen(false);
     getAllProducts({ subCategoryId: item.id });
-  }
+  };
 
   return (
     <div className="mx-auto  lg:flex hidden items-center justify-center relative bg-[#E5E5E5]">
@@ -51,14 +57,12 @@ const CategoryNavbar = () => {
         <div className="absolute lg:w-full top-12 z-20 mt-2   bg-white shadow-lg rounded-md flex">
           {/* Left Sidebar */}
           <div className="w-1/4 bg-gray-100  py-2">
-            {isLoading.categories &&
-              <Loading/>
-            }
+            {isLoading.categories && <Loading />}
             {categories.map((item, idx) => (
               <button
                 key={idx}
                 onClick={() => getCategory(item)}
-                className="flex justify-between items-center text-xs hover:bg-white px-4 py-3.5 hover:text-yellow-500 cursor-pointer"
+                className="flex justify-between w-full items-center text-[10px] hover:bg-white px-2 py-3.5 hover:text-yellow-500 cursor-pointer"
               >
                 <span className="font-semibold">{item.categoryName}</span>
                 <FaChevronRight className="w-4 h-4" />
@@ -68,53 +72,53 @@ const CategoryNavbar = () => {
 
           {/* Right Content */}
           <div className="w-3/4 p-6 grid grid-cols-3 gap-6 text-xs">
-            {isLoading.subCategories &&
-              <Loading/>
-            }
+            {isLoading.subCategories && <Loading />}
             <ul className="space-y-3 text-sm text-gray-700">
-              {!isLoading.subCategories && subCategories.map((item, key) => (
-                <li
-                  key={key}
-                  onClick={() => changeSubCategory(item)}
-                  className="hover:text-yellow-500 cursor-pointer"
-                >
-                  {item.title}
-                </li>
-              ))}
+              {!isLoading.subCategories &&
+                subCategories.map((item, key) => (
+                  <li
+                    key={key}
+                    onClick={() => changeSubCategory(item)}
+                    className="hover:text-yellow-500 cursor-pointer"
+                  >
+                    {item.title}
+                  </li>
+                ))}
             </ul>
           </div>
 
           <div className="w-3/4 p-6 grid grid-cols-3 gap-6 text-xs">
             {/* Each column */}
-            {false && [
-              "Men’s Wear",
-              "Men’s Footwear",
-              "Men’s Accessories",
-              "Women’s Wear",
-              "Women’s Footwear",
-              "Women’s Accessories",
-            ].map((title, idx) => (
-              <div key={idx}>
-                <h3 className="font-bold mb-2">{title}</h3>
-                <ul className="space-y-1 text-sm text-gray-700">
-                  {[
-                    "T-shirt",
-                    "Formal Suits",
-                    "Jeans",
-                    "Shorts",
-                    "Jeans",
-                    "Jeans",
-                  ].map((subitem, subidx) => (
-                    <li
-                      key={subidx}
-                      className="hover:text-yellow-500 cursor-pointer"
-                    >
-                      {subitem}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+            {false &&
+              [
+                "Men’s Wear",
+                "Men’s Footwear",
+                "Men’s Accessories",
+                "Women’s Wear",
+                "Women’s Footwear",
+                "Women’s Accessories",
+              ].map((title, idx) => (
+                <div key={idx}>
+                  <h3 className="font-bold mb-2">{title}</h3>
+                  <ul className="space-y-1 text-sm text-gray-700">
+                    {[
+                      "T-shirt",
+                      "Formal Suits",
+                      "Jeans",
+                      "Shorts",
+                      "Jeans",
+                      "Jeans",
+                    ].map((subitem, subidx) => (
+                      <li
+                        key={subidx}
+                        className="hover:text-yellow-500 cursor-pointer"
+                      >
+                        {subitem}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
           </div>
         </div>
       )}

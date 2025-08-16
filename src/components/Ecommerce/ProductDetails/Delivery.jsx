@@ -1,4 +1,5 @@
 import React from "react";
+import { TbTruckDelivery } from "react-icons/tb";
 
 export default function DeliveryReturns() {
   return (
@@ -9,15 +10,7 @@ export default function DeliveryReturns() {
         <div className="py-4 flex items-start">
           <div className="flex-shrink-0 mr-3">
             <div className="bg-amber-100 p-2 rounded-full">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-amber-500"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
-                <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H14a1 1 0 001-1v-3h-2.5a1 1 0 00-1-1H6.5a1 1 0 00-1 1H3V5a1 1 0 011-1h9.05a2.5 2.5 0 014.9 0H19a1 1 0 011 1v10a1 1 0 01-1 1h-1.05a2.5 2.5 0 01-4.9 0H6.5a2.5 2.5 0 01-4.9 0H1a1 1 0 01-1-1V5a1 1 0 011-1h2z" />
-              </svg>
+              <TbTruckDelivery className="h-5 w-5 text-amber-500" />
             </div>
           </div>
           <div>

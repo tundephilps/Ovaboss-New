@@ -7,17 +7,20 @@ import Dealoftheday from "../../components/Ecommerce/homepage/Dealsoftheday";
 import AccessoriesCategories from "../../components/Ecommerce/homepage/Accessories";
 import HouseholdItems from "../../components/Ecommerce/homepage/HouseholdItems";
 import Intro from "../../components/Ecommerce/homepage/Intro";
+import HeroMobile from "../../components/Ecommerce/homepage/HeroMobile";
 
 const Homepage = () => {
   return (
     <div className="min-h-screen">
       <Hero />
-      {/* <FlashSaleCountdown /> */}
+      <HeroMobile />
+      <FlashSaleCountdown />
       {/* <FlashSales /> */}
+
+      <HouseholdItems />
       {/* <SponsoredProducts /> */}
       {/* <Dealoftheday /> */}
       <AccessoriesCategories />
-      <HouseholdItems />
       <Intro />
     </div>
   );

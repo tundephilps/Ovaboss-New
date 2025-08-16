@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-// import Mastercard from "../../assets/Mastercard.svg";
 
 // import Transfer from "../../assets/Transfer.svg";
 import { HiMinus, HiPlus, HiOutlineTrash } from "react-icons/hi";
