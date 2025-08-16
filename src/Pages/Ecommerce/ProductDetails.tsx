@@ -238,7 +238,7 @@ const ProductDetails = () => {
                   {productDetails.productVariants.map((item, key) => {
                     const isSelected = selectedVariant.id === item.id;
 
-                    const isColorVariant = item.variants.find(variant => variant.variantType.toLowerCase() === 'color')
+                    const isColorVariant = item.variants.find(variant => variant.variantType?.toLowerCase() === 'color')
 
                     return (
                       <label
