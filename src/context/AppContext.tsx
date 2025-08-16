@@ -71,6 +71,8 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
     const handleLogout = () => {
         setUser(null);
         removeAllPersistentData();
+        setTotalCarts(0)
+        setTotalWishlists(0);
         navigate("/");
     }
 

@@ -11,12 +11,13 @@ import useCart from "../../hooks/useCart";
 import { numberFormat } from "../../utils";
 import Loading from "../../components/Loading";
 import { useAppContext } from "../../context/AppContext";
+import { CartWithQuantity } from "../../types/cart.type";
 
 // Placeholder for product image;
 
 export default function ShoppingCart() {
   const { carts: cartItems, isSaving, isLoading, handleRemoveCart } = useCart({ shouldGetCart: true });
-  const [ carts, setCarts ] = useState(cartItems);
+  const [ carts, setCarts ] = useState(cartItems as CartWithQuantity[]);
   const { user, setCheckoutItems } = useAppContext();
 
   const [items, setItems] = useState([
@@ -128,9 +129,9 @@ export default function ShoppingCart() {
     setSelectedItems(newSelectedItems);
   };
 
-  const updateQuantity = (id, newQuantity) => {
+  const updateQuantity = (productId: number, newQuantity: number) => {
     if (newQuantity < 1) return;
-    const updatedCart = carts.map(item => item.id === id ? { ...item, quantity: newQuantity } : item);
+    const updatedCart = carts.map(item => item.productId === productId ? { ...item, quantity: newQuantity } : item);
     setCarts(updatedCart);
     setCheckoutItems(updatedCart)
   };
@@ -140,13 +141,13 @@ export default function ShoppingCart() {
   };
 
   const getTotalPrice = () => {
-    return numberFormat(carts.reduce((total, item) => total + item.variantDetails.price * (item.quantity || 1), 0), 2);
+    return numberFormat(carts.reduce((total, item) => total + +item.variantDetails.price * (item.quantity || 1), 0), 2);
   };
 
   const getSelectedTotalPrice = () => {
     return numberFormat(carts
       .filter((item) => selectedItems[item.productId])
-      .reduce((total, item) => total + item.variantDetails.price * (item.quantity || 1), 0), 2);
+      .reduce((total, item) => total + +item.variantDetails.price * (item.quantity || 1), 0), 2);
   };
 
   const getTotalDiscount = () => {
@@ -182,7 +183,7 @@ export default function ShoppingCart() {
     }
 
     const selectedKeys = Object.keys(selectedItems).filter(key => selectedItems[key]);
-    if(selectedKeys > 0) {
+    if(selectedKeys.length > 0) {
       const updatedItem = carts.filter(item => selectedKeys.includes(String(item.productId)));
       setCheckoutItems(updatedItem);
     }
@@ -273,17 +274,17 @@ export default function ShoppingCart() {
                     alt={item.productName}
                     className="w-28 h-28 object-cover rounded"
                   />
-                  {item.tag && (
+                  {/* {item.tag && (
                     <span className="absolute top-0 left-0 bg-yellow-500 text-white text-xs px-1 py-0.5 rounded-tr rounded-bl">
                       {item.tag}
                     </span>
-                  )}
+                  )} */}
                 </div>
 
                 {/* Product Details */}
                 <div className="flex-1">
                   <div className="inline-flex items-center justify-between w-full">
-                    <h3 className="font-medium text-lg mb-1">{item.name}</h3>
+                    <h3 className="font-medium text-lg mb-1">{item.productName}</h3>
                     <span className="font-bold text-lg">
                       £{numberFormat(item.variantDetails.price, 2)}
                     </span>
@@ -296,7 +297,7 @@ export default function ShoppingCart() {
                         £1,000-dummy
                       </span>
                       <span className="ml-2 bg-red-100 text-red-600 px-1 rounded text-xs">
-                        -{item.discount}
+                        -{item.discount}-dummy
                       </span>
                     </div>
                   </div>
@@ -313,7 +314,7 @@ export default function ShoppingCart() {
                         ) : (
                           <span
                             className="text-blue-500"
-                            onClick={() => toggleDeliveryOption(item.id)}
+                            onClick={() => toggleDeliveryOption(item.productId)}
                           >
                             This Product can be Delivered
                           </span>
@@ -325,7 +326,7 @@ export default function ShoppingCart() {
                       <button
                         className="border rounded-l p-1"
                         onClick={() =>
-                          updateQuantity(item.id, (item.quantity || 1) - 1)
+                          updateQuantity(item.productId, (item.quantity || 1) - 1)
                         }
                       >
                         <HiMinus className="text-gray-600" />
@@ -339,7 +340,7 @@ export default function ShoppingCart() {
                       <button
                         className="border rounded-r p-1"
                         onClick={() =>
-                          updateQuantity(item.id, (item.quantity || 1) + 1)
+                          updateQuantity(item.productId, (item.quantity || 1) + 1)
                         }
                       >
                         <HiPlus className="text-gray-600" />
