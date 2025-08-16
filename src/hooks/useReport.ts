@@ -36,12 +36,10 @@ const useReport = ({ reportType }: UseReportProps) => {
 
             const { data: response } = await axiosClient.get(`user/report/${pathParam}`);
 
-            console.log(response)
-
-            // setReports(prev => ({
-            //     ...prev,
-            //     [reportType]: response.data.data
-            // }))
+            setReports(prev => ({
+                ...prev,
+                [reportType]: response.data.data
+            }))
 
         } catch(error) {
 

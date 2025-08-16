@@ -98,7 +98,13 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
         try {
             const authToken = localStorage.getItem('authToken');
             const currentPath = location.pathname.toLowerCase();
-            const excludedPath = ['/signin', '/verifyemail', '/'];
+            const excludedPath = [
+                '/',
+                '/signin', 
+                '/verifyemail', 
+                'shoppingcart',
+                'wishlist'
+            ];
 
             const shouldRun =
                 authToken &&

@@ -38,7 +38,7 @@ const useWallets = ({ section, shouldUseCache = true, shouldGetWallets = true }:
             fetchedWallet = response.data;
 
         } catch(error) {
-            toast.error(error.message + ' Somethingblaxing')
+            toast.error(error.message)
         } finally {
             setIsLoading(false);
         }
