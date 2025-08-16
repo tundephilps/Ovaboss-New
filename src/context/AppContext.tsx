@@ -102,8 +102,8 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
                 '/',
                 '/signin', 
                 '/verifyemail', 
-                'shoppingcart',
-                'wishlist'
+                '/shoppingcart',
+                '/wishlist'
             ];
 
             const shouldRun =
