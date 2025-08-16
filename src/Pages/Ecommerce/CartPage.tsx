@@ -326,7 +326,7 @@ export default function ShoppingCart() {
                       <button
                         className="border rounded-l p-1"
                         onClick={() =>
-                          updateQuantity(item.productId, (item.quantity || 1) - 1)
+                          updateQuantity(item.productId, (+item.quantity || 1) - 1)
                         }
                       >
                         <HiMinus className="text-gray-600" />
@@ -340,7 +340,7 @@ export default function ShoppingCart() {
                       <button
                         className="border rounded-r p-1"
                         onClick={() =>
-                          updateQuantity(item.productId, (item.quantity || 1) + 1)
+                          updateQuantity(item.productId, (+item.quantity || 1) + 1)
                         }
                       >
                         <HiPlus className="text-gray-600" />
