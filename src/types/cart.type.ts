@@ -19,19 +19,18 @@ export interface Cart {
   description: string;
   productImage: string;
   variantDetails: VariantDetails;
+  quantity: string;
 }
 
 export interface UseCart {
   shouldGetCart?: boolean;
 }
 
-export interface CartWithQuantity extends Cart {
-  quantity?: number;
-}
 export interface AddToCartProps {
   productId: number;
   variantId: number;
   product?: FullProduct;
   shouldShowToast?: boolean;
   cart?: Cart;
+  quantity: number | string;
 }

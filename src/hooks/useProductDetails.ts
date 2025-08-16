@@ -2,7 +2,7 @@ import React from "react";
 import { useAppContext } from "../context/AppContext";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosClient from "../utils/axiosClient";
-import { FullProduct } from "../types/product.type";
+import { FullProduct, ProductFullVariant, ProductSubVariant } from "../types/product.type";
 import toast from "react-hot-toast";
 import useCart from "./useCart";
 import { Cart } from "../types/cart.type";
@@ -21,13 +21,10 @@ const useProductDetails = () => {
         ...(currentProduct && { currentProduct }),
         productVariants: [],
     } as unknown as FullProduct);
-    const [ selectedVariant, setSelectedVariant ] = React.useState({
-        color: '',
-        variantTypeId: '',
-        variantType: '',
-    });
+    const [ selectedVariant, setSelectedVariant ] = React.useState<ProductFullVariant>({} as ProductFullVariant);
     const [ productCart, setProductCart ] = React.useState<Cart | null>(null);
     const [ productWishlist, setProductWishlist ] = React.useState<Wishlist | null>(null);
+    const [quantity, setQuantity] = React.useState(1);
 
     const navigate = useNavigate();
     const { productId } = useParams();
@@ -65,7 +62,10 @@ const useProductDetails = () => {
             )
         );
 
-        if(cart) setProductCart(cart);
+        if(cart) {
+            setQuantity(+cart.quantity)
+            setProductCart(cart);
+        }
     };
 
     const checkProductInWishlit = () => {
@@ -87,8 +87,9 @@ const useProductDetails = () => {
         }));
         const hasAddedToCart = await handleAddToCart({
             productId: +productId!, 
-            variantId: +selectedVariant.variantTypeId,
+            variantId: +selectedVariant.id,
             product: productDetails,
+            quantity
         });
         setIsSaving(prev => ({
             ...prev,
@@ -105,7 +106,7 @@ const useProductDetails = () => {
         }));
         const hasAddedToCart = await handleAddToWishlist({
             productId: +productId!, 
-            variantId: +selectedVariant.variantTypeId,
+            variantId: +selectedVariant.id,
             product: productDetails,
         });
         setIsSaving(prev => ({
@@ -169,6 +170,9 @@ const useProductDetails = () => {
         isLoadingWishlists,
         productCart,
         productWishlist,
+        quantity,
+        setQuantity,
+        setProductDetails,
         setSelectedVariant,
         handleAddToCart: addToCart,
         handleRemoveCart: removeCart,

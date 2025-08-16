@@ -56,7 +56,8 @@ const useCart = ({ shouldGetCart }: UseCart = {}) => {
             handleAddToCart({
                 productId: item.productId,
                 variantId: item.variantDetails.id,
-                shouldShowToast: false
+                shouldShowToast: false,
+                quantity: item.quantity,
             });
         }))
     }
@@ -97,6 +98,7 @@ const useCart = ({ shouldGetCart }: UseCart = {}) => {
                 product, 
                 shouldShowToast = true,
                 cart,
+                quantity,
             } = data;
 
             if(!variantId) {
@@ -107,6 +109,7 @@ const useCart = ({ shouldGetCart }: UseCart = {}) => {
                 const { data: response } = await axiosClient.post('/product/add-to-cart', {
                     product_id: productId,
                     variant_id: variantId,
+                    quantity,
                 });
 
                 if(shouldShowToast) toast.success(response.message);
@@ -135,6 +138,7 @@ const useCart = ({ shouldGetCart }: UseCart = {}) => {
                     productName: title,
                     description,
                     productImage: productImages[0].imageUrl,
+                    quantity: String(quantity),
                     variantDetails: {
                         ...variantDetails,
                         variants: variantDetails.variants.map(item => ({ 

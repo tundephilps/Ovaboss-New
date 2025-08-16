@@ -26,10 +26,10 @@ import useProductDetails from "../../hooks/useProductDetails";
 import { getAverageRatings, numberFormat } from "../../utils";
 import Loading from "../../components/Loading";
 import ProductDetailsSkeleton from "../../components/skeletons/ProductDetailsSkeleton";
+import { ProductSubVariant } from "../../types/product.type";
 
 const ProductDetails = () => {
   const [isModalOpen, setModalOpen] = useState(true);
-  const [quantity, setQuantity] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
 
   const { productId } = useParams();
@@ -43,6 +43,9 @@ const ProductDetails = () => {
     selectedVariant, 
     isLoadingCarts,
     isLoadingWishlists,
+    quantity,
+    setQuantity,
+    setProductDetails,
     setSelectedVariant, 
     handleAddToCart,
     handleRemoveCart, 
@@ -81,16 +84,19 @@ const ProductDetails = () => {
   }
 
   const colorVariants = productDetails.productVariants.flatMap(variant =>
-    variant.variants
-      // .filter(v => v.variantType === "Color")
-      .map(v => ({
-        color: v.variant,
-        variantTypeId: v.variantTypeId,
-        variantType: v.variantType,
-      }))
+    variant.variants.filter(v => v.variantType === "Color")
   );
 
   const averageRatings = getAverageRatings(productDetails.productReviews);
+
+  const handleVariantChange = (item: ProductSubVariant) => {
+    const productVariant = productDetails.productVariants.find(variants => variants.variants.find(variant => variant.variantTypeId === item.variantTypeId))
+    setProductDetails(prev => ({
+      ...prev,
+      main_price: +productVariant!.price
+    }))
+    setSelectedVariant(productVariant!)
+  }
 
   return (
     <div className="lg:p-10 p-4 bg-[#faf9f9]">
@@ -181,11 +187,11 @@ const ProductDetails = () => {
                 <div className="flex items-end gap-2 px-2">
                   <span className="text-xl font-bold">£{numberFormat(productDetails.main_price)}</span>
                   <span className="line-through text-gray-400 text-sm">
-                    £696,000-dummy
+                    {/* £696,000 */}
                   </span>
-                  <span className="text-red-500 text-sm">-28.7%</span>
+                  <span className="text-red-500 text-sm">0%</span>
                 </div>
-                <p className="text-xs text-gray-500 p-2">Only 18-dummy items left</p>
+                <p className="text-xs text-gray-500 p-2">Only 0 items left</p>
               </div>
 
               {/* Rating */}
@@ -229,15 +235,15 @@ const ProductDetails = () => {
                 <p>Variation Available</p>
                <div className="flex gap-2 mt-2">
                   {colorVariants.map((item, key) => {
-                    const isSelected = selectedVariant.color === item.color;
+                    const isSelected = !!selectedVariant?.variants?.find(variant => variant.variantTypeId === item.variantTypeId);
                     return (
                       <div
                         key={key}
-                        onClick={() => setSelectedVariant(item)}
+                        onClick={() => handleVariantChange(item)}
                         className={`w-6 h-6 rounded-sm border cursor-pointer transition-all
                           ${isSelected ? "ring-2 ring-yellow-500" : ""}
                         `}
-                        style={{ backgroundColor: item.color.toLowerCase() }}
+                        style={{ backgroundColor: item.variant.toLowerCase() }}
                       />
                     );
                   })}

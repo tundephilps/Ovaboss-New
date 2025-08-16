@@ -11,13 +11,13 @@ import useCart from "../../hooks/useCart";
 import { numberFormat } from "../../utils";
 import Loading from "../../components/Loading";
 import { useAppContext } from "../../context/AppContext";
-import { CartWithQuantity } from "../../types/cart.type";
+import { Cart } from "../../types/cart.type";
 
 // Placeholder for product image;
 
 export default function ShoppingCart() {
   const { carts: cartItems, isSaving, isLoading, handleRemoveCart } = useCart({ shouldGetCart: true });
-  const [ carts, setCarts ] = useState(cartItems as CartWithQuantity[]);
+  const [ carts, setCarts ] = useState(cartItems as Cart[]);
   const { user, setCheckoutItems } = useAppContext();
 
   const [items, setItems] = useState([
@@ -131,7 +131,7 @@ export default function ShoppingCart() {
 
   const updateQuantity = (productId: number, newQuantity: number) => {
     if (newQuantity < 1) return;
-    const updatedCart = carts.map(item => item.productId === productId ? { ...item, quantity: newQuantity } : item);
+    const updatedCart = carts.map(item => item.productId === productId ? { ...item, quantity: String(newQuantity) } : item);
     setCarts(updatedCart);
     setCheckoutItems(updatedCart)
   };
@@ -141,13 +141,13 @@ export default function ShoppingCart() {
   };
 
   const getTotalPrice = () => {
-    return numberFormat(carts.reduce((total, item) => total + +item.variantDetails.price * (item.quantity || 1), 0), 2);
+    return numberFormat(carts.reduce((total, item) => total + +item.variantDetails.price * (+item.quantity || 1), 0), 2);
   };
 
   const getSelectedTotalPrice = () => {
     return numberFormat(carts
       .filter((item) => selectedItems[item.productId])
-      .reduce((total, item) => total + +item.variantDetails.price * (item.quantity || 1), 0), 2);
+      .reduce((total, item) => total + +item.variantDetails.price * (+item.quantity || 1), 0), 2);
   };
 
   const getTotalDiscount = () => {
@@ -294,10 +294,10 @@ export default function ShoppingCart() {
                     <p className="text-gray-600 mb-1">Color: {item.color}</p>
                     <div className="flex items-center">
                       <span className="text-gray-500 line-through ml-2">
-                        £1,000-dummy
+                        {/* £1,000 */}
                       </span>
                       <span className="ml-2 bg-red-100 text-red-600 px-1 rounded text-xs">
-                        -{item.discount}-dummy
+                        -{item.discount || 0}
                       </span>
                     </div>
                   </div>
@@ -393,7 +393,7 @@ export default function ShoppingCart() {
                 {getSelectedCount() > 0
                   ? getSelectedTotalDiscount()
                   : getTotalDiscount()}
-                -dummy
+                
               </span>
             </div>
             <div className="border-t pt-4 mb-4">
