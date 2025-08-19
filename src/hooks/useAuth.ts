@@ -72,15 +72,15 @@ const useAuth = () => {
 
             setIsLoading(true);
 
-            const { data } = await axiosClient.post('user/login', inputs.login)
+            const { data: response } = await axiosClient.post('user/login', inputs.login)
 
-            const { token } = data.data;
+            const { token, data } = response.data;
 
             localStorage.setItem('authToken', token);
 
             const [ profileDetailsData, businessAccountData ] = await Promise.all([
                 axiosClient.get('user/profile-details'),
-                axiosClient.get('user/business/list-business-account'),
+                data.userType === 'BUSINESS' && axiosClient.get('user/business/list-business-account'),
             ])
 
             const { userData, ...rest } = profileDetailsData.data.data;
@@ -90,7 +90,9 @@ const useAuth = () => {
                 ...rest,
                 token,
             })
-            setBusinessAccounts(businessAccountData.data.data);
+            if(data.userType === 'BUSINESS' && businessAccountData) { 
+                setBusinessAccounts(businessAccountData.data.data);
+            }
 
             await Promise.all([
                 syncCarts(),
