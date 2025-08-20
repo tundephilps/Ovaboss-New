@@ -57,7 +57,7 @@ const BraBCC = () => {
                   {[
                     "Transfer to Wallet",
                     "Transfer to Bank",
-                    "Pay With Card",
+                    "Bank To Wallet",
                   ].map((option) => (
                     <div
                       key={option}
@@ -76,7 +76,7 @@ const BraBCC = () => {
 
           {/* Dynamic Component Below */}
 
-          {selected === "Pay With Card" && <PayWithCard />}
+          {selected === "Bank To Wallet" && <PayWithCard />}
           {selected === "Transfer to Wallet" && <TransferToWallet />}
           {selected === "Transfer to Bank" && <TransferToBank />}
         </div>
