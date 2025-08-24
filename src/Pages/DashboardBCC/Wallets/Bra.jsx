@@ -6,6 +6,7 @@ import BraForm from "../../../components/DashboardBCC/Wallet/BraForm";
 import BraForm2 from "../../../components/DashboardBCC/Wallet/BraForm2";
 import BraCard from "../../../components/DashboardBCC/Wallet/BraCard";
 import BraTab from "../../../components/DashboardBCC/Wallet/BraTab";
+import PayWithCard from "../../../components/DashboardBCC/Wallet/PayWithCard";
 
 const BraBCC = () => {
   const [open, setOpen] = useState(false);
@@ -53,7 +54,11 @@ const BraBCC = () => {
 
               {open && (
                 <div className="absolute right-0 mt-1 w-44 bg-white border rounded shadow-md z-10 text-sm">
-                  {["Transfer to Wallet", "Transfer to Bank"].map((option) => (
+                  {[
+                    "Transfer to Wallet",
+                    "Transfer to Bank",
+                    "Bank To Wallet",
+                  ].map((option) => (
                     <div
                       key={option}
                       onClick={() => handleSelect(option)}
@@ -70,6 +75,8 @@ const BraBCC = () => {
           <BraCard />
 
           {/* Dynamic Component Below */}
+
+          {selected === "Bank To Wallet" && <PayWithCard />}
           {selected === "Transfer to Wallet" && <TransferToWallet />}
           {selected === "Transfer to Bank" && <TransferToBank />}
         </div>
