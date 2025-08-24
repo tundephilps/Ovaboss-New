@@ -4,6 +4,7 @@ import axiosClient from "../utils/axiosClient";
 import { BusinessAccountDetails, BusinessCategory, BusinessCategoryType, BusinessData, BusinessSalesType, BusinessScale, BusinessType } from "../types/business.type";
 import { useAppContext } from "../context/AppContext";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import useCountry from "./useCountry";
 
 interface InputProps {
     businessAccount: {
@@ -51,7 +52,9 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
             business_type_id: [],
         }
     })
-    const [ businessData, setBusinessData ] = React.useState<BusinessData>()
+    const [ businessData, setBusinessData ] = React.useState<BusinessData>();
+
+    const { countries, states, isLoadingStates, getStates } = useCountry();
     const { setBusinessAccounts } = useAppContext();
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
@@ -63,7 +66,7 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
         setInputs(prev => ({
             ...prev,
             [parent]: {
-                ...prev[parent],
+                ...prev[parent as keyof InputProps],
                 [child]: value
             }
         }))
@@ -113,12 +116,15 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
         if(!description) throw new Error('Enter description');
         if(!address) throw new Error('Enter address');
         // if(!website) throw new Error('Enter address');
-        if(!logo || !(logo instanceof File)) throw new Error('Enter business logo');
+        if((!logo || !(logo instanceof File)) && !updateId) throw new Error('Enter business logo');
         if(!business_scale_id) throw new Error('Select business scale');
         if(!business_category_id) throw new Error('Select business category');
         if(!business_category_type_id) throw new Error('Select business category type');
         if(!sale_type_id) throw new Error('Select business sales type');
         if(!business_type_id) throw new Error('Select business type');
+
+        console.log('sale_type_id', sale_type_id)
+
 
         const businessAccount = new FormData();
         businessAccount.append('name', name);
@@ -127,9 +133,14 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
         businessAccount.append('state_id', state_id);
         businessAccount.append('description', description);
         businessAccount.append('address', address);
-        businessAccount.append('logo', logo);
+        if(logo && logo instanceof File) {
+            businessAccount.append('logo', logo);
+        }
         if(website) {
             businessAccount.append('website', website);
+        }
+        if(updateId) {
+            businessAccount.append('business_id', updateId);
         }
         businessAccount.append('business_scale_id', String(business_scale_id));
         businessAccount.append('business_category_id', String(business_category_id));
@@ -170,7 +181,7 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
             navigate('/business/all')
 
         } catch(error) {
-            toast.error(error.message);
+            toast.error(error instanceof Error ? error.message : 'Something went wrong')
         } finally {
             setIsSaving(false);
         }
@@ -180,9 +191,26 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
         try {
             setIsSaving(true);
 
-            toast.error('Miscarriage from backend, fixing soon');
+            const businessAccount = validateBusinessAccount();
+
+            return
+
+            const { data: businessAccountResponse } = await axiosClient.post(
+                'user/business/update-business-account', 
+                businessAccount,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            );
+
+            const { data: response } = await axiosClient.get('user/business/list-business-account');
+            setBusinessAccounts(response.data)
+
+            toast.success(businessAccountResponse.message);
         } catch(error) {
-            toast.error(error.message)
+            toast.error(error instanceof Error ? error.message : 'Something went wrong')
         } finally {
             setIsSaving(false);
         }
@@ -199,7 +227,7 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
             navigate('/business/all');
 
         } catch(error) {
-            toast.error(error.message)
+            toast.error(error instanceof Error ? error.message : 'Something went wrong')
         } finally {
             setIsSaving(false);
         }
@@ -267,8 +295,13 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
 
             const { businessScales, categories } = businessData;
 
+             console.log('business salea type', businessData?.businessTypes);
+                console.log('input salea type', businessType);
+
             const businessScale = businessScales.find(item => item.scale === businessSpeciality.businessScale);
             const businessCategory = categories.find(item => item.category === businessSpeciality.businessCategory);
+
+            await getStates(+address.countryId);
 
             setInputs({
                 businessAccount: {
@@ -312,6 +345,10 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
         isSaving,
         businessData,
         inputs,
+        countries,
+        states,
+        isLoadingStates,
+        getStates,
         setInputs,
         handleCreateBusiness,
         handleInput,

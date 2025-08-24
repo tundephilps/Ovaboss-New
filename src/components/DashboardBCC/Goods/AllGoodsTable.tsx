@@ -12,6 +12,7 @@ import { formatDate } from "../../../utils";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import DeleteModal from "../../DeleteModal";
 import { useAppContext } from "../../../context/AppContext";
+import SwitchBusiness from "../../SwitchBusiness";
 
 // Dropdown content data
 const filterMenuOptions = {
@@ -33,20 +34,20 @@ interface AllGoodsTableProps {
 }
 
 const AllGoodsTable = ({ isLoading, products, handleDeleteProduct }: AllGoodsTableProps) => {
-  const [activeFilterMenu, setActiveFilterMenu] = useState(null);
-  const [openMenuIndex, setOpenMenuIndex] = useState(null);
+  const [activeFilterMenu, setActiveFilterMenu] = useState<string | null>(null);
+  const [openMenuIndex, setOpenMenuIndex] = useState<null | number>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  const { setCurrentProduct } = useAppContext();
+  const { selectedBusinessAccount } = useAppContext();
 
   const navigate = useNavigate();
 
-  const handleFilterToggle = (menuName) => {
+  const handleFilterToggle = (menuName: string) => {
     setActiveFilterMenu((prev) => (prev === menuName ? null : menuName));
   };
 
-  const toggleMenu = (index) => {
+  const toggleMenu = (index: number) => {
     setOpenMenuIndex((prev) => (prev === index ? null : index));
   };
 
@@ -56,11 +57,11 @@ const AllGoodsTable = ({ isLoading, products, handleDeleteProduct }: AllGoodsTab
   }
 
   const editProduct = (product: Product) => {
-    setCurrentProduct(product);
-    navigate('/Goods/product/update');
+    // setCurrentProduct(product);
+    navigate(`/Goods/product/update?productId=${product.productId}`);
   }
 
-  const getStatusColor = (status) => {
+  const getStatusColor = (status: string) => {
     switch (status) {
       case "Approved":
         return "text-green-600";
@@ -84,6 +85,8 @@ const AllGoodsTable = ({ isLoading, products, handleDeleteProduct }: AllGoodsTab
       loading={isLoading.isSaving}
       message="Are you sure you want to delete this product?"
     />
+      <SwitchBusiness label="products"/>
+
       <div className="flex lg:flex-row flex-col justify-between items-center mb-6">
         <div className="flex gap-4 items-center  whitespace-nowrap">
           <p className="font-semibold text-sm lg:flex hidden ">Sort By</p>

@@ -1,8 +1,8 @@
 import React from "react";
 import axiosClient from "../utils/axiosClient";
-import { BusinessCategoryType, IsLoading, Product, ProductCategory, ProductInput, ProductInputVariant, ProductSubCategory, ProductVariant, UseProductProps, VariantTable } from "../types/product.type";
+import { BusinessCategoryType, IsLoading, Product, ProductCategory, ProductDetails, ProductInput, ProductInputVariant, ProductSubCategory, ProductVariant, UseProductProps, VariantTable } from "../types/product.type";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
 
 interface GetProductProps {
@@ -20,6 +20,7 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
         addProduct: false,
         productType: false,
         isSaving: false,
+        productDetails: false,
     });
     const [ productCategories, setProductCategories ] = React.useState<ProductCategory[]>([])
     const [ productSubCategories, setProductSubCategories ] = React.useState<ProductSubCategory[]>([])
@@ -72,7 +73,20 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
     const variantContainerRef = React.useRef<HTMLDivElement>(null);
 
     const navigate = useNavigate();
-    const { currentProduct } = useAppContext();
+    const { selectedBusinessAccount } = useAppContext();
+    const [searchParams] = useSearchParams();
+    const productId = searchParams.get("productId");
+
+    const defaultVariant = [
+        {
+            id: -1,
+            name: 'Price',
+        },
+        {
+            id: -2,
+            name: 'Stock',
+        },
+    ]
 
     const handleInput = (field: keyof typeof inputs, value: any) => {
         setInputs(prev => ({
@@ -102,6 +116,7 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
         try {
             const { data: response } = await axiosClient.get('/product/business/list-product-category');
             setProductCategories(response.data);
+            return response.data as ProductCategory[]
         } catch(error) {
 
         } finally {
@@ -139,17 +154,6 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
                 productVariants: true
             }))
 
-            const defaultVariant = [
-                {
-                    id: -1,
-                    name: 'Price',
-                },
-                {
-                    id: -2,
-                    name: 'Stock',
-                },
-            ]
-
             const { data: response } = await axiosClient.get(`/product/business/list-product-variants?subCategoryId=${subCategoryId}`);
             setProductVariants([
                 ...defaultVariant,
@@ -174,7 +178,8 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
             }))
 
             const { data: response } = await axiosClient.get('/user/list-business-category-type');
-            setBusinessCategoryTypes(response.data)
+            setBusinessCategoryTypes(response.data);
+            return response.data as BusinessCategoryType[];
         } catch(error) {
 
         } finally {
@@ -192,7 +197,7 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
                 myProducts: true
             }))
 
-            const { data: response } = await axiosClient.get('/product/business/list-product');
+            const { data: response } = await axiosClient.get(`/product/business/list-product?businessId=${selectedBusinessAccount?.id}`);
             setMyProducts(response.data.data);
 
         } catch(error) {
@@ -277,8 +282,8 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
         const filteredVariants = entries
             .filter(([key]) => key !== "-1" && key !== "-2")
             .map(([key, item]) => ({
-            variant_type_id: key,
-            variant: item.value,
+                variant_type_id: key,
+                variant: item.value,
             }));
 
         return {
@@ -410,25 +415,117 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
 
             toast.success(response.message);
         } catch(error) {
-            toast.error(error.message);
+            toast.error(error instanceof Error ? error.message : 'Something went wrong deleting product');
         } finally {
             setIsLoading(prev => ({ ...prev, isSaving: false }));
         }
     }
 
-    const initProductUpdate = () => {
-        const product = currentProduct as Product;
-        const {  
-            title,
-            description,
-        } = product;
+    const getProductDetails = async () => {
+        try {
+            setIsLoading(prev => ({ ...prev, productDetails: true }));
 
-        // setInputs({
-        //     title,
-        //     brand: '',
-        //     description,
-        //     highlights
-        // })
+            const { data: response } = await axiosClient.get(`product/business/fetch-product?productId=${productId}`);
+            const productDetails = response.data as ProductDetails;
+
+            const [
+                businessCategoryType,
+                productCategories,
+            ] = await Promise.all([
+                getBusinessCategoryType(),
+                getProductCategory(),
+            ])
+
+            if(!businessCategoryType) {
+                throw new Error('Error getting business category type');
+            }
+            if(!productCategories) {
+                throw new Error('Error getting product categories');
+            }
+
+            productDetails.productVariants.forEach((item) => {
+                const productVariants = item.variants;
+
+                const mapped = productVariants.reduce((acc, v) => {
+                    acc[v.variantTypeId] = {
+                        name: v.variantType,
+                        value: v.variant,
+                    };
+                    return acc;
+                }, {} as Record<string, { name: string; value: string }>);
+
+                const defaultVar = defaultVariant.reduce((acc, v) => {
+                    acc[v.id] = {
+                        name: v.name,
+                        value: item[v.name.toLowerCase()]
+                    }
+                    return acc;
+                }, {} as Record<string, { name: string; value: string }>);
+
+                const enrichedMap = {
+                    ...defaultVar,
+                    ...mapped
+                }
+
+                const { variant, tableRow, tableHead } = buildVariantFromInput(enrichedMap);
+
+                setVariants(prev => {
+                    // check if variant already exists
+                    const exists = prev.some(v => JSON.stringify(v) === JSON.stringify(variant));
+                    if (exists) return prev;
+                    return [...prev, variant];
+                });
+
+                setTable(prev => {
+                    // check if tableRow already exists
+                    const rowExists = prev.tableData.some(r => JSON.stringify(r) === JSON.stringify(tableRow));
+                    if (rowExists) return prev;
+                    return {
+                        tableHead,
+                        tableData: [tableRow, ...prev.tableData],
+                    };
+                });
+            });
+
+
+            // const variants = productVariants.flatMap(item => item.variant);
+            // const tableRows = productVariants.flatMap(item => item.tableRow);
+            // const tableHeads = productVariants.flatMap(item => item.tableHead);
+
+            // setVariants(prev => [...prev, ...variants]);
+            // setTable(prev => ({
+            //     tableHead: productVariants[0].tableHead,
+            //     tableData: [tableRows, ...prev.tableData],
+            // }));
+
+            setInputs({
+                business_id: String(selectedBusinessAccount?.id),
+                product_type_id: String(businessCategoryType.find(item => item.type === productDetails.productType)?.id),
+                category_id: String(productCategories.find(item => item.categoryName === productDetails.category)?.categoryId),
+                sub_category_id: '',
+                brand: productDetails.brand,
+                title: productDetails.title,
+                weight: productDetails.weight,
+                description: productDetails.description,
+                highlights: productDetails.highlights,
+                main_price: String(productDetails.main_price),
+                notes: productDetails.notes,
+                production_country: productDetails.productionCountry,
+                images: productDetails.productImages.map(item => item.imageUrl),
+            })
+
+            // setVariants(prev => [...prev, variant]);
+            // setTable(prev => ({
+            //     tableHead,
+            //     tableData: [tableRow, ...prev.tableData],
+            // }));
+            // setVariantInput(productDetails.productVariants)
+
+        } catch(error) {
+
+        } finally {
+            setIsLoading(prev => ({ ...prev, productDetails: false }));
+        }
     }
 
 
@@ -436,14 +533,17 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
         if(shouldGetCategory) getProductCategory();
         if(shouldGetBusinessCategoryType) getBusinessCategoryType();
         if(shouldGetAllProducts) getAllProducts();
-        if(shouldGetMyProducts) getMyProducts();
-        if(currentProduct) initProductUpdate();
+        if (productId) getProductDetails();
     }, [])
 
     React.useEffect(() => {
         if(shouldGetAllProducts) getAllProducts();
         if(shouldGetMyProducts) getMyProducts();
     }, [productFilter])
+
+    React.useEffect(() => {
+        if(shouldGetMyProducts) getMyProducts();
+    }, [selectedBusinessAccount])
 
     return {
         isLoading,

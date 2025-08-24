@@ -15,9 +15,17 @@ const CreateBusiness = () => {
 	const [currentSection, setCurrentSection] = React.useState('businessAccount') // businessAccount, businessDetails
 
 	const businessAccountHooks = useBusinessAccount();
-	const { countries, states, isLoadingStates, getStates } = useCountry();
 
-	const { inputs, isLoading, handleInput, setInputs } = businessAccountHooks;
+	const { 
+		inputs, 
+		isLoading, 
+	 	countries, 
+		states, 
+		isLoadingStates,
+		handleInput, 
+		setInputs,
+		getStates 
+	} = businessAccountHooks;
 
 	const handleImageChange = (event) => {
 		const file = event.target.files[0];
@@ -70,7 +78,7 @@ const CreateBusiness = () => {
 					{isLoading ? (
 						<Loading/>
 					) : (
-						<div className="mx-4  bg-white p-6 rounded-xl shadow-md">
+						<form className="mx-4  bg-white p-6 rounded-xl shadow-md" onSubmit={() => setCurrentSection('businessDetails')}>
 							<h2 className="text-xl font-semibold pb-2 mb-6 border-b ">
 								Business Details
 							</h2>
@@ -136,6 +144,7 @@ const CreateBusiness = () => {
 												onChange={e => handleInput('businessAccount.name', e.target.value)}
 												placeholder="Fatima Technology"
 												className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+												required
 											/>
 										</div>
 										<div>
@@ -163,6 +172,7 @@ const CreateBusiness = () => {
 												onChange={e => handleInput('businessAccount.store_name', e.target.value)}
 												placeholder="Enter store name"
 												className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+												required
 											/>
 										</div>
 
@@ -174,6 +184,7 @@ const CreateBusiness = () => {
 												value={inputs.businessAccount.country_id}
 												onChange={e => handleCountryChange(e.target.value)}
 												className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+												required
 											>
 												<option>Choose Country</option>
 												{countries.map((item, key) => (
@@ -189,6 +200,7 @@ const CreateBusiness = () => {
 												value={inputs.businessAccount.state_id}
 												onChange={e => handleInput('businessAccount.state_id', +e.target.value)}
 												className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+												required
 											>
 												{isLoadingStates &&
 													<option value='' selected disabled>Getting states</option>
@@ -209,6 +221,7 @@ const CreateBusiness = () => {
 												onChange={e => handleInput('businessAccount.description', e.target.value)}
 												placeholder="Enter Business description max 250 characters"
 												className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+												required
 											/>
 										</div>
 										<div>
@@ -221,6 +234,7 @@ const CreateBusiness = () => {
 												onChange={e => handleInput('businessAccount.address', e.target.value)}
 												placeholder="Enter Business address"
 												className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+												required
 											/>
 										</div>
 									</div>
@@ -228,13 +242,13 @@ const CreateBusiness = () => {
 							</div>
 							<div className="mt-6 text-right mb-48">
 								<button
-									onClick={() => setCurrentSection('businessDetails')}
+									type="submit"
 									className="bg-[#FFD700] text-black font-semibold px-6 py-2 rounded hover:bg-yellow-600"
 								>
 									Next
 								</button>
 							</div>
-						</div>
+						</form>
 					)}
 				</div>
 			}

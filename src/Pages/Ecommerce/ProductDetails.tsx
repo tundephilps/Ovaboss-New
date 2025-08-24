@@ -53,8 +53,8 @@ const ProductDetails = () => {
     handleRemoveWishlist, 
   } = useProductDetails();
 
-  const handleConfirm = (option) => {
-    console.log("Selected:", option);
+  const handleConfirm = (option: any) => {
+    // console.log("Selected:", option);
     setIsOpen(false);
   };
 

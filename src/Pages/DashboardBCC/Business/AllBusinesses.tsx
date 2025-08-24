@@ -17,14 +17,19 @@ import Loading from "../../../components/Loading";
 import DeleteModal from "../../../components/DeleteModal";
 import useBusinessAccount from "../../../hooks/useBusinessAccount";
 
+interface StatCardProps {
+  icon: React.ReactElement<any, any>;
+  label: string;
+  value: string | number;
+  bg: string;
+}
 
 const AllBusinesses = () => {
   const [ isVisibleDeleteModal, setIsVisibleDeleteModal ] = React.useState(false);
-  const { businessAccounts } = useAppContext();
-  const [ selectedBusiness, setSelectedBusiness ] = React.useState<BusinessAccount>(businessAccounts[0]);
+  const { businessAccounts, selectedBusinessAccount, setSelectedBusinessAccount } = useAppContext();
   const { isSaving, handleDeleteBusiness } = useBusinessAccount({ shouldGetBusinessData: false });
 
-  if(!selectedBusiness) {
+  if(!selectedBusinessAccount) {
     return <Loading/>;
   }
 
@@ -41,10 +46,10 @@ const AllBusinesses = () => {
         onClose={() => setIsVisibleDeleteModal(false)}
         onConfirm={async () => { 
           setIsVisibleDeleteModal(false);
-          await handleDeleteBusiness(selectedBusiness.id);
-          setSelectedBusiness(businessAccounts[0]);
+          await handleDeleteBusiness(selectedBusinessAccount.id);
+          setSelectedBusinessAccount(businessAccounts[0]);
         }}  
-        message={`Are you sure you want to delete this business? \n Business Name: ${selectedBusiness.name}`}  
+        message={`Are you sure you want to delete this business? \n Business Name: ${selectedBusinessAccount.name}`}  
       />
 
       <div className="flex flex-col md:flex-row gap-6 p-6">
@@ -58,11 +63,11 @@ const AllBusinesses = () => {
               <div
                 key={key}
                 className={`flex items-center justify-between p-3 rounded-xl cursor-pointer border ${
-                  selectedBusiness.id === item.id
+                  selectedBusinessAccount.id === item.id
                     ? "bg-yellow-50 border-yellow-500"
                     : "hover:bg-gray-50"
                 }`}
-                onClick={() => setSelectedBusiness(item)}
+                onClick={() => setSelectedBusinessAccount(item)}
               >
                 <div className="flex items-center gap-3">
                   <img
@@ -77,7 +82,7 @@ const AllBusinesses = () => {
                     </div>
                   </div>
                 </div>
-                {selectedBusiness.id === item.id && (
+                {selectedBusinessAccount.id === item.id && (
                   <FaCheckCircle className="text-green-500" />
                 )}
               </div>
@@ -93,8 +98,8 @@ const AllBusinesses = () => {
             </h2>
             <div className="flex items-center gap-4 mb-4">
               <img
-                src={selectedBusiness.logo}
-                alt={selectedBusiness.name}
+                src={selectedBusinessAccount.logo}
+                alt={selectedBusinessAccount.name}
                 className="w-32 h-32 rounded-xl object-cover"
               />
               <div className="grid lg:grid-cols-2 grid-cols-1 gap-1 w-full  text-sm">
@@ -104,28 +109,28 @@ const AllBusinesses = () => {
                 </div>
                 <div>
                   <span className="font-semibold">Store Name:</span>{" "}
-                  {selectedBusiness.storeName}
+                  {selectedBusinessAccount.storeName}
                 </div>
                 <div>
                   <span className="font-semibold">Business Name:</span>{" "}
-                  {selectedBusiness.name}
+                  {selectedBusinessAccount.name}
                 </div>
                 <div>
                   <span className="font-semibold">Link:</span>{" "}
                   <a
-                    href={`https://${selectedBusiness.link}`}
+                    href={`https://${selectedBusinessAccount.link}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-600 underline"
                   >
-                    {selectedBusiness.link}
+                    {selectedBusinessAccount.link}
                   </a>
                 </div>
               </div>
             </div>
 
             <div className="flex gap-4 mt-4 justify-end">
-              <Link to={`/createbusiness?updateId=${selectedBusiness.id}`}>
+              <Link to={`/createbusiness?updateId=${selectedBusinessAccount.id}`}>
                 <button className="bg-[#FFD700] text-black px-4 py-2 rounded-lg font-semibold">
                   Edit Business
                 </button>
@@ -173,7 +178,7 @@ const AllBusinesses = () => {
 };
 
 // Stat Card Component
-const StatCard = ({ icon, label, value, bg }) => (
+const StatCard = ({ icon, label, value, bg }: StatCardProps) => (
   <div className={`rounded-xl p-4 flex items-center gap-3 ${bg}`}>
     <div className="p-2 rounded-full bg-white shadow">{icon}</div>
     <div>

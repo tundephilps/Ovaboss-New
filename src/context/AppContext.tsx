@@ -21,6 +21,7 @@ interface CheckoutData {
 interface AppContextType {
     user: User | null;
     businessAccounts: BusinessAccount[];
+    selectedBusinessAccount: BusinessAccount | null;
     currentProduct: Product | null;
     totalCarts: number;
     checkoutItems: Cart[];
@@ -29,6 +30,7 @@ interface AppContextType {
     handleSetUser: (user: User) => void;
     handleLogout: () => void;
     setBusinessAccounts: React.Dispatch<React.SetStateAction<BusinessAccount[]>>;
+    setSelectedBusinessAccount: React.Dispatch<React.SetStateAction<BusinessAccount | null>>;
     setCurrentProduct: React.Dispatch<React.SetStateAction<Product | null>>;
     setTotalCarts: React.Dispatch<React.SetStateAction<number>>;
     setTotalWishlists: React.Dispatch<React.SetStateAction<number>>;
@@ -54,6 +56,7 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
     const [ user, setUser ] = React.useState<User | null>(null);
     const [ isLoading, setIsLoading ] = React.useState(true);
     const [ businessAccounts, setBusinessAccounts ] = React.useState<BusinessAccount[]>([])
+    const [ selectedBusinessAccount, setSelectedBusinessAccount ] = React.useState<BusinessAccount | null>(null)
     const [ currentProduct, setCurrentProduct ] = React.useState<Product | null>(null);
     const [ totalCarts, setTotalCarts ] = React.useState(0);
     const [ totalWishlists, setTotalWishlists ] = React.useState(0);
@@ -84,6 +87,8 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
         checkoutItems,
         checkoutData,
         totalWishlists,
+        selectedBusinessAccount,
+        setSelectedBusinessAccount,
         setCheckoutItems,
         setTotalCarts,
         setBusinessAccounts,
@@ -168,6 +173,10 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
     React.useEffect(() => {
         init();
     }, []);
+
+    React.useEffect(() => {
+        setSelectedBusinessAccount(businessAccounts[0])
+    }, [businessAccounts])
 
     return (
         <AppContext.Provider value={contextValue}>
