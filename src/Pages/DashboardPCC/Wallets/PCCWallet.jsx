@@ -11,6 +11,7 @@ import { useState } from "react";
 import useWallets from "../../../hooks/useWallets";
 import Loading from "../../../components/Loading";
 import { useNavigate, useParams } from "react-router-dom";
+import FundWallet from "../../../components/FundWallet";
 // import { Wallet } from "../../../types/wallet.type";
 
 const PCCWallet = () => {
@@ -27,6 +28,12 @@ const PCCWallet = () => {
   };
 
   const { walletName } = useParams();
+
+  const transferOptions = ['Transfer to Wallet', 'Transfer to Bank'];
+  const fundableWallet = ['LAA'];
+  if(fundableWallet.includes(walletName?.toUpperCase())) {
+    transferOptions.push('Bank to Wallet');
+  }
 
 
   // Dummy components for switching content
@@ -96,7 +103,7 @@ const PCCWallet = () => {
 
               {open && (
                 <div className="absolute right-0 mt-1 w-44 bg-white border rounded shadow-md z-10 text-sm">
-                  {["Transfer to Wallet", "Transfer to Bank"].map((option) => (
+                  {transferOptions.map((option) => (
                     <div
                       key={option}
                       onClick={() => handleSelect(option)}
@@ -114,6 +121,7 @@ const PCCWallet = () => {
           {/* Dynamic Component Below */}
           {selected === "Transfer to Wallet" && <TransferToWallet wallets={wallets.pcc} wallet={wallet}/>}
           {selected === "Transfer to Bank" && <TransferToBank wallet={wallet}/>}
+          {selected === "Bank to Wallet" && <FundWallet wallet={wallet}/>}
         </div>
         <WalletTab 
           wallet={wallet}
