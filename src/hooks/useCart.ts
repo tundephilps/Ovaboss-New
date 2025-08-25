@@ -56,7 +56,7 @@ const useCart = ({ shouldGetCart }: UseCart = {}) => {
         await Promise.all(itemsNotInServer.map(async (item) =>  {
             await handleAddToCart({
                 productId: item.productId,
-                variantId: item.variantDetails.id,
+                variantId: item.variantDetails?.id,
                 shouldShowToast: false,
                 quantity: item.quantity,
                 addToServer: true,
@@ -80,14 +80,14 @@ const useCart = ({ shouldGetCart }: UseCart = {}) => {
             }
            
             const allCarts = getPersistedStorage<Cart[]>('carts') || [];
-            const filteredCarts = allCarts.filter(item => item.productId !== product_id && item.variantDetails.id !== variant_id);
+            const filteredCarts = allCarts.filter(item => item.productId !== product_id);
             persistStorage('carts', JSON.stringify(filteredCarts));
 
-            setCarts(prev => prev.filter(item => item.productId !== product_id && item.variantDetails.id !== variant_id));
+            setCarts(prev => prev.filter(item => item.productId !== product_id));
             setTotalCarts(prev => prev - 1);
             toast.success(message);
         } catch(error) {
-            toast.error(error.message);
+            toast.error(error instanceof Error ? error.message : 'Something went wrong removing cart');
         } finally {
             setIsSaving(false);
         }
@@ -106,9 +106,9 @@ const useCart = ({ shouldGetCart }: UseCart = {}) => {
                 addToServer,
             } = data;
 
-            if(!variantId) {
-                throw new Error('Select a variant');
-            }
+            // if(!variantId) {
+            //     throw new Error('Select a variant');
+            // }
 
             if(user || addToServer) {
                 const { data: response } = await axiosClient.post('/product/add-to-cart', {
@@ -136,7 +136,7 @@ const useCart = ({ shouldGetCart }: UseCart = {}) => {
                     productVariants,
                 } = product;
 
-                const variantDetails = productVariants.find(item => item.id === variantId)!;
+                const variantDetails = productVariants?.find(item => item.id === variantId);
 
                 cartItem = {
                     productId,
@@ -144,13 +144,14 @@ const useCart = ({ shouldGetCart }: UseCart = {}) => {
                     description,
                     productImage: productImages[0].imageUrl,
                     quantity: String(quantity),
-                    variantDetails: {
-                        ...variantDetails,
-                        variants: variantDetails.variants.map(item => ({ 
-                            key: item.variantType, 
-                            value: item.variant ,
-                        }))
-                    },
+                    variantDetails: variantDetails 
+                        ? {
+                            ...variantDetails,
+                            variants: variantDetails.variants.map(item => ({ 
+                                key: item.variantType, 
+                                value: item.variant ,
+                            }))
+                        } : null,
                 }
             }
 
@@ -165,7 +166,7 @@ const useCart = ({ shouldGetCart }: UseCart = {}) => {
             if(shouldShowToast) toast.success('Product has been added to cart');
 
         } catch(error) {
-            toast.error(error.message);
+            toast.error(error instanceof Error ? error.message : 'Something went wrong adding to cart');
         } finally {
             setIsSaving(false);
         }

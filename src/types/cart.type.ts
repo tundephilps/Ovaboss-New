@@ -18,7 +18,7 @@ export interface Cart {
   productName: string;
   description: string;
   productImage: string;
-  variantDetails: VariantDetails;
+  variantDetails: VariantDetails | null;
   quantity: string;
 }
 
@@ -28,7 +28,7 @@ export interface UseCart {
 
 export interface AddToCartProps {
   productId: number;
-  variantId: number;
+  variantId?: number;
   product?: FullProduct;
   shouldShowToast?: boolean;
   cart?: Cart;
