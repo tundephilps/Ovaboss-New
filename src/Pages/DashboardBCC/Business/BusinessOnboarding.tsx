@@ -8,9 +8,11 @@ import Loading from "../../../components/Loading";
 import { useSearchParams } from "react-router-dom";
 import DeleteModal from "../../../components/DeleteModal";
 
+export type BusinessSelectionType = 'businessAccount' | 'businessDetails';
+
 interface BusinessOnboarding {
   businessAccountHooks: ReturnType<typeof useBusinessAccount>;
-  setCurrentSection: React.Dispatch<React.SetStateAction<'businessAccount' | 'businessDetails'>>;
+  setCurrentSection: React.Dispatch<React.SetStateAction<BusinessSelectionType>>;
 }
 
 const BusinessOnboarding = ({ businessAccountHooks, setCurrentSection }: BusinessOnboarding) => {

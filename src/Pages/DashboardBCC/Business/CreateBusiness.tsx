@@ -6,13 +6,13 @@ import { SiX } from "react-icons/si";
 import { FiUserPlus, FiXCircle } from "react-icons/fi";
 import useBusinessAccount from "../../../hooks/useBusinessAccount";
 import useCountry from "../../../hooks/useCountry";
-import BusinessOnboarding from "./BusinessOnboarding";
+import BusinessOnboarding, { BusinessSelectionType } from "./BusinessOnboarding";
 import Loading from "../../../components/Loading";
 
 const CreateBusiness = () => {
-	const [imagePreview, setImagePreview] = useState(null);
-	const fileInputRef = useRef(null);
-	const [currentSection, setCurrentSection] = React.useState('businessAccount') // businessAccount, businessDetails
+	const [imagePreview, setImagePreview] = useState<string>('');
+	const fileInputRef = useRef<any>(null);
+	const [currentSection, setCurrentSection] = React.useState<BusinessSelectionType>('businessAccount') // businessAccount, businessDetails
 
 	const businessAccountHooks = useBusinessAccount();
 
@@ -27,12 +27,12 @@ const CreateBusiness = () => {
 		getStates 
 	} = businessAccountHooks;
 
-	const handleImageChange = (event) => {
-		const file = event.target.files[0];
+	const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {		
+		const file = event?.target?.files?.[0];
 		if (file && file.type.startsWith("image/")) {
 			const reader = new FileReader();
 			reader.onloadend = () => {
-				setImagePreview(reader.result);
+				setImagePreview(reader.result as string);
 			};
 			reader.readAsDataURL(file);
 
@@ -41,25 +41,20 @@ const CreateBusiness = () => {
 	};
 
 	const handleImageDelete = () => {
-		setImagePreview(null);
-		fileInputRef.current.value = ""; // Clear file input
+		setImagePreview('');
+		if(fileInputRef.current) {
+			fileInputRef.current.value = ""; // Clear file input
+		}
 		handleInput('businessAccount.logo', null);
 	};
 
-	const handleChange = (e) => {
-		const { name, value } = e.target;
-		setFormData({
-			...formData,
-			[name]: value,
-		});
-	};
-
-	const handleCountryChange = (countryId) => {
+	const handleCountryChange = (countryId: string) => {
 		handleInput('businessAccount.country_id', countryId);
-		getStates(countryId);
+		getStates(+countryId);
 	}
 
-	const triggerFileSelect = () => {
+	const triggerFileSelect = (event: React.MouseEvent<HTMLDivElement> | React.MouseEvent<HTMLButtonElement>) => {
+		event.preventDefault();
 		fileInputRef.current.click();
 	};
 

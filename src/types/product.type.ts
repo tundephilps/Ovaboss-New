@@ -79,6 +79,7 @@ export interface Product {
 	status: string;
 	createdAt: string;
 	productImages: ProductImage[];
+	subCategory: string;
 }
 
 export interface ProductBusinessInformation {

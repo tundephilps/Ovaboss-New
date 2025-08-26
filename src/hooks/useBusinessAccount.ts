@@ -123,8 +123,6 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
         if(!sale_type_id) throw new Error('Select business sales type');
         if(!business_type_id) throw new Error('Select business type');
 
-        console.log('sale_type_id', sale_type_id)
-
 
         const businessAccount = new FormData();
         businessAccount.append('name', name);
@@ -192,8 +190,6 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
             setIsSaving(true);
 
             const businessAccount = validateBusinessAccount();
-
-            return
 
             const { data: businessAccountResponse } = await axiosClient.post(
                 'user/business/update-business-account', 
@@ -295,9 +291,6 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
 
             const { businessScales, categories } = businessData;
 
-             console.log('business salea type', businessData?.businessTypes);
-                console.log('input salea type', businessType);
-
             const businessScale = businessScales.find(item => item.scale === businessSpeciality.businessScale);
             const businessCategory = categories.find(item => item.category === businessSpeciality.businessCategory);
 
@@ -318,8 +311,8 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
                     business_scale_id: businessScale?.id || 0,
                     business_category_id: businessCategory?.id || 0,
                     business_category_type_id: businessCategoryType.map(item => item.id),
-                    sale_type_id: salesType.map(item => item.id),
-                    business_type_id: businessType.map(item => item.id),
+                    sale_type_id: salesType.map(item => +item.id),
+                    business_type_id: businessType.map(item => +item.id),
                 }
             })
 

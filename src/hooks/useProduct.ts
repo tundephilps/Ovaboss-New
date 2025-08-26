@@ -136,6 +136,7 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
 
             const { data: response } = await axiosClient.get(`/product/business/list-product-sub-category?categoryId=${categoryId}`);
             setProductSubCategories(response.data);
+            return response.data as ProductSubCategory[]
 
         } catch(error) {
             
@@ -296,6 +297,7 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
 
     const handleAddVariant = (e: Event) => {
         e.preventDefault();
+        console.log({ variantInput })
 
         const { variant, tableRow, tableHead } = buildVariantFromInput(variantInput);
 
@@ -347,6 +349,11 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
         setIsAddVariant(false);
         const variantValues = Object.values(variantInput);
         const tableData = table.tableData.filter((_, i) => i === index)[0];
+
+        const vari = productVariants.filter((_, i) => i === index)
+
+        console.log({ productVariants })
+
         variantValues.forEach((item, i) => {
             const variant = productVariants.find(variant => variant.name === item.name);
             const value = tableData[i];
@@ -487,22 +494,16 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
                 });
             });
 
-
-            // const variants = productVariants.flatMap(item => item.variant);
-            // const tableRows = productVariants.flatMap(item => item.tableRow);
-            // const tableHeads = productVariants.flatMap(item => item.tableHead);
-
-            // setVariants(prev => [...prev, ...variants]);
-            // setTable(prev => ({
-            //     tableHead: productVariants[0].tableHead,
-            //     tableData: [tableRows, ...prev.tableData],
-            // }));
+            const categoryId = productCategories.find(item => item.categoryName === productDetails.category)?.categoryId;
+            const subCategory = await getProductSubCategory(categoryId || 0);
+            const subCategoryId = subCategory?.find(item => item.title === productDetails.subCategory)?.id;
+            getProductVariants(subCategoryId || 0);
 
             setInputs({
                 business_id: String(selectedBusinessAccount?.id),
                 product_type_id: String(businessCategoryType.find(item => item.type === productDetails.productType)?.id),
-                category_id: String(productCategories.find(item => item.categoryName === productDetails.category)?.categoryId),
-                sub_category_id: '',
+                category_id: String(categoryId),
+                sub_category_id: String(subCategoryId),
                 brand: productDetails.brand,
                 title: productDetails.title,
                 weight: productDetails.weight,
@@ -513,13 +514,6 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
                 production_country: productDetails.productionCountry,
                 images: productDetails.productImages.map(item => item.imageUrl),
             })
-
-            // setVariants(prev => [...prev, variant]);
-            // setTable(prev => ({
-            //     tableHead,
-            //     tableData: [tableRow, ...prev.tableData],
-            // }));
-            // setVariantInput(productDetails.productVariants)
 
         } catch(error) {
 
