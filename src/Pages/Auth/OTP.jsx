@@ -1,13 +1,16 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import useAuth from "../../hooks/useAuth";
 import Loading from "../../components/Loading";
 
 export default function OTPInput() {
   const [otp, setOtp] = useState(Array(6).fill(""));
   const inputRefs = useRef([]);
+  const [countdown, setCountdown] = useState(60);
+  const [canResend, setCanResend] = useState(false);
 
   const { inputs, isLoading, handleInput, handleValidateOtp } = useAuth();
 
+  // Handle input change
   const handleChange = (e, index) => {
     const value = e.target.value;
     if (/^\d$/.test(value)) {
@@ -19,13 +22,13 @@ export default function OTPInput() {
         inputRefs.current[index + 1]?.focus();
       }
 
-      // If last digit filled
       if (index === 5 && newOtp.every((d) => d !== "")) {
         handleSubmit(newOtp.join(""));
       }
     }
   };
 
+  // Handle backspace navigation
   const handleKeyDown = (e, index) => {
     if (e.key === "Backspace") {
       if (otp[index] === "") {
@@ -38,6 +41,7 @@ export default function OTPInput() {
     }
   };
 
+  // Handle paste
   const handlePaste = (e) => {
     e.preventDefault();
     const pasteData = e.clipboardData.getData("text").slice(0, 6);
@@ -49,14 +53,46 @@ export default function OTPInput() {
     }
   };
 
+  // Submit OTP
   const handleSubmit = (otpValue) => {
     handleValidateOtp(otpValue);
+  };
+
+  // Countdown timer for resend
+  useEffect(() => {
+    let timer;
+
+    if (countdown > 0) {
+      setCanResend(false);
+      timer = setInterval(() => {
+        setCountdown((prev) => prev - 1);
+      }, 1000);
+    } else {
+      setCanResend(true);
+    }
+
+    return () => clearInterval(timer);
+  }, [countdown]);
+
+  // Resend OTP logic
+  const handleResendOtp = () => {
+    // Replace this with your actual resend logic
+    console.log("OTP resent!");
+    setOtp(Array(6).fill(""));
+    inputRefs.current[0]?.focus();
+    setCountdown(60);
+    setCanResend(false);
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4">
       <h2 className="text-2xl font-semibold mb-6 text-gray-800">Enter OTP</h2>
-      <div className="flex gap-3" onPaste={handlePaste} style={isLoading ? { opacity: 0.3 } : null}>
+
+      <div
+        className="flex gap-3"
+        onPaste={handlePaste}
+        style={isLoading ? { opacity: 0.3 } : null}
+      >
         {otp.map((digit, index) => (
           <input
             key={index}
@@ -71,7 +107,23 @@ export default function OTPInput() {
           />
         ))}
       </div>
-      {isLoading && <Loading/>}
+
+      {isLoading && <Loading />}
+
+      <div className="mt-6 text-sm text-gray-600">
+        {canResend ? (
+          <button
+            onClick={handleResendOtp}
+            className="text-yellow-600 font-medium hover:underline"
+          >
+            Resend OTP
+          </button>
+        ) : (
+          <span>
+            Resend available in {countdown} second{countdown !== 1 ? "s" : ""}
+          </span>
+        )}
+      </div>
     </div>
   );
 }

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+
 import {
   FaSearch,
   FaQuestionCircle,
@@ -43,6 +44,25 @@ const Navbar = () => {
   const [expandedCategory, setExpandedCategory] = useState<Category | null>(
     null
   );
+  const helpMenuRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        helpMenuRef.current &&
+        !helpMenuRef.current.contains(event.target as Node)
+      ) {
+        setShowHelpMenu(false);
+      }
+    }
+
+    if (showHelpMenu) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showHelpMenu]);
 
   const { totalCarts, totalWishlists } = useAppContext();
 
@@ -233,7 +253,10 @@ const Navbar = () => {
               </div>
               {/* Help Dropdown Menu */}
               {showHelpMenu && (
-                <div className="absolute top-full mt-2 right-52 bg-white shadow-lg rounded-md w-48 py-2 z-50">
+                <div
+                  ref={helpMenuRef}
+                  className="absolute top-full mt-2 right-52 bg-white shadow-lg rounded-md w-48 py-2 z-50"
+                >
                   <Link
                     to="/SellOnOvaboss"
                     onClick={() => setShowHelpMenu(false)}

@@ -3,12 +3,12 @@ import React from "react";
 const BreadCrumb = () => {
   const breadcrumbs = [
     { text: "Home", url: "/" },
-    { text: "Fashion and Accessories", url: "/computer-and-gadget" },
-    { text: "Men's Wear", url: "/computer-and-gadget/tablets" },
-    {
-      text: "T Shirt",
-      url: "/computer-and-gadget/tablets/apple-ipad-pro",
-    },
+    { text: "Categories", url: "/Categories/:categoryId" },
+    // { text: "Men's Wear", url: "/computer-and-gadget/tablets" },
+    // {
+    //   text: "T Shirt",
+    //   url: "/computer-and-gadget/tablets/apple-ipad-pro",
+    // },
   ];
 
   return (

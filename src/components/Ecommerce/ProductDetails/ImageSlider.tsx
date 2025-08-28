@@ -3,7 +3,6 @@ import { MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
 
 import { ProductImage } from "../../../types/product.type";
 
-
 export default function ImageSlider({ images }: { images: ProductImage[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -42,20 +41,22 @@ export default function ImageSlider({ images }: { images: ProductImage[] }) {
         </button>
       </div>
 
-      {/* Thumbnail Images */}
-      <div className="flex gap-2 mt-4 overflow-auto">
-        {images?.map((img, i) => (
-          <img
-            key={i}
-            src={img.imageUrl}
-            alt={`Thumbnail ${i}`}
-            onClick={() => setCurrentIndex(i)}
-            className={`lg:w-full w-20 h-20 object-cover border rounded cursor-pointer transition ${
-              i === currentIndex ? "ring-2 ring-yellow-500" : ""
-            }`}
-          />
-        ))}
-      </div>
+      {/* Thumbnail Images - show only if more than one image */}
+      {images.length > 1 && (
+        <div className="flex gap-2 mt-4 overflow-auto">
+          {images.map((img, i) => (
+            <img
+              key={i}
+              src={img.imageUrl}
+              alt={`Thumbnail ${i}`}
+              onClick={() => setCurrentIndex(i)}
+              className={`lg:w-full w-20 h-20 object-cover border rounded cursor-pointer transition ${
+                i === currentIndex ? "ring-2 ring-yellow-500" : ""
+              }`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
