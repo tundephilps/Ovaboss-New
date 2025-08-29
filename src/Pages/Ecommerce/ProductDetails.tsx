@@ -27,6 +27,7 @@ import { getAverageRatings, numberFormat } from "../../utils";
 import Loading from "../../components/Loading";
 import ProductDetailsSkeleton from "../../components/skeletons/ProductDetailsSkeleton";
 import { ProductFullVariant, ProductSubVariant } from "../../types/product.type";
+import VariantSelector from "../../components/Ecommerce/ProductDetails/VariantSelector";
 
 const ProductDetails = () => {
   const [isModalOpen, setModalOpen] = useState(true);
@@ -190,7 +191,7 @@ const ProductDetails = () => {
                   </span>
                   <span className="text-red-500 text-sm">0%</span>
                 </div>
-                <p className="text-xs text-gray-500 p-2">Only 0 items left</p>
+                {/* <p className="text-xs text-gray-500 p-2">Only 0 items left</p> */}
               </div>
 
               {/* Rating */}
@@ -233,65 +234,12 @@ const ProductDetails = () => {
               {/* Variation Available */}
               {!!productDetails.productVariants &&
                 <div>
-                  <p className="text-sm font-medium text-gray-700">Variation Available</p>
-
-                  <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 mt-3">
-                    {productDetails.productVariants.map((item, key) => {
-                      const isSelected = selectedVariant.id === item.id;
-
-                      const isColorVariant = item.variants.find(variant => variant.variantType?.toLowerCase() === 'color')
-
-                      return (
-                        <label
-                          key={key}
-                          className={[
-                            "group relative flex items-center gap-3 rounded-xl border p-3 cursor-pointer",
-                            "shadow-sm hover:shadow transition",
-                            isSelected
-                              ? "ring-2 ring-yellow-500 border-yellow-400 bg-yellow-50"
-                              : "border-gray-200 bg-white hover:border-gray-300"
-                          ].join(" ")}
-                        >
-                          {/* Radio (screen-reader accessible) */}
-                          <input
-                            type="radio"
-                            name={`variant-${item.id}`}
-                            className="sr-only"
-                            checked={isSelected}
-                            onChange={() => handleVariantChange(item)}
-                          />
-
-                          {/* Optional color swatch */}
-                          {isColorVariant && (
-                            <span
-                              className="h-8 w-8 rounded-full border border-gray-200 shrink-0"
-                              style={{ background: isColorVariant.variant }}
-                              aria-hidden="true"
-                            />
-                          )}
-
-                          {/* Variant text */}
-                          <div className="min-w-0">
-                            <p className="text-sm font-semibold text-gray-900 truncate">
-                              £{numberFormat(item.price, 2)}
-                            </p>
-                            <p className="text-xs text-gray-500">{item.stock} Left</p>
-                          </div>
-
-                          {/* Custom radio indicator */}
-                          <span
-                            className={[
-                              "ml-auto h-5 w-5 rounded-full border flex items-center justify-center",
-                              isSelected ? "bg-yellow-500 border-yellow-500" : "border-gray-300"
-                            ].join(" ")}
-                            aria-hidden="true"
-                          >
-                            {isSelected && <span className="h-2.5 w-2.5 rounded-full bg-white" />}
-                          </span>
-                        </label>
-                      );
-                    })}
-                  </div>
+                  <VariantSelector
+                    productVariants={productDetails.productVariants}
+                    selectedVariantId={selectedVariant?.id ?? null}
+                    onSelect={handleVariantChange}
+                    currency="£"
+                  />
                 </div>
               }
 

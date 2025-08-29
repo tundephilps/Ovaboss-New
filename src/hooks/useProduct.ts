@@ -28,6 +28,7 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
     const [ businessCategoryTypes, setBusinessCategoryTypes ] = React.useState<BusinessCategoryType[]>([]);
     const [ allProducts, setAllProducts ] = React.useState<Product[]>([]);
     const [ myProducts, setMyProducts ] = React.useState<Product[]>([]);
+    const [ deliveryOptions, setDeliveryOptions ] = React.useState<Product[]>([]);
     const [ inputs, setInputs ] = React.useState<ProductInput>({
         business_id: '',
         product_type_id: '',
@@ -191,6 +192,26 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
         }
     }
 
+    const getDeliveryOptions = async () => {
+        try {
+            setIsLoading(prev => ({
+                ...prev,
+                productType: false
+            }))
+
+            const { data: response } = await axiosClient.get('/user/list-business-category-type');
+            setBusinessCategoryTypes(response.data);
+            return response.data as BusinessCategoryType[];
+        } catch(error) {
+
+        } finally {
+            setIsLoading(prev => ({
+                ...prev,
+                productType: false
+            }))
+        }
+    }
+
     const getMyProducts = async () => {
         try {
             setIsLoading(prev => ({
@@ -265,17 +286,18 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
     }
 
     const buildVariantFromInput = (
-        variantInput: Record<string, { name: string; value: string }>
+        variantInput: Record<string, { name: string; value: string, id?: number }>
     ): {
             variant: ProductInputVariant;
             tableRow: string[];
             tableHead: string[];
         } => {
         const entries = Object.entries(variantInput);
-        const variantValues = Object.values(variantInput).slice(0, 5);
+        const variantValues = Object.values(variantInput);
 
         const tableHead = variantValues.map(item => item.name);
         const tableRow = variantValues.map(item => item.value);
+        const id = variantValues.map(item => item.id)?.[0];
 
         const price = variantInput["-1"]?.value || "0";
         const stock = variantInput["-2"]?.value || "0";
@@ -285,10 +307,16 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
             .map(([key, item]) => ({
                 variant_type_id: key,
                 variant: item.value,
+                variant_key: item.name,
             }));
 
         return {
-            variant: { price, stock, variants: filteredVariants },
+            variant: { 
+                price, 
+                stock, 
+                id,
+                variants: filteredVariants,
+            },
             tableRow,
             tableHead,
         };
@@ -297,7 +325,6 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
 
     const handleAddVariant = (e: Event) => {
         e.preventDefault();
-        console.log({ variantInput })
 
         const { variant, tableRow, tableHead } = buildVariantFromInput(variantInput);
 
@@ -335,6 +362,7 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
         });
 
         setIsAddVariant(true);
+        clearVariantInputValue(variantInput)
     };
 
     const handleDeleteVariant = (index: number) => {
@@ -349,10 +377,6 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
         setIsAddVariant(false);
         const variantValues = Object.values(variantInput);
         const tableData = table.tableData.filter((_, i) => i === index)[0];
-
-        const vari = productVariants.filter((_, i) => i === index)
-
-        console.log({ productVariants })
 
         variantValues.forEach((item, i) => {
             const variant = productVariants.find(variant => variant.name === item.name);
@@ -411,6 +435,62 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
         }
     };
 
+    const handleUpdateProduct = async () => {
+        try {
+            setIsLoading(prev => ({ ...prev, addProduct: true }));
+
+            const payload = new FormData();
+            payload.append('product_id', productId || '');
+
+            // Add base product fields
+            Object.entries(inputs).forEach(([key, value]) => {
+                if (key === "images") {
+                    // value.forEach((file: File) => {
+                    //     payload.append("images[]", file);
+                    // });
+                } else {
+                    payload.append(key, value);
+                }
+            });
+
+            // Add variants using nested keys
+            const allVariants: any[] = [];
+
+            variants.forEach((variant, i) => {
+                const variantObj = {
+                    id: variant.id ?? null,
+                    price: variant.price,
+                    stock: variant.stock,
+                    variants: variant.variants.map((v) => ({
+                        variant_key: v.variant_key,
+                        variant: v.variant,
+                    })),
+                };
+
+                allVariants.push(variantObj);
+            });
+
+            const { data: response }  = await axiosClient.post("/product/business/update-product", payload, {
+                headers: { "Content-Type": "multipart/form-data" },
+            });
+
+            await axiosClient.post('product/business/update-product-variant', {
+                product_id: productId,
+                variants: allVariants
+            })
+
+            toast.success(response.message);
+
+            console.log({allVariants})
+
+
+        } catch(error: any) {
+            toast.error(error.message)
+        } finally {
+            setIsLoading(prev => ({ ...prev, addProduct: false }));
+        }
+    }
+
     const handleDeleteProduct = async (productId: number, callback?: () => void) => {
         try {
             setIsLoading(prev => ({ ...prev, isSaving: true }));
@@ -428,9 +508,21 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
         }
     }
 
+    const clearVariantInputValue = (data: Record<string, {name: string, value: string}>) => {
+        const emptyEnrichedMap = Object.fromEntries(
+            Object.entries(data).map(([key, obj]) => [
+                key,
+                { name: obj.name, value: "" },
+            ])
+        );
+        setVariantInput(emptyEnrichedMap);
+    }
+
     const getProductDetails = async () => {
         try {
             setIsLoading(prev => ({ ...prev, productDetails: true }));
+
+            if(!selectedBusinessAccount) return;
 
             const { data: response } = await axiosClient.get(`product/business/fetch-product?productId=${productId}`);
             const productDetails = response.data as ProductDetails;
@@ -457,9 +549,10 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
                     acc[v.variantTypeId] = {
                         name: v.variantType,
                         value: v.variant,
+                        id: item.id,
                     };
                     return acc;
-                }, {} as Record<string, { name: string; value: string }>);
+                }, {} as Record<string, { name: string; value: string, id?: number }>);
 
                 const defaultVar = defaultVariant.reduce((acc, v) => {
                     acc[v.id] = {
@@ -482,6 +575,8 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
                     if (exists) return prev;
                     return [...prev, variant];
                 });
+
+                clearVariantInputValue(enrichedMap);
 
                 setTable(prev => {
                     // check if tableRow already exists
@@ -527,7 +622,6 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
         if(shouldGetCategory) getProductCategory();
         if(shouldGetBusinessCategoryType) getBusinessCategoryType();
         if(shouldGetAllProducts) getAllProducts();
-        if (productId) getProductDetails();
     }, [])
 
     React.useEffect(() => {
@@ -537,6 +631,7 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
 
     React.useEffect(() => {
         if(shouldGetMyProducts) getMyProducts();
+        if (productId) getProductDetails();
     }, [selectedBusinessAccount])
 
     return {
@@ -565,6 +660,7 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
         handleDeleteProduct,
         getAllProducts,
         handlePaginate,
+        handleUpdateProduct,
     }
 }
 

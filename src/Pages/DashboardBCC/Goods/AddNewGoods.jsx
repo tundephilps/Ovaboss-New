@@ -34,6 +34,7 @@ const AddNewGoods = () => {
 		variantContainerRef,
 		isAddVariant,
 		businessCategoryTypes,
+		handleUpdateProduct,
 		getProductSubCategory,
 		getProductVariants,
 		handleInput,
@@ -321,6 +322,64 @@ const AddNewGoods = () => {
 							></textarea>
 						</div>
 
+						<fieldset className={`w-full`}>
+							{/* <legend className="mb-2 text-sm font-medium text-gray-700">
+								{label}{required && <span className="text-red-600">*</span>}
+							</legend> */}
+
+							<div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+								{[].map(({ key, label }) => {
+								const checked = !!value[key];
+								const id = `delivery-${key}`;
+								return (
+									<label
+										key={key}
+										htmlFor={id}
+										className={`group inline-flex select-none items-center gap-2 cursor-pointer ${
+											disabled ? "opacity-60 cursor-not-allowed" : ""
+										}`}
+									>
+										{/* Visually custom checkbox using peer */}
+										<input
+											id={id}
+											type="checkbox"
+											checked={checked}
+											onChange={() => toggle(key)}
+											disabled={disabled}
+											className="peer sr-only"
+											aria-checked={checked}
+										/>
+										<span
+											className={[
+											// box
+											"grid h-5 w-5 place-items-center rounded-[3px] border",
+											"border-gray-300 bg-white",
+											// checked state
+											"peer-checked:border-gray-900 peer-checked:bg-gray-900",
+											// focus ring
+											"outline-none ring-0 peer-focus-visible:ring-2 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-blue-500",
+											// transition
+											"transition-colors duration-150",
+											].join(" ")}
+										>
+											{/* Check icon (only visible when checked) */}
+											<svg
+												className="h-3.5 w-3.5 text-white opacity-0 transition-opacity duration-150 peer-checked:opacity-100"
+												viewBox="0 0 20 20"
+												fill="currentColor"
+												aria-hidden="true"
+											>
+												<path d="M7.629 13.233 4.4 10.004l-1.4 1.4 4.629 4.629L17 6.662l-1.4-1.4z" />
+											</svg>
+										</span>
+										<span className="text-sm text-gray-800">{label}</span>
+									</label>
+								);
+								})}
+							</div>
+
+						</fieldset>
+
 						<div ref={variantContainerRef}>
 							{/* VARAINTS - Only render the selected category's component */}
 							<h2 className="text-xl font-semibold mb-4 pt-4">Variants</h2>
@@ -360,7 +419,7 @@ const AddNewGoods = () => {
 
 						<div className="flex justify-end my-8">
 							<div
-								onClick={handleAddProduct}
+								onClick={productId ? handleUpdateProduct : handleAddProduct}
 								aria-disabled={isLoading.addProduct}
 								className="flex items-center  cursor-pointer text-xs gap-2 bg-[#FFD700] hover:bg-yellow-600 text-black font-semibold px-12 py-2 rounded"
 							>

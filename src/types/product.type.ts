@@ -28,9 +28,11 @@ export interface ProductInput {
 export interface ProductVariantOption {
 	variant_type_id: string;
 	variant: string;
+	variant_key?: string;
 }
 
 export interface ProductInputVariant {
+	id?: number;
 	price: string;
 	stock: string;
 	variants: ProductVariantOption[];
@@ -47,6 +49,7 @@ export interface ProductImage {
 }
 
 export interface ProductSubVariant {
+	id?: number;
 	variantTypeId: string;
 	variant: string;
 	variantType: string;
@@ -129,4 +132,8 @@ export interface ProductDetails extends Product {
 	notes: string;
 	productionCountry: string;
 	productVariants: ProductFullVariant[];
+}
+
+export interface DeliveryOption {
+	
 }
