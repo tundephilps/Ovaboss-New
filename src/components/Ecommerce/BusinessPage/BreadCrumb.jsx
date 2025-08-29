@@ -4,7 +4,7 @@ import { FaHome } from "react-icons/fa";
 const BreadCrumb = () => {
   const breadcrumbs = [
     { text: <FaHome />, url: "/" },
-    { text: "Graphics and Design", url: "/Fatima" },
+    { text: "View Business", url: "/BusinessPage" },
   ];
 
   return (

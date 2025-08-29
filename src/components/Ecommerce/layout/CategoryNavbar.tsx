@@ -54,7 +54,7 @@ const CategoryNavbar = () => {
       </button>
       {/* Dropdown Panel */}
       {open && (
-        <div className="absolute lg:w-full top-12 z-20 mt-2   bg-white shadow-lg rounded-md flex">
+        <div className="absolute lg:w-full top-16 z-20 mt-2   bg-white shadow-lg rounded-md flex">
           {/* Left Sidebar */}
           <div className="w-1/4 bg-gray-100  py-2">
             {isLoading.categories && <Loading />}
