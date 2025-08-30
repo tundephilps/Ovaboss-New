@@ -49,7 +49,7 @@ const useWishlist = ({ shouldGetWishlist }: UseWishlist = {}) => {
 
     const syncWishlists = async () => {
         const { data: response } = await axiosClient.get('/product/list-wish-list');
-        const serverWishlists = response.data;
+        const serverWishlists = response.data as Wishlist[];
         const localWishlists = getPersistedStorage<Wishlist[]>('wishlists') || [];
 
         const allServerCardIds = serverWishlists.map(item => item.productId);
@@ -58,14 +58,15 @@ const useWishlist = ({ shouldGetWishlist }: UseWishlist = {}) => {
         await Promise.all(itemsNotInServer.map(async (item) =>  {
             handleAddToWishlist({
                 productId: item.productId,
-                variantId: item.variantDetails.id,
+                variantId: item.variantDetails?.id,
                 shouldShowToast: false,
                 addToServer: true,
+                quantity: item.quantity,
             });
         }))
     }
 
-    const handleRemoveWishlist = async (product_id: number, variant_id: number, shouldShowToast = true) => {
+    const handleRemoveWishlist = async (product_id: number, variant_id?: number, shouldShowToast = true) => {
         try {
             setIsSaving(true);
             let message = 'Product has been removed from wishlist';
@@ -79,14 +80,14 @@ const useWishlist = ({ shouldGetWishlist }: UseWishlist = {}) => {
             }
             
             const allWishlists = getPersistedStorage<Wishlist[]>('wishlists') || [];
-            const filteredWishlists = allWishlists.filter(item => item.productId !== product_id && item.variantDetails.id !== variant_id);
+            const filteredWishlists = allWishlists.filter(item => item.productId !== product_id);
             persistStorage('wishlists', JSON.stringify(filteredWishlists));
            
-            setWishlists(prev => prev.filter(item => item.productId !== product_id && item.variantDetails.id !== variant_id));
+            setWishlists(prev => prev.filter(item => item.productId !== product_id));
             setTotalWishlists(prev => prev - 1);
             if(shouldShowToast) toast.success(message);
         } catch(error) {
-            toast.error(error.message);
+            toast.error(error instanceof Error ? error.message : 'Something went wrong removing wishlist');
         } finally {
             setIsSaving(false);
         }
@@ -95,7 +96,14 @@ const useWishlist = ({ shouldGetWishlist }: UseWishlist = {}) => {
     const handleAddToWishlist = async (data: AddToWishlistProps) => {
         try {
             setIsSaving(true);
-            const { productId, variantId, product, shouldShowToast = true, addToServer} = data;
+            const { 
+                productId, 
+                variantId, 
+                product, 
+                shouldShowToast = true, 
+                addToServer, 
+                quantity
+            } = data;
 
             if(!variantId) {
                 throw new Error('Select a variant');
@@ -122,22 +130,26 @@ const useWishlist = ({ shouldGetWishlist }: UseWishlist = {}) => {
                 description,
                 productImages,
                 productVariants,
+                mainPrice,
             } = product;
 
             const variantDetails = productVariants.find(item => item.id === variantId)!;
 
             const wishlistItem: Wishlist = {
+                price: String(variantDetails ? variantDetails.price : mainPrice),
                 productId,
                 productName: title,
                 description,
                 productImage: productImages[0].imageUrl,
-                variantDetails: {
-                    ...variantDetails,
-                    variants: variantDetails.variants.map(item => ({ 
-                        key: item.variantType, 
-                        value: item.variant ,
-                    }))
-                },
+                quantity: String(quantity),
+                variantDetails: variantDetails 
+                    ? {
+                        ...variantDetails,
+                        variants: variantDetails.variants.map(item => ({ 
+                            key: item.variantType, 
+                            value: item.variant ,
+                        }))
+                    } : null,
             }
 
             const wishlists = getPersistedStorage<Wishlist[]>('wishlists') || [];
@@ -149,7 +161,7 @@ const useWishlist = ({ shouldGetWishlist }: UseWishlist = {}) => {
             if(shouldShowToast) toast.success(message);
 
         } catch(error) {
-            toast.error(error.message);
+            toast.error(error instanceof Error ? error.message : 'Something went wrong adding to wishlist');
         } finally {
             setIsSaving(false);
         }

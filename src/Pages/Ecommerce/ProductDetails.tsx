@@ -93,7 +93,7 @@ const ProductDetails = () => {
   const handleVariantChange = (productVariant: ProductFullVariant) => {
     setProductDetails(prev => ({
       ...prev,
-      main_price: +productVariant!.price
+      mainPrice: +productVariant!.price
     }))
     setSelectedVariant(productVariant!)
   }
@@ -185,11 +185,11 @@ const ProductDetails = () => {
                   </span>
                 </div>
                 <div className="flex items-end gap-2 px-2">
-                  <span className="text-xl font-bold">£{numberFormat(productDetails.main_price)}</span>
+                  <span className="text-xl font-bold">£{numberFormat(productDetails.mainPrice)}</span>
                   <span className="line-through text-gray-400 text-sm">
                     {/* £696,000 */}
                   </span>
-                  <span className="text-red-500 text-sm">0%</span>
+                  {/* <span className="text-red-500 text-sm">0%</span> */}
                 </div>
                 {/* <p className="text-xs text-gray-500 p-2">Only 0 items left</p> */}
               </div>

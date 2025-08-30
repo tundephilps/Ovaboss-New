@@ -16,12 +16,13 @@ const Wishlist = () => {
 
   const addToCart = async (item: WishlistProps) => {
     const productId = item.productId;
-    const variantId = item.variantDetails.id;
+    const variantId = item.variantDetails?.id;
 
     const addedToCart = await handleAddToCart({
       productId,
       variantId,
       cart: item,
+      quantity: 1,
     })
     if(addedToCart || !user) handleRemoveWishlist(productId, variantId, false);
   }
@@ -50,35 +51,35 @@ const Wishlist = () => {
               <h2 className="font-semibold text-xl text-black">
                 {item.productName}
               </h2>
-              <p className="text-sm text-gray-600">{item.color}</p>
+              {/* <p className="text-sm text-gray-600">{item.color}</p>
 
               {item.stockNote && (
                 <p className="text-xs text-red-600">{item.stockNote}</p>
               )}
               {item.deliveryNote && (
                 <p className="text-xs text-blue-600">{item.deliveryNote}</p>
-              )}
+              )} */}
             </div>
           </div>
 
           <div className="flex flex-col gap-2 mt-4 md:mt-0 md:items-end">
             <span className="text-lg font-bold text-gray-800">
-              £{numberFormat(item.variantDetails.price, 2)}
+              £{numberFormat(item.price, 2)}
             </span>
-            <div>
+            {/* <div>
               <span className="text-sm line-through text-gray-400 ml-2">
                 £12,034-dummy
               </span>
               <span className="text-sm text-red-500 ml-2">
                 -4%-dummy
               </span>
-            </div>
+            </div> */}
             <div className="flex gap-2 pt-8">
               <button
                 className={`flex items-center gap-1 px-3 py-1 text-sm bg-red-100 text-red-600 rounded hover:bg-red-200 ${
                   isSavingWishlist ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
-                onClick={() => handleRemoveWishlist(item.productId, item.variantDetails.id)}
+                onClick={() => handleRemoveWishlist(item.productId, item.variantDetails?.id)}
                 disabled={isSavingWishlist}
               >
                 <FaTrashAlt />

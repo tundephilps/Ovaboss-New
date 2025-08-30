@@ -20,6 +20,7 @@ export interface Cart {
   productImage: string;
   variantDetails: VariantDetails | null;
   quantity: string;
+  price: string;
 }
 
 export interface UseCart {
@@ -34,4 +35,8 @@ export interface AddToCartProps {
   cart?: Cart;
   quantity: number | string;
   addToServer?: boolean;
+}
+
+export interface CheckoutItems extends Cart {
+  address: string;
 }

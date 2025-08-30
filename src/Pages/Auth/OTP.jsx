@@ -8,7 +8,7 @@ export default function OTPInput() {
   const [countdown, setCountdown] = useState(60);
   const [canResend, setCanResend] = useState(false);
 
-  const { inputs, isLoading, handleInput, handleValidateOtp } = useAuth();
+  const { inputs, isLoading, isSaving, handleValidateOtp, handleResendOtp } = useAuth();
 
   // Handle input change
   const handleChange = (e, index) => {
@@ -75,9 +75,9 @@ export default function OTPInput() {
   }, [countdown]);
 
   // Resend OTP logic
-  const handleResendOtp = () => {
+  const handleResendOTP = async () => {
     // Replace this with your actual resend logic
-    console.log("OTP resent!");
+    await handleResendOtp();
     setOtp(Array(6).fill(""));
     inputRefs.current[0]?.focus();
     setCountdown(60);
@@ -113,10 +113,10 @@ export default function OTPInput() {
       <div className="mt-6 text-sm text-gray-600">
         {canResend ? (
           <button
-            onClick={handleResendOtp}
+            onClick={handleResendOTP}
             className="text-yellow-600 font-medium hover:underline"
           >
-            Resend OTP
+            {isSaving ? <Loading/> : 'Resend OTP'}
           </button>
         ) : (
           <span>

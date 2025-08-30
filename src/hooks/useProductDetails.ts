@@ -56,10 +56,10 @@ const useProductDetails = () => {
 
     const checkProductInCart = () => {
         const cart = carts.find(cartItem =>
-            cartItem.productId === productDetails.productId &&
-            productDetails.productVariants.some(
-                variant => variant.id === cartItem.variantDetails.id
-            )
+            cartItem.productId === productDetails.productId
+            // productDetails.productVariants.some(
+            //     variant => variant.id === cartItem.variantDetails?.id
+            // )
         );
 
         if(cart) {
@@ -70,10 +70,10 @@ const useProductDetails = () => {
 
     const checkProductInWishlit = () => {
         const wishlist = wishlists.find(wishlistItem =>
-            wishlistItem.productId === productDetails.productId &&
-            productDetails.productVariants.some(
-                variant => variant.id === wishlistItem.variantDetails.id
-            )
+            wishlistItem.productId === productDetails.productId
+            // productDetails.productVariants.some(
+            //     variant => variant.id === wishlistItem.variantDetails?.id
+            // )
         );
 
         if(wishlist) setProductWishlist(wishlist);
@@ -87,7 +87,7 @@ const useProductDetails = () => {
         }));
         const hasAddedToCart = await handleAddToCart({
             productId: +productId!, 
-            variantId: +selectedVariant.id,
+            variantId: selectedVariant.id,
             product: productDetails,
             quantity
         });
@@ -104,17 +104,18 @@ const useProductDetails = () => {
             ...prev,
             wishlist: true
         }));
-        const hasAddedToCart = await handleAddToWishlist({
+        const hasAddedToWichlist = await handleAddToWishlist({
             productId: +productId!, 
-            variantId: +selectedVariant.id,
+            variantId: selectedVariant.id,
             product: productDetails,
+            quantity,
         });
         setIsSaving(prev => ({
             ...prev,
             wishlist: false
         }));
 
-        if(hasAddedToCart) await getAllWishlists();
+        if(hasAddedToWichlist) await getAllWishlists();
     }
 
     const removeCart = async () => {
@@ -125,7 +126,7 @@ const useProductDetails = () => {
             ...prev,
             cart: true
         }));
-        await handleRemoveCart(productCart.productId, productCart.variantDetails.id);
+        await handleRemoveCart(productCart.productId, productCart.variantDetails?.id);
         setProductCart(null);
         setIsSaving(prev => ({
             ...prev,
@@ -141,7 +142,7 @@ const useProductDetails = () => {
             ...prev,
             wishlist: true
         }));
-        await handleRemoveWishlist(productWishlist.productId, productWishlist.variantDetails.id);
+        await handleRemoveWishlist(productWishlist.productId, productWishlist.variantDetails?.id);
         setProductWishlist(null);
         setIsSaving(prev => ({
             ...prev,

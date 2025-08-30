@@ -1,13 +1,16 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { FaTruck } from "react-icons/fa";
 import { useAppContext } from "../../../context/AppContext";
 import { Link } from "react-router-dom";
+import useCountry from "../../../hooks/useCountry";
+import { ShippingFeeAddressFields } from "../../../hooks/useShippingFee";
 
 interface DeliveryAddressFormProps {
   addressId: string;
+  handleInput: (field: ShippingFeeAddressFields, value: any) => void;
 }
 
-const DeliveryAddressForm = ({ addressId }: DeliveryAddressFormProps) => {
+const DeliveryAddressForm = ({ addressId, handleInput: handleAddressInput }: DeliveryAddressFormProps) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -22,13 +25,23 @@ const DeliveryAddressForm = ({ addressId }: DeliveryAddressFormProps) => {
   const [showSummary, setShowSummary] = useState(false);
 
   const { user, checkoutData, setCheckoutData } = useAppContext();
+  const {
+    countries,
+    states,
+    cities,
+    isLoading: isLoadingCountries,
+    isLoadingCities,
+    isLoadingStates,
+    getStates,
+    getCities,
+  } = useCountry();
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     setShowSummary(true);
   };
@@ -46,6 +59,16 @@ const DeliveryAddressForm = ({ addressId }: DeliveryAddressFormProps) => {
     }))
   }
 
+  const handleCountryChange = (countryId: string) => {
+    handleAddressInput('country_code', countryId);
+    getStates(+countryId);
+  }
+
+  const handleStateChange = (stateId: string) => {
+    handleAddressInput('state_code', stateId);
+    getCities(+stateId);
+  }
+
   return (
     <div className="mx-auto bg-white p-4 rounded-md shadow space-y-4">
       {/* Header */}
@@ -56,16 +79,102 @@ const DeliveryAddressForm = ({ addressId }: DeliveryAddressFormProps) => {
 
       {!address ? (
         <div className="p-6 bg-white rounded-lg shadow-sm border border-gray-200 text-center space-y-4">
-          <p className="text-gray-600 text-sm m-2">
-            You have not set up any address
-          </p>
-          <Link to="/EditBankInfo">
-            <button className="inline-flex items-center px-4 py-2 bg-yellow-500 text-white text-sm font-medium rounded-md shadow hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-300 transition">
-              Set Up Address
-            </button>
-          </Link>
-        </div>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Country + State */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-1 text-left">Country</label>
+                <select
+                  onChange={e => handleCountryChange(e.target.value)}
+                  className="w-full border rounded px-3 py-2"
+                  required
+                >
+                  {isLoadingCountries && <option value='' disabled>Getting countries</option>}
+                  <option>Choose Country</option>
+                  {countries.map((item, key) => (
+                    <option value={item.countryId} key={key}>{item.country}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-left">State</label>
+                <select
+                  onChange={e => handleStateChange(e.target.value)}
+                  className="w-full border rounded px-3 py-2"
+                  required
+                >
+                  {isLoadingStates && <option value='' disabled selected>Getting states</option>}
+                  <option value=''>Choose state/region</option>
+                  {states.map((item, key) => (
+                    <option value={item.stateId} key={key}>{item.state}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
 
+            {/* City */}
+            <div>
+              <label className="block text-sm font-medium mb-1 text-left">City</label>
+              <select
+                className="w-full border rounded px-3 py-2"
+                required
+                onChange={(e) => handleAddressInput('city', e.target.value)}
+              >
+                {isLoadingCities && <option value='' disabled selected>Getting Cities</option>}
+                <option value=''>Choose city</option>
+                {cities.map((item, key) => (
+                  <option value={item.city} key={key}>{item.city}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Address (full width textarea) */}
+            <div>
+              <label className="block text-sm font-medium mb-1 text-left">Address</label>
+              <textarea
+                name="address"
+                className="w-full border rounded px-3 py-2 h-24"
+                onChange={(e) => handleAddressInput('address', e.target.value)}
+              />
+            </div>
+
+            {/* Postal Code + Phone Number side by side */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-1 text-left">Postal Code</label>
+                <input
+                  type="text"
+                  name="postalCode"
+                  className="w-full border rounded px-3 py-2"
+                  onChange={(e) => handleAddressInput('postal_code', e.target.value)}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-left">Phone Number</label>
+                <input
+                  type="text"
+                  name="phone"
+                  className="w-full border rounded px-3 py-2"
+                  onChange={e => handleInput('phone_number', e.target.value)}
+                  value={checkoutData.phone_number}
+                />
+              </div>
+            </div>
+
+            {/* Additional Info (full width textarea) */}
+            <div>
+              <label className="block text-sm font-medium mb-1 text-left">Additional Information</label>
+              <textarea
+                name="additionalInfo"
+                className="w-full border rounded px-3 py-2 h-24"
+                placeholder=""
+                onChange={e => handleInput('notes', e.target.value)}
+                value={checkoutData.notes}
+              />
+            </div>
+          </form>
+
+        </div>
       ) : showSummary ? (
         // 📦 Summary View
         <div className="border p-4 rounded bg-gray-50 space-y-2">
@@ -184,7 +293,7 @@ const DeliveryAddressForm = ({ addressId }: DeliveryAddressFormProps) => {
               className="w-full border rounded px-3 py-2"
               onChange={e => handleInput('phone_number', e.target.value)}
               value={checkoutData.phone_number}
-             />
+            />
           </div>
 
           <div>

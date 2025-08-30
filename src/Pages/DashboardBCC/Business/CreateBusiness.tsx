@@ -21,10 +21,13 @@ const CreateBusiness = () => {
 		isLoading, 
 	 	countries, 
 		states, 
+		cities,
 		isLoadingStates,
+		isLoadingCities,
 		handleInput, 
 		setInputs,
-		getStates 
+		getStates,
+		getCities, 
 	} = businessAccountHooks;
 
 	const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {		
@@ -51,6 +54,11 @@ const CreateBusiness = () => {
 	const handleCountryChange = (countryId: string) => {
 		handleInput('businessAccount.country_id', countryId);
 		getStates(+countryId);
+	}
+
+	const handleStateChange = (stateId: string) => {
+		handleInput('businessAccount.state_id', stateId);
+		getCities(+stateId);
 	}
 
 	const triggerFileSelect = (event: React.MouseEvent<HTMLDivElement> | React.MouseEvent<HTMLButtonElement>) => {
@@ -193,7 +201,7 @@ const CreateBusiness = () => {
 											</label>
 											<select
 												value={inputs.businessAccount.state_id}
-												onChange={e => handleInput('businessAccount.state_id', +e.target.value)}
+												onChange={e => handleStateChange(e.target.value)}
 												className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
 												required
 											>
@@ -205,6 +213,38 @@ const CreateBusiness = () => {
 													<option value={item.stateId} key={key}>{item.state}</option>
 												))}
 											</select>
+										</div>
+										<div>
+											<label className="block text-sm font-medium mb-1">
+												City <span className="text-red-500">*</span>
+											</label>
+											<select
+												value={inputs.businessAccount.city_id}
+												onChange={e => handleInput('businessAccount.city_id', +e.target.value)}
+												className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+												required
+											>
+												{isLoadingCities &&
+													<option value='' selected disabled>Getting Cities</option>
+												}
+												<option value=''>Choose city</option>
+												{cities.map((item, key) => (
+													<option value={item.cityId} key={key}>{item.city}</option>
+												))}
+											</select>
+										</div>
+										<div>
+											<label className="block text-sm font-medium mb-1">
+												Postal Code <span className="text-red-500">*</span>
+											</label>
+											<input
+												type="text"
+												value={inputs.businessAccount.postal_code}
+												onChange={e => handleInput('businessAccount.postal_code', e.target.value)}
+												placeholder="Enter postal code"
+												className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+												required
+											/>
 										</div>
 										<div>
 											<label className="block text-sm font-medium mb-1">

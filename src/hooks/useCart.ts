@@ -66,7 +66,7 @@ const useCart = ({ shouldGetCart }: UseCart = {}) => {
         setTotalCarts(localCarts.length);
     }
 
-    const handleRemoveCart = async (product_id: number, variant_id: number) => {
+    const handleRemoveCart = async (product_id: number, variant_id?: number) => {
         try {
             setIsSaving(true);
             let message = 'Product has been removed from cart';
@@ -134,11 +134,13 @@ const useCart = ({ shouldGetCart }: UseCart = {}) => {
                     description,
                     productImages,
                     productVariants,
+                    mainPrice,
                 } = product;
 
                 const variantDetails = productVariants?.find(item => item.id === variantId);
 
                 cartItem = {
+                    price: String(variantDetails ? variantDetails.price : mainPrice),
                     productId,
                     productName: title,
                     description,

@@ -18,21 +18,20 @@ export interface Wishlist {
   productName: string;
   description: string;
   productImage: string;
-  variantDetails: VariantDetails;
+  variantDetails: VariantDetails | null;
+  price: string;  
+  quantity: string;
 }
 
 export interface UseWishlist {
     shouldGetWishlist?: boolean;
 }
 
-export interface WishlistWithQuantity extends Wishlist {
-  quantity?: number;
-}
-
 export interface AddToWishlistProps {
   productId: number;
-  variantId: number;
+  variantId?: number;
   product?: FullProduct;
   shouldShowToast?: boolean;
+  quantity: number | string;
   addToServer?: boolean;
 }

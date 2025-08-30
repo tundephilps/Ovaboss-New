@@ -1,6 +1,6 @@
 import React from "react";
 import axiosClient from "../utils/axiosClient";
-import { BusinessCategoryType, IsLoading, Product, ProductCategory, ProductDetails, ProductInput, ProductInputVariant, ProductSubCategory, ProductVariant, UseProductProps, VariantTable } from "../types/product.type";
+import { BusinessCategoryType, DeliveryOption, IsLoading, Product, ProductCategory, ProductDetails, ProductInput, ProductInputVariant, ProductSubCategory, ProductVariant, UseProductProps, VariantTable } from "../types/product.type";
 import toast from "react-hot-toast";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
@@ -28,7 +28,7 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
     const [ businessCategoryTypes, setBusinessCategoryTypes ] = React.useState<BusinessCategoryType[]>([]);
     const [ allProducts, setAllProducts ] = React.useState<Product[]>([]);
     const [ myProducts, setMyProducts ] = React.useState<Product[]>([]);
-    const [ deliveryOptions, setDeliveryOptions ] = React.useState<Product[]>([]);
+    const [ deliveryOptions, setDeliveryOptions ] = React.useState<DeliveryOption[]>([]);
     const [ inputs, setInputs ] = React.useState<ProductInput>({
         business_id: '',
         product_type_id: '',
@@ -43,6 +43,7 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
         notes: '',
         production_country: '',
         images: [],
+        delivery_option_id: [],
     })
     const [ variants, setVariants ] = React.useState<ProductInputVariant[]>([
         // {
@@ -95,6 +96,20 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
             [field]: value,
         }))
     }
+
+     const handleArrayInput = (field: keyof typeof inputs, value: number) => {
+        setInputs(prev => {
+            const currentArray = prev[field] as any[];
+            const updatedArray = currentArray.includes(value)
+                ? currentArray.filter(item => item !== value)
+                : [...currentArray, value];
+
+            return {
+                ...prev,
+               [field]: updatedArray,
+            };
+        });
+    };
 
     const handlePaginate = (page: number) => {
         setProductFilter(prev => ({
@@ -199,11 +214,11 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
                 productType: false
             }))
 
-            const { data: response } = await axiosClient.get('/user/list-business-category-type');
-            setBusinessCategoryTypes(response.data);
-            return response.data as BusinessCategoryType[];
+            const { data: response } = await axiosClient.get('/product/business/list-delivery-option');
+            setDeliveryOptions(response.data);
+            return response.data as DeliveryOption[];
         } catch(error) {
-
+            return [];
         } finally {
             setIsLoading(prev => ({
                 ...prev,
@@ -400,6 +415,10 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
                     value.forEach((file: File) => {
                         payload.append("images[]", file);
                     });
+                } else if(key === "delivery_option_id") {
+                    value.forEach((id: string) => {
+                        payload.append("delivery_option_id[]", id);
+                    });
                 } else {
                     payload.append(key, value);
                 }
@@ -415,6 +434,10 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
                     payload.append(`variants[${i}][variants][${j}][variant]`, v.variant);
                 });
             });
+
+            if(variants.length === 0) {
+                payload.append('variants', '')
+            }
 
             // 🧪 Optional debug
             // for (const [key, value] of payload.entries()) {
@@ -448,6 +471,10 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
                     // value.forEach((file: File) => {
                     //     payload.append("images[]", file);
                     // });
+                } else if(key === "delivery_option_id") {
+                    value.forEach((id: string) => {
+                        payload.append("delivery_option_id[]", id);
+                    });
                 } else {
                     payload.append(key, value);
                 }
@@ -533,6 +560,7 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
             ] = await Promise.all([
                 getBusinessCategoryType(),
                 getProductCategory(),
+                getDeliveryOptions(),
             ])
 
             if(!businessCategoryType) {
@@ -604,10 +632,11 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
                 weight: productDetails.weight,
                 description: productDetails.description,
                 highlights: productDetails.highlights,
-                main_price: String(productDetails.main_price),
+                main_price: String(productDetails.mainPrice),
                 notes: productDetails.notes,
                 production_country: productDetails.productionCountry,
                 images: productDetails.productImages.map(item => item.imageUrl),
+                delivery_option_id: productDetails.deliveryOptions.map(item => String(item.id)),
             })
 
         } catch(error) {
@@ -619,7 +648,10 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
 
 
     React.useEffect(() => {
-        if(shouldGetCategory) getProductCategory();
+        if(shouldGetCategory) { 
+            getProductCategory();
+            getDeliveryOptions();
+        };
         if(shouldGetBusinessCategoryType) getBusinessCategoryType();
         if(shouldGetAllProducts) getAllProducts();
     }, [])
@@ -648,6 +680,8 @@ const useProduct = ({ shouldGetAllProducts = false, shouldGetMyProducts, shouldG
         isAddVariant,
         businessCategoryTypes,
         paginationData,
+        deliveryOptions,
+        handleArrayInput,
         getProductSubCategory,
         getProductVariants,
         handleInput,

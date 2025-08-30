@@ -12,6 +12,8 @@ interface InputProps {
         store_name: string;
         country_id: string;
         state_id: string;
+        city_id: string;
+        postal_code: string;
         description: string;
         address: string;
         website: string;
@@ -39,6 +41,8 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
             store_name: '',
             country_id: '',
             state_id: '',
+            city_id: '',
+            postal_code: '',
             description: '',
             address: '',
             website: '',
@@ -54,7 +58,15 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
     })
     const [ businessData, setBusinessData ] = React.useState<BusinessData>();
 
-    const { countries, states, isLoadingStates, getStates } = useCountry();
+    const { 
+        countries, 
+        states, 
+        cities,
+        isLoadingStates, 
+        isLoadingCities, 
+        getStates, 
+        getCities 
+    } = useCountry();
     const { setBusinessAccounts } = useAppContext();
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
@@ -96,6 +108,8 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
             store_name,
             country_id,
             state_id,
+            city_id,
+            postal_code,
             description,
             address,
             logo,
@@ -113,6 +127,8 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
         if(!store_name) throw new Error('Enter store name');
         if(!country_id) throw new Error('Select country');
         if(!state_id) throw new Error('Select state');
+        if(!city_id) throw new Error('Select city');
+        if(!postal_code) throw new Error('Enter postal code');
         if(!description) throw new Error('Enter description');
         if(!address) throw new Error('Enter address');
         // if(!website) throw new Error('Enter address');
@@ -129,6 +145,8 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
         businessAccount.append('store_name', store_name);
         businessAccount.append('country_id', country_id);
         businessAccount.append('state_id', state_id);
+        businessAccount.append('city_id', city_id);
+        businessAccount.append('postal_code', postal_code);
         businessAccount.append('description', description);
         businessAccount.append('address', address);
         if(logo && logo instanceof File) {
@@ -294,13 +312,18 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
             const businessScale = businessScales.find(item => item.scale === businessSpeciality.businessScale);
             const businessCategory = categories.find(item => item.category === businessSpeciality.businessCategory);
 
-            await getStates(+address.countryId);
+            await Promise.all([
+                getStates(+address.countryId),
+                getCities(+address.cityId),
+            ])
 
             setInputs({
                 businessAccount: {
                     address: address.address,
                     country_id: address.countryId,
                     state_id: address.stateId,
+                    city_id: address.cityId,
+                    postal_code: address.postalCode,
                     description: description || '',
                     logo: logo,
                     website: link || '',
@@ -340,7 +363,10 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
         inputs,
         countries,
         states,
+        cities,
+        isLoadingCities,
         isLoadingStates,
+        getCities,
         getStates,
         setInputs,
         handleCreateBusiness,

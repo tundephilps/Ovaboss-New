@@ -23,6 +23,7 @@ export interface ProductInput {
 	main_price: string;
 	production_country: string;
 	images: File[] | string[];
+	delivery_option_id: string[];
 }
 
 export interface ProductVariantOption {
@@ -76,13 +77,14 @@ export interface Product {
 	productType: string;
 	category: string;
 	title: string;
-	main_price: number;
+	mainPrice: number;
 	description: string;
 	approvalStatus: string;
 	status: string;
 	createdAt: string;
 	productImages: ProductImage[];
 	subCategory: string;
+	deliveryOptions: DeliveryOption[];
 }
 
 export interface ProductBusinessInformation {
@@ -135,5 +137,6 @@ export interface ProductDetails extends Product {
 }
 
 export interface DeliveryOption {
-	
+	id: number;
+	option: string;
 }

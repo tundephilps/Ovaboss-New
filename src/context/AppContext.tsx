@@ -5,8 +5,7 @@ import axiosClient from "../utils/axiosClient";
 import Loading from "../components/Loading";
 import { BusinessAccount } from "../types/business.type";
 import { Product } from "../types/product.type";
-import { Category, SubCategory } from "../types/category.type";
-import { Cart } from "../types/cart.type";
+import { CheckoutItems } from "../types/cart.type";
 import { persistStorage, removeAllPersistentData } from "../utils/storage";
 
 interface CheckoutData {
@@ -14,8 +13,12 @@ interface CheckoutData {
     phone_number: string;
     payment_method: string;
     delivery_options: string;
-    address_id: string;
+    // address_id: string;
     wallet_id?: string;
+    shipping_cost?: {
+        price: number;
+        currency: string;
+    }
 }
 
 interface AppContextType {
@@ -24,7 +27,7 @@ interface AppContextType {
     selectedBusinessAccount: BusinessAccount | null;
     currentProduct: Product | null;
     totalCarts: number;
-    checkoutItems: Cart[];
+    checkoutItems: CheckoutItems[];
     checkoutData: CheckoutData;
     totalWishlists: number;
     handleSetUser: (user: User) => void;
@@ -34,7 +37,7 @@ interface AppContextType {
     setCurrentProduct: React.Dispatch<React.SetStateAction<Product | null>>;
     setTotalCarts: React.Dispatch<React.SetStateAction<number>>;
     setTotalWishlists: React.Dispatch<React.SetStateAction<number>>;
-    setCheckoutItems: React.Dispatch<React.SetStateAction<Cart[]>>;
+    setCheckoutItems: React.Dispatch<React.SetStateAction<CheckoutItems[]>>;
     setCheckoutData: React.Dispatch<React.SetStateAction<CheckoutData>>;
 }
 
@@ -60,7 +63,7 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
     const [ currentProduct, setCurrentProduct ] = React.useState<Product | null>(null);
     const [ totalCarts, setTotalCarts ] = React.useState(0);
     const [ totalWishlists, setTotalWishlists ] = React.useState(0);
-    const [ checkoutItems, setCheckoutItems] = React.useState<Cart[]>([]);
+    const [ checkoutItems, setCheckoutItems] = React.useState<CheckoutItems[]>([]);
     const [ checkoutData, setCheckoutData ] = React.useState<CheckoutData>(initialCheckoutData)
 
     const navigate = useNavigate();

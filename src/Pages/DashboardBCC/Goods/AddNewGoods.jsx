@@ -34,6 +34,8 @@ const AddNewGoods = () => {
 		variantContainerRef,
 		isAddVariant,
 		businessCategoryTypes,
+		deliveryOptions,
+		handleArrayInput,
 		handleUpdateProduct,
 		getProductSubCategory,
 		getProductVariants,
@@ -327,54 +329,28 @@ const AddNewGoods = () => {
 								{label}{required && <span className="text-red-600">*</span>}
 							</legend> */}
 
-							<div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-								{[].map(({ key, label }) => {
-								const checked = !!value[key];
-								const id = `delivery-${key}`;
-								return (
-									<label
-										key={key}
-										htmlFor={id}
-										className={`group inline-flex select-none items-center gap-2 cursor-pointer ${
-											disabled ? "opacity-60 cursor-not-allowed" : ""
-										}`}
-									>
-										{/* Visually custom checkbox using peer */}
-										<input
-											id={id}
-											type="checkbox"
-											checked={checked}
-											onChange={() => toggle(key)}
-											disabled={disabled}
-											className="peer sr-only"
-											aria-checked={checked}
-										/>
-										<span
-											className={[
-											// box
-											"grid h-5 w-5 place-items-center rounded-[3px] border",
-											"border-gray-300 bg-white",
-											// checked state
-											"peer-checked:border-gray-900 peer-checked:bg-gray-900",
-											// focus ring
-											"outline-none ring-0 peer-focus-visible:ring-2 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-blue-500",
-											// transition
-											"transition-colors duration-150",
-											].join(" ")}
+							<div className="flex flex-wrap items-center gap-x-6 gap-y-3 my-5">
+								{deliveryOptions.map(({ id, option }) => {
+									const checked = inputs.delivery_option_id.includes(id);
+									const key = `delivery-${id}`;
+									return (
+										<label
+											key={key}
+											htmlFor={key}
+											className="group inline-flex select-none items-center gap-2 cursor-pointer"
 										>
-											{/* Check icon (only visible when checked) */}
-											<svg
-												className="h-3.5 w-3.5 text-white opacity-0 transition-opacity duration-150 peer-checked:opacity-100"
-												viewBox="0 0 20 20"
-												fill="currentColor"
-												aria-hidden="true"
-											>
-												<path d="M7.629 13.233 4.4 10.004l-1.4 1.4 4.629 4.629L17 6.662l-1.4-1.4z" />
-											</svg>
-										</span>
-										<span className="text-sm text-gray-800">{label}</span>
-									</label>
-								);
+											{/* Visually custom checkbox using peer */}
+											<input
+												id={key}
+												type="checkbox"
+												checked={checked}
+                      							onChange={() => handleArrayInput("delivery_option_id", id)}
+                      							className="form-checkbox h-5 w-5 text-yellow-600"
+												aria-checked={checked}
+											/>
+											<span className="text-sm text-gray-800">{option}</span>
+										</label>
+									);
 								})}
 							</div>
 

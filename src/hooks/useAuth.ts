@@ -2,7 +2,7 @@ import React from "react";
 import toast from "react-hot-toast";
 import axiosClient from "../utils/axiosClient";
 import { useAppContext } from "../context/AppContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import useCart from "./useCart";
 import { Cart } from "../types/cart.type";
 import { getPersistedStorage } from "../utils/storage";
@@ -10,6 +10,7 @@ import useWishlist from "./useWishlist";
 
 const useAuth = () => {
     const [ isLoading, setIsLoading ] = React.useState(false);
+    const [ isSaving, setIsSaving ] = React.useState(false);
     const [ inputs, setInputs ] = React.useState({
         login: {
             email: "",
@@ -49,6 +50,7 @@ const useAuth = () => {
     const { syncWishlists } = useWishlist({ shouldGetWishlist: false });
     const { handleSetUser, setBusinessAccounts } = useAppContext();
     const navigate = useNavigate();
+    const [ searchParams ] = useSearchParams();
 
     const handleInput = (section_field: string, value: any) => {
         const [ section, field ] = section_field.split(".");
@@ -101,7 +103,7 @@ const useAuth = () => {
 
             navigate("/");
 
-        } catch(error) {
+        } catch(error: any) {
             toast.error(error.message)
         } finally {
             setIsLoading(false);
@@ -144,7 +146,7 @@ const useAuth = () => {
 
             setTimeout(() => navigate("/OTP"), 1000);
 
-        } catch(error) {
+        } catch(error: any) {
             toast.error(error.message)
         } finally {
             setIsLoading(false);
@@ -176,7 +178,7 @@ const useAuth = () => {
 
             setTimeout(() => navigate("/UpdatePassword"), 1500);
              
-        } catch(error) {
+        } catch(error: any) {
             setResponses(prev => ({
                 ...prev,
                 forgotPassword: {
@@ -208,7 +210,7 @@ const useAuth = () => {
 
             setTimeout(() => navigate("/signin"), 1000);
             
-        } catch(error) {
+        } catch(error: any) {
             toast.error(error.message)
         } finally {
             setIsLoading(false);
@@ -225,7 +227,7 @@ const useAuth = () => {
 
             navigate("/");
 
-        } catch(error) {
+        } catch(error: any) {
             toast.error(error.message);
         } finally {
             setIsLoading(false);
@@ -244,12 +246,25 @@ const useAuth = () => {
 
             await axiosClient.post("user/request-otp", inputs.verifyEmail);
 
-            navigate("/OTP");
+            navigate(`/OTP?email=${email}`);
              
-        } catch(error) {
+        } catch(error: any) {
             toast.error(error.message);
         } finally {
             setIsLoading(false);
+        }
+    }
+
+    const handleResendOtp = async () => {
+        try {
+            setIsSaving(true);
+            const { data: response } =  await axiosClient.post("user/request-otp", { email: searchParams.get('email') });
+            toast.success(response.message);
+
+        } catch(error: any) {
+            toast.error(error.message);
+        } finally {
+            setIsSaving(false);
         }
     }
 
@@ -257,6 +272,7 @@ const useAuth = () => {
         inputs,
         isLoading,
         responses,
+        isSaving,
         handleLogin,
         handleInput,
         handleRegister,
@@ -264,6 +280,7 @@ const useAuth = () => {
         handleValidateOtp,
         handleResetPassword,
         handleVerifyEmail,
+        handleResendOtp,
     }
 }
 

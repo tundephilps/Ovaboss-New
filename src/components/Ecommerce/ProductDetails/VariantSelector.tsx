@@ -59,7 +59,7 @@ export default function VariantSelector({
                             onClick={() => openModal(item)}
                             disabled={outOfStock}
                             className={[
-                                "group relative w-full text-left rounded-xl border p-3 shadow-sm transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500",
+                                "group relative w-full text-left rounded-xl border p-3 shadow-sm transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500",
                                 isSelected
                                     ? "ring-2 ring-yellow-500 border-yellow-400 bg-yellow-50"
                                     : "border-gray-200 bg-white hover:border-gray-300 hover:shadow",

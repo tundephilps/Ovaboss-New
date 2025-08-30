@@ -1,7 +1,7 @@
 import React from "react";
 import toast from "react-hot-toast";
 import { useAppContext } from "../context/AppContext";
-import { CartWithQuantity } from "../types/cart.type";
+import { Cart } from "../types/cart.type";
 import axiosClient from "../utils/axiosClient";
 import { useNavigate } from "react-router-dom";
 
@@ -27,12 +27,12 @@ const useCheckout = () => {
             const payload = {
                 ...checkoutData,
                 shipping_cost: 20,
-                orders: checkoutItems.map((item: CartWithQuantity) => ({
-                    amount: item.variantDetails.price,
+                orders: checkoutItems.map((item: Cart) => ({
+                    amount: item.variantDetails ? item.variantDetails.price : item.price,
                     product_name: item.productName,
                     quantity: item.quantity || 1,
                     product_id: String(item.productId),
-                    variant_id: String(item.variantDetails.id),
+                    variant_id: item.variantDetails ? String(item.variantDetails.id) : null,
                     weight: '',
                 }))
             }
@@ -50,7 +50,7 @@ const useCheckout = () => {
             toast.success(response.message);
 
         } catch(error) {
-            toast.error(error.message);
+            toast.error(error instanceof Error ? error.message : 'Something went wrong checking out');
         } finally {
             setIsLoading(false);
         }
