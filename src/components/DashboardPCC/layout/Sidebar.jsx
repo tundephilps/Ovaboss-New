@@ -200,7 +200,9 @@ const Sidebar = () => {
       ],
     },
     { icon: <FaMoneyBillWave className="text-xl" />, label: "MTR", path: "/MTR" },
-    ...(user.userType === "BUSINESS"
+    ...(
+      (user.address.length && user.bankAccountDetails.length && user.nextOfKin)
+      || user.userType === "BUSINESS"
     ? [
         {
           icon: <img src={Contain3} />,

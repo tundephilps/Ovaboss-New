@@ -101,7 +101,7 @@ const SignUpForm = () => {
         </p>
 
         {/* Form */}
-        <form>
+        <form onSubmit={(e) => handleRegister(e, user_type)}>
           <div className="space-y-4">
             {/* First Name and Last Name Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -121,6 +121,7 @@ const SignUpForm = () => {
                   onChange={(e) =>
                     handleInput("signup.firstname", e.target.value)
                   }
+                  required
                 />
               </div>
 
@@ -140,6 +141,7 @@ const SignUpForm = () => {
                   onChange={(e) =>
                     handleInput("signup.lastname", e.target.value)
                   }
+                  required
                 />
               </div>
             </div>
@@ -159,6 +161,7 @@ const SignUpForm = () => {
                 placeholder="Enter your email"
                 value={inputs.signup.email}
                 onChange={(e) => handleInput("signup.email", e.target.value)}
+                required
               />
             </div>
 
@@ -175,6 +178,7 @@ const SignUpForm = () => {
                   onChange={(e) => handleChangeCountry(e.target.value)}
                   id="country"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md appearance-none"
+                  required
                 >
                   <option value="" selected disabled>
                     Select Country
@@ -218,6 +222,7 @@ const SignUpForm = () => {
                   onChange={(e) =>
                     handleInput("signup.phone_number", e.target.value)
                   }
+                  required
                 />
               </div>
             </div>
@@ -242,6 +247,7 @@ const SignUpForm = () => {
                     placeholder="••••••••"
                     value={inputs.signup.password}
                     onChange={(e) => handlePassword(e.target.value)}
+                    required
                   />
                   <button
                     type="button"
@@ -278,6 +284,7 @@ const SignUpForm = () => {
                         e.target.value
                       )
                     }
+                    required
                   />
                   <button
                     type="button"
@@ -427,8 +434,8 @@ const SignUpForm = () => {
 
           {/* Sign Up Button */}
           <button
-            onClick={(e) => handleRegister(e, user_type)}
             type="submit"
+            disabled={isLoading}
             className="w-full bg-[#E6AE06] hover:bg-yellow-600 text-[#202020] py-2 rounded-md font-medium mt-6"
           >
             {isLoading ? <Loading /> : "Sign Up"}

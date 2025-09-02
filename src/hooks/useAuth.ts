@@ -64,8 +64,8 @@ const useAuth = () => {
         }))
     }
 
-    const handleLogin = async (event: Event) => {
-        event.preventDefault();
+    const handleLogin = async (event?: Event) => {
+        event?.preventDefault();
         
         try {
             const { email, password } = inputs.login;
@@ -100,6 +100,8 @@ const useAuth = () => {
                 syncCarts(),
                 syncWishlists(),
             ]);
+
+            sessionStorage.removeItem('SIGNUP_DETAILS');
 
             navigate("/");
 
@@ -143,6 +145,11 @@ const useAuth = () => {
             }
 
             toast.success(data.message);
+
+            sessionStorage.setItem('SIGNUP_DETAILS', JSON.stringify({
+                email,
+                password
+            }))
 
             setTimeout(() => navigate("/OTP"), 1000);
 
@@ -225,7 +232,22 @@ const useAuth = () => {
 
             await axiosClient.post("user/otp-verification", { code });
 
-            navigate("/");
+            const signupDetails = JSON.parse(sessionStorage.getItem('SIGNUP_DETAILS') || '{}');
+            const { email, password } = signupDetails;
+
+            if(!email) {
+                return navigate('/signin');
+            }
+
+            setInputs(prev => ({
+                ...prev,
+                login: {
+                    email,
+                    password
+                }
+            }))
+
+            await handleLogin();
 
         } catch(error: any) {
             toast.error(error.message);
@@ -258,7 +280,14 @@ const useAuth = () => {
     const handleResendOtp = async () => {
         try {
             setIsSaving(true);
-            const { data: response } =  await axiosClient.post("user/request-otp", { email: searchParams.get('email') });
+            const signupDetails = JSON.parse(sessionStorage.getItem('SIGNUP_DETAILS') || '{}');
+            const { email } = signupDetails;
+
+            if(!email) {
+                return navigate('/signin');
+            }
+
+            const { data: response } =  await axiosClient.post("user/request-otp", { email });
             toast.success(response.message);
 
         } catch(error: any) {

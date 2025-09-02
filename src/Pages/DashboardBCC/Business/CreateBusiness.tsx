@@ -272,6 +272,19 @@ const CreateBusiness = () => {
 												required
 											/>
 										</div>
+										<div>
+											<label className="block text-sm font-medium mb-1">
+												Phone number <span className="text-red-500">*</span>
+											</label>
+											<input
+												type="tel"
+												value={inputs.businessAccount.phone}
+												onChange={e => handleInput('businessAccount.phone', e.target.value)}
+												placeholder="Enter phone number"
+												className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+												required
+											/>
+										</div>
 									</div>
 								</div>
 							</div>

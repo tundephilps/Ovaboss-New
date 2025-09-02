@@ -18,6 +18,7 @@ interface InputProps {
         address: string;
         website: string;
         logo: string | File | null;
+        phone: string;
     },
     businessDetails: {
         business_scale_id: number | null;
@@ -47,6 +48,7 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
             address: '',
             website: '',
             logo: null,
+            phone: '',
         },
         businessDetails: {
             business_scale_id: null,
@@ -114,6 +116,7 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
             address,
             logo,
             website,
+            phone,
         } = inputs.businessAccount;
         const { 
             business_scale_id,
@@ -131,8 +134,9 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
         if(!postal_code) throw new Error('Enter postal code');
         if(!description) throw new Error('Enter description');
         if(!address) throw new Error('Enter address');
+        if(!phone) throw new Error('Enter phone number');
         // if(!website) throw new Error('Enter address');
-        if((!logo || !(logo instanceof File)) && !updateId) throw new Error('Enter business logo');
+        // if((!logo || !(logo instanceof File)) && !updateId) throw new Error('Enter business logo');
         if(!business_scale_id) throw new Error('Select business scale');
         if(!business_category_id) throw new Error('Select business category');
         if(!business_category_type_id) throw new Error('Select business category type');
@@ -149,6 +153,7 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
         businessAccount.append('postal_code', postal_code);
         businessAccount.append('description', description);
         businessAccount.append('address', address);
+        businessAccount.append('phone', phone);
         if(logo && logo instanceof File) {
             businessAccount.append('logo', logo);
         }
@@ -305,6 +310,7 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
                 businessType,
                 businessCategoryType,
                 businessSpeciality,
+                phone,
             } = businessDetails;
 
             const { businessScales, categories } = businessData;
@@ -329,6 +335,7 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
                     website: link || '',
                     name: name,
                     store_name: storeName,
+                    phone,
                 },
                 businessDetails: {
                     business_scale_id: businessScale?.id || 0,

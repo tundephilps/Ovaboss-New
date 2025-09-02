@@ -72,6 +72,7 @@ export interface BusinessAccountDetails {
   assignedBy: string | null;
   assignedTo: string | null;
   verifiedBy: string | null;
+  phone: string;
   businessCategoryType: BusinessCategoryType[];
   address: Address;
   businessSpeciality: BusinessSpeciality;
