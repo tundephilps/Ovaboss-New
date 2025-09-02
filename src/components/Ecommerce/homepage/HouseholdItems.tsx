@@ -13,7 +13,11 @@ import NoProducts from "../../NoProducts";
 
 export default function HouseholdItems() {
   const navigate = useNavigate();
-  const { allProducts, isLoading } = useProduct({ shouldGetAllProducts: true, shouldGetBusinessCategoryType: false, shouldGetCategory: false, })
+  const { allProducts, isLoading } = useProduct({
+    shouldGetAllProducts: true,
+    shouldGetBusinessCategoryType: false,
+    shouldGetCategory: false,
+  });
   const { setCurrentProduct } = useAppContext();
 
   const handleOpenProductDetails = (product: Product) => {
@@ -22,14 +26,14 @@ export default function HouseholdItems() {
   };
 
   return (
-    <div className="rounded-lg w-full pb-12 ">
+    <div className="rounded-lg w-full pb-12 bg-[#faf9f9] ">
       <h2 className="text-lg font-bold mb-4 text-gray-800 bg-[#FFF9E6] w-full lg:px-12 px-4 py-2">
         Latest Products
       </h2>
 
       {!isLoading.allProducts && allProducts.length === 0 && <NoProducts />}
 
-      <div className=" grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 lg:px-12 px-4">
+      <div className=" grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 lg:px-12 px-4 ">
         {isLoading.allProducts &&
           Array.from({ length: 12 }).map((_, i) => (
             <ProductCardSkeleton key={i} />
@@ -39,7 +43,7 @@ export default function HouseholdItems() {
           <div
             key={key}
             onClick={() => handleOpenProductDetails(product)}
-            className="flex-1 bg-white rounded-lg p-3 border shadow-lg cursor-pointer"
+            className="flex-1 bg-white rounded-lg p-2  cursor-pointer"
           >
             <div className="relative">
               <span className="absolute top-0 left-0 bg-[#FFF0E6] text-[#FF0000] text-xs font-semibold py-1 px-2 rounded-full">
@@ -52,7 +56,7 @@ export default function HouseholdItems() {
               />
             </div>
 
-            <h3 className="text-sm font-medium mb-1 line-clamp-2 h-10">
+            <h3 className="text-sm font-medium  line-clamp-2 ">
               {product.title}
             </h3>
 

@@ -13,7 +13,7 @@ const SponsoredProducts = () => {
       originalPrice: 41791,
       discount: 36,
       rating: 4.8,
-      ratingCount: "High repeat customers store",
+      ratingCount: "High repeat customers",
     },
     {
       id: 2,
@@ -23,7 +23,7 @@ const SponsoredProducts = () => {
       originalPrice: 38000,
       discount: 24,
       rating: 4.5,
-      ratingCount: "Seller established over 2 years ago",
+      ratingCount: "Seller established",
     },
   ];
 
@@ -34,7 +34,7 @@ const SponsoredProducts = () => {
 
   return (
     <div className="bg-white p-4 rounded-md shadow-md mx-auto">
-      <h2 className="text-lg font-bold  text-gray-800  w-full">
+      <h2 className="text-lg font-bold  text-[#202020]  w-full">
         Sponsored Products
       </h2>
 
@@ -42,7 +42,7 @@ const SponsoredProducts = () => {
         {products.map((product) => (
           <div
             key={product.id}
-            className="flex-1 bg-white rounded-lg p-3 border shadow-lg"
+            className="flex-1 bg-white rounded-lg p-3 cursor-pointer"
           >
             <div className="relative">
               <span className="absolute top-0 left-0 bg-[#FFF0E6] text-[#FF0000] text-xs font-semibold py-1 px-2 rounded-full">
