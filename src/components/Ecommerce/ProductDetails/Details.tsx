@@ -4,12 +4,12 @@ import { FullProduct } from "../../../types/product.type";
 const Details = ({ product }: { product: FullProduct }) => {
   return (
     <div className="bg-white p-4 rounded-md shadow-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Product Details</h1>
+      <h1 className="text-lg font-bold  text-[#202020] mb-4 border-b ">
+        Product Details
+      </h1>
 
       <div className="mb-6">
-        <p className="text-gray-700 mb-4">
-          {product.description}
-        </p>
+        <p className="text-gray-700 mb-4 text-[14px]">{product.description}</p>
       </div>
 
       {/* <div className="mb-6">

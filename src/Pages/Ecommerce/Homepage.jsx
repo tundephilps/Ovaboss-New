@@ -11,7 +11,7 @@ import HeroMobile from "../../components/Ecommerce/homepage/HeroMobile";
 
 const Homepage = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[#faf9f9]">
       <Hero />
       <HeroMobile />
       <FlashSaleCountdown />

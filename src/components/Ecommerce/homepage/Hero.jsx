@@ -6,6 +6,10 @@ import Promo4 from "../../../assets/Promo4.jpg";
 import Promo5 from "../../../assets/Promo5.jpeg";
 import Promo6 from "../../../assets/Promo6.jpeg";
 
+import Promo7 from "../../../assets/Promo7.jpeg";
+import Promo8 from "../../../assets/Promo8.jpeg";
+import Promo9 from "../../../assets/Promo9.jpeg";
+
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
@@ -139,19 +143,19 @@ const Hero = () => {
                 >
                   {index === 1 && (
                     <div className="relative w-full h-full rounded-md">
-                      <img src={Promo1} />
+                      <img src={Promo7} />
                     </div>
                   )}
 
                   {index === 0 && (
                     <div className="text-center">
-                      <img src={Promo6} />
+                      <img src={Promo8} />
                     </div>
                   )}
 
                   {index === 2 && (
                     <div className="text-center text-white text-xs">
-                      <img src={Promo4} />
+                      <img src={Promo9} />
                     </div>
                   )}
                 </div>

@@ -10,7 +10,10 @@ interface OrderSummaryProps {
   isLoadingShippingFee?: boolean;
 }
 
-const OrderSummary = ({ handleGetShippingFee, isLoadingShippingFee }: OrderSummaryProps = {}) => {
+const OrderSummary = ({
+  handleGetShippingFee,
+  isLoadingShippingFee,
+}: OrderSummaryProps = {}) => {
   // Order summary data
   const orderData = {
     itemCount: 3,
@@ -22,7 +25,13 @@ const OrderSummary = ({ handleGetShippingFee, isLoadingShippingFee }: OrderSumma
 
   const { checkoutData, checkoutItems } = useAppContext();
 
-  const totalPrice = numberFormat(checkoutItems.reduce((total, item) => total + +item.price * +(item.quantity || 1), 0), 2);
+  const totalPrice = numberFormat(
+    checkoutItems.reduce(
+      (total, item) => total + +item.price * +(item.quantity || 1),
+      0
+    ),
+    2
+  );
 
   const navigate = useNavigate();
 
@@ -36,10 +45,8 @@ const OrderSummary = ({ handleGetShippingFee, isLoadingShippingFee }: OrderSumma
     //   // return toast.error('Select a delivery options')
     // }
 
-    navigate('/Payment');
-
-  }
-
+    navigate("/Payment");
+  };
 
   return (
     <div className="">
@@ -47,7 +54,7 @@ const OrderSummary = ({ handleGetShippingFee, isLoadingShippingFee }: OrderSumma
       <div className="flex justify-between items-center border-b pb-3 mb-4">
         <h2 className="text-lg font-semibold">Order Summary</h2>
         <span className="font-medium text-gray-700">
-          {checkoutItems.length} item{checkoutItems.length > 1 ? 's' : ''}
+          {checkoutItems.length} item{checkoutItems.length > 1 ? "s" : ""}
         </span>
       </div>
 
@@ -68,30 +75,44 @@ const OrderSummary = ({ handleGetShippingFee, isLoadingShippingFee }: OrderSumma
         </div> */}
 
         {/* Delivery Fee */}
-        {!!checkoutData.shipping_cost && 
+        {!!checkoutData.shipping_cost && (
           <>
             <div className="flex justify-between">
               <span className="text-gray-600">Delivery Fee</span>
-              <span className="font-medium">{numberFormat(checkoutData.shipping_cost.price, 2)}</span>
+              <span className="font-medium">
+                {numberFormat(checkoutData.shipping_cost.price, 2)}
+              </span>
             </div>
             {/* Total amount */}
             <div className="flex justify-between pt-3 border-t mb-6">
               <span className="font-semibold text-lg">Total</span>
-              <span className="font-bold text-xl">£{numberFormat(+totalPrice + +checkoutData.shipping_cost.price, 2)}</span>
+              <span className="font-bold text-xl">
+                £
+                {numberFormat(
+                  +totalPrice + +checkoutData.shipping_cost.price,
+                  2
+                )}
+              </span>
             </div>
             <div className="text-xs text-yellow-500 mt-1">
               (Including delivery charges)
             </div>
           </>
-        }
+        )}
       </div>
 
       {/* Proceed button */}
-      <button 
+      <button
         onClick={handleGetShippingFee ? handleGetShippingFee : handleProceed}
-        className="w-full bg-yellow-500 text-white hover:text-black py-3 font-medium rounded hover:bg-yellow-600 transition-colors"
+        className="w-full bg-[#ffd700] text-white hover:text-black py-3 font-medium rounded hover:bg-yellow-600 transition-colors"
       >
-        {handleGetShippingFee && isLoadingShippingFee ? <Loading/> : handleGetShippingFee ? 'Get shipping fee' : 'Proceed to Payment'}
+        {handleGetShippingFee && isLoadingShippingFee ? (
+          <Loading />
+        ) : handleGetShippingFee ? (
+          "Get shipping fee"
+        ) : (
+          "Proceed to Payment"
+        )}
       </button>
     </div>
   );

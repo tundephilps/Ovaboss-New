@@ -3,19 +3,19 @@ import { FullProduct } from "../../../types/product.type";
 
 const ProductSpecifications = ({ product }: { product: FullProduct }) => {
   return (
-    <div className="mx-auto lg:p-6 p-4 bg-white">
-      <h2 className="text-xl font-semibold text-gray-800 mb-6">
-        Product Specifications
-      </h2>
+    <div className="mx-auto lg:py-6 p-4 bg-white">
+      <h1 className="text-lg font-bold  text-[#202020]   mb-4 border-b ">
+        Product Specification
+      </h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Key Features */}
-        <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
-          <h3 className="text-lg font-medium text-gray-800 mb-4 border-b pb-2">
+        <div className=" border border-gray-200 rounded-lg px-2 pt-2">
+          <h3 className="text-lg font-medium text-[#202020] mb-4 border-b pb-2">
             Highlights
           </h3>
-          
-          <p className="text-gray-700 mb-4">
+
+          <p className="text-[#202020] mb-4 text-[14px] ">
             {product.highlights}
           </p>
         </div>
