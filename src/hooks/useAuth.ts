@@ -8,6 +8,11 @@ import { Cart } from "../types/cart.type";
 import { getPersistedStorage } from "../utils/storage";
 import useWishlist from "./useWishlist";
 
+interface CustomLoginInput {
+    email: string;
+    password: string;
+}
+
 const useAuth = () => {
     const [ isLoading, setIsLoading ] = React.useState(false);
     const [ isSaving, setIsSaving ] = React.useState(false);
@@ -64,11 +69,11 @@ const useAuth = () => {
         }))
     }
 
-    const handleLogin = async (event?: Event) => {
+    const handleLogin = async (event?: Event, inputData?: CustomLoginInput) => {
         event?.preventDefault();
         
         try {
-            const { email, password } = inputs.login;
+            const { email, password } = inputData ? inputData : inputs.login;
             if(!email) throw new Error("Enter email address");
             if(!password) throw new Error("Enter password");
 
@@ -239,15 +244,7 @@ const useAuth = () => {
                 return navigate('/signin');
             }
 
-            setInputs(prev => ({
-                ...prev,
-                login: {
-                    email,
-                    password
-                }
-            }))
-
-            await handleLogin();
+            await handleLogin(undefined, { email, password });
 
         } catch(error: any) {
             toast.error(error.message);

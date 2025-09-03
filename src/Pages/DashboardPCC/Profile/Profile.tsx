@@ -13,7 +13,7 @@ import Avatar from "../../../assets/Profile.jpg";
 import { useAppContext } from "../../../context/AppContext";
 import AddressDetails from "../../../components/DashboardPCC/Profile/AddressDetails";
 
-const Detail = ({ label, value }) => (
+const Detail = ({ label, value }: { label: string, value: string }) => (
   <div>
     <span className="block text-gray-500 text-xs">{label}</span>
     <span className="block font-bold">{value}</span>
@@ -22,7 +22,8 @@ const Detail = ({ label, value }) => (
 
 const Profile = () => {
 
-  const { user } = useAppContext();
+  const { user: userDetails } = useAppContext();
+  const user = userDetails!
 
   const FRONTEND_URL = import.meta.env.VITE_FRONTEND_URL;
 
@@ -34,7 +35,7 @@ const Profile = () => {
           Dashboard{" "}
           <span className="text-yellow-500"> › {"  "} Personal Profile </span>{" "}
         </p>
-        <ProfileProgressCard completedFields={4} totalFields={10} />
+        <ProfileProgressCard />
       </div>
 
       <div className="px-4 space-y-6 mb-28">
@@ -64,7 +65,7 @@ const Profile = () => {
             <div className="flex flex-col items-center lg:w-1/4">
               <div className="w-32 h-32 rounded-full overflow-hidden mb-4 border-2 border-gray-200">
                 <img
-                  src={user.profile_picture || Avatar} // Replace with your own image URL
+                  src={user.profilePicture || Avatar} // Replace with your own image URL
                   alt="User"
                   className="w-full h-full object-cover rounded-full"
                 />
@@ -74,10 +75,10 @@ const Profile = () => {
             {/* Details Section */}
             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6 text-sm text-gray-700">
               <Detail label="Full Name" value={user.firstname + " " + user.lastname} />
-              <Detail label="Date of Birth" value={user.date_of_birth} />
+              <Detail label="Date of Birth" value={user.dateOfBirth || ''} />
               {/* <Detail label="Gender" value={user.gender} /> */}
               <Detail label="Email" value={user.email} />
-              <Detail label="Phone Number" value={user.phone_number} />
+              <Detail label="Phone Number" value={user.phoneNumber} />
               {/* <Detail label="Address" value="41, Lawson, Surulere, Lagos" /> */}
               {/* <Detail label="City" value="Lagos" /> */}
               <Detail label="Country" value={user.country} />

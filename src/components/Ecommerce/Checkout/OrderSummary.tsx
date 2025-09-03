@@ -14,14 +14,6 @@ const OrderSummary = ({
   handleGetShippingFee,
   isLoadingShippingFee,
 }: OrderSummaryProps = {}) => {
-  // Order summary data
-  const orderData = {
-    itemCount: 3,
-    itemsTotal: "£496,370",
-    itemsDiscount: "£30,000",
-    deliveryFee: "£4,500",
-    total: "£465,370",
-  };
 
   const { checkoutData, checkoutItems } = useAppContext();
 

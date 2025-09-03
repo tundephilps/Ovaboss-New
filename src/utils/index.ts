@@ -52,3 +52,10 @@ export const snakeToCamel = (str: string) =>
 
 export const camelToSnake = (str: string) =>
 	str.replace(/([A-Z])/g, "_$1").toLowerCase();
+
+
+export const decodeHTMLEntity = (str: string) => {
+	const txt = document.createElement("textarea");
+	txt.innerHTML = str;
+	return txt.value;
+}

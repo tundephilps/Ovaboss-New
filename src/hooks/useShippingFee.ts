@@ -17,6 +17,7 @@ const useShippingFee = () => {
     const [ isLoading, setIsLoading ] = React.useState(false);
     const [ addressId, setAddressId ] = React.useState('');
     const [ inputs, setInputs ] = React.useState(defaultInput);
+    const [ section, setSection ] = React.useState<'ADDRESS' | 'PRODUCT'>('ADDRESS');
 
     const { checkoutItems, setCheckoutData } = useAppContext();
 
@@ -50,12 +51,18 @@ const useShippingFee = () => {
 
             payload['products'] = checkoutItems.map(item => ({ id: item.productId, quantity: item.quantity }));
 
-            const { data: response } = await axiosClient.post('product/get-shipping-rate', payload);
-            console.log(response)
+            // const { data: response } = await axiosClient.post('product/get-shipping-rate', payload);
+            // console.log(response)
+
             setCheckoutData(prev => ({
                 ...prev,
-                shipping_cost: response.data,
+                shipping_cost: {
+                    currency: 'NGN',
+                    price: 20,
+                },
             }))
+
+            setSection('PRODUCT');
 
         } catch(error: any) {
             toast.error(error.message);
@@ -68,6 +75,7 @@ const useShippingFee = () => {
         isLoading,
         inputs,
         addressId,
+        section,
         handleInput,
         handleGetShippingFee,
     }

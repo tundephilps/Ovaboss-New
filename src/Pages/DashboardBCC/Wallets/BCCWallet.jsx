@@ -1,5 +1,5 @@
 import React from "react";
-import ProfileProgressCard from "../../../components/DashboardPCC/Homepage/ProfileProgressCard";
+import ProfileProgressCard from "../../../components/DashboardBCC/Homepage/ProfileProgressCard";
 import WalletCard from "../../../components/DashboardPCC/Wallet/WalletCard";
 import TransferToWallet from "../../../components/DashboardPCC/Wallet/TransferToWallet";
 
@@ -11,11 +11,12 @@ import { useState } from "react";
 import useWallets from "../../../hooks/useWallets";
 import Loading from "../../../components/Loading";
 import { useNavigate, useParams } from "react-router-dom";
+import FundWallet from "../../../components/FundWallet";
 // import { Wallet } from "../../../types/wallet.type";
 
 const BCCWallet = () => {
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState("Transfer to Wallet");
+  const [selected, setSelected] = useState("");
   // const [ wallet, setWallet ] = useState<Wallet>(null)
 
   const { wallets, isLoading, isLoadingTransactions, transactions, getWalletTransactions } = useWallets({ section: 'bcc' });
@@ -28,6 +29,21 @@ const BCCWallet = () => {
 
   const { walletName } = useParams();
 
+  const transferOptions = [];
+  const fundableWallet = ['BRA'];
+  const transferToWallet = ['SIGNON', 'BRA'];
+  const transferToBank = ['BRA'];
+
+  if (fundableWallet.includes(walletName?.toUpperCase())) {
+    transferOptions.push('Bank to Wallet');
+  }
+  if(transferToWallet.includes(walletName?.toUpperCase())) {
+    transferOptions.push('Transfer to Wallet');
+  }
+  if(transferToBank.includes(walletName?.toUpperCase())) {
+    transferOptions.push('Transfer to Bank');
+  }
+
 
   // Dummy components for switching content
   // function TransferToWallet() {
@@ -38,19 +54,20 @@ const BCCWallet = () => {
   //   return <LAAForm2 />;
   // }
 
-  
+
 
   const wallet = wallets?.bcc.find(item => item.walletName === walletName);
 
   React.useEffect(() => {
-    if(wallet) getWalletTransactions(wallet)
+    if (wallet) getWalletTransactions(wallet);
+		setSelected('');
   }, [wallet])
 
-  if(isLoading) {
-    return <Loading/>
+  if (isLoading) {
+    return <Loading />
   }
 
-  if(!wallet) {
+  if (!wallet) {
     navigate(-1);
     return;
   }
@@ -75,7 +92,7 @@ const BCCWallet = () => {
           <span className="text-[#687280]">
             Dashboard › {"  "} All Wallet Transactions{" "}
           </span>{" "}
-          <span className="text-yellow-500"> › {"  "} { wallet.walletName } Transactions </span>{" "}
+          <span className="text-yellow-500"> › {"  "} {wallet.walletName} Transactions </span>{" "}
         </p>
         <ProfileProgressCard completedFields={4} totalFields={10} />
 
@@ -84,38 +101,41 @@ const BCCWallet = () => {
             <p className="text-lg font-semibold">Ovaboss Wallet Details</p>
 
             {/* Dropdown Button */}
-            <div className="relative">
-              <button
-                onClick={() => setOpen(!open)}
-                className="bg-gray-100 border border-gray-300 text-xs px-3 py-1 rounded flex items-center gap-2 hover:bg-gray-200"
-              >
-                <FaFolder />
-                <span>{selected}</span>
-                <FaChevronDown className="text-xs" />
-              </button>
+            {transferOptions.length > 0 && 
+              <div className="relative">
+                <button
+                  onClick={() => setOpen(!open)}
+                  className="bg-gray-100 border border-gray-300 text-xs px-3 py-1 rounded flex items-center gap-2 hover:bg-gray-200"
+                >
+                  <FaFolder />
+                  <span>{selected}</span>
+                  <FaChevronDown className="text-xs" />
+                </button>
 
-              {open && (
-                <div className="absolute right-0 mt-1 w-44 bg-white border rounded shadow-md z-10 text-sm">
-                  {["Transfer to Wallet", "Transfer to Bank"].map((option) => (
-                    <div
-                      key={option}
-                      onClick={() => handleSelect(option)}
-                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                    >
-                      {option}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+                {open && (
+                  <div className="absolute right-0 mt-1 w-44 bg-white border rounded shadow-md z-10 text-sm">
+                    {transferOptions.map((option) => (
+                      <div
+                        key={option}
+                        onClick={() => handleSelect(option)}
+                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      >
+                        {option}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            }
           </div>
-          <WalletCard wallet={wallet}/>
+          <WalletCard wallet={wallet} />
 
           {/* Dynamic Component Below */}
-          {selected === "Transfer to Wallet" && <TransferToWallet wallets={wallets.bcc} wallet={wallet}/>}
-          {selected === "Transfer to Bank" && <TransferToBank wallet={wallet}/>}
+          {selected === "Transfer to Wallet" && <TransferToWallet wallets={wallets.bcc} wallet={wallet} />}
+          {selected === "Transfer to Bank" && <TransferToBank wallet={wallet} />}
+          {selected === "Bank to Wallet" && <FundWallet wallet={wallet} />}
         </div>
-        <WalletTab 
+        <WalletTab
           wallet={wallet}
           transactions={transactions}
           isLoadingTransactions={isLoadingTransactions}

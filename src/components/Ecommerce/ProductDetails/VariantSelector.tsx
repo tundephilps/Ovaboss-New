@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { ProductFullVariant } from "../../../types/product.type";
 import { numberFormat } from "../../../utils";
 
-
 interface VariantSelectorProps {
     productVariants: ProductFullVariant[];
     selectedVariantId?: number | null;
@@ -10,53 +9,59 @@ interface VariantSelectorProps {
     currency?: string;
 }
 
-
 export default function VariantSelector({
     productVariants,
     selectedVariantId,
     onSelect,
     currency = "£",
 }: VariantSelectorProps) {
-    const [isOpen, setIsOpen] = useState(false);
-    const [activeVariant, setActiveVariant] = useState<ProductFullVariant | null>(null);
+    const [hoveredVariant, setHoveredVariant] = useState<ProductFullVariant | null>(null);
 
-    const openModal = (v: ProductFullVariant) => {
-        setActiveVariant(v);
-        setIsOpen(true);
-    };
-
-    const closeModal = () => {
-        setIsOpen(false);
-        // keep activeVariant so user can re-open quickly; or clear if you prefer
-    };
-
-    const confirmSelect = () => {
-        if (activeVariant) onSelect(activeVariant);
-        setIsOpen(false);
-    };
-
-    // close on Escape
+    // ✅ Auto-select if there is only 1 variant
     useEffect(() => {
-        const onKey = (e: KeyboardEvent) => {
-            if (e.key === "Escape") setIsOpen(false);
-        };
-        if (isOpen) window.addEventListener("keydown", onKey);
-        return () => window.removeEventListener("keydown", onKey);
-    }, [isOpen]);
+        if (productVariants.length === 1) {
+            onSelect(productVariants[0]);
+        }
+    }, [productVariants, onSelect]);
+
+    // // ✅ No variants → use defaults (trigger once on mount)
+    // useEffect(() => {
+    //     if (productVariants.length === 0) {
+    //         // you can decide how to pass product defaults (maybe null or a default object)
+    //         onSelect({
+    //             id: 0,
+    //             price: 0,
+    //             stock: 0,
+    //             isActive: true,
+    //             variants: [],
+    //         } as ProductFullVariant);
+    //     }
+    // }, [productVariants, onSelect]);
+
+    // if (productVariants.length === 0) {
+    //     return (
+    //         <p className="mt-3 text-sm text-gray-500 italic">
+    //             No variants available. Using product defaults.
+    //         </p>
+    //     );
+    // }
 
     return (
-        <>
-            {/* Button Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 mt-3">
-                {productVariants.map((item) => {
-                    const isSelected = selectedVariantId === item.id;
-                    const outOfStock = item.stock <= 0 || !item.isActive;
+        <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 mt-3 relative">
+            {productVariants.map((item) => {
+                const isSelected = selectedVariantId === item.id;
+                const outOfStock = item.stock <= 0 || !item.isActive;
 
-                    return (
+                return (
+                    <div
+                        key={item.id}
+                        className="relative"
+                        onMouseEnter={() => setHoveredVariant(item)}
+                        onMouseLeave={() => setHoveredVariant(null)}
+                    >
                         <button
-                            key={item.id}
                             type="button"
-                            onClick={() => openModal(item)}
+                            onClick={() => onSelect(item)}
                             disabled={outOfStock}
                             className={[
                                 "group relative w-full text-left rounded-xl border p-3 shadow-sm transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500",
@@ -71,9 +76,6 @@ export default function VariantSelector({
                                     <p className="text-sm font-semibold text-gray-900 truncate">
                                         {currency + numberFormat(item.price, 2)}
                                     </p>
-                                    {/* <p className="text-xs text-gray-500">
-                                        Stock: {item.stock}
-                                    </p> */}
                                 </div>
 
                                 <span
@@ -87,7 +89,7 @@ export default function VariantSelector({
                                 </span>
                             </div>
 
-                            {/* quick peek of first two attributes */}
+                            {/* Quick preview tags */}
                             <div className="mt-2 flex flex-wrap gap-1">
                                 {item.variants.slice(0, 2).map((v) => (
                                     <span
@@ -102,55 +104,23 @@ export default function VariantSelector({
                                 )}
                             </div>
                         </button>
-                    );
-                })}
-            </div>
 
-            {/* Modal */}
-            {isOpen && activeVariant && (
-                <div
-                    className="fixed inset-0 z-50 flex items-center justify-center p-4"
-                    role="dialog"
-                    aria-modal="true"
-                >
-                    {/* backdrop */}
-                    <div
-                        className="absolute inset-0 bg-black/40 backdrop-blur-[1px]"
-                        onClick={closeModal}
-                    />
-                    {/* panel */}
-                    <div className="relative w-full max-w-lg rounded-2xl bg-white shadow-xl ring-1 ring-black/5">
-                        <div className="px-5 py-4 border-b">
-                            <h2 className="text-base font-semibold text-gray-900">
-                                Variant details
-                            </h2>
-                            <p className="mt-1 text-xs text-gray-500">
-                                Review this option and confirm to select.
-                            </p>
-                        </div>
-
-                        <div className="px-5 py-4 space-y-3">
-                            <div className="flex items-center justify-between">
-                                <span className="text-sm text-gray-600">Price</span>
-                                <span className="text-sm font-medium text-gray-900">
-                                    {currency + numberFormat(activeVariant.price, 2)}
-                                </span>
-                            </div>
-                            {/* <div className="flex items-center justify-between">
-                                <span className="text-sm text-gray-600">Stock</span>
-                                <span className="text-sm font-medium text-gray-900">
-                                    {activeVariant.stock}
-                                </span>
-                            </div> */}
-
-                            <div className="pt-2">
+                        {/* ✅ Hover details (tooltip style) */}
+                        {hoveredVariant?.id === item.id && (
+                            <div className="absolute left-0 top-full mt-2 w-64 rounded-lg bg-white shadow-lg border p-3 z-20">
                                 <h3 className="text-sm font-medium text-gray-900 mb-2">
-                                    Attributes
+                                    Variant details
                                 </h3>
-                                <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
-                                    {activeVariant.variants.map((v) => (
+                                <div className="flex items-center justify-between mb-2">
+                                    <span className="text-xs text-gray-600">Price</span>
+                                    <span className="text-sm font-medium text-gray-900">
+                                        {currency + numberFormat(item.price, 2)}
+                                    </span>
+                                </div>
+                                <dl className="grid grid-cols-1 gap-y-1">
+                                    {item.variants.map((v) => (
                                         <div key={v.variantTypeId} className="flex items-start gap-2">
-                                            <dt className="text-xs text-gray-500 min-w-[100px]">
+                                            <dt className="text-xs text-gray-500 min-w-[80px]">
                                                 {v.variantType}
                                             </dt>
                                             <dd className="text-sm text-gray-900">{v.variant}</dd>
@@ -158,27 +128,10 @@ export default function VariantSelector({
                                     ))}
                                 </dl>
                             </div>
-                        </div>
-
-                        <div className="px-5 py-4 border-t flex items-center justify-end gap-3">
-                            <button
-                                type="button"
-                                onClick={closeModal}
-                                className="inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300"
-                            >
-                                Close
-                            </button>
-                            <button
-                                type="button"
-                                onClick={confirmSelect}
-                                className="inline-flex items-center rounded-lg bg-yellow-500 px-4 py-2 text-sm font-semibold text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
-                            >
-                                Select
-                            </button>
-                        </div>
+                        )}
                     </div>
-                </div>
-            )}
-        </>
+                );
+            })}
+        </div>
     );
 }

@@ -76,6 +76,8 @@ export interface Product {
 	productId: number;
 	productType: string;
 	category: string;
+	currency: string;
+	currencySymbol: string;
 	title: string;
 	mainPrice: number;
 	description: string;

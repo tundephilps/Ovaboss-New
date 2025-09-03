@@ -2,7 +2,7 @@ import React from "react";
 import { useAppContext } from "../context/AppContext";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosClient from "../utils/axiosClient";
-import { FullProduct, ProductFullVariant, ProductSubVariant } from "../types/product.type";
+import { DeliveryOption, FullProduct, ProductFullVariant, ProductSubVariant } from "../types/product.type";
 import toast from "react-hot-toast";
 import useCart from "./useCart";
 import { Cart } from "../types/cart.type";
@@ -23,6 +23,7 @@ const useProductDetails = () => {
     } as unknown as FullProduct);
     const [ selectedVariant, setSelectedVariant ] = React.useState<ProductFullVariant>({} as ProductFullVariant);
     const [ productCart, setProductCart ] = React.useState<Cart | null>(null);
+    const [ selectedDeliveryOption, setSelectedDeliveryOption ] = React.useState<DeliveryOption | null>(null);
     const [ productWishlist, setProductWishlist ] = React.useState<Wishlist | null>(null);
     const [quantity, setQuantity] = React.useState(1);
 
@@ -172,6 +173,8 @@ const useProductDetails = () => {
         productCart,
         productWishlist,
         quantity,
+        selectedDeliveryOption,
+        setSelectedDeliveryOption,
         setQuantity,
         setProductDetails,
         setSelectedVariant,

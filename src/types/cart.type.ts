@@ -1,4 +1,4 @@
-import { FullProduct } from "./product.type";
+import { DeliveryOption, FullProduct } from "./product.type";
 
 export interface VariantOption {
   key: string | null;
@@ -21,6 +21,7 @@ export interface Cart {
   variantDetails: VariantDetails | null;
   quantity: string;
   price: string;
+  deliveryOptions: DeliveryOption[];
 }
 
 export interface UseCart {
@@ -38,5 +39,6 @@ export interface AddToCartProps {
 }
 
 export interface CheckoutItems extends Cart {
-  address: string;
+  delivery_method_id: number;
+  business_pick_up_location_id?: number;
 }

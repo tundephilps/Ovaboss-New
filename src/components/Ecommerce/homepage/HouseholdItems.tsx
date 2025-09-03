@@ -4,7 +4,7 @@ import { FaStar, FaShoppingCart } from "react-icons/fa";
 
 import { useNavigate } from "react-router-dom";
 import useProduct from "../../../hooks/useProduct";
-import { numberFormat } from "../../../utils";
+import { decodeHTMLEntity, numberFormat } from "../../../utils";
 import Loading from "../../Loading";
 import { Product } from "../../../types/product.type";
 import { useAppContext } from "../../../context/AppContext";
@@ -63,7 +63,7 @@ export default function HouseholdItems() {
             <div className="flex flex-col gap-1 mb-2">
               <div className="inline-flex items-center justify-between w-full">
                 <div className="font-bold text-lg text-gray-900">
-                  £{numberFormat(product.mainPrice, 2)}
+                  {decodeHTMLEntity(product.currencySymbol)}{numberFormat(product.mainPrice, 2)}
                 </div>
                 <button className="ml-auto border-yellow-200 border hover:bg-yellow-500 w-10  h-6 rounded-full flex items-center justify-center">
                   <FaShoppingCart className="text-yellow-300" size={14} />

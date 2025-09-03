@@ -136,7 +136,7 @@ function App() {
 
               <Route path="/Categories/:categoryId" element={<Categories />} />
               <Route path="/Payment" element={<PaymentPage />} />
-              <Route path="/payment/status" element={<PaymentStatus />} />
+              <Route path="/payment-status" element={<PaymentStatus />} />
               <Route path="/ShoppingCart" element={<ShoppingCart />} />
               <Route path="/Checkout" element={<CheckoutPage />} />
               <Route path="/WishList" element={<Wishlist />} />

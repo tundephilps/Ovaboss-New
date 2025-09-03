@@ -10,7 +10,7 @@ import { numberFormat } from "../../utils";
 import { Address } from "../../types/user.type";
 import { Cart } from "../../types/cart.type";
 import { useNavigate } from "react-router-dom";
-import AddressSelect from "../../components/Ecommerce/Checkout/AddressSelect";
+import DeliveryOption from "../../components/Ecommerce/Checkout/DeliveryOption";
 import Loading from "../../components/Loading";
 import useShippingFee from "../../hooks/useShippingFee";
 
@@ -23,11 +23,11 @@ const breadcrumbs = [
 const CheckoutPage = () => {
   // State to manage accordion open/closed state
   const [isExpanded, setIsExpanded] = useState(false);
-  const [section, setSection] = React.useState<'ADDRESS' | 'PRODUCT'>('ADDRESS');
   const [addressId, setAddressId] = React.useState('');
 
   const { checkoutItems, checkoutData, user, setCheckoutData } = useAppContext();
   const {
+    section,
     isLoading: isLoadingShippingFee,
     inputs: shippingFeeInput,
     handleInput: handleShippingFeeInput,
@@ -206,7 +206,7 @@ const CheckoutPage = () => {
                         </div>
                       </div>
                     </div>
-                    <AddressSelect productId={item.productId} />
+                    <DeliveryOption deliveryOptions={item.deliveryOptions}/>
                   </div>
                 ))}
 
@@ -231,53 +231,6 @@ const CheckoutPage = () => {
               </div> */}
               </div>
 
-
-              <div className="mx-auto bg-white p-4 rounded-md shadow space-y-4">
-                {/* Header */}
-                <div className="flex items-center space-x-2 text-lg font-semibold border-b pb-2">
-                  <FaShippingFast className="text-yellow-500" />
-                  <span>Delivery Option (For Deliverable Items)</span>
-                </div>
-
-                {/* Options */}
-                <div className="space-y-3">
-                  <label className="flex items-center gap-3 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="deliveryOption"
-                      value="standard"
-                      className="text-yellow-500 focus:ring-yellow-400"
-                      onChange={e => handleInput('delivery_options', e.target.value)}
-                      checked={checkoutData.delivery_options === 'standard'}
-                    />
-                    <span className="text-gray-700">Standard Delivery</span>
-                  </label>
-
-                  <label className="flex items-center gap-3 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="deliveryOption"
-                      value="express"
-                      className="text-yellow-500 focus:ring-yellow-400"
-                      onChange={e => handleInput('delivery_options', e.target.value)}
-                      checked={checkoutData.delivery_options === 'express'}
-                    />
-                    <span className="text-gray-700">Express Delivery</span>
-                  </label>
-
-                  <label className="flex items-center gap-3 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="deliveryOption"
-                      value="pickup"
-                      className="text-yellow-500 focus:ring-yellow-400"
-                      onChange={e => handleInput('delivery_options', e.target.value)}
-                      checked={checkoutData.delivery_options === 'pickup'}
-                    />
-                    <span className="text-gray-700">Store Pickup</span>
-                  </label>
-                </div>
-              </div>
             </div>
           }
         </div>

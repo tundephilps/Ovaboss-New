@@ -23,7 +23,7 @@ import ImageSlider from "../../components/Ecommerce/ProductDetails/ImageSlider";
 import ProductSpecifications from "../../components/Ecommerce/ProductDetails/ProductSpecifications";
 import { useParams } from "react-router-dom";
 import useProductDetails from "../../hooks/useProductDetails";
-import { getAverageRatings, numberFormat } from "../../utils";
+import { decodeHTMLEntity, getAverageRatings, numberFormat } from "../../utils";
 import Loading from "../../components/Loading";
 import ProductDetailsSkeleton from "../../components/skeletons/ProductDetailsSkeleton";
 import {
@@ -31,6 +31,7 @@ import {
   ProductSubVariant,
 } from "../../types/product.type";
 import VariantSelector from "../../components/Ecommerce/ProductDetails/VariantSelector";
+import DeliveryOption from "../../components/Ecommerce/Checkout/DeliveryOption";
 
 const ProductDetails = () => {
   const [isModalOpen, setModalOpen] = useState(true);
@@ -55,6 +56,7 @@ const ProductDetails = () => {
     handleRemoveCart,
     handleAddToWishlist,
     handleRemoveWishlist,
+    setSelectedDeliveryOption,
   } = useProductDetails();
 
   const handleConfirm = (option: any) => {
@@ -188,7 +190,7 @@ const ProductDetails = () => {
                 </div>
                 <div className="flex items-end gap-2 px-2">
                   <span className="text-xl font-bold">
-                    £{numberFormat(productDetails.mainPrice)}
+                    {decodeHTMLEntity(productDetails.currencySymbol)}{numberFormat(productDetails.mainPrice)}
                   </span>
                   <span className="line-through text-gray-400 text-sm">
                     {/* £696,000 */}
@@ -235,6 +237,12 @@ const ProductDetails = () => {
                 </div>
               </div>
 
+              <DeliveryOption 
+                deliveryOptions={productDetails.deliveryOptions}
+                callback={(deliveryOption) => setSelectedDeliveryOption(deliveryOption)}
+                showPickupLocations={false}
+              />
+
               {/* Variations */}
               {/* Variation Available */}
               {!!productDetails.productVariants && (
@@ -243,7 +251,7 @@ const ProductDetails = () => {
                     productVariants={productDetails.productVariants}
                     selectedVariantId={selectedVariant?.id ?? null}
                     onSelect={handleVariantChange}
-                    currency="£"
+                    currency={decodeHTMLEntity(productDetails.currencySymbol)}
                   />
                 </div>
               )}

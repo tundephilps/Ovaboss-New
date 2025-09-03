@@ -124,6 +124,7 @@ const CreateBusiness = () => {
 										onChange={handleImageChange}
 										ref={fileInputRef}
 										className="hidden"
+										required
 									/>
 
 									<button

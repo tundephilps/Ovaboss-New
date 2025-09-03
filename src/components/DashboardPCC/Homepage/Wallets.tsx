@@ -6,9 +6,13 @@ import Wallet2 from "../../../assets/Wallet2.svg";
 import Wallet3 from "../../../assets/Wallet3.svg";
 import useWallets from "../../../hooks/useWallets";
 import Loading from "../../Loading";
+import { WalletItem } from "../../../types/wallet.type";
 
 // WalletCard Component
-const WalletCard = ({ wallet }) => {
+const WalletCard = ({ wallet }: { wallet: WalletItem }) => {
+  const allowedIE = ['BUYON'];
+  const allowedGE = ['SIGNON', 'BUYON'];
+
   return (
     <div className="bg-gradient-to-br from-yellow-50 to-white rounded-xl shadow-md  w-full ">
       <div className="p-4 flex flex-col gap-2">
@@ -25,10 +29,18 @@ const WalletCard = ({ wallet }) => {
           <span>£{wallet.reserved}</span>
         </div>
 
-        <div className="flex-col">
-          <p>IE: </p>
-          <span>{wallet.ie}</span>
-        </div>
+        {allowedIE.includes(wallet.walletName.toUpperCase()) &&
+          <div className="flex-col">
+            <p>IE: </p>
+            <span>{wallet.ie}</span>
+          </div>
+        }
+        {allowedGE.includes(wallet.walletName.toUpperCase()) &&
+          <div className="flex-col">
+            <p>GE: </p>
+            <span>{wallet.global}</span>
+          </div>
+        }
       </div>
     </div>
   );
