@@ -136,7 +136,7 @@ const useBusinessAccount = ({ shouldGetBusinessData = true }: UseBusinessAccount
         if(!address) throw new Error('Enter address');
         if(!phone) throw new Error('Enter phone number');
         // if(!website) throw new Error('Enter address');
-        // if((!logo || !(logo instanceof File)) && !updateId) throw new Error('Enter business logo');
+        if((!logo || !(logo instanceof File)) && !updateId) throw new Error('Enter business logo');
         if(!business_scale_id) throw new Error('Select business scale');
         if(!business_category_id) throw new Error('Select business category');
         if(!business_category_type_id) throw new Error('Select business category type');
