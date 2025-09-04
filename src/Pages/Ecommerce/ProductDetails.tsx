@@ -190,7 +190,8 @@ const ProductDetails = () => {
                 </div>
                 <div className="flex items-end gap-2 px-2">
                   <span className="text-xl font-bold">
-                    {decodeHTMLEntity(productDetails.currencySymbol)}{numberFormat(productDetails.mainPrice)}
+                    {decodeHTMLEntity(productDetails.currencySymbol)}
+                    {numberFormat(productDetails.mainPrice)}
                   </span>
                   <span className="line-through text-gray-400 text-sm">
                     {/* £696,000 */}
@@ -237,11 +238,11 @@ const ProductDetails = () => {
                 </div>
               </div>
 
-              <DeliveryOption 
+              {/* <DeliveryOption 
                 deliveryOptions={productDetails.deliveryOptions}
                 callback={(deliveryOption) => setSelectedDeliveryOption(deliveryOption)}
                 showPickupLocations={false}
-              />
+              /> */}
 
               {/* Variations */}
               {/* Variation Available */}
