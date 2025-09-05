@@ -140,7 +140,7 @@ const useWishlist = ({ shouldGetWishlist }: UseWishlist = {}) => {
                 productId,
                 productName: title,
                 description,
-                productImage: productImages[0].imageUrl,
+                productImage: productImages[0]?.imageUrl,
                 quantity: String(quantity),
                 variantDetails: variantDetails 
                     ? {

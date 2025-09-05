@@ -281,7 +281,7 @@ const Categories = () => {
                       className="absolute cursor-pointer top-1 right-2   text-yellow-500  font-semibold "
                     />
                     <img
-                      src={product.productImages[0].imageUrl}
+                      src={product.productImages[0]?.imageUrl}
                       alt={product.title}
                       className="w-full h-full object-contain mb-2"
                     />
@@ -294,7 +294,7 @@ const Categories = () => {
                   <div className="flex flex-col gap-1 mb-2">
                     <div className="inline-flex items-center justify-between w-full">
                       <div className="font-bold text-lg text-gray-900">
-                        £{numberFormat(product.main_price, 2)}
+                        £{numberFormat(product.mainPrice, 2)}
                       </div>
                       <button className="ml-auto border-yellow-200 border hover:bg-yellow-500 w-10  h-6 rounded-full flex items-center justify-center">
                         <FaShoppingCart className="text-yellow-300" size={14} />

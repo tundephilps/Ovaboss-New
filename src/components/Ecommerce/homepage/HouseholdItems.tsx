@@ -50,7 +50,7 @@ export default function HouseholdItems() {
                 {/* -{product.discount}% */}
               </span>
               <img
-                src={product.productImages[0].imageUrl}
+                src={product.productImages[0]?.imageUrl}
                 alt={product.title}
                 className="w-full h-40 object-contain mb-2"
               />

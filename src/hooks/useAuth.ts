@@ -79,7 +79,7 @@ const useAuth = () => {
 
             setIsLoading(true);
 
-            const { data: response } = await axiosClient.post('user/login', inputs.login)
+            const { data: response } = await axiosClient.post('user/login', { email, password })
 
             const { token, data } = response.data;
 
@@ -235,14 +235,14 @@ const useAuth = () => {
 
             setIsLoading(true);
 
-            await axiosClient.post("user/otp-verification", { code });
-
             const signupDetails = JSON.parse(sessionStorage.getItem('SIGNUP_DETAILS') || '{}');
             const { email, password } = signupDetails;
 
             if(!email) {
                 return navigate('/signin');
             }
+
+            await axiosClient.post("user/otp-verification", { code, email });
 
             await handleLogin(undefined, { email, password });
 
@@ -284,7 +284,10 @@ const useAuth = () => {
                 return navigate('/signin');
             }
 
-            const { data: response } =  await axiosClient.post("user/request-otp", { email });
+            const { data: response } =  await axiosClient.post("user/request-otp", { 
+                email,
+                purpose: 'Email verification' 
+            });
             toast.success(response.message);
 
         } catch(error: any) {

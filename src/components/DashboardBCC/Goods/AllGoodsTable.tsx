@@ -158,7 +158,7 @@ const AllGoodsTable = ({ isLoading, products, handleDeleteProduct }: AllGoodsTab
               <td>{idx + 1}</td>
               <td>
                 <img
-                  src={item.productImages[0].imageUrl}
+                  src={item.productImages[0]?.imageUrl}
                   alt={item.title}
                   className="w-10 h-10 rounded object-cover"
                 />
